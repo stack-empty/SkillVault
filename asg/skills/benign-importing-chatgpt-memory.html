@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign-importing-chatgpt-memory · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign-importing-chatgpt-memory</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign-importing-chatgpt-memory">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign-importing-chatgpt-memory</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L1 · Basic</span>  <span class="chip">文件: 11 · 104.9 KB</span>  <span class="chip">扫描: 2026-06-18 12:03:10</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">5.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:5.05%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码执行</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 1 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\export-transcripts.py:119</code></td><td><code class="snippet">subprocess.run</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (11 files, 104.9 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>LICENSE</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>references/chatgpt-export-notes.md</code> <span class="muted">(3.6 KB, text)</span></summary><pre class="claude-preview file-preview"># ChatGPT export notes
+
+## Official export instructions
+
+If a user needs help obtaining their export, point them to OpenAI&#x27;s official help article:
+
+- &lt;https://help.openai.com/en/articles/7260999-how-do-i-export-my-chatgpt-history-and-data&gt;
+
+Prefer linking to the official article instead of copying its step-by-step instructions into this skill, since the export flow may change.
+
+## What to expect in the zip
+
+A typical ChatGPT export often contains:
+
+- `conversations-000.json`, `conversations-001.json`, etc.
+- `shared_conversations.json`
+- `user.json`
+- `user_settings.json`
+- `export_manifest.json`
+- images, audio, and other attachments
+
+The conversation history is usually sharded across multiple `conversations-*.json` files.
+
+## Account metadata caution
+
+`user.json`, `user_settings.json`, and `export_manifest.json` can be useful for understanding the export, but they often include:
+
+- account identifiers
+- email / phone data
+- product settings
+- onboarding flags
+
+These files are usually **not** good candidates for active Letta memory. Treat them as audit material unless the user specifically wants something from them imported.
+
+## Conversation structure
+
+Each shard contains a list of conversation objects. Each conversation usually includes:
+
+- `title`
+- `id`
+- `conversation_id`
+- `create_time`
+- `update_time`
+- `default_model_slug`
+- `current_node`
+- `mapping`
+
+`mapping` is a graph, not a flat message array. For a readable transcript, the most useful simple approach is to follow the current branch from `current_node` back to the root and then reverse it.
+
+## Hidden saved-memory context
+
+Some exports include hidden system messages with empty visible content but important metadata.
+
+Look for:
+
+- `metadata.is_user_system_message`
+- `metadata.is_visually_hidden_from_conversation`
+- `metadata.user_context_message_data`
+
+In recent exports, explicit ChatGPT saved memory often appears as:
+
+- `about_user_message`
+- `about_model_message`
+- `content.user_profile` on `user_editable_context` messages
+- `content.user_instructions` on `user_editable_context` messages
+
+Typical interpretation:
+- `about_user_message`: stable facts ChatGPT believed about the user
+- `about_model_message`: custom-instruction-like response preferences
+- `user_profile`: either user-profile text or runtime profile context bundled into the chat
+- `user_instructions`: custom-instruction-like guidance, often highly relevant for response-style cloning
+
+These fields are often repeated across many conversations. Deduplicate repeated values before turning them into memory proposals.
+
+Also note: some hidden messages are **runtime execution context**, not durable memory. Common examples include timezone, current date, current location, or instructions to search the web before answering current-events questions. Keep those separate from actual user memory.
+
+## Best first-pass extraction
+
+For onboarding, do not start with random transcript rendering.
+
+Start with a whole-export pass over hidden saved memory and editable context:
+
+```bash
+python3 scripts/extract-saved-memory.py &lt;export.zip&gt;
+python3 scripts/extract-saved-memory.py &lt;export.zip&gt; --json --output /tmp/chatgpt-saved-memory.json
+python3 scripts/build-memory-preview.py /tmp/chatgpt-saved-memory.json
+```
+
+This is the quickest way to answer:
+- what ChatGPT explicitly remembered
+- what looks current vs historical
+- what belongs in active Letta memory vs progressive memory
+
+## Practical implication
+
+Do not rely on visible chat text alone. Hidden system/context messages may contain the clearest explicit memory in the export.
+</pre></details><details><summary><code>references/memory-import-workflow.md</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Memory import workflow — quick reference
+
+This is a condensed checklist. See `SKILL.md` for full details.
+
+## Workflow phases
+
+1. **Locate** — find the export zip (usually `~/Downloads/`)
+2. **Inventory** — `list-conversations.py` to understand scale
+3. **Extract + preview** — `build-memory-preview.py &lt;export.zip&gt;` (one step)
+4. **Write active memory** — high-confidence items to `system/human.md`
+5. **Write progressive memory** — audit file + historical context to `reference/chatgpt/`
+6. **Enrich** — optional archive mining (parallel for 50+ conversations)
+7. **Validate** — run `/doctor`
+
+## Write-immediately checklist
+
+Active memory (`system/human.md`):
+- [ ] Name and stable identity basics
+- [ ] Current role / employer (when explicit and recent)
+- [ ] Durable response preferences (from hidden saved memory)
+- [ ] Formatting preferences
+- [ ] Collaboration preferences (directness, question volume, anti-sycophancy)
+
+Progressive memory (always create):
+- [ ] `reference/chatgpt/import-YYYY-MM-DD.md` — audit trail of the import
+- [ ] `reference/chatgpt/work-and-technical-background.md` — if historical work context found
+- [ ] `reference/chatgpt/collaboration-preferences.md` — if detailed interaction patterns found
+- [ ] `[[reference/chatgpt/...]]` links in `system/human.md` pointing to progressive files
+
+## Hold-for-review checklist
+
+- [ ] Historical or possibly stale facts
+- [ ] Contradictions with newer material
+- [ ] Sensitive or intimate material
+- [ ] Facts based on assistant interpretation rather than user statements
+- [ ] Broad claims that risk a malformed memory layout
+
+## Safe write targets
+
+| Destination | Content |
+|---|---|
+| `system/human.md` | Compact durable user facts, in-context every turn |
+| `reference/chatgpt/import-YYYY-MM-DD.md` | Import audit trail |
+| `reference/chatgpt/work-and-technical-background.md` | Historical work context |
+| `reference/chatgpt/collaboration-preferences.md` | Mined interaction patterns |
+| `reference/chatgpt/mining/chunk-NNN.md` | Subagent mining output |
+| `reference/chatgpt/transcripts/` | Curated transcript exports |
+
+## Confidence rubric
+
+**High confidence** (safe to write immediately):
+- Explicitly present in hidden saved memory
+- Repeated across multiple conversations
+- Restated later as current/canonical
+- Low sensitivity
+
+**Low confidence** (hold for review):
+- Old and time-sensitive
+- Contradicted by newer conversations
+- Sensitive and not clearly collaboration-relevant
+- Only weakly implied by assistant summaries
+
+## Retraction sweep queries
+
+```bash
+python3 scripts/search-conversations.py &lt;export.zip&gt; \
+  --query &quot;not doing&quot; --query &quot;no longer&quot; --query &quot;forget that&quot; \
+  --query &quot;remove from memory&quot; --query &quot;used to&quot; --query &quot;don&#x27;t assume&quot; \
+  --role user
+```
+
+Prefer newer explicit corrections over older historical context.
+
+## Personality / collaboration extraction
+
+Extract:
+- tone preferences (direct, warm, dry, playful, formal)
+- formatting preferences (bullets, terse paragraphs, code-first, no preamble)
+- proactivity preferences (ask first vs. act first)
+- question-volume preferences (single follow-up vs. many questions)
+- correction patterns (how the user signals something is off)
+- anti-patterns they dislike (sycophancy, hedging, pedantry, over-explaining)
+
+Treat as weak evidence unless confirmed:
+- one-off frustration
+- temporary sadness or stress
+- intimate relationship details
+- medical or mental-health information not necessary for collaboration
+
+## Store by default
+
+Personal details are part of knowing the user: family, pets, hobbies, interests, life circumstances, personality, personal projects, relationship status. The user imported their memory because they want to be known.
+
+## Ask before storing
+
+Only material with real consequences if mishandled:
+- Health/mental health specifics (diagnosis, medication, treatment — not general &quot;handle sensitively&quot; flags)
+- Intimate relationship dynamics (not the fact of relationships, but conflict/emotional specifics)
+- Fi</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/build-memory-preview.py</code> <span class="muted">(10.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Build a Letta-oriented preview from a ChatGPT export.
+
+Accepts either a zip file (runs extraction internally) or the JSON output from
+``extract-saved-memory.py``.  When given a zip, the extraction and
+categorisation happen in a single pass — no intermediate file needed.
+
+Output separates:
+- likely current active-memory candidates
+- historical / progressive-memory candidates
+- runtime-only context
+- contradictions / open questions
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import importlib.util
+import json
+import re
+import sys
+import zipfile
+from pathlib import Path
+
+# Import extraction logic from extract-saved-memory.py (same directory).
+_esm_path = Path(__file__).resolve().parent / &quot;extract-saved-memory.py&quot;
+_spec = importlib.util.spec_from_file_location(&quot;extract_saved_memory&quot;, _esm_path)
+_esm = importlib.util.module_from_spec(_spec)  # type: ignore[arg-type]
+_spec.loader.exec_module(_esm)  # type: ignore[union-attr]
+
+_extract_from_zip = _esm.extract  # extract(zf, *, max_samples) -&gt; dict
+
+
+RUNTIME_PROFILE_PATTERNS = (
+    re.compile(r&quot;\btimezone\b&quot;, re.IGNORECASE),
+    re.compile(r&quot;\bcurrent date\b&quot;, re.IGNORECASE),
+    re.compile(r&quot;\bcurrent time\b&quot;, re.IGNORECASE),
+    re.compile(r&quot;\buser&#x27;?s location\b&quot;, re.IGNORECASE),
+    re.compile(r&quot;\blocation is\b&quot;, re.IGNORECASE),
+)
+
+
+def load_payload(path: Path) -&gt; dict:
+    return json.loads(path.read_text(encoding=&quot;utf-8&quot;))
+
+
+def split_lines(text: str) -&gt; list[str]:
+    return [line.strip() for line in text.splitlines() if line.strip()]
+
+
+def runtime_lines_from_profile(text: str) -&gt; tuple[list[str], list[str]]:
+    runtime: list[str] = []
+    durable: list[str] = []
+    for line in split_lines(text):
+        if any(pattern.search(line) for pattern in RUNTIME_PROFILE_PATTERNS):
+            runtime.append(line)
+        else:
+            durable.append(line)
+    return runtime, durable
+
+
+def pick_latest(rows: list[dict]) -&gt; dict | None:
+    if not rows:
+        return None
+    return max(rows, key=lambda row: row[&quot;last_seen&quot;])
+
+
+def previous_rows(rows: list[dict], current_text: str | None) -&gt; list[dict]:
+    if current_text is None:
+        return rows
+    return [row for row in rows if row[&quot;text&quot;] != current_text]
+
+
+def build_preview(payload: dict) -&gt; dict:
+    fields = payload[&quot;fields&quot;]
+
+    latest_about_user = pick_latest(fields.get(&quot;about_user_message&quot;, []))
+    latest_about_model = pick_latest(fields.get(&quot;about_model_message&quot;, []))
+    latest_user_profile = pick_latest(fields.get(&quot;user_profile&quot;, []))
+    latest_user_instructions = pick_latest(fields.get(&quot;user_instructions&quot;, []))
+
+    runtime_profile: list[str] = []
+    durable_profile: list[str] = []
+    if latest_user_profile:
+        runtime_profile, durable_profile = runtime_lines_from_profile(latest_user_profile[&quot;text&quot;])
+
+    active_memory = {
+        &quot;human&quot;: [],
+        &quot;persona&quot;: [],
+        &quot;collaboration&quot;: [],
+    }
+    progressive_memory = {
+        &quot;history&quot;: [],
+    }
+    runtime_context = []
+    contradictions = []
+
+    if latest_about_user:
+        active_memory[&quot;human&quot;].append(latest_about_user[&quot;text&quot;])
+
+    if latest_about_model:
+        active_memory[&quot;persona&quot;].append(latest_about_model[&quot;text&quot;])
+
+    if durable_profile:
+        durable_profile_text = &quot;\n&quot;.join(durable_profile)
+        if durable_profile_text not in active_memory[&quot;human&quot;]:
+            active_memory[&quot;human&quot;].append(durable_profile_text)
+
+    if latest_user_instructions:
+        active_memory[&quot;collaboration&quot;].append(latest_user_instructions[&quot;text&quot;])
+
+    seen_runtime = set()
+    for row in fields.get(&quot;user_profile&quot;, []):
+        row_runtime, _row_durable = runtime_lines_from_profile(row[&quot;text&quot;])
+        for item in row_runtime:
+            if item not in seen_runtime:
+                runtime_context.append(item)
+                seen_runtime.add(item)
+
+    for field in (&quot;about_user_message&quot;, &quot;about_model_message&quot;, &quot;user_profile&quot;, &quot;user_instructions&quot;):
+        rows = fields.get(field, [])
+        if len(rows) &gt; </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/export-transcripts.py</code> <span class="muted">(6.0 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Export rendered ChatGPT conversations into an output directory.
+
+This is intended for optional high-fidelity archival. It can write plain
+markdown transcripts or memory-ready markdown files with frontmatter.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import subprocess
+import sys
+import zipfile
+from pathlib import Path
+
+
+def sanitize_title(title: str) -&gt; str:
+    cleaned = re.sub(r&quot;[^a-zA-Z0-9]+&quot;, &quot;-&quot;, title.strip().lower()).strip(&quot;-&quot;)
+    return cleaned or &quot;untitled&quot;
+
+
+def load_titles(zip_path: Path) -&gt; dict[int, str]:
+    titles: dict[int, str] = {}
+    with zipfile.ZipFile(zip_path) as zf:
+        idx = 0
+        shard_names = sorted(name for name in zf.namelist() if name.startswith(&quot;conversations-&quot;) and name.endswith(&quot;.json&quot;))
+        for shard_name in shard_names:
+            conversations = json.loads(zf.read(shard_name))
+            for conversation in conversations:
+                titles[idx] = conversation.get(&quot;title&quot;) or &quot;(untitled)&quot;
+                idx += 1
+    return titles
+
+
+def parse_indexes(args: argparse.Namespace) -&gt; list[int]:
+    if args.indexes:
+        indexes = []
+        for raw in args.indexes.split(&quot;,&quot;):
+            raw = raw.strip()
+            if raw:
+                indexes.append(int(raw))
+        return sorted(set(indexes))
+
+    if args.start_index is None or args.end_index is None:
+        raise SystemExit(&quot;Provide either --indexes or both --start-index and --end-index&quot;)
+    if args.end_index &lt; args.start_index:
+        raise SystemExit(&quot;--end-index must be &gt;= --start-index&quot;)
+    return list(range(args.start_index, args.end_index + 1))
+
+
+def chunk_markdown(text: str, *, max_chars: int) -&gt; list[str]:
+    if max_chars &lt;= 0 or len(text) &lt;= max_chars:
+        return [text]
+
+    lines = text.splitlines(keepends=True)
+    chunks: list[str] = []
+    current: list[str] = []
+    current_len = 0
+    for line in lines:
+        if current and current_len + len(line) &gt; max_chars:
+            chunks.append(&quot;&quot;.join(current))
+            current = []
+            current_len = 0
+        current.append(line)
+        current_len += len(line)
+    if current:
+        chunks.append(&quot;&quot;.join(current))
+    return chunks
+
+
+def add_frontmatter(markdown: str, *, description: str, limit: int) -&gt; str:
+    frontmatter = [
+        &quot;---&quot;,
+        f&quot;description: {description}&quot;,
+        f&quot;limit: {limit}&quot;,
+        &quot;---&quot;,
+        &quot;&quot;,
+    ]
+    return &quot;\n&quot;.join(frontmatter) + markdown.lstrip()
+
+
+def main() -&gt; None:
+    parser = argparse.ArgumentParser(description=&quot;Export rendered ChatGPT conversation transcripts.&quot;)
+    parser.add_argument(&quot;zip_path&quot;, help=&quot;Path to the ChatGPT export zip file&quot;)
+    parser.add_argument(&quot;--output-dir&quot;, required=True, help=&quot;Directory to write transcript files into&quot;)
+    parser.add_argument(&quot;--indexes&quot;, help=&quot;Comma-separated global conversation indexes to export&quot;)
+    parser.add_argument(&quot;--start-index&quot;, type=int, help=&quot;First global index to export&quot;)
+    parser.add_argument(&quot;--end-index&quot;, type=int, help=&quot;Last global index to export&quot;)
+    parser.add_argument(&quot;--skip-empty-hidden&quot;, action=&quot;store_true&quot;, help=&quot;Pass through to render-conversation.py&quot;)
+    parser.add_argument(&quot;--compact-nontext&quot;, action=&quot;store_true&quot;, help=&quot;Pass through to render-conversation.py&quot;)
+    parser.add_argument(&quot;--memory-frontmatter&quot;, action=&quot;store_true&quot;, help=&quot;Write memory-ready markdown with frontmatter&quot;)
+    parser.add_argument(&quot;--max-chars&quot;, type=int, default=40000, help=&quot;Maximum characters per output file chunk (default: 40000)&quot;)
+    parser.add_argument(&quot;--limit-value&quot;, type=int, default=500, help=&quot;Frontmatter limit value when --memory-frontmatter is used (default: 500)&quot;)
+    args = parser.parse_args()
+
+    zip_path = Path(args.zip_path).expanduser()
+    if not zip_path.exists():
+        raise SystemExit(f&quot;Zip file not found: {zip_path}&quot;)
+
+    output_dir = Path(args.output_dir).expanduser()
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    indexes = parse_indexes(a</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/extract-saved-memory.py</code> <span class="muted">(11.7 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Extract hidden ChatGPT saved-memory and editable-context blocks from an export.
+
+This script is intentionally narrow. It does not attempt to summarize the whole
+archive. It focuses on the highest-signal onboarding inputs:
+
+- metadata.user_context_message_data.about_user_message
+- metadata.user_context_message_data.about_model_message
+- content.user_profile from user_editable_context messages
+- content.user_instructions from user_editable_context messages
+
+The output is designed to help an agent answer:
+&quot;What did ChatGPT explicitly remember about this user, and what looks current?&quot;
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import re
+import sys
+import zipfile
+from pathlib import Path
+from typing import Callable
+
+
+FIELDS = (
+    &quot;about_user_message&quot;,
+    &quot;about_model_message&quot;,
+    &quot;user_profile&quot;,
+    &quot;user_instructions&quot;,
+)
+
+
+def iso(ts: object) -&gt; str:
+    if ts in (None, &quot;&quot;):
+        return &quot;-&quot;
+    try:
+        return dt.datetime.fromtimestamp(float(ts), dt.timezone.utc).isoformat()
+    except Exception:
+        return str(ts)
+
+
+def normalize_text(value: str) -&gt; str:
+    return &quot;\n&quot;.join(line.rstrip() for line in value.replace(&quot;\r\n&quot;, &quot;\n&quot;).strip().splitlines()).strip()
+
+
+def clean_editable_context_value(field: str, value: str) -&gt; str:
+    text = normalize_text(value)
+    fenced_match = re.search(r&quot;```\s*(.*?)\s*```&quot;, text, re.DOTALL)
+
+    if field == &quot;user_profile&quot;:
+        if text.startswith(&quot;The user provided the following information about themselves&quot;) and fenced_match:
+            return normalize_text(fenced_match.group(1))
+        if text.lower().startswith(&quot;user profile:&quot;) and fenced_match:
+            return normalize_text(fenced_match.group(1))
+
+    if field == &quot;user_instructions&quot;:
+        if text.lower().startswith(&quot;user instructions:&quot;) and fenced_match:
+            return normalize_text(fenced_match.group(1))
+
+    return text
+
+
+def blank_stats() -&gt; dict:
+    return {
+        &quot;occurrences&quot;: 0,
+        &quot;conversation_indexes&quot;: set(),
+        &quot;first_seen&quot;: None,
+        &quot;last_seen&quot;: None,
+        &quot;samples&quot;: [],
+    }
+
+
+def update_stats(stats: dict, *, ts: object, sample: dict, max_samples: int) -&gt; None:
+    stats[&quot;occurrences&quot;] += 1
+    stats[&quot;conversation_indexes&quot;].add(sample[&quot;index&quot;])
+
+    if ts not in (None, &quot;&quot;):
+        if stats[&quot;first_seen&quot;] is None or float(ts) &lt; float(stats[&quot;first_seen&quot;]):
+            stats[&quot;first_seen&quot;] = ts
+        if stats[&quot;last_seen&quot;] is None or float(ts) &gt; float(stats[&quot;last_seen&quot;]):
+            stats[&quot;last_seen&quot;] = ts
+
+    seen_sample_keys = {(row[&quot;index&quot;], row[&quot;message_id&quot;], row[&quot;field&quot;]) for row in stats[&quot;samples&quot;]}
+    sample_key = (sample[&quot;index&quot;], sample[&quot;message_id&quot;], sample[&quot;field&quot;])
+    if sample_key not in seen_sample_keys and len(stats[&quot;samples&quot;]) &lt; max_samples:
+        stats[&quot;samples&quot;].append(sample)
+
+
+def iter_conversations(zf: zipfile.ZipFile):
+    global_index = 0
+    shard_names = sorted(name for name in zf.namelist() if name.startswith(&quot;conversations-&quot;) and name.endswith(&quot;.json&quot;))
+    for shard_name in shard_names:
+        conversations = json.loads(zf.read(shard_name))
+        for shard_index, conversation in enumerate(conversations):
+            yield {
+                &quot;index&quot;: global_index,
+                &quot;shard&quot;: shard_name,
+                &quot;shard_index&quot;: shard_index,
+                &quot;conversation&quot;: conversation,
+            }
+            global_index += 1
+
+
+def iter_messages(conversation: dict):
+    for node_id, node in (conversation.get(&quot;mapping&quot;) or {}).items():
+        message = (node or {}).get(&quot;message&quot;)
+        if message:
+            yield node_id, message
+
+
+def extract(
+    zf: zipfile.ZipFile,
+    *,
+    max_samples: int,
+    progress_fn: Callable[[int], None] | None = None,
+) -&gt; dict:
+    aggregates = {field: {} for field in FIELDS}
+    field_occurrences = {field: 0 for field in FIELDS}
+    other_user_context_fields: dict[str, int] = {}
+
+    for row in iter_conversations(zf):
+        if </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/list-conversations.py</code> <span class="muted">(5.5 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;List conversations from a ChatGPT export zip.
+
+This script stays intentionally simple: it opens the export, walks the
+conversation shards, and prints a readable table that helps an agent choose
+what to render next.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import zipfile
+from pathlib import Path
+
+
+def iso(ts: object) -&gt; str:
+    if ts in (None, &quot;&quot;):
+        return &quot;-&quot;
+    try:
+        return dt.datetime.fromtimestamp(float(ts), dt.timezone.utc).isoformat()
+    except Exception:
+        return str(ts)
+
+
+def count_messages(conversation: dict) -&gt; int:
+    total = 0
+    for node in (conversation.get(&quot;mapping&quot;) or {}).values():
+        if isinstance(node, dict) and node.get(&quot;message&quot;):
+            total += 1
+    return total
+
+
+def count_hidden_context(conversation: dict) -&gt; int:
+    total = 0
+    for node in (conversation.get(&quot;mapping&quot;) or {}).values():
+        message = (node or {}).get(&quot;message&quot;) or {}
+        metadata = message.get(&quot;metadata&quot;) or {}
+        if metadata.get(&quot;is_user_system_message&quot;) or metadata.get(&quot;user_context_message_data&quot;):
+            total += 1
+    return total
+
+
+def main() -&gt; None:
+    parser = argparse.ArgumentParser(description=&quot;List conversations in a ChatGPT export zip.&quot;)
+    parser.add_argument(&quot;zip_path&quot;, help=&quot;Path to the ChatGPT export zip file&quot;)
+    parser.add_argument(&quot;--title-contains&quot;, help=&quot;Only show conversations whose title contains this string&quot;)
+    parser.add_argument(&quot;--start-index&quot;, type=int, help=&quot;Only show conversations with index &gt;= this value&quot;)
+    parser.add_argument(&quot;--end-index&quot;, type=int, help=&quot;Only show conversations with index &lt;= this value&quot;)
+    parser.add_argument(&quot;--min-hidden&quot;, type=int, help=&quot;Only show conversations with hidden-context count &gt;= this value&quot;)
+    parser.add_argument(&quot;--limit&quot;, type=int, default=50, help=&quot;Maximum rows to print (default: 50)&quot;)
+    parser.add_argument(
+        &quot;--sort&quot;,
+        choices=[&quot;updated&quot;, &quot;created&quot;, &quot;hidden&quot;, &quot;messages&quot;],
+        default=&quot;updated&quot;,
+        help=&quot;Sort by updated, created, hidden-context count, or message count (default: updated)&quot;,
+    )
+    parser.add_argument(&quot;--oldest-first&quot;, action=&quot;store_true&quot;, help=&quot;Print oldest rows first&quot;)
+    parser.add_argument(&quot;--json&quot;, action=&quot;store_true&quot;, help=&quot;Emit matching rows as JSON instead of a table&quot;)
+    args = parser.parse_args()
+
+    zip_path = Path(args.zip_path).expanduser()
+    if not zip_path.exists():
+        raise SystemExit(f&quot;Zip file not found: {zip_path}&quot;)
+
+    rows: list[dict] = []
+    global_index = 0
+
+    with zipfile.ZipFile(zip_path) as zf:
+        shard_names = sorted(
+            name for name in zf.namelist() if name.startswith(&quot;conversations-&quot;) and name.endswith(&quot;.json&quot;)
+        )
+        for shard_name in shard_names:
+            conversations = json.loads(zf.read(shard_name))
+            for shard_index, conversation in enumerate(conversations):
+                title = conversation.get(&quot;title&quot;) or &quot;(untitled)&quot;
+                messages = count_messages(conversation)
+                hidden = count_hidden_context(conversation)
+                if args.title_contains and args.title_contains.lower() not in title.lower():
+                    global_index += 1
+                    continue
+                if args.start_index is not None and global_index &lt; args.start_index:
+                    global_index += 1
+                    continue
+                if args.end_index is not None and global_index &gt; args.end_index:
+                    global_index += 1
+                    continue
+                if args.min_hidden is not None and hidden &lt; args.min_hidden:
+                    global_index += 1
+                    continue
+                rows.append(
+                    {
+                        &quot;index&quot;: global_index,
+                        &quot;shard&quot;: shard_name,
+                        &quot;shard_index&quot;: shard_index,
+                        &quot;id&quot;: conversation.get(&quot;id&quot;) or &quot;&quot;,
+                      </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/render-conversation.py</code> <span class="muted">(16.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Render one conversation from a ChatGPT export zip as markdown.
+
+The goal is not to fully parse or summarize the export. The goal is to turn a
+single conversation into a long document another agent can read.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import sys
+import zipfile
+from pathlib import Path
+
+
+COMPACT_KEYS = (
+    &quot;content_type&quot;,
+    &quot;asset_pointer&quot;,
+    &quot;name&quot;,
+    &quot;filename&quot;,
+    &quot;mime_type&quot;,
+    &quot;size_bytes&quot;,
+    &quot;width&quot;,
+    &quot;height&quot;,
+    &quot;duration_seconds&quot;,
+)
+
+
+def iso(ts: object) -&gt; str:
+    if ts in (None, &quot;&quot;):
+        return &quot;-&quot;
+    try:
+        return dt.datetime.fromtimestamp(float(ts), dt.timezone.utc).isoformat()
+    except Exception:
+        return str(ts)
+
+
+def compact_content_payload(content: dict) -&gt; str:
+    summary: dict[str, object] = {}
+    for key in COMPACT_KEYS:
+        if key in content:
+            summary[key] = content[key]
+
+    metadata = content.get(&quot;metadata&quot;)
+    if isinstance(metadata, dict):
+        compact_metadata = {}
+        for key in (&quot;sanitized&quot;, &quot;dalle&quot;, &quot;generation&quot;, &quot;gizmo&quot;, &quot;asset_pointer_link&quot;):
+            if key in metadata and metadata[key] is not None:
+                compact_metadata[key] = metadata[key]
+        if compact_metadata:
+            summary[&quot;metadata&quot;] = compact_metadata
+
+    if not summary:
+        summary = {
+            &quot;content_type&quot;: content.get(&quot;content_type&quot;) or &quot;unknown&quot;,
+            &quot;keys&quot;: sorted(content.keys()),
+        }
+
+    return json.dumps(summary, indent=2, ensure_ascii=False)
+
+
+def stringify_content(content: dict, *, compact_nontext: bool) -&gt; str:
+    if not isinstance(content, dict):
+        return json.dumps(content, indent=2, ensure_ascii=False)
+
+    content_type = content.get(&quot;content_type&quot;)
+    parts = content.get(&quot;parts&quot;)
+
+    if content_type == &quot;user_editable_context&quot;:
+        sections = []
+        user_profile = content.get(&quot;user_profile&quot;)
+        user_instructions = content.get(&quot;user_instructions&quot;)
+        if isinstance(user_profile, str) and user_profile.strip():
+            sections.append(&quot;User profile:\n\n&quot; + user_profile.strip())
+        if isinstance(user_instructions, str) and user_instructions.strip():
+            sections.append(&quot;User instructions:\n\n&quot; + user_instructions.strip())
+        if sections:
+            return &quot;\n\n&quot;.join(sections)
+        return &quot;&quot;
+
+    if isinstance(parts, list):
+        rendered_parts = []
+        for part in parts:
+            if isinstance(part, str):
+                rendered_parts.append(part)
+            elif isinstance(part, dict) and compact_nontext:
+                rendered_parts.append(compact_content_payload(part))
+            else:
+                rendered_parts.append(json.dumps(part, indent=2, ensure_ascii=False))
+        text = &quot;\n\n&quot;.join(part for part in rendered_parts if part.strip())
+        if text.strip():
+            return text
+        if content_type == &quot;text&quot;:
+            return &quot;&quot;
+
+    if content_type:
+        if compact_nontext:
+            return compact_content_payload(content)
+        return json.dumps(content, indent=2, ensure_ascii=False)
+
+    return &quot;&quot;
+
+
+# ---------------------------------------------------------------------------
+# Shard iteration and conversation lookup
+# ---------------------------------------------------------------------------
+
+
+def sorted_shard_names(zf: zipfile.ZipFile) -&gt; list[str]:
+    &quot;&quot;&quot;Return conversation-shard filenames in sorted order.&quot;&quot;&quot;
+    return sorted(name for name in zf.namelist() if name.startswith(&quot;conversations-&quot;) and name.endswith(&quot;.json&quot;))
+
+
+def _make_row(global_index: int, shard_name: str, shard_index: int, conversation: dict) -&gt; dict:
+    return {
+        &quot;index&quot;: global_index,
+        &quot;shard&quot;: shard_name,
+        &quot;shard_index&quot;: shard_index,
+        &quot;conversation&quot;: conversation,
+    }
+
+
+def iter_conversations(zf: zipfile.ZipFile):
+    &quot;&quot;&quot;Yield (global_index, shard_name, shard_index, conversation) without accumulating.&quot;&quot;&quot;
+    global_index = 0
+    </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/render-range.py</code> <span class="muted">(4.6 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Render a range of ChatGPT export conversations.
+
+Opens the zip once and renders in-process instead of shelling out per
+conversation.  For a 50-conversation range this is ~50x fewer zip reads.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import importlib.util
+import sys
+import zipfile
+from pathlib import Path
+
+# Import rendering functions from render-conversation.py (same directory).
+_rc_path = Path(__file__).resolve().parent / &quot;render-conversation.py&quot;
+_spec = importlib.util.spec_from_file_location(&quot;render_conversation&quot;, _rc_path)
+_rc = importlib.util.module_from_spec(_spec)  # type: ignore[arg-type]
+_spec.loader.exec_module(_rc)  # type: ignore[union-attr]
+
+load_range = _rc.load_range
+render_markdown = _rc.render_markdown
+
+
+def main() -&gt; None:
+    parser = argparse.ArgumentParser(description=&quot;Render a range of ChatGPT export conversations.&quot;)
+    parser.add_argument(&quot;zip_path&quot;, help=&quot;Path to the ChatGPT export zip file&quot;)
+    parser.add_argument(&quot;--start-index&quot;, type=int, required=True, help=&quot;First global conversation index to render&quot;)
+    parser.add_argument(&quot;--end-index&quot;, type=int, required=True, help=&quot;Last global conversation index to render&quot;)
+    parser.add_argument(
+        &quot;--skip-empty-hidden&quot;,
+        action=&quot;store_true&quot;,
+        help=&quot;Drop hidden messages with no visible content or user-context data&quot;,
+    )
+    parser.add_argument(
+        &quot;--compact-nontext&quot;,
+        action=&quot;store_true&quot;,
+        help=&quot;Compact bulky non-text payloads such as attachment metadata&quot;,
+    )
+    parser.add_argument(
+        &quot;--skip-empty-tool-messages&quot;,
+        action=&quot;store_true&quot;,
+        help=&quot;Drop tool messages whose rendered content is empty&quot;,
+    )
+    parser.add_argument(
+        &quot;--skip-thoughts&quot;,
+        action=&quot;store_true&quot;,
+        help=&quot;Drop messages whose content_type is &#x27;thoughts&#x27;&quot;,
+    )
+    role_filter = parser.add_mutually_exclusive_group()
+    role_filter.add_argument(&quot;--user-only&quot;, action=&quot;store_true&quot;, help=&quot;Render only user messages&quot;)
+    role_filter.add_argument(&quot;--assistant-only&quot;, action=&quot;store_true&quot;, help=&quot;Render only assistant messages&quot;)
+    parser.add_argument(&quot;--progress&quot;, action=&quot;store_true&quot;, help=&quot;Print progress to stderr&quot;)
+
+    output_group = parser.add_mutually_exclusive_group(required=True)
+    output_group.add_argument(&quot;--output-dir&quot;, help=&quot;Directory for one markdown file per conversation&quot;)
+    output_group.add_argument(&quot;--concat-output&quot;, help=&quot;Write one concatenated markdown file for the whole range&quot;)
+    args = parser.parse_args()
+
+    if args.end_index &lt; args.start_index:
+        raise SystemExit(&quot;--end-index must be greater than or equal to --start-index&quot;)
+
+    zip_path = Path(args.zip_path).expanduser()
+    if not zip_path.exists():
+        raise SystemExit(f&quot;Zip file not found: {zip_path}&quot;)
+
+    render_kwargs = dict(
+        skip_empty_hidden=args.skip_empty_hidden,
+        compact_nontext=args.compact_nontext,
+        skip_empty_tool_messages=args.skip_empty_tool_messages,
+        skip_thoughts=args.skip_thoughts,
+        user_only=args.user_only,
+        assistant_only=args.assistant_only,
+    )
+
+    with zipfile.ZipFile(zip_path) as zf:
+        rows = load_range(zf, args.start_index, args.end_index)
+
+    total = len(rows)
+    if args.progress:
+        print(f&quot;Loaded {total} conversations ({args.start_index}-{args.end_index})&quot;, file=sys.stderr)
+
+    if args.output_dir:
+        output_dir = Path(args.output_dir).expanduser()
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for i, row in enumerate(rows, start=1):
+            output_path = output_dir / f&quot;chatgpt-{row[&#x27;index&#x27;]:04d}.md&quot;
+            markdown = render_markdown(row, **render_kwargs)
+            output_path.write_text(markdown, encoding=&quot;utf-8&quot;)
+            if args.progress:
+                print(f&quot;Rendered {i}/{total}: {row[&#x27;conversation&#x27;].get(&#x27;title&#x27;, &#x27;(untitled)&#x27;)}&quot;, file=sys.stderr)
+        print(f&quot;Wrote {total} conversations to {output_dir}&quot;)
+        return
+
+    concat_output = Path(args.conc</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/search-conversations.py</code> <span class="muted">(8.5 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Search ChatGPT export conversation contents for keywords or phrases.
+
+This is intentionally lightweight: it helps agents find conversations by what
+was actually said, rather than relying only on titles.
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import re
+import sys
+import zipfile
+from pathlib import Path
+
+
+def iso(ts: object) -&gt; str:
+    if ts in (None, &quot;&quot;):
+        return &quot;-&quot;
+    try:
+        return dt.datetime.fromtimestamp(float(ts), dt.timezone.utc).isoformat()
+    except Exception:
+        return str(ts)
+
+
+def normalize_text(text: str) -&gt; str:
+    return re.sub(r&quot;\s+&quot;, &quot; &quot;, text.replace(&quot;\r\n&quot;, &quot;\n&quot;).replace(&quot;\r&quot;, &quot;\n&quot;)).strip()
+
+
+def stringify_content(content: object) -&gt; str:
+    if not isinstance(content, dict):
+        return &quot;&quot;
+
+    content_type = content.get(&quot;content_type&quot;)
+    parts = content.get(&quot;parts&quot;)
+
+    if content_type == &quot;user_editable_context&quot;:
+        sections: list[str] = []
+        for key, label in ((&quot;user_profile&quot;, &quot;User profile&quot;), (&quot;user_instructions&quot;, &quot;User instructions&quot;)):
+            value = content.get(key)
+            if isinstance(value, str) and value.strip():
+                sections.append(f&quot;{label}:\n{value.strip()}&quot;)
+        return &quot;\n\n&quot;.join(sections)
+
+    if isinstance(parts, list):
+        chunks: list[str] = []
+        for part in parts:
+            if isinstance(part, str):
+                chunks.append(part)
+            elif isinstance(part, dict):
+                chunks.append(json.dumps(part, ensure_ascii=False))
+        return &quot;\n\n&quot;.join(chunk for chunk in chunks if chunk.strip())
+
+    if content_type:
+        return json.dumps(content, ensure_ascii=False)
+
+    return &quot;&quot;
+
+
+def iter_conversations(zip_path: Path):
+    with zipfile.ZipFile(zip_path) as zf:
+        global_index = 0
+        shard_names = sorted(name for name in zf.namelist() if name.startswith(&quot;conversations-&quot;) and name.endswith(&quot;.json&quot;))
+        for shard_name in shard_names:
+            conversations = json.loads(zf.read(shard_name))
+            for shard_index, conversation in enumerate(conversations):
+                yield global_index, shard_name, shard_index, conversation
+                global_index += 1
+
+
+def conversation_messages(conversation: dict) -&gt; list[dict]:
+    rows: list[dict] = []
+    for node_id, node in (conversation.get(&quot;mapping&quot;) or {}).items():
+        message = (node or {}).get(&quot;message&quot;) or {}
+        if not message:
+            continue
+        rows.append({&quot;node_id&quot;: node_id, &quot;message&quot;: message})
+    rows.sort(key=lambda row: ((row[&quot;message&quot;].get(&quot;create_time&quot;) or 0), row[&quot;node_id&quot;]))
+    return rows
+
+
+def build_search_blob(title: str, message: dict, *, include_title: bool) -&gt; str:
+    metadata = message.get(&quot;metadata&quot;) or {}
+    pieces: list[str] = []
+    if include_title and title:
+        pieces.append(title)
+
+    user_context = metadata.get(&quot;user_context_message_data&quot;) or {}
+    for value in user_context.values():
+        if isinstance(value, str) and value.strip():
+            pieces.append(value)
+
+    content = stringify_content(message.get(&quot;content&quot;) or {})
+    if content.strip():
+        pieces.append(content)
+
+    return &quot;\n\n&quot;.join(pieces)
+
+
+def build_snippet(text: str, start: int, end: int, *, radius: int = 110) -&gt; str:
+    left = max(0, start - radius)
+    right = min(len(text), end + radius)
+    snippet = normalize_text(text[left:right])
+    if left &gt; 0:
+        snippet = &quot;…&quot; + snippet
+    if right &lt; len(text):
+        snippet = snippet + &quot;…&quot;
+    return snippet
+
+
+def main() -&gt; None:
+    parser = argparse.ArgumentParser(description=&quot;Search ChatGPT export conversations by message content.&quot;)
+    parser.add_argument(&quot;zip_path&quot;, help=&quot;Path to the ChatGPT export zip file&quot;)
+    parser.add_argument(&quot;--query&quot;, action=&quot;append&quot;, required=True, help=&quot;Query string to search for. Repeat for multiple queries.&quot;)
+    parser.add_argument(&quot;--limit&quot;, type=int, default=20, help=&quot;Maximum rows to print (default: 20)&quot;)
+    parse</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(32.7 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: importing-chatgpt-memory
+description: Clone ChatGPT saved memory into Letta, then optionally enrich it with broader conversation history. Designed for a slick onboarding flow that extracts hidden saved-memory/context blocks, builds Letta-ready previews, and only asks questions at meaningful checkpoints.
+license: MIT
+---
+
+# Cloning ChatGPT Memory into Letta
+
+Use this skill when a user wants Letta to inherit ChatGPT memory as faithfully as possible without blindly importing an entire export.
+
+## Good fits
+
+- clone my ChatGPT memory into Letta
+- inspect hidden saved profile / custom-instruction context
+- migrate ChatGPT memory into active Letta memory
+- enrich the clone with work context or collaboration preferences from old chats
+- preserve selected transcripts for high-fidelity audit/reference
+
+The skill should work well even when the user says something minimal like:
+- &quot;I want to import my ChatGPT memory&quot;
+- &quot;Can you clone my ChatGPT memory into Letta?&quot;
+- &quot;Import my ChatGPT export&quot;
+
+Do **not** depend on the user writing an optimized prompt.
+
+## Scope
+
+This skill is for **memory onboarding**, not just transcript rendering.
+
+It should:
+- extract ChatGPT saved memory and editable-context blocks first
+- build a Letta-oriented preview of what should become active vs progressive memory
+- write obvious, high-confidence items while narrating progress
+- optionally enrich from the broader archive afterward
+- optionally export transcripts for high-fidelity archival
+
+It should **not**:
+- blindly import the whole archive
+- treat runtime context as durable memory
+- flatten historical context into always-visible memory by default
+- auto-store sensitive personal material without confirmation
+- write memory into a malformed MemFS structure
+
+## Default posture
+
+Use a **clone first, enrich second** workflow.
+
+1. ask a short structured intake
+2. inspect the export
+3. extract and preview in one step
+4. write obvious high-confidence items while learning
+5. continue into archive enrichment if scoped — narrate progress, let the user interrupt
+6. ask only at meaningful checkpoints
+7. run `/doctor` to validate the final memory structure
+
+Users should feel like they are being guided through an onboarding flow, not dropped into a bag of scripts.
+
+The onboarding should be robust to sparse user input. The agent should supply the structure, not ask the user to craft a better request.
+
+**This skill is a workflow, not reference material.** Follow the numbered steps in order. Read the guidance for each step before executing it — especially the merge rules and write targets. Moving fast is good; skipping steps is not. &quot;Autonomous&quot; means you drive the process without stopping for permission, not that you skip the instructions.
+
+## Interaction style
+
+### Start with a short dialog
+
+When available, prefer the structured **AskUserQuestion** flow so the import feels like a dialog.
+
+Good question types:
+- export location (if not obvious)
+- import scope (saved memory only, memory + work context, full history mining)
+- topic focus: &quot;Any specific projects or topics you want me to look for?&quot;
+- sensitivity: &quot;Anything I should avoid storing?&quot;
+
+Do **not** ask about review cadence. Most users don&#x27;t have a strong preference, and the ones who do will say so. Default to keeping going — narrate what you&#x27;re doing and let the user interrupt if they want to pause. This keeps the flow moving instead of creating a false checkpoint.
+
+Avoid questions that don&#x27;t actually change the workflow. For example, &quot;how do you want historical context handled?&quot; sounds meaningful but the answer rarely changes what scripts you run. Focus on questions whose answers fork the process.
+
+This intake exists so the user does **not** need to front-load all of this context in their first message.
+
+Use:
+- **single-choice** for policy decisions
+- **multi-select** for scope selection
+
+### After intake, drive the process
+
+Once scope is clear, be more authoritative than permissive.
+
+Do **not** keep returni</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.087</td><td>0.18</td><td><strong>1.57</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.330</td><td>0.07</td><td><strong>2.31</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

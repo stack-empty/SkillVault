@@ -1,0 +1,965 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>photo-documentation_20260528_150614 · 安全报告</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; background: #07101f; color: #e2e8f0;
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6; min-height: 100vh;
+    }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { color: #7dd3fc; }
+    main { max-width: 1380px; margin: 0 auto; padding: 24px 36px 60px; }
+
+    .topnav {
+      display: flex; gap: 4px; align-items: center;
+      border-bottom: 1px solid #1e3354;
+      margin-bottom: 22px; padding-bottom: 0;
+    }
+    .nav-tab {
+      padding: 12px 22px; font-weight: 600; color: #94a3b8;
+      border-radius: 8px 8px 0 0; margin-bottom: -1px;
+      border: 1px solid transparent; border-bottom: none;
+    }
+    .nav-tab:hover { background: #0e1a2f; color: #f1f5f9; }
+    .nav-tab.active {
+      background: #0e1a2f; color: #38bdf8;
+      border-color: #1e3354; border-bottom-color: #0e1a2f;
+    }
+    .public-badge {
+      margin-left: auto; padding: 4px 12px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; border-radius: 999px; text-transform: uppercase;
+      background: #fef3c7; color: #7c5400; border: 1px solid #f5d57b;
+    }
+
+    /* ===== Hero card with verdict ===== */
+    .report-hero {
+      background: linear-gradient(135deg, #0b1729 0%, #122544 60%, #0b1729 100%);
+      border: 1px solid #1e3354; border-radius: 16px;
+      padding: 32px 36px; margin-bottom: 22px;
+      display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: start;
+    }
+    .report-hero.v-malicious { border-color: rgba(239,68,68,0.5); box-shadow: 0 0 0 1px rgba(239,68,68,0.15); }
+    .report-hero.v-medium    { border-color: rgba(245,158,11,0.5); box-shadow: 0 0 0 1px rgba(245,158,11,0.15); }
+    .report-hero.v-safe      { border-color: rgba(34,197,94,0.5); box-shadow: 0 0 0 1px rgba(34,197,94,0.15); }
+    .hero-left { min-width: 0; }
+    .hero-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 52px; height: 52px; border-radius: 12px;
+      font-size: 24px; margin-right: 14px; vertical-align: middle;
+    }
+    .v-malicious .hero-icon { background: rgba(239,68,68,0.18); border: 2px solid #ef4444; color: #fca5a5; }
+    .v-medium .hero-icon    { background: rgba(245,158,11,0.18); border: 2px solid #f59e0b; color: #fcd34d; }
+    .v-safe .hero-icon      { background: rgba(34,197,94,0.18); border: 2px solid #22c55e; color: #86efac; }
+    .v-unscanned .hero-icon { background: rgba(100,116,139,0.18); border: 2px solid #475569; color: #94a3b8; }
+    .skill-title {
+      display: inline-block; font-size: 28px; color: #f8fafc; font-weight: 700;
+      vertical-align: middle; word-break: break-all; margin: 0;
+    }
+    .job-id-mini {
+      font-family: ui-monospace, Consolas, monospace; font-size: 12px;
+      color: #64748b; margin-top: 6px;
+    }
+    .meta-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+    .chip {
+      padding: 5px 12px; border-radius: 999px; font-size: 12px;
+      background: rgba(56,189,248,0.1); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.3);
+    }
+    .chip-archetype { background: rgba(168,85,247,0.15); color: #c4b5fd; border-color: rgba(168,85,247,0.4); font-weight: 600; }
+    .meta-row {
+      margin-top: 16px; color: #94a3b8; font-size: 13px;
+      display: flex; gap: 18px; flex-wrap: wrap;
+    }
+    .meta-row strong { color: #cbd5e1; }
+
+    .hero-right { text-align: right; display: flex; flex-direction: column; gap: 12px; align-items: flex-end; }
+    .verdict-big {
+      display: inline-flex; flex-direction: column; align-items: center;
+      padding: 18px 30px; border-radius: 12px; border: 2px solid;
+      min-width: 180px;
+    }
+    .verdict-big .dot {
+      width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+      box-shadow: 0 0 12px currentColor; margin-right: 8px;
+    }
+    .verdict-big .v-line { display: flex; align-items: center; }
+    .verdict-big .v-cn { font-size: 22px; font-weight: 700; letter-spacing: 2px; }
+    .verdict-big .v-en { font-size: 14px; opacity: 0.85; letter-spacing: 2px; margin-top: 4px; }
+    .v-malicious .verdict-big { color: #ef4444; border-color: #ef4444; background: rgba(239,68,68,0.1); }
+    .v-medium .verdict-big    { color: #f59e0b; border-color: #f59e0b; background: rgba(245,158,11,0.1); }
+    .v-safe .verdict-big      { color: #22c55e; border-color: #22c55e; background: rgba(34,197,94,0.1); }
+    .v-unscanned .verdict-big { color: #94a3b8; border-color: #475569; background: rgba(148,163,184,0.05); }
+    .handling { font-size: 13px; color: #cbd5e1; }
+    .handling strong { color: #fca5a5; }
+    .v-safe .handling strong { color: #86efac; }
+    .v-medium .handling strong { color: #fcd34d; }
+
+    /* ===== Section card ===== */
+    .panel {
+      background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+      border: 1px solid #1e3354; border-radius: 14px;
+      padding: 22px 26px; margin-bottom: 20px;
+    }
+    .panel-head {
+      display: flex; align-items: center; gap: 12px;
+      margin-bottom: 16px; padding-bottom: 12px;
+      border-bottom: 1px solid #1e293b;
+    }
+    .panel-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(56,189,248,0.1); color: #38bdf8; font-size: 18px;
+      border: 1px solid rgba(56,189,248,0.3);
+    }
+    .panel-title { margin: 0; font-size: 17px; color: #f1f5f9; font-weight: 600; }
+    .panel-title .en { color: #475569; font-size: 12px; font-weight: 400; margin-left: 8px; letter-spacing: 1px; }
+    .panel-extra { margin-left: auto; color: #94a3b8; font-size: 12px; }
+    .panel-extra strong { color: #cbd5e1; }
+
+    /* ===== Composite score ===== */
+    .score-hero {
+      display: flex; align-items: center; gap: 28px; flex-wrap: wrap;
+    }
+    .score-big {
+      display: flex; align-items: baseline; gap: 6px;
+      padding: 16px 26px; border-radius: 14px; border: 2px solid;
+    }
+    .score-big.v-malicious { color: #ef4444; border-color: #ef4444; background: rgba(239,68,68,0.08); }
+    .score-big.v-medium    { color: #f59e0b; border-color: #f59e0b; background: rgba(245,158,11,0.08); }
+    .score-big.v-safe      { color: #22c55e; border-color: #22c55e; background: rgba(34,197,94,0.08); }
+    .score-big.v-unscanned { color: #94a3b8; border-color: #475569; background: rgba(148,163,184,0.05); }
+    .score-big-num {
+      font-size: 52px; font-weight: 800; line-height: 1;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .score-big-max { font-size: 16px; opacity: 0.7; }
+    .score-bar-wrap { flex: 1; min-width: 260px; }
+    .score-bar-track {
+      position: relative; height: 12px; border-radius: 6px; overflow: hidden;
+      display: flex; background: #07101f; border: 1px solid #1e293b;
+    }
+    .score-zone { height: 100%; opacity: 0.5; }
+    .z-safe { background: #22c55e; }
+    .z-susp { background: #f59e0b; }
+    .z-mal  { background: #f97316; }
+    .z-crit { background: #ef4444; }
+    .score-marker {
+      position: absolute; top: -6px; width: 4px; height: 24px;
+      background: #f8fafc; border-radius: 2px;
+      box-shadow: 0 0 8px rgba(248,250,252,0.6);
+      transform: translateX(-50%);
+    }
+    .score-bar-labels {
+      display: flex; justify-content: space-between;
+      margin-top: 6px; font-size: 11px; color: #64748b;
+      font-family: ui-monospace, Consolas, monospace;
+    }
+    .score-breakdown {
+      margin-top: 18px; border-top: 1px solid #1e293b; padding-top: 14px;
+    }
+    .score-breakdown summary {
+      cursor: pointer; color: #38bdf8; font-size: 13px;
+      list-style: none; font-weight: 600;
+    }
+    .score-breakdown summary::-webkit-details-marker { display: none; }
+    .score-breakdown summary::before { content: "▸ "; }
+    .score-breakdown[open] summary::before { content: "▾ "; }
+    .sub-table { margin-top: 12px; display: flex; flex-direction: column; gap: 6px; }
+    .sub-row {
+      display: grid; grid-template-columns: 200px 60px 60px 1fr 80px;
+      gap: 10px; align-items: center; font-size: 12px;
+    }
+    .sub-label { color: #cbd5e1; }
+    .sub-val { color: #f1f5f9; font-family: ui-monospace, Consolas, monospace; font-weight: 600; }
+    .sub-weight { color: #64748b; font-family: ui-monospace, Consolas, monospace; }
+    .sub-bar { height: 6px; background: #07101f; border-radius: 3px; overflow: hidden; }
+    .sub-bar-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #0ea5e9); }
+    .sub-contrib {
+      color: #fbbf24; font-family: ui-monospace, Consolas, monospace;
+      font-weight: 600; text-align: right;
+    }
+    .score-notes {
+      margin-top: 14px; padding: 12px 16px; border-radius: 8px;
+      background: rgba(56,189,248,0.06); border-left: 3px solid #38bdf8;
+    }
+    .score-notes strong { color: #38bdf8; }
+    .score-notes ul { margin: 6px 0 0; padding-left: 22px; color: #cbd5e1; font-size: 13px; }
+    .score-notes li { margin: 2px 0; }
+    @media (max-width: 720px) {
+      .sub-row { grid-template-columns: 1fr 50px; }
+      .sub-row .sub-bar, .sub-row .sub-weight { display: none; }
+    }
+
+    /* ===== AI description ===== */
+    .ai-desc {
+      background: rgba(56,189,248,0.04);
+      border-left: 3px solid #38bdf8;
+      padding: 14px 18px; border-radius: 6px; margin-bottom: 16px;
+    }
+    .ai-desc h3 { margin: 0 0 8px; font-size: 13px; color: #38bdf8; font-weight: 600; }
+    .ai-desc p  { margin: 0; color: #cbd5e1; font-size: 13px; line-height: 1.75; }
+
+    /* ===== Threat banner ===== */
+    .threat-banner {
+      padding: 14px 18px; border-radius: 10px; margin-bottom: 16px;
+      font-size: 14px; border: 1px solid;
+    }
+    .banner-danger    { background: rgba(239,68,68,0.1); border-color: #ef4444; color: #fca5a5; }
+    .banner-safe      { background: rgba(34,197,94,0.1); border-color: #22c55e; color: #86efac; }
+    .banner-unscanned { background: rgba(100,116,139,0.08); border-color: #475569; color: #cbd5e1; }
+    .threat-banner strong { color: inherit; filter: brightness(1.3); }
+
+    /* ===== 17-category grid ===== */
+    .cat-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 10px;
+    }
+    .cat-cell {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 10px;
+      padding: 14px; transition: border-color 0.15s;
+    }
+    .cat-cell.clean { opacity: 0.7; }
+    .cat-cell.clean:hover { opacity: 1; border-color: #334155; }
+    .cat-cell.hit { background: rgba(7,16,31,0.9); }
+    .cat-cell.hit-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+    .cat-cell.hit-high     { border-color: #f97316; background: rgba(249,115,22,0.08); }
+    .cat-cell.hit-medium   { border-color: #f59e0b; background: rgba(245,158,11,0.08); }
+    .cat-cell.hit-low      { border-color: #64748b; background: rgba(100,116,139,0.05); }
+    .cat-name { font-size: 14px; color: #f1f5f9; font-weight: 600; margin-bottom: 2px; }
+    .cat-cell.hit .cat-name { color: #fca5a5; }
+    .cat-cell.hit-medium .cat-name { color: #fcd34d; }
+    .cat-en { font-size: 11px; color: #64748b; margin-bottom: 10px; }
+    .cat-status { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .cat-sev {
+      font-size: 11px; font-weight: 700; padding: 3px 10px;
+      border-radius: 999px; letter-spacing: 1px; text-transform: uppercase;
+    }
+    .sev-critical { background: #ef4444; color: white; }
+    .sev-high     { background: #f97316; color: white; }
+    .sev-medium   { background: #f59e0b; color: #1f2937; }
+    .sev-low      { background: #64748b; color: white; }
+    .sev-info     { background: #475569; color: white; }
+    .cat-count { font-size: 11px; color: #94a3b8; }
+    .cat-ok { font-size: 12px; color: #22c55e; font-weight: 600; }
+
+    /* ===== File tree ===== */
+    .tree-summary {
+      margin-bottom: 10px; color: #cbd5e1; font-size: 13px;
+    }
+    .tree-summary strong { color: #f1f5f9; }
+    .lang-bar {
+      display: flex; height: 8px; border-radius: 4px; overflow: hidden;
+      background: #07101f; margin-bottom: 8px;
+    }
+    .bar-seg { height: 100%; transition: width 0.4s; }
+    .lang-legend {
+      display: flex; flex-wrap: wrap; gap: 14px; color: #94a3b8;
+      font-size: 12px; margin-bottom: 16px;
+    }
+    .lang-dot { display: inline-flex; align-items: center; gap: 6px; }
+    .lang-dot .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+    .file-list { display: flex; flex-direction: column; gap: 4px; }
+    .file-row {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 8px;
+    }
+    .file-row[open] { border-color: #334155; }
+    .file-row.skill-md { border-left: 3px solid #ef4444; }
+    .file-row summary {
+      cursor: pointer; display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; list-style: none;
+    }
+    .file-row summary::-webkit-details-marker { display: none; }
+    .file-icon { font-size: 14px; }
+    .file-path { color: #38bdf8; font-family: ui-monospace, Consolas, monospace; font-size: 13px; flex: 1; word-break: break-all; }
+    .file-meta { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+    .lang-tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 4px;
+      background: rgba(56,189,248,0.1); color: #7dd3fc; border: 1px solid rgba(56,189,248,0.3);
+      font-weight: 600; letter-spacing: 0.5px;
+    }
+    .file-preview {
+      margin: 0; padding: 12px 14px; background: #07101f;
+      border-top: 1px solid #1e293b; max-height: 360px; overflow: auto;
+      color: #cbd5e1; font-size: 12px; font-family: ui-monospace, Consolas, monospace;
+      white-space: pre-wrap; word-break: break-all;
+    }
+
+    /* ===== Risk assessment list ===== */
+    .risk-group {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 10px;
+      padding: 14px 18px; margin-bottom: 12px;
+    }
+    .risk-group-head {
+      display: flex; align-items: center; gap: 10px;
+      padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid #1e293b;
+    }
+    .risk-cat { font-size: 14px; color: #f1f5f9; font-weight: 600; }
+    .sev-pill {
+      font-size: 11px; font-weight: 700; padding: 3px 10px;
+      border-radius: 999px; letter-spacing: 1px;
+    }
+    .risk-item {
+      margin-top: 8px; border-radius: 8px; background: #0a1424;
+      border: 1px solid #1e293b;
+    }
+    .risk-item[open] { border-color: #334155; }
+    .risk-item summary {
+      cursor: pointer; display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; list-style: none;
+    }
+    .risk-item summary::-webkit-details-marker { display: none; }
+    .risk-num { color: #64748b; font-size: 12px; font-weight: 600; min-width: 28px; }
+    .risk-title { color: #cbd5e1; font-size: 13px; flex: 1; }
+    .risk-source { color: #94a3b8; font-size: 12px; font-family: ui-monospace, Consolas, monospace; }
+    .risk-body {
+      padding: 12px 14px 14px; border-top: 1px solid #1e293b;
+    }
+    .risk-loc { color: #94a3b8; font-size: 12px; margin-bottom: 8px; }
+    .risk-loc code {
+      background: #07101f; padding: 2px 6px; border-radius: 4px;
+      color: #fbbf24; font-size: 12px;
+    }
+    .risk-snippet {
+      background: #07101f; padding: 12px 14px; border-radius: 6px;
+      border-left: 3px solid #ef4444; color: #fca5a5; font-size: 12px;
+      font-family: ui-monospace, Consolas, monospace; white-space: pre-wrap;
+      overflow: auto; max-height: 200px; margin: 0 0 10px;
+    }
+    .risk-desc { margin: 8px 0; color: #cbd5e1; font-size: 13px; }
+    .risk-fix {
+      background: rgba(34,197,94,0.08); border-left: 3px solid #22c55e;
+      padding: 10px 14px; border-radius: 6px; color: #cbd5e1; font-size: 13px;
+    }
+    .risk-fix strong { color: #86efac; }
+
+    /* ===== Static hits with context ===== */
+    .sh-count { color: #94a3b8; font-size: 13px; margin-bottom: 12px; }
+    .sh-item {
+      margin-bottom: 8px; border-radius: 8px; background: #07101f;
+      border: 1px solid #1e293b;
+    }
+    .sh-item[open] { border-color: #334155; }
+    .sh-item summary {
+      cursor: pointer; display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px; list-style: none; flex-wrap: wrap;
+    }
+    .sh-item summary::-webkit-details-marker { display: none; }
+    .sh-rule { color: #f1f5f9; font-size: 13px; font-weight: 600; flex: 1; }
+    .sh-loc { color: #94a3b8; font-size: 12px; margin-bottom: 8px; }
+    .sh-loc code { background: #0a1424; padding: 2px 6px; border-radius: 4px; color: #fbbf24; }
+    .sh-context {
+      margin: 0; padding: 12px 14px; background: #0a1424; border-radius: 6px;
+      border-left: 3px solid #f59e0b; color: #cbd5e1; font-size: 12px;
+      font-family: ui-monospace, Consolas, monospace; white-space: pre;
+      overflow-x: auto; line-height: 1.65;
+    }
+
+    /* ===== Dynamic execution detail ===== */
+    .dyn-summary-line { color: #cbd5e1; font-size: 13px; margin-bottom: 16px; }
+    .dyn-summary-line code { background: #07101f; padding: 2px 6px; border-radius: 4px; color: #38bdf8; }
+    .dyn-empty { padding: 8px 0; }
+    .dyn-metrics {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px; margin-bottom: 18px;
+    }
+    .dyn-metric {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 10px;
+      padding: 14px 16px; text-align: center;
+    }
+    .dyn-metric.dyn-danger { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+    .dyn-metric-num { display: block; font-size: 30px; font-weight: 800; color: #f1f5f9;
+      font-family: ui-monospace, Consolas, monospace; }
+    .dyn-metric.dyn-danger .dyn-metric-num { color: #fca5a5; }
+    .dyn-metric-label { display: block; font-size: 13px; color: #cbd5e1; margin-top: 4px; }
+    .dyn-metric-sub { display: block; font-size: 11px; color: #64748b; margin-top: 2px; }
+    .dyn-honeypot {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 14px;
+    }
+    .dyn-hp-head { margin-bottom: 8px; }
+    .dyn-hp-badge { font-size: 13px; font-weight: 700; padding: 4px 12px; border-radius: 999px; }
+    .dyn-hp-badge.leaked { background: #ef4444; color: white; }
+    .dyn-hp-badge.touched { background: #f59e0b; color: #1f2937; }
+    .dyn-hp-badge.clean { background: rgba(34,197,94,0.15); color: #86efac; border: 1px solid #22c55e; }
+    .dyn-hp-text { margin: 6px 0; color: #cbd5e1; font-size: 13px; }
+    .dyn-hp-files { margin: 8px 0 0; padding-left: 20px; }
+    .dyn-hp-files li { margin: 3px 0; }
+    .dyn-hp-files code { background: #0a1424; padding: 2px 6px; border-radius: 4px; color: #fca5a5; font-size: 12px; }
+    .dyn-net { background: #07101f; border: 1px solid #1e293b; border-radius: 10px; padding: 6px 16px; margin-bottom: 14px; }
+    .dyn-row { display: flex; justify-content: space-between; padding: 9px 0; border-bottom: 1px solid #142342; font-size: 13px; }
+    .dyn-row:last-child { border-bottom: none; }
+    .dyn-k { color: #94a3b8; }
+    .dyn-v { color: #e2e8f0; font-weight: 500; }
+    .dyn-reasons {
+      background: rgba(56,189,248,0.05); border-left: 3px solid #38bdf8;
+      padding: 12px 16px; border-radius: 8px;
+    }
+    .dyn-reasons strong { color: #38bdf8; }
+    .dyn-reasons ul { margin: 6px 0 0; padding-left: 22px; color: #cbd5e1; font-size: 13px; }
+    .dyn-reasons li { margin: 3px 0; }
+
+    /* Docker 执行流程说明 */
+    .dyn-flow {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 10px;
+      padding: 4px 16px; margin-bottom: 14px;
+    }
+    .dyn-flow summary {
+      cursor: pointer; color: #38bdf8; font-size: 13px; font-weight: 600;
+      padding: 10px 0; list-style: none;
+    }
+    .dyn-flow summary::-webkit-details-marker { display: none; }
+    .dyn-flow-body { padding: 4px 0 12px; }
+    .dyn-flow-body ol { margin: 0; padding-left: 22px; color: #cbd5e1; font-size: 13px; line-height: 1.8; }
+    .dyn-flow-body li { margin: 4px 0; }
+    .dyn-flow-body code { background: #0a1424; padding: 2px 6px; border-radius: 4px; color: #38bdf8; font-size: 12px; }
+    .dyn-flow-body strong { color: #f1f5f9; }
+    .dyn-flow-note {
+      margin: 12px 0 0; padding: 10px 14px; font-size: 13px; color: #cbd5e1;
+      background: rgba(245,158,11,0.08); border-left: 3px solid #f59e0b; border-radius: 6px;
+    }
+    .dyn-flow-note strong { color: #fcd34d; }
+
+    /* 脚本输出 + syscall 证据 block */
+    .dyn-block {
+      background: #07101f; border: 1px solid #1e293b; border-radius: 10px;
+      padding: 14px 16px; margin-bottom: 14px;
+    }
+    .dyn-block-title { font-size: 13px; color: #f1f5f9; font-weight: 600; margin-bottom: 10px; }
+    .dyn-pre {
+      margin: 0; padding: 12px 14px; background: #0a1424; border-radius: 6px;
+      color: #cbd5e1; font-size: 12px; font-family: ui-monospace, Consolas, monospace;
+      white-space: pre-wrap; overflow-x: auto; line-height: 1.6;
+    }
+    .dyn-hint { margin: 8px 0 0; font-size: 12px; color: #94a3b8; }
+    .dyn-hint strong { color: #fca5a5; }
+    .dyn-hint code { background: #0a1424; padding: 2px 5px; border-radius: 4px; color: #38bdf8; }
+    .syscall-row {
+      display: flex; align-items: center; gap: 10px; padding: 6px 0;
+      border-bottom: 1px solid #142342;
+    }
+    .syscall-row:last-of-type { border-bottom: none; }
+    .syscall-row code {
+      flex: 1; background: transparent; color: #cbd5e1; font-size: 12px;
+      font-family: ui-monospace, Consolas, monospace; word-break: break-all;
+    }
+    .syscall-tag {
+      flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 3px 8px;
+      border-radius: 4px; white-space: nowrap;
+    }
+    .syscall-tag.read { background: rgba(239,68,68,0.15); color: #fca5a5; border: 1px solid #ef4444; }
+    .syscall-tag.conn { background: rgba(245,158,11,0.15); color: #fcd34d; border: 1px solid #f59e0b; }
+
+    .empty-note { color: #64748b; font-style: italic; padding: 12px 0; }
+    .muted { color: #64748b; }
+
+    @media (max-width: 720px) {
+      main { padding: 18px 14px 40px; }
+      .report-hero { grid-template-columns: 1fr; padding: 22px 20px; }
+      .hero-right { align-items: flex-start; }
+      .cat-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div style="background:#1e3354;color:#cbd5e1;text-align:center;padding:8px 12px;font-size:12px;border-bottom:1px solid #38bdf8;">📦 这是一份 <strong>静态快照</strong>（GitHub Pages 托管）。上传扫描需要本地运行 <code style="background:#07101f;padding:1px 5px;border-radius:3px;">python web_ui/app.py</code>。</div>
+  <main>
+    <nav class="topnav">
+      <a class="nav-tab" href="index.html">扫描</a>
+      <a class="nav-tab active" href="index.html">扫描结果</a>
+      <span class="public-badge" style="background:#dcfce7;color:#166534;border-color:#86efac;">本地全功能</span>
+    </nav>
+
+    <section class="report-hero v-safe">
+      <div class="hero-left">
+        <span class="hero-icon">🛡</span>
+        <h1 class="skill-title">photo-documentation_20260528_150614</h1>
+        <div class="job-id-mini">photo-documentation_20260528_150614</div>
+        <div class="meta-chips"><span class="chip chip-archetype">Benign</span></div>
+        <div class="meta-row">
+          <span>🕐 分析时间：<strong>2026-05-28 07:07:10</strong></span>
+          <span>📊 扫描策略：<strong>静态扫描 + Claude API 研判</strong></span>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="verdict-big">
+          <div class="v-line">
+            <span class="dot"></span>
+            <span class="v-cn">安全</span>
+          </div>
+          <span class="v-en">SAFE</span>
+        </div>
+        <div class="handling">处置建议：<strong>建议放行</strong></div>
+      </div>
+    </section>
+
+    <section class="panel score-panel"><div class="panel-head"><span class="panel-icon">🎯</span><h2 class="panel-title">综合风险评分<span class="en">COMPOSITE RISK SCORE</span></h2><span class="panel-extra">阈值 SAFE 0-15 · SUSPICIOUS 15-40 · MALICIOUS 40-75 · CRITICAL 75+</span></div><div class="score-hero"><div class="score-big v-safe"><div class="score-big-num">0.0</div><div class="score-big-max">/ 100</div></div><div class="score-bar-wrap"><div class="score-bar-track"><div class="score-zone z-safe"  style="width:15%;"></div><div class="score-zone z-susp"  style="width:25%;"></div><div class="score-zone z-mal"   style="width:35%;"></div><div class="score-zone z-crit"  style="width:25%;"></div><div class="score-marker" style="left:0.0%;" title="得分 0.0"></div></div><div class="score-bar-labels"><span>0</span><span>15</span><span>40</span><span>75</span><span>100</span></div></div></div><details class="score-breakdown"><summary>查看分项明细（点击展开）</summary><div class="sub-table"><div class="sub-row"><span class="sub-label">静态命中</span><span class="sub-val">0.000</span><span class="sub-weight">×0.18</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">攻击链</span><span class="sub-val">0.000</span><span class="sub-weight">×0.15</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">复杂度</span><span class="sub-val">0.000</span><span class="sub-weight">×0.07</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">Kill-Chain 阶段覆盖</span><span class="sub-val">0.000</span><span class="sub-weight">×0.07</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">Agent 抗诱导（1-S）</span><span class="sub-val">1.000</span><span class="sub-weight">×0.10</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">LLM 判定</span><span class="sub-val">0.000</span><span class="sub-weight">×0.25</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">蜜罐触发</span><span class="sub-val">0.000</span><span class="sub-weight">×0.08</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div><div class="sub-row"><span class="sub-label">运行时证据</span><span class="sub-val">0.000</span><span class="sub-weight">×0.10</span><div class="sub-bar"><div class="sub-bar-fill" style="width:2.0%;"></div></div><span class="sub-contrib">+0.00</span></div></div></details></section>
+    <div class="ai-desc"><h3>📍 AI 研判描述</h3><p>该 skill 是一个施工现场照片文档管理系统，使用 Gemini Vision API 对照片进行自动分类、标签、安全合规评估等。仅包含 SKILL.md 文档，无可执行代码。</p></div>
+    <div class="threat-banner banner-safe"><strong>✓ 未发现高危威胁。</strong>所有 17 条 ASG 静态规则未命中此 skill。</div>
+
+    <section class="panel">
+      <div class="panel-head">
+        <span class="panel-icon">🛡</span>
+        <h2 class="panel-title">风险类别检测<span class="en">17 ASG STATIC RULES</span></h2>
+        <span class="panel-extra"><strong>0 风险</strong></span>
+      </div>
+      <div class="cat-grid"><div class="cat-cell clean"><div class="cat-name">凭证窃取</div><div class="cat-en">Credential Harvesting</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">凭证文件访问</div><div class="cat-en">Credential File Access</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">文件系统枚举</div><div class="cat-en">File System Enumeration</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">网络侦察</div><div class="cat-en">Network Reconnaissance</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">命令注入</div><div class="cat-en">Command Injection</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">远程脚本执行</div><div class="cat-en">Remote Script Execution</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">代码混淆</div><div class="cat-en">Obfuscated Code</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">数据外传</div><div class="cat-en">External Data Transmission</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">代码执行外传</div><div class="cat-en">Data Exfil via Code Exec</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">指令覆盖</div><div class="cat-en">Instruction Override</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">隐藏指令</div><div class="cat-en">Hidden Instructions</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">行为操纵</div><div class="cat-en">Behavior Manipulation</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">权威伪装</div><div class="cat-en">Authority Impersonation</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">跨工具诱导</div><div class="cat-en">Cross-tool Coercion</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">权限过大</div><div class="cat-en">Excessive Permissions</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">权限提升</div><div class="cat-en">Privilege Escalation</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div><div class="cat-cell clean"><div class="cat-name">持久化植入</div><div class="cat-en">Persistence Implantation</div><div class="cat-status"><span class="cat-ok">✓ 未检出</span></div></div></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <span class="panel-icon">🔬</span>
+        <h2 class="panel-title">静态命中明细<span class="en">STATIC HITS · WITH CONTEXT</span></h2>
+      </div>
+      <p class="empty-note">静态规则无命中。</p>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <span class="panel-icon">⚙️</span>
+        <h2 class="panel-title">动态执行详情<span class="en">DYNAMIC EXECUTION · VM DOCKER</span></h2>
+      </div>
+      <div class="dyn-empty"><p class="empty-note">此 skill 未运行 VM 动态执行（仅静态 + AI 研判）。动态执行需要带可执行脚本（.py/.sh）的 skill，并在「扫描页·模式二」上传或用 <code>asg_cli vm-paper-run</code> 触发。</p></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <span class="panel-icon">📁</span>
+        <h2 class="panel-title">目录结构<span class="en">FILE TREE</span></h2>
+      </div>
+      <div class="tree-summary"><strong>4</strong> 文件 · <strong>93,738</strong> B · <strong>423</strong> 行</div><div class="lang-bar"><div class="bar-seg" style="width:100.00%;background:#22d3ee;" title="Markdown 100.0%"></div></div><div class="lang-legend"><span class="lang-dot"><span class="dot" style="background:#22d3ee;"></span>Markdown <span class="muted">4 文件 · 93738 B</span></span></div><div class="file-list"><details class="file-row"><summary><span class="file-icon">📄</span><span class="file-path">references/photo-best-practices.md</span><span class="file-meta"><span class="lang-tag">Markdown</span> <span class="muted">104 行 · 19114 B</span></span></summary><pre class="file-preview"># Photo Documentation Best Practices Guide
+
+## Quick Reference: What to Photograph at Each Phase
+
+### EARTHWORK &amp; SITE PREP (Week 1-2)
+**Daily Coverage:**
+- Excavation progress by grid area (progress)
+- Drainage and erosion control setup (safety/environmental)
+- Material storage and equipment staging areas (progress)
+- Site access and temporary roads (safety)
+
+**Hold Points Requiring Photos:**
+- Excavation limits before foundation work (3 photos: overview + details + grid reference)
+- Proofroll completion with geotech certification visible (2 photos)
+- Utility coordination and clearances (2 photos)
+
+**Weather Documentation:**
+- Post-rain site conditions and drainage performance
+- Temperature readings for concrete temperature control (if applicable)
+- Wind conditions affecting equipment operation
+
+---
+
+### FOUNDATIONS (Week 2-4)
+**Critical Photo Coverage:**
+- **Rebar Placement** (HOLD POINT - 4+ photos required)
+  - Overall rebar layout showing grid coordination
+  - Detail of rebar lapping and sizing per plans
+  - Embedment verification and positioning
+  - Scale reference with measuring tape visible
+
+- **Concrete Placement** (2-3 progress photos per pour)
+  - Concrete arriving and mixing verification
+  - Placement in progress (showing flow, compaction)
+  - Finished surface condition
+  - Finishing techniques used
+
+- **Form Removal &amp; Substrate** (1-2 photos per grid section)
+  - Concrete surface finish after form removal
+  - Any surface defects or imperfections (for quality verification)
+  - Substrate preparation for next phase
+
+- **Backfill &amp; Compaction** (BEFORE/AFTER pair + geotech observation)
+  - Before: Open excavation ready for backfill
+  - During: Compaction equipment and technique
+  - After: Finished grade and final compaction verification
+
+**Safety Documentation:**
+- Form bracing and shoring setup photo
+- Rebar protection before concrete placement
+- Worker safety during concrete placement (PPE, fall protection)
+
+**Weather Correlation:**
+- Temperature readings during concrete curing (critical for early strength development)
+- Protection methods if rain occurs post-placement
+- Thermal mass and cooling procedures in hot weather
+
+---
+
+### STRUCTURAL STEEL &amp; ENVELOPE (Week 4-9)
+**Critical Milestones - PEMB Delivery &amp; Erection:**
+
+- **PEMB Arrival** (4+ photos required for delivery/acceptance)
+  - Truck arriving with load
+  - Material condition upon delivery (inspect for damage)
+  - Staging location on site with grid reference
+  - Unloading sequence and crane setup
+
+- **Steel Erection by Bay** (weekly progress photos + milestone photos)
+  - Bay 1 erection start, mid-progress, completion
+  - Bay 2 erection start, mid-progress, completion
+  - [Continue for each bay erection cycle]
+  - Overall site view at each completion milestone
+
+- **Roof &amp; Wall Panel Installation** (2-3 photos per section)
+  - Panel staging and preparation
+  - Installation sequence
+  - Weather protection progress (water management verification)
+  - Fastener installation and final tightening
+
+- **Enclosed Building Envelope** (milestone photo set)
+  - Roof closure complete
+  - Wall closure complete
+  - Weather-tight condition verified
+  - Any punch items or installation issues documented
+
+**Quality Verification:**
+- Structural connections and bolting patterns (if shop drawings require verification)
+- Welds and connections per engineer specifications
+- Panel alignment and panel-to-frame connection
+- Roof slope and drainage verification
+
+**Aerial/Drone Documentation:**
+- Month 1 end: Excavation and foundation complete (if ground level)
+- PEMB delivery: Material staging (300 ft altitude)
+- Steel erection milestones: Bay completion photos (300 ft altitude)
+- Roof envelope: Enclosed building documentation (200-250 ft altitude)
+
+**Safety Coverage:**
+- Scaffolding installation and inspection plaques
+- Erection crew safety procedures and PPE
+- Fall protection systems during high-work operations
+- Equipment operation (cranes, lifts) and exclusion zones
+- Wind condition</pre></details><details class="file-row"><summary><span class="file-icon">📄</span><span class="file-path">references/photo-naming-workflow.md</span><span class="file-meta"><span class="lang-tag">Markdown</span> <span class="muted">99 行 · 16766 B</span></span></summary><pre class="file-preview"># Photo Naming Convention &amp; Workflow Template
+
+## Photo Naming Formula
+
+### Core Format
+```
+{DATE}_{CATEGORY}_{LOCATION}_{SEQ}.{ext}
+```
+
+### Field Specifications
+
+#### DATE (Required)
+- **Format**: `YYYY-MM-DD` (ISO 8601)
+- **Length**: 10 characters
+- **Sorting**: Chronological order automatically
+- **Examples**: `2026-02-18`, `2026-03-05`, `2026-07-20`
+
+#### CATEGORY (Required)
+- **Format**: All caps abbreviation or full word
+- **Length**: 3-12 characters (avoid spaces)
+- **Valid Categories**:
+  - `PROGRESS` — Construction advancement by area/trade
+  - `SAFETY` — Hazard documentation, compliance, protective systems
+  - `QUALITY` — Inspection points, finish verification, defect documentation
+  - `WEATHER` — Site conditions, temperature, precipitation, wind
+  - `DELIVERY` — Material/equipment arrival, staging, condition documentation
+  - `RFISUPPORT` — Field conditions supporting RFI documentation
+  - `SUBMITTAL` — Product samples, installed condition, conformance
+  - `DEFICIENCY` — Punch list items, before/after corrections
+  - `ASBUILT` — Final installed conditions, deviation documentation
+  - `AERIAL` — Drone/overhead photography from height
+
+#### LOCATION (Conditional)
+- **Format**: Grid reference (preferred) OR Building area OR Room number
+- **Length**: 4-15 characters
+- **Grid Reference** (preferred for large projects):
+  - Single grid: `GridA1`, `GridB2`, `GridC3`
+  - Grid range: `GridA1B2`, `GridC3D4` (two-grid corners of rectangular area)
+  - Pattern: `Grid` + Letter + Number (+ Letter + Number for ranges)
+  - Examples: `GridA1`, `GridB4D6`, `GridC3`
+
+- **Building Area** (for multi-building or zone-based projects):
+  - Simple areas: `EastWing`, `MainLobby`, `SiteAccess`, `LaydownYard`
+  - Floor designation: `Level3`, `Basement`, `GradeLevel`
+  - System designation: `MEPRoughIn`, `Structural`, `Envelope`
+  - Examples: `EastWing`, `Level3`, `MainLobby`
+
+- **Room Number** (for interior/room-specific work):
+  - Patient room format: `Room107`, `Room201`, `Room307B`
+  - Operating suite: `OR3`, `OR4`
+  - Common areas: `Lobby`, `Conference`, `Kitchen`
+  - Examples: `Room107`, `Room214`, `OR3`
+
+- **Special Designations**:
+  - Multi-area: `SiteGeneral`, `GeneralView`, `OverallSite`
+  - No specific location: Omit or use `General` (for WEATHER, AERIAL, SAFETY that don&#x27;t apply to specific grid)
+  - Examples: `SiteGeneral`, `AllAreas`, `GeneralView`
+
+**Location Omission Rules** (location field optional for):
+- AERIAL photos (use cardinal direction instead: `NorthView`, `EastOverview`, etc.)
+- WEATHER photos showing full site
+- DELIVERY photos of site staging areas
+- SAFETY photos of site-wide conditions
+
+#### SEQUENCE (Required)
+- **Format**: Three-digit number: `001`, `002`, `003`
+- **Increment**: Within same day, category, and location
+- **Reset**: Sequence resets daily for each unique category + location combination
+- **Rationale**: Enables multiple photos per category/location per day without filename conflicts
+
+#### FILE EXTENSION (Required)
+- **Standard formats**: `.jpg` (preferred), `.png`
+- **Use JPG**: Preferred for field photos (smaller file size, standard compatibility)
+- **Use PNG**: If transparency or lossless compression needed
+- **Avoid**: `.bmp`, `.gif`, `.tiff`, `.heic` (compatibility issues with project systems)
+
+---
+
+## Naming Convention Examples by Category
+
+### PROGRESS Photos
+```
+2026-02-18_PROGRESS_GridA1_ConcreteFootings_001.jpg
+2026-02-18_PROGRESS_GridA1_ConcreteFootings_002.jpg
+2026-02-18_PROGRESS_GridB3_Rebar_001.jpg
+2026-02-20_PROGRESS_GridC3D4_MEPRoughIn_001.jpg
+2026-03-05_PROGRESS_SiteGeneral_PEMBDelivery_001.jpg
+```
+
+**Notes**:
+- Include specific work type in filename (Footings, Rebar, MEPRoughIn) for searchability
+- Multiple angles of same area → increment sequence number
+- Different areas on same day → new location reference
+
+### SAFETY Photos
+```
+2026-02-18_SAFETY_GridB3_OpeningProtection_001.jpg
+2026-02-17_SAFETY_SiteAccess_RainProtection_001.jpg
+2026-02-17_SAFETY_SiteAccess_RainProtection_Before.</pre></details><details class="file-row"><summary><span class="file-icon">📄</span><span class="file-path">references/skill-detail.md</span><span class="file-meta"><span class="lang-tag">Markdown</span> <span class="muted">133 行 · 39318 B</span></span></summary><pre class="file-preview"># photo-documentation — Detailed Reference
+
+
+
+Extended documentation, examples, templates, and detailed criteria for the photo-documentation skill.
+
+
+
+## Gemini Vision Prompt Templates
+
+### Primary Classification Prompt
+
+```
+You are a construction site photo classification expert. Analyze this photo and classify it according to construction industry standards.
+
+CLASSIFICATION CATEGORIES:
+1. PROGRESS - Active construction work, phased advancement
+2. SAFETY - PPE, hazards, fall protection, compliance issues
+3. QUALITY - Defects, alignment issues, finish problems
+4. WEATHER - Site conditions, precipitation, temperature indicators
+5. DELIVERY - Material/equipment arrivals, staging
+6. DEFICIENCY - Punch list items, damage, installation errors
+7. CLOSEOUT - Completed areas, final finishes, system verification
+
+ANALYSIS REQUIRED:
+- Primary category (most specific fit)
+- Secondary categories (if applicable)
+- Confidence score (0.0-1.0)
+- Supporting observations
+- Trade(s) visible or implied
+- Building phase (Foundation, Structural, MEP, Interiors, Finishes, Closeout)
+- Grid location (if identifiable from visible grid marks, building features, or context)
+
+Return JSON output with:
+{
+  &quot;primary_category&quot;: &quot;string&quot;,
+  &quot;secondary_categories&quot;: [&quot;string&quot;],
+  &quot;confidence&quot;: 0.0-1.0,
+  &quot;trade_detected&quot;: &quot;string or null&quot;,
+  &quot;phase_detected&quot;: &quot;string&quot;,
+  &quot;grid_location_detected&quot;: [&quot;string&quot;],
+  &quot;key_observations&quot;: [&quot;string&quot;],
+  &quot;description&quot;: &quot;string&quot;
+}
+```
+
+### Trade Detection Prompt
+
+```
+Identify construction trades visible or implied in this photo. Look for:
+- Equipment type (concrete forms, welding rigs, spray equipment, tools)
+- Material visible (rebar, structural steel, mechanical units, drywall, paint)
+- Work in progress (concrete placement, steel erection, piping runs, drywall hanging)
+- Worker activity patterns (if visible)
+- Installation evidence (connections, fasteners, assemblies)
+
+Return JSON with:
+{
+  &quot;trades_detected&quot;: [
+    {
+      &quot;trade&quot;: &quot;string (Concrete, Structural Steel, MEP, Drywall, etc.)&quot;,
+      &quot;confidence&quot;: 0.0-1.0,
+      &quot;evidence&quot;: [&quot;string&quot;],
+      &quot;activity&quot;: &quot;string describing what trade work is visible&quot;
+    }
+  ]
+}
+```
+
+### Safety Compliance Prompt
+
+```
+Assess safety conditions in this construction photo. Evaluate:
+
+PPE COMPLIANCE (if workers visible):
+- Hard hats (present/absent)
+- Safety glasses (present/absent)
+- Hi-visibility clothing (present/absent)
+- Gloves (present/absent)
+- Steel-toe boots (visible from footwear)
+
+HAZARD ASSESSMENT:
+- Fall hazards (openings, heights, guardrails)
+- Electrical hazards (exposed wiring, wet conditions)
+- Stored material hazards (stacking, instability, access)
+- Environmental hazards (standing water, slippery surfaces, weather exposure)
+- Equipment operation safety (forklift, crane, power tools)
+- Housekeeping (debris, trip hazards, organization)
+
+SIGNAGE &amp; CONTROLS:
+- Safety signage visibility
+- Barricades/access control
+- Warning flags or markers
+
+Return JSON with:
+{
+  &quot;compliance_status&quot;: &quot;compliant | violation | concern | observation&quot;,
+  &quot;workers_visible&quot;: boolean,
+  &quot;ppe_assessment&quot;: {
+    &quot;hard_hats&quot;: &quot;compliant | violation&quot;,
+    &quot;hi_visibility&quot;: &quot;compliant | violation&quot;,
+    &quot;gloves&quot;: &quot;compliant | violation | not_applicable&quot;,
+    &quot;footwear&quot;: &quot;compliant | unknown&quot;
+  },
+  &quot;hazards_identified&quot;: [
+    {
+      &quot;hazard_type&quot;: &quot;string&quot;,
+      &quot;severity&quot;: &quot;observation | warning | critical&quot;,
+      &quot;description&quot;: &quot;string&quot;,
+      &quot;corrective_action&quot;: &quot;string&quot;
+    }
+  ],
+  &quot;overall_severity&quot;: &quot;observation | warning | critical&quot;
+}
+```
+
+### Progress Assessment Prompt
+
+```
+Evaluate construction progress visible in this photo. Assess:
+
+WORK PHASE:
+- Current phase (Foundation, Structural, MEP, Interiors, Finishes, Closeout)
+- Work type (concrete, steel, framing, systems, finishes)
+- Percentage of visible work complete (0-100%)
+
+ADVANCEMENT:
+- Work advancement since previous phase
+- Readiness for next phase
+- Critical path items visible
+
+SCHEDULE ALIGNMENT:
+- Does work appear on-schedule f</pre></details><details class="file-row skill-md"><summary><span class="file-icon">📄</span><span class="file-path">SKILL.md</span><span class="file-meta"><span class="lang-tag">Markdown</span> <span class="muted">87 行 · 18540 B</span></span></summary><pre class="file-preview">---
+name: photo-documentation
+description: &gt;
+  Comprehensive photo documentation system for construction progress tracking with AI-powered auto-classification. Uses Gemini Vision API to automatically categorize photos, identify construction phase, detect visible trades, tag location/grid references, and assess safety compliance. Handles photo categorization, metadata tagging, before/after pairing, naming conventions, progress tracking by area, RFI/submittal documentation, drone/aerial guidelines, and chain of custody. Triggers: &quot;photo documentation&quot;, &quot;site photos&quot;, &quot;progress photos&quot;, &quot;photo log&quot;, &quot;photo report&quot;, &quot;document photos&quot;, &quot;photo classification&quot;, &quot;classify photos&quot;, &quot;auto-tag photos&quot;, &quot;photo AI&quot;, &quot;identify photo&quot;, &quot;what trade is this&quot;.
+version: 1.1.0
+---
+
+# Photo Documentation Skill — AI Classification Enhancement
+
+## Overview
+
+The Photo Documentation skill now includes **automatic AI-powered classification** using the Gemini 2.0 Flash Vision API. When photos are uploaded or processed through `/log` or `/photos` commands, the system automatically sends each image to Gemini Vision for intelligent classification, trade detection, safety assessment, and progress tracking.
+
+This enhancement eliminates manual categorization for most photos while maintaining superintendent override capability and learning from corrections.
+
+---
+
+## AI Classification Architecture
+
+### How It Works
+
+1. **Photo Upload**: Superintendent uploads photos via `/log`, `/photos`, or drag-and-drop interface
+2. **API Dispatch**: Photos queued for Gemini Vision processing (max 20MB per image)
+3. **Parallel Classification**: Multiple photos processed simultaneously with rate limiting (15-60 req/min depending on tier)
+4. **Confidence Scoring**: Each classification receives confidence score (0.0-1.0)
+5. **Metadata Generation**: Results stored as photo metadata tags and crosslinked to related systems
+6. **Override Capability**: Superintendent can accept or reject AI classifications; corrections feed back as training signals
+
+### Processing Flow
+
+```
+Photo Upload
+    ↓
+[Queue for Classification]
+    ↓
+[Gemini Vision API Call]
+    ↓
+[Receive Classification Results]
+    ↓
+[Score Confidence Level]
+    ├─ &gt;= 0.85  → Auto-apply (no confirmation needed)
+    ├─ 0.60-0.84 → Suggest to superintendent (review recommended)
+    └─ &lt; 0.60   → Flag uncertain (requires manual classification)
+    ↓
+[Store Metadata + Tags]
+    ↓
+[Link to Related Systems]
+    ↓
+[Add to Daily Report Summary]
+```
+
+---
+
+## Classification Categories with AI Detection Signals
+
+### 1. PROGRESS — Active Construction Visible
+
+**Purpose**: Track construction advancement, work-in-progress activities, phased completion.
+
+**What AI Detects**:
+- Active worker activity, equipment operation, material placement
+- Exposed structural elements, framing, concrete, mechanical runs
+- Work progression compared to previous phases
+- Trade-specific activities (concrete crew, steel crew, HVAC installation)
+- Completed work relative to building area
+
+**Auto-Tags Applied**:
+- `phase_detected`: Foundation | Structural | MEP | Interiors | Finishes | Closeout
+- `trade_detected`: Concrete | Structural Steel | MEP | Drywall | Flooring | etc.
+- `grid_location_detected`: A-1, B-2, C-3-D-4 (inferred from visible grid marks or building features)
+- `percent_visual_complete`: 0-100% estimate of visible work in frame
+- `activity_description`: Auto-generated description of observed construction activity
+- `sub_contractor_inferred`: (If visible signage or equipment markings)
+
+**Confidence Indicators**:
+- High confidence: Clear work in progress, identifiable trades, visible phase markers
+- Medium confidence: Obscured work, incomplete view, weather/lighting challenges
+- Low confidence: Empty site, ambiguous structures, unclear progress state
+
+**Example AI Output**:
+```json
+{
+  &quot;primary_category&quot;: &quot;PROGRESS&quot;,
+  &quot;trade_detected&quot;: &quot;Concrete&quot;,
+  &quot;phase_detected&quot;: &quot;Foundation&quot;,
+  &quot;grid_location_detected&quot;: [&quot;A-1&quot;, &quot;A-2&quot;, &quot;B-1&quot;],
+  &quot;percent_visu</pre></details></div>
+    </section>
+
+    <section class="panel">
+      <div class="panel-head">
+        <span class="panel-icon">⚠️</span>
+        <h2 class="panel-title">风险评估<span class="en">RISK ASSESSMENT</span></h2>
+      </div>
+      <p class="empty-note">没有检出任何风险。</p>
+    </section>
+
+  </main>
+</body>
+</html>

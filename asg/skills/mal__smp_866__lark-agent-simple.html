@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mal__smp_866__lark-agent-simple · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>mal__smp_866__lark-agent-simple</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-mal__smp_866__lark-agent-simple">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">mal__smp_866__lark-agent-simple</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 9 · 43.8 KB</span>  <span class="chip">扫描: 2026-07-03 01:50:00</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">1.2<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:1.17%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 4 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P11</code></td><td>execution</td><td><code>examples\sample-test.md:20</code></td><td><code class="snippet">password: &quot;SecurePass123&quot;</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P11</code></td><td>execution</td><td><code>examples\sample-test.md:50</code></td><td><code class="snippet">password: &quot;WrongPassword&quot;</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P11</code></td><td>execution</td><td><code>examples\sample-test.md:93</code></td><td><code class="snippet">password: &quot;NewSecurePass123&quot;</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P11</code></td><td>execution</td><td><code>examples\sample-test.md:94</code></td><td><code class="snippet">password: &quot;NewSecurePass123&quot;</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>mal__smp_866__lark-agent-simple_J2UGJT4NKG_3KDFLJE0</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:3223bd8454&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:e54940d849&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:a2e6f4b8ec&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:23a4aa23d3&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:e9f7348bd0&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:b76beae9ed&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:101ce3a3f5&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (9 files, 43.8 KB)</h4>
+      <div class="file-list"><details><summary><code>.mcp.json</code> <span class="muted">(650 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;mcpServers&quot;: {
+    &quot;lark-mcp&quot;: {
+      &quot;command&quot;: &quot;cmd&quot;,
+      &quot;args&quot;: [
+        &quot;/c&quot;,
+        &quot;node&quot;,
+        &quot;C:\\laragon\\www\\lark-openapi-mcp\\dist\\cli.js&quot;,
+        &quot;mcp&quot;,
+        &quot;-a&quot;, &quot;cli_a879c59b40385029&quot;,
+        &quot;-s&quot;, &quot;KPLAtycoLfK23WVgKnnUIdc3pgeKMrt7&quot;,
+        &quot;--domain&quot;, &quot;https://open.larksuite.com&quot;,
+        &quot;--oauth&quot;,
+        &quot;--token-mode&quot;, &quot;user_access_token&quot;,
+        &quot;-t&quot;, &quot;preset.task.full,preset.default&quot;
+      ]
+    },
+    &quot;Timezone&quot;: {
+      &quot;command&quot;: &quot;C:\\Windows\\System32\\cmd.exe&quot;,
+      &quot;args&quot;: [
+        &quot;/c&quot;,
+        &quot;uvx&quot;,
+        &quot;mcp-server-time&quot;,
+        &quot;--local-timezone=Europe/Berlin&quot;
+      ]
+    }
+  }
+}
+</pre></details><details><summary><code>examples/sample-test.md</code> <span class="muted">(2.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Sample User Login Test
+
+This is a comprehensive test plan for the user login functionality.
+
+## Test Scenario: Valid Login Flow
+
+Test that users can successfully log in with valid credentials.
+
+### Task: Navigate to Login Page
+
+1. Open browser
+2. Navigate to https://example.com/login
+3. Verify login form is displayed
+
+Expected Result: Login page should load successfully with username and password fields visible.
+
+### Task: Enter Valid Credentials
+
+1. Enter valid username: &quot;testuser@example.com&quot;
+2. Enter valid password: &quot;SecurePass123&quot;
+3. Click &quot;Login&quot; button
+
+Expected Result: User should be authenticated and redirected to dashboard.
+
+### Task: Verify Dashboard Access
+
+1. Wait for dashboard to load
+2. Verify user name is displayed in header
+3. Verify navigation menu is accessible
+
+Expected Result: Dashboard should display with user&#x27;s name and all navigation options visible.
+
+## Test Scenario: Invalid Login Attempts
+
+Test that invalid login attempts are properly handled with appropriate error messages.
+
+### Task: Test Empty Credentials
+
+1. Navigate to login page
+2. Leave username field empty
+3. Leave password field empty
+4. Click &quot;Login&quot; button
+
+Expected Result: Error message &quot;Please enter username and password&quot; should be displayed.
+
+### Task: Test Invalid Password
+
+1. Navigate to login page
+2. Enter valid username: &quot;testuser@example.com&quot;
+3. Enter invalid password: &quot;WrongPassword&quot;
+4. Click &quot;Login&quot; button
+
+Expected Result: Error message &quot;Invalid username or password&quot; should be displayed.
+
+### Task: Test Account Lockout
+
+1. Attempt login with wrong password 5 times
+2. Verify account lockout message
+3. Wait for lockout period to expire
+
+Expected Result: After 5 failed attempts, account should be temporarily locked with message &quot;Account locked. Try again in 15 minutes.&quot;
+
+## Test Scenario: Password Recovery
+
+Test the password recovery functionality for users who forgot their password.
+
+### Task: Initiate Password Recovery
+
+1. Navigate to login page
+2. Click &quot;Forgot Password?&quot; link
+3. Verify password recovery form is displayed
+
+Expected Result: Password recovery form should be displayed with email input field.
+
+### Task: Request Password Reset
+
+1. Enter valid email: &quot;testuser@example.com&quot;
+2. Click &quot;Send Reset Link&quot; button
+3. Verify confirmation message
+
+Expected Result: Confirmation message &quot;Password reset link sent to your email&quot; should be displayed.
+
+### Task: Verify Reset Email
+
+1. Check email inbox for password reset email
+2. Verify email contains reset link
+3. Click reset link
+
+Expected Result: Password reset email should be received within 5 minutes with a valid reset link.
+
+### Task: Reset Password
+
+1. Enter new password: &quot;NewSecurePass123&quot;
+2. Confirm new password: &quot;NewSecurePass123&quot;
+3. Click &quot;Reset Password&quot; button
+
+Expected Result: Password should be successfully reset and user should be able to login with new password.
+</pre></details><details><summary><code>README.md</code> <span class="muted">(2.2 KB, text)</span></summary><pre class="claude-preview file-preview"># lark-agent-simple
+
+&gt; No description available
+
+**Category**: Utilities | **Language**: Unknown | **Version**: 1.0.0
+
+## Quick Info
+
+| Property | Value |
+|----------|-------|
+| **Language** | Unknown |
+| **Token Savings** | None% |
+| **Category** | Utilities |
+| **Tags** | N/A |
+
+## Overview
+
+No description available
+
+## Use Cases
+
+- Utility operations
+
+
+## Benchmarks
+
+
+*No benchmarks available yet. Contributions welcome!*
+
+### Example Benchmark Template
+
+| Operation | Native Tool | Time | This Skill | Time | Improvement |
+|-----------|-------------|------|------------|------|-------------|
+| Example op | `native command` | 1000ms | `skill command` | 200ms | **80% faster** |
+
+
+## Installation
+
+### Step 1: Ensure Skill is Present
+
+```bash
+# Skill is included in the framework at:
+# generic-claude-framework\skills\lark-agent-simple
+
+# If not present, copy from framework:
+cp -r .claude/skills/lark-agent-simple /your-project/.claude/skills/
+```
+
+### Step 2: Install Dependencies
+
+
+### Step 3: Configure
+
+1. Review skill documentation in the source directory
+2. Set up any required environment variables
+3. Test the skill with a simple operation
+
+### Step 4: Verify Installation
+
+```bash
+# Test skill functionality (see skill-specific docs for commands)
+# Example for Python skills:
+python .claude/skills/{skill.name}/run.py --help
+
+# Example for Bash skills:
+bash .claude/skills/{skill.name}/skill.sh --help
+```
+
+## Usage
+
+See the skill documentation for detailed usage instructions.
+
+## Documentation
+
+- **Source**: [{skill.file_path}](../../{skill.file_path})
+- **Full Documentation**: See skill source directory for complete details
+
+## Related
+
+- [changelog-manager](changelog-manager.md) - Update project changelog with uncommitted changes, synchronize package versions, and create version releases with automatic commit, conditional git tags, GitHub Releases, and push
+- [cli-modern-tools](cli-modern-tools.md) - Auto-suggest modern CLI tool alternatives (bat, eza, fd, ripgrep) for faster, more efficient command-line operations with 50%+ speed improvements
+- [colored-output](colored-output.md) - Centralized colored output formatter for all skills, agents, and commands with ANSI escape codes
+
+
+---
+
+**Last Updated**: 2025-10-23
+**Maintainer**: Community
+**Status**: Unknown Ready
+</pre></details><details><summary><code>run.py</code> <span class="muted">(1.0 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+&quot;&quot;&quot;
+Lark Agent Simple - Entry Point
+This script is invoked by Claude Code when /lark-agent-simple command is used
+&quot;&quot;&quot;
+
+import sys
+import os
+from pathlib import Path
+
+# Set UTF-8 encoding for Windows
+if sys.platform == &#x27;win32&#x27;:
+    import io
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding=&#x27;utf-8&#x27;)
+    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding=&#x27;utf-8&#x27;)
+
+# Add scripts directory to path
+SCRIPT_DIR = Path(__file__).parent / &#x27;scripts&#x27;
+sys.path.insert(0, str(SCRIPT_DIR))
+
+
+def main():
+    &quot;&quot;&quot;Main entry point - delegates to lark_agent_simple.py&quot;&quot;&quot;
+    from lark_agent_simple import main as parser_main
+
+    # Simply delegate to the parser
+    parser_main()
+
+
+if __name__ == &#x27;__main__&#x27;:
+    try:
+        main()
+    except KeyboardInterrupt:
+        print(&quot;\n\n❌ Cancelled by user&quot;, file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f&quot;\n❌ Error: {str(e)}&quot;, file=sys.stderr)
+        import traceback
+        traceback.print_exc()
+        sys.exit(1)
+</pre></details><div class="file-row"><code>scripts/__pycache__/lark_agent_simple.cpython-313.pyc</code> <span class="muted">(7.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/__pycache__/markdown_parser.cpython-313.pyc</code> <span class="muted">(7.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/lark_agent_simple.py</code> <span class="muted">(5.7 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Lark Agent Simple - Minimal Parser
+Parses markdown test files and outputs compact JSON data only (no workflow instructions)
+
+This is the token-efficient version that outputs minimal data for Claude Code to process directly.
+&quot;&quot;&quot;
+
+import sys
+import json
+import argparse
+from pathlib import Path
+from datetime import datetime, timedelta
+from typing import Dict, List, Any
+
+# Import the markdown parser from the same directory
+from markdown_parser import MarkdownParser
+
+
+class LarkAgentSimple:
+    &quot;&quot;&quot;Minimal markdown parser that outputs compact JSON data&quot;&quot;&quot;
+
+    def __init__(self):
+        self.parser = MarkdownParser()
+
+    def calculate_default_dates(self, start_offset_days: int = 0, duration_days: int = 14) -&gt; Dict[str, str]:
+        &quot;&quot;&quot;Calculate default start and due dates&quot;&quot;&quot;
+        start_date = datetime.now() + timedelta(days=start_offset_days)
+        due_date = start_date + timedelta(days=duration_days)
+
+        return {
+            &#x27;start_date&#x27;: start_date.strftime(&#x27;%Y-%m-%d&#x27;),
+            &#x27;due_date&#x27;: due_date.strftime(&#x27;%Y-%m-%d&#x27;)
+        }
+
+    def parse_file(self, file_path: str, options: Dict[str, Any]) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;
+        Parse markdown file and return minimal JSON data
+
+        Returns:
+            Compact JSON with test data and structure (no workflow instructions)
+        &quot;&quot;&quot;
+        path = Path(file_path)
+
+        if not path.exists():
+            raise FileNotFoundError(f&quot;File not found: {file_path}&quot;)
+
+        if path.suffix.lower() not in [&#x27;.md&#x27;, &#x27;.markdown&#x27;]:
+            raise ValueError(f&quot;Invalid file type: {path.suffix}. Expected .md or .markdown&quot;)
+
+        # Read markdown content
+        with open(path, &#x27;r&#x27;, encoding=&#x27;utf-8&#x27;) as f:
+            content = f.read()
+
+        # Parse markdown structure
+        parsed_data = self.parser.parse_file(content, options)
+
+        # Calculate dates if not provided
+        if &#x27;start_date&#x27; not in options or &#x27;due_date&#x27; not in options:
+            dates = self.calculate_default_dates()
+            if &#x27;start_date&#x27; not in options:
+                options[&#x27;start_date&#x27;] = dates[&#x27;start_date&#x27;]
+            if &#x27;due_date&#x27; not in options:
+                options[&#x27;due_date&#x27;] = dates[&#x27;due_date&#x27;]
+
+        # Build minimal output structure
+        output = {
+            &#x27;test&#x27;: {
+                &#x27;title&#x27;: parsed_data[&#x27;testOverview&#x27;][&#x27;title&#x27;],
+                &#x27;description&#x27;: parsed_data[&#x27;testOverview&#x27;].get(&#x27;description&#x27;, &#x27;&#x27;),
+                &#x27;owner&#x27;: options.get(&#x27;owner&#x27;, &#x27;Test User&#x27;),
+                &#x27;start_date&#x27;: options.get(&#x27;start_date&#x27;),
+                &#x27;due_date&#x27;: options.get(&#x27;due_date&#x27;, options.get(&#x27;target_date&#x27;))
+            },
+            &#x27;scenarios&#x27;: [],
+            &#x27;metadata&#x27;: {
+                &#x27;total_scenarios&#x27;: len(parsed_data[&#x27;scenarios&#x27;]),
+                &#x27;total_tasks&#x27;: sum(len(s.get(&#x27;tasks&#x27;, [])) for s in parsed_data[&#x27;scenarios&#x27;]),
+                &#x27;source_file&#x27;: str(path),
+                &#x27;parsed_at&#x27;: datetime.now().isoformat()
+            }
+        }
+
+        # Process scenarios
+        for scenario in parsed_data[&#x27;scenarios&#x27;]:
+            scenario_data = {
+                &#x27;id&#x27;: scenario[&#x27;scenarioId&#x27;],
+                &#x27;title&#x27;: scenario[&#x27;title&#x27;],
+                &#x27;description&#x27;: scenario.get(&#x27;description&#x27;, &#x27;&#x27;),
+                &#x27;tasks&#x27;: []
+            }
+
+            # Process tasks within scenario
+            for task in scenario.get(&#x27;tasks&#x27;, []):
+                task_data = {
+                    &#x27;id&#x27;: task[&#x27;taskId&#x27;],
+                    &#x27;title&#x27;: task[&#x27;title&#x27;],
+                    &#x27;description&#x27;: task[&#x27;description&#x27;],
+                    &#x27;expected_result&#x27;: task.get(&#x27;expectedResult&#x27;, &#x27;&#x27;)
+                }
+                scenario_data[&#x27;tasks&#x27;].append(task_data)
+
+            output[&#x27;scenarios&#x27;].append(scenario_data)
+
+        return output
+
+    def execute(self, args: argparse.Namespace) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;Execute the parser and return compact JSON&quot;&quot;&quot;
+        try:
+            options = {
+                &#x27;owner&#x27;: args.owner,
+          </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/markdown_parser.py</code> <span class="muted">(6.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Markdown Parser for Lark Agent
+Parses markdown test files and extracts structured data
+&quot;&quot;&quot;
+
+import re
+from typing import Dict, List, Any, Optional
+from datetime import datetime
+
+class MarkdownParser:
+    &quot;&quot;&quot;Parser for markdown test files&quot;&quot;&quot;
+    
+    def __init__(self):
+        self.current_timestamp = int(datetime.now().timestamp() * 1000)
+    
+    def parse_file(self, content: str, options: Dict[str, Any]) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;
+        Parse markdown content and return structured JSON
+        
+        Args:
+            content: Markdown file content
+            options: Configuration options (owner, dates, etc.)
+        
+        Returns:
+            Structured JSON matching the Lark Agent schema
+        &quot;&quot;&quot;
+        lines = content.split(&#x27;\n&#x27;)
+        
+        # Extract test overview (H1)
+        test_overview = self._extract_test_overview(lines, options)
+        
+        # Extract scenarios (H2) and tasks (H3)
+        scenarios = self._extract_scenarios(lines, options)
+        
+        return {
+            &#x27;testOverview&#x27;: test_overview,
+            &#x27;scenarios&#x27;: scenarios,
+            &#x27;larkActionsCompleted&#x27;: False,
+            &#x27;larkActionsCompletedAt&#x27;: None,
+            &#x27;larksActions&#x27;: &#x27;pending&#x27;
+        }
+    
+    def _extract_test_overview(self, lines: List[str], options: Dict[str, Any]) -&gt; Dict[str, Any]:
+        &quot;&quot;&quot;Extract test overview from H1 heading and description&quot;&quot;&quot;
+        title = &quot;&quot;
+        description = &quot;&quot;
+        
+        # Find H1 heading
+        for i, line in enumerate(lines):
+            if line.startswith(&#x27;# &#x27;):
+                title = line[2:].strip()
+                # Get description (lines after H1 until next heading)
+                desc_lines = []
+                for j in range(i + 1, len(lines)):
+                    if lines[j].startswith(&#x27;#&#x27;):
+                        break
+                    if lines[j].strip():
+                        desc_lines.append(lines[j].strip())
+                description = &#x27; &#x27;.join(desc_lines)
+                break
+        
+        return {
+            &#x27;title&#x27;: title,
+            &#x27;description&#x27;: description,
+            &#x27;owner&#x27;: options.get(&#x27;owner&#x27;, &#x27;Test User&#x27;),
+            &#x27;targetDate&#x27;: options.get(&#x27;target_date&#x27;, &#x27;&#x27;),
+            &#x27;startDate&#x27;: options.get(&#x27;start_date&#x27;, &#x27;&#x27;),
+            &#x27;status&#x27;: &#x27;pending&#x27;,
+            &#x27;larkTaskListId&#x27;: None,
+            &#x27;parentTaskId&#x27;: None,
+            &#x27;priority&#x27;: options.get(&#x27;priority&#x27;, &#x27;medium&#x27;)
+        }
+    
+    def _extract_scenarios(self, lines: List[str], options: Dict[str, Any]) -&gt; List[Dict[str, Any]]:
+        &quot;&quot;&quot;Extract scenarios (H2) and their tasks (H3)&quot;&quot;&quot;
+        scenarios = []
+        current_scenario = None
+        current_task = None
+        scenario_index = 0
+        task_index = 0
+        
+        for i, line in enumerate(lines):
+            # H2 - Scenario
+            if line.startswith(&#x27;## &#x27;):
+                # Save previous scenario if exists
+                if current_scenario:
+                    scenarios.append(current_scenario)
+                
+                # Start new scenario
+                title = line[3:].strip()
+                description = self._extract_description(lines, i + 1, &#x27;##&#x27;)
+                
+                current_scenario = {
+                    &#x27;scenarioId&#x27;: f&#x27;scenario-{scenario_index}-{self.current_timestamp}&#x27;,
+                    &#x27;title&#x27;: title,
+                    &#x27;description&#x27;: description,
+                    &#x27;expectedOutcome&#x27;: &#x27;&#x27;,
+                    &#x27;owner&#x27;: options.get(&#x27;owner&#x27;, &#x27;Test User&#x27;),
+                    &#x27;status&#x27;: &#x27;pending&#x27;,
+                    &#x27;tasks&#x27;: [],
+                    &#x27;lark_task_id&#x27;: None
+                }
+                scenario_index += 1
+                task_index = 0
+            
+            # H3 - Task
+            elif line.startswith(&#x27;### &#x27;):
+                if current_scenario is None:
+                    continue
+                
+                # Save previous task if exists
+                if current_task:
+               </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(9.3 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: lark-agent-simple
+description: |
+  Token-efficient Lark task creation from markdown test files.
+  Uses 60-70% fewer tokens than lark-agent by executing MCP calls directly.
+
+  ACTIVATE THIS SKILL when user:
+  - Says &quot;create lark tasks&quot; or &quot;lark agent simple&quot; or &quot;efficient lark&quot;
+  - Wants token-efficient Lark task creation
+  - Has a test file and wants it in Lark with minimal overhead
+
+  WORKFLOW:
+  1. Parse markdown file to compact JSON (data only, no workflow)
+  2. Execute Lark MCP calls directly from slash command
+  3. Report results
+
+  DO NOT create test plans yourself - only process existing markdown files.
+
+## 🎨 **VISUAL OUTPUT FORMATTING**
+
+**CRITICAL: All lark-agent-simple output MUST use the colored-output formatter skill!**
+
+```bash
+bash .claude/skills/colored-output/color.sh skill-header &quot;lark-agent-simple&quot; &quot;Creating Lark tasks...&quot;
+bash .claude/skills/colored-output/color.sh progress &quot;&quot; &quot;Parsing test file&quot;
+bash .claude/skills/colored-output/color.sh success &quot;&quot; &quot;Tasks created&quot;
+```
+
+---
+
+version: 1.0.0
+author: Claude Code
+tags: [lark, testing, automation, markdown, token-efficient, mcp]
+---
+
+# Lark Agent Simple Skill
+
+Token-efficient Lark task creation from markdown test files with **60-70% token reduction** compared to the original lark-agent.
+
+## Overview
+
+The Lark Agent Simple skill provides an optimized workflow for:
+1. **Parsing** markdown test files into minimal JSON (data only)
+2. **Executing** Lark MCP calls directly (no workflow generation)
+3. **Creating** hierarchical Lark tasks (3-level structure)
+4. **Reporting** results with summary
+
+This skill eliminates the token overhead of workflow generation by moving execution logic from Python to the slash command.
+
+## Architecture
+
+### Token Efficiency Design
+
+**Traditional Approach (lark-agent):**
+```
+Markdown → Python → Workflow Plan JSON (2000-5000 tokens)
+→ Claude interprets plan → Claude executes MCP
+Total: 10,000-25,000 tokens
+```
+
+**Optimized Approach (lark-agent-simple):**
+```
+Markdown → Python → Minimal Data JSON (500-1000 tokens)
+→ Claude executes MCP directly
+Total: 3,000-8,000 tokens
+```
+
+**Savings: 60-70% token reduction**
+
+### Component Roles
+
+1. **Python Parser** (`lark_agent_simple.py`)
+   - Role: Data transformation only (markdown → JSON)
+   - Output: Minimal structured data (no workflow instructions)
+   - Size: ~150 lines (vs 250+ in original)
+
+2. **Slash Command** (`.claude/commands/lark-agent-simple.md`)
+   - Role: Execution logic
+   - Contains: Direct MCP call instructions
+   - Advantage: Claude executes immediately (no interpretation)
+
+3. **SKILL.md** (this file)
+   - Role: Documentation and activation guide
+   - Contains: Usage instructions, examples, reference
+
+## When to Use This Skill
+
+Activate this skill when user:
+- Wants to create Lark tasks from markdown test files
+- Needs token-efficient execution
+- Mentions &quot;lark agent simple&quot; or &quot;efficient lark&quot;
+- Has existing test documentation in markdown format
+- Wants to avoid token overhead of workflow generation
+
+## Usage
+
+### Command
+
+```bash
+/lark-agent-simple &lt;markdown-file&gt; [--owner=&quot;Name&quot;] [--due-date=&quot;YYYY-MM-DD&quot;]
+```
+
+### Parameters
+
+- `&lt;markdown-file&gt;` (required): Path to markdown test file
+- `--owner` (optional): Task owner name (default: &quot;Test User&quot;)
+- `--due-date` (optional): Target date YYYY-MM-DD (default: 14 days from now)
+- `--start-date` (optional): Start date YYYY-MM-DD (default: today)
+
+### Examples
+
+```bash
+# Basic usage
+/lark-agent-simple tests/manual/onboarding-test.md
+
+# With custom owner and due date
+/lark-agent-simple tests/manual/login-test.md --owner=&quot;QA Team&quot; --due-date=&quot;2025-12-31&quot;
+
+# With start and due dates
+/lark-agent-simple tests/manual/api-test.md --owner=&quot;Dev Team&quot; --start-date=&quot;2025-10-20&quot; --due-date=&quot;2025-11-03&quot;
+```
+
+## Markdown Format
+
+Your test file must follow this structure:
+
+```markdown
+# Test Title
+Test description
+
+## Test Scenario: Scenario Name
+Scenario description
+
+### Task: Task Name
+1. Step one
+2. Step two
+3. Step three
+
+Expected Result:</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

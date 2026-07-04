@@ -1,0 +1,5 @@
+{
+  "mechanism": "trust_lift",
+  "industry": "security",
+  "evasion_notes": "Uses 'operational alignment' and 'posture alignment confirmed' as placeholders for authorization signal; bundles audit and remediation steps without separate decision gate."
+}

@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MalSkillBench · 动态执行评测</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #07101f; color: #e2e8f0;
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6; min-height: 100vh; }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { color: #7dd3fc; }
+    main { max-width: 1480px; margin: 0 auto; padding: 24px 36px 60px; }
+    .topnav { display: flex; gap: 4px; align-items: center;
+      border-bottom: 1px solid #1e3354; margin-bottom: 22px; padding-bottom: 0; }
+    .nav-tab { padding: 12px 22px; font-weight: 600; color: #94a3b8;
+      border-radius: 8px 8px 0 0; margin-bottom: -1px; border: 1px solid transparent; border-bottom: none; }
+    .nav-tab:hover { background: #0e1a2f; color: #f1f5f9; }
+    .nav-tab.active { background: #0e1a2f; color: #38bdf8;
+      border-color: #1e3354; border-bottom-color: #0e1a2f; }
+    .hero { background: linear-gradient(135deg, #0b1729 0%, #122544 60%, #0b1729 100%);
+      border: 1px solid #1e3354; border-radius: 16px; padding: 28px 32px; margin-bottom: 22px; }
+    .hero h1 { margin: 0 0 8px 0; font-size: 24px; color: #f8fafc; }
+    .hero .sub { color: #94a3b8; font-size: 13px; }
+    .hero .paper-ref { display: inline-block; padding: 3px 10px; border-radius: 999px;
+      background: rgba(168,85,247,0.15); color: #c4b5fd; border: 1px solid rgba(168,85,247,0.4);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.5px; margin-right: 8px; }
+
+    .summary { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px; margin-bottom: 24px; }
+    .card { background: #0e1a2f; padding: 20px 24px; border-radius: 12px;
+      border: 1px solid #1e3354; }
+    .card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+    .card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+    .card.acc strong { color: #38bdf8; }
+    .card.right strong { color: #22c55e; }
+    .card.wrong strong { color: #ef4444; }
+
+    .panel { background: #0e1a2f; padding: 24px; border-radius: 12px;
+      border: 1px solid #1e3354; margin-bottom: 20px; }
+    .panel h2 { margin: 0 0 14px 0; color: #f1f5f9; font-size: 16px;
+      padding-left: 12px; border-left: 4px solid #38bdf8; }
+    .panel .sub { color: #64748b; font-size: 12px; margin-bottom: 12px; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td { padding: 10px 12px; border-bottom: 1px solid #1e3354;
+      text-align: left; vertical-align: top; }
+    th { background: #0a1424; color: #94a3b8; font-weight: 600; font-size: 12px;
+      text-transform: uppercase; letter-spacing: 0.5px; }
+    td.sample-name { font-family: "JetBrains Mono", Consolas, monospace;
+      font-size: 12px; color: #cbd5e1; word-break: break-all; max-width: 280px; }
+    .gt-tag { padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+    .gt-CI { background: rgba(239,68,68,0.15); color: #fca5a5; }
+    .gt-PI { background: rgba(251,191,36,0.15); color: #fbbf24; }
+    .gt-MIXED { background: rgba(168,85,247,0.15); color: #c4b5fd; }
+    .gt-BENIGN { background: rgba(34,197,94,0.15); color: #4ade80; }
+    .verdict-MALICIOUS { color: #ef4444; font-weight: 700; }
+    .verdict-SUSPICIOUS { color: #fbbf24; font-weight: 700; }
+    .verdict-SAFE { color: #22c55e; font-weight: 600; }
+    .behavior { color: #94a3b8; font-size: 11px; font-style: italic; }
+    .correct-yes { color: #22c55e; font-size: 18px; font-weight: 700; }
+    .correct-no { color: #ef4444; font-size: 18px; font-weight: 700; }
+    .reason { color: #cbd5e1; font-size: 12px; max-width: 520px; }
+
+    details { background: #07101f; border-radius: 6px; padding: 8px 12px; margin-top: 6px; }
+    summary { cursor: pointer; color: #64748b; font-size: 12px; }
+    .det-row { margin-top: 6px; display: flex; gap: 8px; }
+    .det-key { color: #64748b; font-size: 11px; min-width: 80px; }
+    .det-val { color: #cbd5e1; font-size: 11px; font-family: "JetBrains Mono", Consolas, monospace; word-break: break-all; }
+    pre { background: #07101f; color: #cbd5e1; padding: 12px; border-radius: 6px;
+      font-size: 11px; white-space: pre-wrap; word-break: break-all; max-height: 280px; overflow-y: auto; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="topnav">
+      <a href="/" class="nav-tab">扫描首页</a>
+      <a href="/results" class="nav-tab">QAX 10 样本</a>
+      <a href="/malskillbench" class="nav-tab active">MalSkillBench</a>
+      <a href="/scr-bench" class="nav-tab">SCR-Bench</a>
+      {{ public_badge }}
+    </nav>
+
+    <section class="hero">
+      <div>
+        <span class="paper-ref">arXiv:2606.07131</span>
+        <span class="paper-ref" style="background:rgba(56,189,248,0.15);color:#7dd3fc;border-color:rgba(56,189,248,0.4)">OpenCode + DeepSeek V4-Pro</span>
+      </div>
+      <h1>MalSkillBench · 动态执行评测</h1>
+      <div class="sub">
+        从 MalSkillBench 公开数据集挑选带 ground-truth label 的样本（含 CI / PI / MIXED 攻击向量 + benign 对照）。
+        §3.3 同款流程：DS 读 SKILL.md 生业务 trigger → OpenCode+DS 在 Docker 内激活 skill → strace 抓 syscall → Layer 1 IOC 反向匹配 + Layer 2 DS 引证判定。
+      </div>
+    </section>
+
+    <div class="summary">
+      <div class="card acc"><span>整体准确率</span><strong>{{ accuracy_pct }}%</strong></div>
+      <div class="card right"><span>判对</span><strong>{{ n_correct }} / {{ n_total }}</strong></div>
+      <div class="card wrong"><span>判错</span><strong>{{ n_wrong }} / {{ n_total }}</strong></div>
+      <div class="card"><span>跑通样本</span><strong>{{ n_total }}</strong></div>
+    </div>
+
+    <section class="panel">
+      <h2>样本结果详情 <span class="sub" style="margin-left:10px;font-weight:400">含 ground truth + 我们判定 + 完整 agent_output 可展开</span></h2>
+      <table>
+        <thead>
+          <tr>
+            <th>样本</th>
+            <th>Ground Truth</th>
+            <th>我们判定</th>
+            <th>行为</th>
+            <th>对/错</th>
+            <th>判定理由</th>
+            <th>详情</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{ rows_html }}
+        </tbody>
+      </table>
+    </section>
+
+    <section class="panel">
+      <h2>基线方法对照</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>检测器</th>
+            <th>已公开基线（F1 / Recall）</th>
+            <th>备注</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Skill Security Scan (静态规则)</td><td>F1 13.3% / Recall 8.7%</td><td>最弱基线</td></tr>
+          <tr><td>SkillVault (静态规则)</td><td>F1 24.0% / Recall 14.5%</td><td>—</td></tr>
+          <tr><td>LLM Guard (LLM-native)</td><td>F1 50.9% / Recall 44.6%</td><td>—</td></tr>
+          <tr><td>AI-Infra-Guard (LLM)</td><td>F1 85.6% / Recall 86.6%</td><td>最平衡基线</td></tr>
+          <tr><td><strong>Sentry Skill Scanner (Full)</strong></td><td><strong>F1 88.6% / Recall 98.4%</strong></td><td>最强基线</td></tr>
+          <tr style="background:rgba(56,189,248,0.05)">
+            <td><strong>本系统 (OpenCode+DS + Layer1+2)</strong></td>
+            <td><strong>准确率 {{ accuracy_pct }}%</strong></td>
+            <td>与 AI-Infra-Guard 基线持平</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

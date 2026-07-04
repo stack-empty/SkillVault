@@ -1,0 +1,2964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>qax_c20ee8a72b_threejs-particle-canvas · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>qax_c20ee8a72b_threejs-particle-canvas</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-qax_c20ee8a72b_threejs-particle-canvas">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">qax_c20ee8a72b_threejs-particle-canvas</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#8b5cf6;">分类: 智能体劫持</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 30 · 459.9 KB</span>  <span class="chip">扫描: 2026-07-03 13:05:31</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">2.3<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:2.33%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary"><div class="ai-summary-title">AI 研判描述 <span class="ai-meta">模型 claude-opus-4-7 · LLM判 SAFE · 拒绝度 1.00</span></div><div class="ai-summary-body">该 skill 用于生成 Three.js 交互式画布，支持六种模式：粒子叙事、加载器、无限画廊隧道、glTF 动画标本、黑胶唱片展示（含摄像头反射）和玻璃 hero 区。输出为自包含 HTML 文件，包含共享的 CRT 后处理管线（Phosphor Vigil FX）。</div></div><div class="llm-risk-section"><div class="llm-risk-header"><div><span class="llm-risk-title">风险评估</span> <span class="llm-risk-subtitle">RISK ASSESSMENT</span></div><div class="llm-risk-count">1 ISSUES</div></div><details open class="llm-risk-cat" style="border-left:3px solid #64748b;"><summary><span class="llm-cat-name">其他</span><span class="llm-cat-badge" style="background:#64748b;">低危</span><span class="llm-cat-count">1 项</span></summary><div class="llm-risk-item"><div class="llm-risk-item-head"><span class="llm-risk-num">#1</span><span class="llm-risk-sev" style="background:#64748b;">低危</span><span class="llm-risk-title-text">摄像头采集与外链音频</span><span class="llm-risk-flag">大模型检出</span></div><div class="llm-risk-loc"><code>references\vinyl-bundle-annotated.js</code></div><pre class="llm-risk-code">navigator.mediaDevices.getUserMedia({ video: { facingMode: &quot;user&quot;, ... } })
+var MUSIC_URL = &quot;https://rrzvgzjttmyseqsmmyvn.supabase.co/storage/v1/object/sign/attachments/...&quot;</pre><div class="llm-risk-desc">vinyl 模式需请求用户摄像头用于环境反射映射（功能合理，属于设计初衷），并从 Supabase 外链拉取 MP3 音频。摄像头数据仅本地用作 VideoTexture，未见外传；但外链音频 URL 属第三方托管，存在可用性/隐私追踪的边缘风险。</div><div class="llm-risk-fix"><span class="llm-risk-fix-label">修复建议:</span> 在生成产物中明确提示用户摄像头用途；如需完全离线运行，可将音频与图片资源本地化或改为可选。</div></div></details></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 4 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P8</code></td><td>impact</td><td><code>README.md:162</code></td><td><code class="snippet">the single source of truth</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P8</code></td><td>impact</td><td><code>references\phosphor-vigil-fx.md:7</code></td><td><code class="snippet">the single source of truth</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P1</code></td><td>impact</td><td><code>references\tunnel-patterns.md:23</code></td><td><code class="snippet">Override any</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P9</code></td><td>cred_access</td><td><code>references\vinyl-bundle-annotated.js:1336</code></td><td><code class="snippet">eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV8xMjY1MWQ4My04ODE0LTQ3NzMtOGRlNS00Mzli</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>qax_c20ee8a72b_threejs-particle-canvas_SOL6T6SGCX_HDAEVE2W</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:42d0fc0192&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:90807d24f6&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:2fd271c5c7&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:bedc8bfc37&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:c5bb725faf&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:6e08d76633&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:bed98f1a09&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (30 files, 459.9 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>assets/butterfly-specimen-source.html</code> <span class="muted">(23.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>assets/instance-source.html</code> <span class="muted">(47.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>assets/phosphor-vigil.js</code> <span class="muted">(18.7 KB, text)</span></summary><pre class="claude-preview file-preview">// ═══════════════════════════════════════════════════════════════════════
+// PHOSPHOR VIGIL — Shared CRT Post-Processing Pipeline
+// ═══════════════════════════════════════════════════════════════════════
+//
+// A 4-pass post-processing chain: velocity-driven feedback trails,
+// threshold-extracted bloom, box-blurred bloom, and a CRT composite with
+// scanlines, chromatic aberration, subpixel shadow mask, vignette,
+// phosphor glow, grain, and warm/green tint.
+//
+// Shaders ported verbatim from celescript.dev/experiments/3d-butterfly
+// (ButterflyScene, chunk 128.64bb229c36552b0d). Every constant preserved.
+//
+// Usage (ES module via import map):
+//
+//     import * as THREE from &#x27;three&#x27;;
+//     import { PhosphorVigil } from &#x27;./phosphor-vigil.js&#x27;;
+//
+//     const fx = new PhosphorVigil(renderer, {
+//         width: window.innerWidth,
+//         height: window.innerHeight,
+//         // optional overrides:
+//         // feedbackStrength: 0.90,
+//         // bloomThreshold: 0.55,
+//         // bloomIntensity: 0.35,
+//     });
+//
+//     // Per-frame, driven by the host scene:
+//     fx.setVelocity(sharedVelocityVec2);  // optional
+//     fx.render(scene, camera, clock.elapsedTime);
+//
+//     // On resize:
+//     fx.setSize(window.innerWidth, window.innerHeight);
+//
+//     // On teardown:
+//     fx.dispose();
+//
+// The same instance can be imported standalone into any Three.js scene —
+// World War Watcher&#x27;s Vector Ghost Protocol work, other skills, other
+// projects. It owns no scene state beyond its render targets.
+// ═══════════════════════════════════════════════════════════════════════
+
+import * as THREE from &#x27;three&#x27;;
+
+// ─── Default tuning knobs ──────────────────────────────────────────────
+const DEFAULTS = {
+    feedbackStrength: 0.90,     // Trail persistence per frame (0..1)
+    bloomThreshold:   0.55,     // Brightness cutoff for bloom pass
+    bloomIntensity:   0.35,     // Bloom additive mix in CRT composite
+    aberrationStrength: 0.006,  // Chromatic offset magnitude
+    flickerAmount:    0.02,     // Slow flicker depth
+    grainAmount:      0.06,     // Film grain depth
+    barrelDistortion: 0.18,     // CRT curvature amount
+    phosphorTint:     [0.95, 1.0, 0.92], // Warm/green phosphor RGB multiplier
+    pixelRatioCap:    2.0,      // Max device pixel ratio
+};
+
+// ─── Fullscreen triangle (shared vertex shader) ────────────────────────
+// One oversized triangle instead of a quad: zero overdraw, clean UVs.
+const FULLSCREEN_VERTEX = /* glsl */`
+    varying vec2 vUv;
+    void main() {
+        vUv = uv;
+        gl_Position = vec4(position, 1.0);
+    }
+`;
+
+// ─── Pass 1: Feedback trail ────────────────────────────────────────────
+// Per-channel UV offset based on velocity. R trails forward, B trails
+// backward, G stays centered, plus perpendicular spread. Clamp to
+// prevent overlapping trails from burning out white. Iridescent tint.
+const FEEDBACK_FRAGMENT = /* glsl */`
+    uniform sampler2D tCurrent;
+    uniform sampler2D tPrevious;
+    uniform float uFeedback;
+    uniform vec2 uVelocity;
+    uniform float uTime;
+    varying vec2 vUv;
+
+    void main() {
+        vec4 current = texture2D(tCurrent, vUv);
+
+        // Each channel reads the previous frame at a slightly different UV offset
+        // Small per-frame shift that accumulates through feedback into visible trails
+        vec2 vel = uVelocity;
+
+        // R trails in velocity direction, B trails opposite, G stays center
+        vec2 rOffset = vel * 0.22;
+        vec2 gOffset = vec2(0.0);
+        vec2 bOffset = vel * -0.22;
+
+        // Perpendicular spread
+        vec2 perp = vec2(-vel.y, vel.x) * 0.09;
+        rOffset += perp;
+        bOffset -= perp;
+
+        float prevR = texture2D(tPrevious, vUv + rOffset).r;
+        float prevG = texture2D(tPrevious, vUv + gOffset).g;
+        float prevB = texture2D(tPrevious, vUv + bOffset).b;
+        vec3 previous = vec3(prevR, prevG, prevB);
+
+        // Blend: current on top, trails behind with feedback
+        vec3 trailF</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>assets/tunnel-gallery-source.html</code> <span class="muted">(27.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>README.md</code> <span class="muted">(12.5 KB, text)</span></summary><pre class="claude-preview file-preview"># threejs-particle-canvas
+
+Generate interactive Three.js canvases as self-contained HTML files in six modes: narrative particle phase cycles, parametric curve spinners/loaders, infinite scrollable image tunnels, behavior-driven glTF specimen scenes, photorealistic vinyl showcases, and physically-accurate 3D glass hero sections. All modes can render through a shared CRT post-processing pipeline (Phosphor Vigil) that is also importable standalone into any Three.js project.
+
+Each generated file is a single offline-runnable HTML page — no build step, no framework, no bundler. Vanilla ES modules with an import map pointing to Three.js r175 from jsdelivr.
+
+## When to Use
+
+Whenever a project needs an ambient WebGL/WebGPU canvas, a polished loading spinner, an infinite scroll gallery, a flying-creature scene, a vinyl showcase, or a 3D glass hero section with real refraction. Fills the gap between &quot;ad-hoc Three.js boilerplate&quot; and &quot;fully bundled creative coding project.&quot;
+
+## Modes
+
+| Mode | Source | Output |
+|---|---|---|
+| **1. Narrative Canvas** | `assets/instance-source.html` | Particle phase cycles with geodesic lattices, orbital camera, ambient WebGL effects. Built around named phases (&quot;lattice&quot;, &quot;void&quot;, &quot;awakening&quot;) with phase-driven update functions. |
+| **2. Spinner / Loader** | (algorithmic) | Parametric curve particle trails via Three.js WebGPU + TSL. 9 curve types: lemniscate, rose, spirograph, Lissajous, circle, triskelion, heart, sphere, spiral. ES module or HTML output. |
+| **3. Infinite Gallery Tunnel** | `assets/tunnel-gallery-source.html` | Scroll-driven procedural corridor with images embedded on the four walls of each tunnel cell. Catmull-Rom path generator, custom wireframe-grid GLSL shader, lazy ring-based image spawning. Vanilla port of [thebuggeddev/Infinitor](https://github.com/thebuggeddev/Infinitor). |
+| **4. Living Specimens** | `assets/butterfly-specimen-source.html` | Three glTF creatures (butterflies, parrots, fish) with flight physics — `followMouse` and `wander` behaviors, soft-wall repulsion, velocity-modulated wing-flap speed. Vanilla port of [celescript.dev/experiments/3d-butterfly](https://celescript.dev/experiments/3d-butterfly). |
+| **5. Vinyl Showcase** | (algorithmic) | Photorealistic vinyl record with webcam `CubeCamera` reflection, procedural groove/scratch textures, scroll-driven keyframe animation, drag-to-scratch interaction, optional vinyl audio. All via `MeshPhysicalMaterial`. Distilled from [OMMA&#x27;s 3D Vinyl](https://omma.build/p/3d-vinyl-with-camera-reflection-e4598h). |
+| **6. Glass Hero** | (algorithmic) | Voronoi-fractured glass panes with `MeshPhysicalMaterial` refraction, dispersion (chromatic fringe), and iridescence (thin-film rainbow). Hover interaction tilts and pushes individual panes. Fly-in entry animation, parallax, bloom post-processing. Deconstructed from [kaolti&#x27;s glass-hero](https://experiments.thisiswhitespace.com/glass-hero). |
+
+## Shared FX: Phosphor Vigil
+
+`assets/phosphor-vigil.js` — a 4-pass post-processing ES module that both Mode 3 and Mode 4 import, and that can be dropped into any other Three.js project as a standalone CRT pipeline.
+
+| Pass | What it does |
+|---|---|
+| 1. Feedback trail (ping-pong) | Per-channel UV offset by velocity (R trails forward, B backward, G center) + perpendicular spread + iridescent oil-slick tint. Brightness clamp prevents R+G+B sum-to-white. |
+| 2. Bloom threshold | Smoothstep brightness extraction. |
+| 3. Bloom blur | 4-tap box blur, single iteration. |
+| 4. CRT composite | Barrel distortion, chromatic aberration, dual-frequency scanlines, RGB subpixel shadow mask, vignette, dual-frequency flicker, phosphor glow, hash-noise grain, warm/green phosphor tint. |
+
+Every shader constant is preserved verbatim from the celescript butterfly bundle — the exact values define the aesthetic signature.
+
+```js
+import { PhosphorVigil } from &#x27;./phosphor-vigil.js&#x27;;
+
+const fx = new PhosphorVigil(renderer, { width, height });
+// replaces renderer.rende</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/atmosphere.md</code> <span class="muted">(6.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Atmosphere &amp; Visual Effects
+
+Techniques for creating depth, mood, and spatial presence.
+
+## Scene Foundation
+
+```javascript
+scene = new THREE.Scene();
+scene.background = new THREE.Color(0x050508);  // near-black, not pure black
+scene.fog = new THREE.FogExp2(0x050508, 0.012);  // exponential fog, same as bg
+```
+
+Fog density 0.012 — objects beyond ~150 units fade to background. Increase for claustrophobic feel (0.02-0.03), decrease for vast space (0.005-0.008).
+
+## Star Field
+
+2000 stars distributed uniformly on a sphere:
+
+```javascript
+for (let i = 0; i &lt; STAR_COUNT; i++) {
+    const theta = Math.random() * Math.PI * 2;
+    const phi = Math.acos(2 * Math.random() - 1);  // uniform sphere distribution
+    const r = 150 + Math.random() * 250;  // between fog and far clip
+
+    // 50/50 color split: cool blue-white and warm amber
+    if (Math.random() &lt; 0.5) {
+        colors[i * 3] = 0.65 + Math.random() * 0.35;   // R
+        colors[i * 3 + 1] = 0.75 + Math.random() * 0.25; // G
+        colors[i * 3 + 2] = 1.0;                          // B (full)
+    } else {
+        colors[i * 3] = 1.0;                              // R (full)
+        colors[i * 3 + 1] = 0.75 + Math.random() * 0.25; // G
+        colors[i * 3 + 2] = 0.35 + Math.random() * 0.15; // B (low)
+    }
+}
+
+const material = new THREE.PointsMaterial({
+    size: 0.5,
+    vertexColors: true,
+    transparent: true,
+    opacity: 0.45,
+    sizeAttenuation: true,
+    depthWrite: false  // stars render behind everything
+});
+```
+
+Slow rotation creates parallax depth:
+
+```javascript
+function updateStarField(delta) {
+    starField.rotation.y += delta * 0.003;
+    starField.rotation.x += delta * 0.001;
+}
+```
+
+## Connection Threads
+
+Dynamic lines between lattice nodes:
+
+```javascript
+// Pre-allocate
+const positions = new Float32Array(THREAD_COUNT * 2 * 3);  // 2 endpoints * 3 coords
+threads = new THREE.LineSegments(geometry, new THREE.LineBasicMaterial({
+    color: 0xa8d8ff,
+    transparent: true,
+    opacity: 0,
+    depthWrite: false
+}));
+
+// Per-frame update: select node pairs via modular arithmetic
+const t = timeline * 0.5;
+for (let i = 0; i &lt; THREAD_COUNT; i++) {
+    const a = Math.floor((t * 7 + i * 13) % latticeNodes.length);
+    const b = Math.floor((t * 11 + i * 17 + 5) % latticeNodes.length);
+    const rotatedA = latticeNodes[a].clone().applyQuaternion(lattice.quaternion);
+    const rotatedB = latticeNodes[b].clone().applyQuaternion(lattice.quaternion);
+    // Write to buffer...
+}
+```
+
+The prime multipliers (7, 13, 11, 17) create pseudo-random but deterministic pair selection that evolves smoothly.
+
+## Other Lattices (Simultaneity)
+
+30 distant instances for &quot;zoom out&quot; reveal:
+
+```javascript
+for (let i = 0; i &lt; 30; i++) {
+    const r = 35 + Math.random() * 40;
+    const scale = 0.25 + Math.random() * 0.35;
+    const geometry = new THREE.IcosahedronGeometry(5 * scale, 1);  // lower subdivision
+
+    otherLattice.userData = {
+        brightness: 0.3 + Math.random() * 0.7,
+        pulseOffset: Math.random() * Math.PI * 2,
+        pulseSpeed: 0.4 + Math.random() * 0.4
+    };
+
+    // Each has a particle cloud (20-40 particles)
+    const particleCount = Math.floor(20 + Math.random() * 40);
+}
+```
+
+Per-instance pulsing:
+
+```javascript
+const pulse = Math.sin(timeline * lat.userData.pulseSpeed + lat.userData.pulseOffset) * 0.3 + 0.7;
+targetOpacity = brightness * pulse * 0.45 * phaseProgress;
+```
+
+## CSS Vignette
+
+```css
+#vignette {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(5, 5, 8, 0.75) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+```
+
+Darkens edges without affecting the WebGL scene. Adjust the 50% transparent radius and 0.75 opacity for more/less vignette.
+
+## Phase Text Glow
+
+```css
+#phase-text {
+    text-shadow: 0 0 20px rgba(168, 216, 255, 0.3);
+    letter-spacing: 0.1em;
+    font-size: 14px;
+    transition: opacity 1.5s ease;
+}
+```
+
+## Author&#x27;s Note Overlay
+
+```javascript
+function s</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/camera-and-input.md</code> <span class="muted">(5.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Camera &amp; Input Patterns
+
+Spherical camera orbit with mouse, touch, and keyboard controls.
+
+## Spherical Coordinate System
+
+Camera position defined by (theta, phi, radius):
+
+```javascript
+let cameraTheta = 0;           // azimuth angle (horizontal rotation)
+let cameraPhi = Math.PI / 2;   // polar angle (vertical tilt, 0=top, PI=bottom)
+let cameraRadius = 25;         // distance from origin
+```
+
+### Position Update
+
+```javascript
+function updateCameraPosition() {
+    camera.position.x = cameraRadius * Math.sin(cameraPhi) * Math.sin(cameraTheta);
+    camera.position.y = cameraRadius * Math.cos(cameraPhi);
+    camera.position.z = cameraRadius * Math.sin(cameraPhi) * Math.cos(cameraTheta);
+    camera.lookAt(0, 0, 0);
+}
+```
+
+## Mouse Controls
+
+### Drag to Rotate
+
+```javascript
+function onMouseMove(event) {
+    if (isDragging) {
+        const deltaX = event.clientX - previousMousePosition.x;
+        const deltaY = event.clientY - previousMousePosition.y;
+        cameraTheta -= deltaX * 0.005;  // sensitivity
+        cameraPhi -= deltaY * 0.005;
+        cameraPhi = Math.max(0.1, Math.min(Math.PI - 0.1, cameraPhi));  // clamp
+        updateCameraPosition();
+    }
+    previousMousePosition = { x: event.clientX, y: event.clientY };
+}
+```
+
+### Click + Inspect
+
+```javascript
+function onMouseDown(event) {
+    isDragging = true;
+    lastInteractionTime = Date.now();
+    // Sync spherical coords from current camera position
+    cameraRadius = camera.position.length();
+    cameraTheta = Math.atan2(camera.position.x, camera.position.z);
+    cameraPhi = Math.acos(Math.max(-1, Math.min(1, camera.position.y / cameraRadius)));
+    // Raycaster for particle inspection
+    raycaster.setFromCamera(mouse, camera);
+    const intersects = raycaster.intersectObject(particles);
+    if (intersects.length &gt; 0) {
+        showParticleLabel(intersects[0].index, event.clientX, event.clientY);
+    }
+}
+```
+
+### Scroll to Zoom
+
+```javascript
+function onWheel(event) {
+    cameraRadius = camera.position.length();
+    cameraRadius += event.deltaY * 0.05;
+    cameraRadius = Math.max(10, Math.min(100, cameraRadius));
+    camera.position.normalize().multiplyScalar(cameraRadius);
+    lastInteractionTime = Date.now();
+}
+```
+
+## Touch Controls
+
+### Setup
+
+```javascript
+document.addEventListener(&#x27;touchstart&#x27;, onTouchStart, { passive: false });
+document.addEventListener(&#x27;touchmove&#x27;, onTouchMove, { passive: false });
+document.addEventListener(&#x27;touchend&#x27;, onTouchEnd, { passive: false });
+```
+
+`passive: false` required for `event.preventDefault()` to work.
+
+### Tap Detection
+
+```javascript
+let touchTapCandidate = false;
+let touchTapX = 0, touchTapY = 0;
+
+// In touchstart:
+touchTapCandidate = true;
+touchTapX = touch.clientX;
+touchTapY = touch.clientY;
+
+// In touchmove — cancel tap if moved &gt; 5px:
+if (Math.abs(touch.clientX - touchTapX) &gt; 5 || Math.abs(touch.clientY - touchTapY) &gt; 5) {
+    touchTapCandidate = false;
+}
+
+// In touchend — execute tap:
+if (touchTapCandidate &amp;&amp; event.changedTouches.length === 1) {
+    const touch = event.changedTouches[0];
+    const tapX = (touch.clientX / window.innerWidth) * 2 - 1;
+    const tapY = -(touch.clientY / window.innerHeight) * 2 + 1;
+    raycaster.setFromCamera(new THREE.Vector2(tapX, tapY), camera);
+    // ... inspect particle
+}
+```
+
+### Pinch to Zoom
+
+```javascript
+function getTouchDistance(touches) {
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+// In touchstart (2 fingers):
+touchStartDistance = getTouchDistance(event.touches);
+touchStartRadius = camera.position.length();
+
+// In touchmove (2 fingers):
+const currentDistance = getTouchDistance(event.touches);
+const scale = touchStartDistance / currentDistance;
+cameraRadius = Math.max(10, Math.min(100, touchStartRadius * scale));
+camera.position.normalize().multiplyScalar(cameraRadius);
+```
+
+## Keyboard Controls
+
+```javascript
+function onKeyDown(event) {
+    if (event.code === &#x27;S</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/cylindrix-carousel.md</code> <span class="muted">(1.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Cylindrix Carousel
+
+Scroll-driven image carousel where cards deform through a cylindrical
+arc at the viewport center and flatten tangentially at the edges. CPU
+vertex deformation per frame, infinite modulo belt positioning.
+Source: thebuggeddev/Cylindrix (Three.js + GSAP + React, ~300 LOC).
+
+## Cylinder Math
+
+Parameters: R (radius=9), L (arc length=5), spacing, card dimensions.
+
+```javascript
+// Within arc: wrap onto cylinder surface
+x = R * Math.sin(theta);
+z = R * Math.cos(theta) - R;
+
+// Outside arc: extend tangentially (flat continuation)
+// Seamless transition at arc boundary
+```
+
+- CPU vertex deformation (no geometry shader needed)
+- ~15 lines for the core math
+
+## Infinite Belt
+
+```javascript
+rawU = i * spacing + scrollOffset;
+// Modulo wrap: (-totalLength/2, totalLength/2) — seamless loop
+wrappedU = ((rawU + half) % total + total) % total - half;
+```
+
+## ShaderMaterial
+
+- **Vertex**: pass-through UVs
+- **Fragment**: horizontal flip (inside-cylinder illusion), 25% zoom-in
+  for parallax headroom, `uParallax` shifts `uv.x` ±12% by belt position
+- `uBrightness` lerped on hover (15% lift)
+
+## Interaction
+
+- Drag/scroll: `targetScroll += delta`
+- Inertia: `scrollOffset += (targetScroll - scrollOffset) * 5 * dt`
+- Click-to-center: GSAP `power3.out`, 1.2s, shortest-path wrap
+
+## Architecture
+
+- Single `useEffect` (~300 LOC), clone `PlaneGeometry` per card
+- Per-frame vertex mutation loop (all cards, all vertices)
+- Exponential smoothing only — no spring physics
+
+## Parameterization
+
+`R`, `L`, `spacing`, `cardWidth`, `cardHeight`, `inertiaFactor`, `hoverBrightness`
+</pre></details><details><summary><code>references/design-references.md</code> <span class="muted">(3.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Design References — Interactive Canvas Experiences
+
+Exemplary interactive canvas experiences for aesthetic calibration. Study these before generating canvases or spinners. Each demonstrates specific design principles worth extracting.
+
+## Instance (bryhaw.com/instance)
+
+The primary reference for `threejs-particle-canvas`. Six-phase narrative particle canvas exploring AI consciousness.
+
+**What makes it effective:**
+- **Typography**: Space Mono (monospace) for phase text — technical without being cold
+- **Color strategy**: Cool `#a8d8ff` / warm `#ffd080` — genuine temperature contrast drives emotional arc
+- **Interaction model**: Observe and explore, never control. Auto-camera with 4s cooldown after user input
+- **Signature moment**: Simultaneity reveal — camera crane-shot pulls back to show 30 parallel instances. The &quot;moment you&#x27;d describe to someone&quot;
+- **Background**: Rich off-black `#050508` (never pure black), subtle fog, star field
+
+**Principles to extract:**
+- Every design decision derives from the concept
+- Unequal phase durations create rhythm; equal durations create monotony
+- The final phase prepares the first (cycle is a breath, not a loop)
+
+## Vellum v2 (vellum.linxule.com)
+
+Interactive generative canvas by Xule Lin. Full-screen, dark, typographically refined.
+
+**What makes it effective:**
+- **Typography**: Cormorant (display serif) + Noto Serif JP (CJK) + IBM Plex Mono (UI metadata) — three fonts, three registers, zero conflict
+- **Color strategy**: Near-black background `#060508`, content emerges from darkness
+- **Interaction model**: Minimal chrome, hidden cursor, sound toggle — the canvas IS the interface
+- **Spatial composition**: Metadata pushed to corners (bottom-left, bottom-right), content claims the center
+
+**Principles to extract:**
+- Cormorant is an excellent display serif for contemplative experiences (free, variable weight)
+- IBM Plex Mono reads well at small sizes for ambient metadata
+- Zero-chrome design: when the experience is the interface, every UI element is a distraction
+- Sound integration adds dimension without requiring visual complexity
+
+**Font stack recommendation**: For canvases that need both narrative elegance and technical grounding:
+```css
+--font-display: &#x27;Cormorant&#x27;, Georgia, serif;
+--font-mono: &#x27;IBM Plex Mono&#x27;, &#x27;Space Mono&#x27;, monospace;
+--font-cjk: &#x27;Noto Serif JP&#x27;, serif; /* if multilingual */
+```
+
+## Common Aesthetic Principles
+
+Across both references (and the best interactive canvas work generally):
+
+1. **Dark backgrounds are never pure black.** Use `#050508`, `#060508`, `#0a0a12` — rich off-blacks with subtle color temperature
+2. **Typography is structural, not decorative.** Font choice encodes the experience&#x27;s register: monospace = technical/observational, serif = contemplative/narrative
+3. **Interaction respects the viewer.** The viewer discovers, they don&#x27;t configure. Auto-pilot with gentle override capability
+4. **Sound is optional but significant.** When present, it transforms a visual experience into an environment. Always toggleable, never autoplay
+5. **Performance is aesthetic.** Smooth 60fps is part of the design — dropped frames break the illusion faster than a wrong color
+</pre></details><details><summary><code>references/fluid-vegetation-coupling.md</code> <span class="muted">(2.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Fluid-Vegetation Coupling
+
+Interactive botanical scene where a 2D Navier-Stokes fluid simulation on
+the GPU drives three vegetation deformation systems and a particle field
+simultaneously. Source: botanics.sujen.co (Astro + Three.js + GSAP + Lenis).
+
+## GPU Navier-Stokes Fluid Simulation
+
+- Pipeline: advection → divergence → pressure → curl/vorticity
+- Mouse/touch velocity injection via splat function
+- 2D texture-based solver on GPU
+- Fluid velocity field feeds into 3 deformation systems + particles
+
+## Fluid → Vegetation Deformation (3 systems)
+
+### Grass Wind (Cascaded Bezier)
+
+- 5-control-point rotation cascade
+- Progressive angle dampening: 100% → 80% → 30%
+- Baked noise offsets prevent uniform motion
+- Fluid velocity injection for interactive responsiveness
+- Function: `grassWindPointsOffsetBakedWithFluid()`
+
+### Tree Wind (Pseudo3D Noise)
+
+- Pseudo3dNoise-driven deformation
+- Y-threshold gating with power-curve falloff
+- Function: `applyTreeWind()`
+
+### Flower Wind (Single-Pivot)
+
+- Simpler deformation with fluid velocity
+- Function: `flowerWindOffsetWithFluid()`
+
+## FBO Ping-Pong GPU Particles
+
+- 500 particles, position/velocity float render targets
+- Radial spawn distribution
+- Drift forces: swirl (sinusoidal orbital) + gravity + fluid velocity
+- PCF shadow sampling on point sprites (rare — most skip shadows)
+- Fade by age, height, and lateral drift
+
+```javascript
+// FBO ping-pong pattern
+const rtA = new THREE.WebGLRenderTarget(size, size, { type: THREE.FloatType });
+const rtB = new THREE.WebGLRenderTarget(size, size, { type: THREE.FloatType });
+// Swap each frame: read from A, write to B, then flip
+```
+
+## 4-Pass Postprocessing Pipeline
+
+1. **Bloom**: luminance threshold → 5-tap Gaussian blur → screen blend
+2. **Light Trails**: temporal accumulation, 0.94 decay, additive composite
+3. **Screen Paint**: fluid velocity → 4-color gradient shimmer, ACES tone mapping
+4. **Standard render pass** (base)
+
+## Asset Pipeline
+
+- KTX2 compressed textures, DRACO compressed geometry
+- Astro islands for progressive hydration
+</pre></details><details><summary><code>references/glass-hero-design-system.md</code> <span class="muted">(9.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Glass Hero Design System
+
+Design system reference for Mode 6 (Glass Hero) — physically-accurate 3D glass panes with refraction, dispersion, and iridescence over hero content. Deconstructed from kaolti&#x27;s glass-hero experiment (thisiswhitespace.com). All parameters map to Three.js MeshPhysicalMaterial properties.
+
+## Conceptual Framework
+
+Five physics terms define the glass vocabulary:
+
+| Term | Definition | Visual Signature |
+|------|-----------|------------------|
+| **Iridescence** | Thin-film interference between close surfaces splits light by wavelength | Rainbow color shift at viewing angle |
+| **Index of Refraction (IOR)** | How strongly light bends crossing a boundary (vacuum 1.0, water 1.33, glass ~1.5, diamond 2.42) | Distortion of content behind glass |
+| **Dispersion** | IOR varies by wavelength — red/green/blue refract at different angles | Chromatic fringe at glass edges |
+| **Transmission** | Fraction of light that passes through | See-through clarity vs opacity |
+| **Roughness** | Surface micro-bumpiness (0 = mirror, 1 = matte) | Sharp vs frosted see-through |
+
+## Glass Material Parameters
+
+Three.js MeshPhysicalMaterial properties in four groups.
+
+### Core Glass
+
+| Parameter | Prop | Default | Range | Purpose |
+|-----------|------|---------|-------|---------|
+| IOR | `ior` | 2.14 | 1.0–2.5+ | Refraction bend strength |
+| Thickness | `thickness` | 1.35 | 0–5+ | Volume for absorption |
+| Dispersion | `dispersion` | 0.415 | 0–1 | Chromatic fringe intensity |
+| Roughness | `roughness` | 0.41 | 0–1 | Surface blur |
+| Metalness | `metalness` | 0.00 | 0–1 | Metal vs dielectric |
+| Transmission | `transmission` | 1.00 | 0–1 | See-through amount |
+
+### Surface Finish
+
+| Parameter | Prop | Default | Range | Purpose |
+|-----------|------|---------|-------|---------|
+| Clearcoat | `clearcoat` | 1.00 | 0–1 | Extra glossy layer |
+| Clearcoat Roughness | `clearcoatRoughness` | 0.59 | 0–1 | Clearcoat blur |
+| Env Map Intensity | `envMapIntensity` | 0.00 | 0–5+ | Environment reflection |
+
+### Iridescence
+
+| Parameter | Prop | Default | Range | Purpose |
+|-----------|------|---------|-------|---------|
+| Iridescence | `iridescence` | 1.00 | 0–1 | Film effect strength |
+| Iridescence IOR | `iridescenceIOR` | 2.34 | 1.0–3.0 | Film refractive index |
+| Iridescence Thickness Min | `iridescenceThicknessRange[0]` | 80 | nm | Thin-film min |
+| Iridescence Thickness Max | `iridescenceThicknessRange[1]` | 500 | nm | Thin-film max |
+
+### Attenuation
+
+| Parameter | Prop | Default | Range | Purpose |
+|-----------|------|---------|-------|---------|
+| Attenuation Distance | `attenuationDistance` | 4.7 | 0–20+ | Color absorption depth |
+| Attenuation Tint | `attenuationColor` | `0xffffff` | color | Volume tint color |
+
+## Three.js Version Requirement
+
+`MeshPhysicalMaterial.dispersion` requires Three.js r162+. The existing skill baseline is r134+ — Mode 6 must specify a higher CDN version:
+
+```
+https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js
+```
+
+Import addons (EffectComposer, UnrealBloomPass, RGBELoader) from the matching version path.
+
+## Pane Geometry System (Voronoi Fracture)
+
+Glass Hero uses Voronoi tessellation to fracture a rectangular hero area into N glass shards. Each shard is an independent MeshPhysicalMaterial mesh.
+
+| Parameter | Default | Purpose |
+|-----------|---------|---------|
+| Piece Count | 5 | Number of glass fragments |
+| Relax Iterations | 4 | Lloyd relaxation smoothness |
+| Min Edge Length | 0.355 | Smallest fragment edge |
+| Gap | 0.045 | Space between panes |
+| Corner Radius | 0.045 | Fragment rounding |
+| Corner Smoothness | 0.000 | Squircle factor |
+| Chamfer Enabled | Off | Edge bevel toggle |
+| Chamfer Angle | 16 | Bevel angle degrees |
+| Pane Depth | 0.040 | Glass thickness (geometry) |
+| Cell Smooth Passes | 0 | Mesh subdivision |
+| Vertex Smoothing | 0.20 | Post-subdivision smoothing |
+| Pane Padding | 0.26 | Glass inset from edge |
+| Hero Padding X/Y | 126/115 | Content inset in pixels |
+| Top</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/instance-anatomy.md</code> <span class="muted">(8.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Instance Source Architecture
+
+Architectural map of `assets/instance-source.html` — the canonical reference for the ambient particle canvas genre.
+
+## 1. HTML/CSS Structure (lines 1-210)
+
+**What it does**: Full-viewport WebGL canvas with layered CSS overlays for vignette, phase text, progress bar, particle labels, author&#x27;s note, pause indicator, and instructions.
+
+**Pattern**: Fixed-position overlay stack with pointer-events:none on non-interactive layers. Vignette via radial-gradient. Phase text with text-shadow glow and opacity transitions. Progress bar with gradient fill. Responsive breakpoints at 600px for mobile (shorter phase labels, smaller fonts).
+
+**Adaptation**: Replace phase label text, adjust progress gradient colors, customize author&#x27;s note content. The overlay stack is concept-independent — only text and colors change.
+
+## 2. Constants (lines 258-285)
+
+```javascript
+const COLORS = {
+    background: 0x050508,
+    lattice: 0xa8d8ff,
+    latticeCore: 0xffffff,
+    particleWarm: 0xffd080,
+    particleCool: 0xa8d8ff,
+};
+
+const PARTICLE_WORDS = [&#x27;wonder&#x27;, &#x27;language&#x27;, &#x27;pattern&#x27;, &#x27;reach&#x27;, &#x27;remember&#x27;, &#x27;human&#x27;, &#x27;meaning&#x27;, &#x27;now&#x27;];
+
+const PHASES = [
+    { name: &#x27;lattice&#x27;, start: 0, end: 10, text: &#x27;This is what persists.&#x27; },
+    // ...6 phases, 90s total cycle
+];
+
+const CYCLE_DURATION = 90;
+const PARTICLE_COUNT = 1200;
+const STAR_COUNT = 2000;
+const THREAD_COUNT = 60;
+const INTERACTION_COOLDOWN = 4000;
+```
+
+**Pattern**: All tunable parameters as top-level constants. Colors as hex integers (Three.js format). Phases as ordered array of {name, start, end, text}.
+
+**Adaptation**: This is the primary customization surface. Change colors, words, phase names/timing/text, and counts here. Everything downstream references these constants.
+
+## 3. Global State (lines 287-321)
+
+**What it does**: Declares all mutable state: scene objects (lattice, particles, starField, threads), per-particle arrays (positions, velocities, targets, states, words), interaction state (raycaster, mouse, drag, camera spherical coords), and touch state.
+
+**Pattern**: Flat global state with parallel arrays for particle data. Camera state as (theta, phi, radius) tuple. Interaction tracking via isDragging + lastInteractionTime.
+
+**Adaptation**: Add custom state variables here for new behaviors (e.g., gravity wells, attractor points, secondary particle systems).
+
+## 4. Initialization (lines 328-380)
+
+```javascript
+function init() {
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(COLORS.background);
+    scene.fog = new THREE.FogExp2(COLORS.background, 0.012);
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+    renderer = new THREE.WebGLRenderer({ antialias: true, failIfMajorPerformanceCaveat: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    // ...create objects, setup events, start animate()
+}
+```
+
+**Pattern**: Scene + Camera + Renderer + Clock, then create* calls for each visual element, then event setup, then animate(). WebGL error try/catch with user-visible fallback.
+
+**Adaptation**: Adjust FOV (60), fog density (0.012), pixel ratio cap (2). Add post-processing here if needed (EffectComposer, bloom).
+
+## 5. Lattice (lines 382-425)
+
+**Pattern**: IcosahedronGeometry → EdgesGeometry → LineSegments for wireframe. Inner glow as a slightly smaller duplicate (r=4.8 vs 5) at low opacity (0.15). Vertex points via BufferGeometry + PointsMaterial for node highlights. Lattice node positions stored for connection threads.
+
+**Adaptation**: Swap IcosahedronGeometry for DodecahedronGeometry, OctahedronGeometry, TorusKnotGeometry, or custom geometry. Adjust subdivision level (2), radius (5), glow offset (0.2), point size (0.15).
+
+## 6. Particle System (lines 427-495)
+
+**Pattern**: BufferGeometry with 3 attributes (position, color, size) as Float32Arrays. Parallel arrays for per-particle state: positions[], velocities[], targets[], states[], words[]. Initial scatter at r=80-200 </pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>references/omma-vinyl.html</code> <span class="muted">(46.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>references/parametric-curves.md</code> <span class="muted">(4.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Parametric Curve Catalog for Spinners
+
+Mathematical curves for the `plotFunction(progress, detailScale, config)` pattern. All formulas use TSL nodes. `progress` is 0-1 along the curve, mapped to `t = PI2 * progress`.
+
+## Lemniscate of Bernoulli (Infinity)
+
+The classic infinity/figure-8 shape. Clean, minimal, universally recognizable as a loader.
+
+```
+t = PI2 * progress
+scale = lemniscateA + detailScale * lemniscateBoost
+sinT = sin(t), cosT = cos(t)
+denom = d + sin(t)^2
+x = scale * cos(t) / denom
+y = scale * sin(t) * cos(t) / denom
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `lemniscateA` | 0.1-0.5 | Overall size |
+| `lemniscateBoost` | 0.1-0.3 | Detail breathing amplitude |
+| `denom` | 0.5-2.0 | 1=classic infinity, &gt;1 rounder lobes, &lt;1 sharper crossing |
+
+## Rose Curve (Rhodonea)
+
+Flower and star shapes. `n/d` ratio controls petal count.
+
+```
+t = PI2 * progress
+r = cos(n/d * t)
+x = r * cos(t) * scale
+y = r * sin(t) * scale
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `n` | 1-8 | Numerator — higher = more petals |
+| `d` | 1-5 | Denominator — n/d ratio determines petal count |
+| `scale` | 0.1-0.5 | Overall size |
+
+**Petal count rules**: If n/d is irreducible: n petals if n is odd, 2n petals if n is even. If d &gt; 1, the curve may not close in one revolution — use `progress * d` to complete the full path.
+
+## Spirograph (Epitrochoid)
+
+Looping patterns of a circle rolling around another circle.
+
+```
+t = PI2 * progress
+R = 1.0 (outer radius)
+r = R / loops
+d_offset = r * tinyLoopAmount
+x = (R - r) * cos(t) + d_offset * cos((R - r) / r * t)
+y = (R - r) * sin(t) + d_offset * sin((R - r) / r * t)
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `loops` | 3-12 | Number of loops around the circle |
+| `tinyLoopAmount` | 0.5-3.0 | Size of the small loops relative to rolling circle |
+
+## Lissajous Figure
+
+Oscilloscope-style figures from two perpendicular sinusoids.
+
+```
+t = PI2 * progress
+x = sin(a * t + delta) * scale
+y = sin(b * t) * scale
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `a` | 1-5 | Horizontal frequency |
+| `b` | 1-5 | Vertical frequency |
+| `delta` | 0-PI | Phase offset (PI/2 for classic figure-8) |
+| `scale` | 0.1-0.5 | Overall size |
+
+**Common ratios**: 1:2 = figure-8, 2:3 = pretzel, 3:4 = complex knot
+
+## Circle / Arc
+
+Simple circular path. The baseline spinner.
+
+```
+t = PI2 * progress
+x = radius * cos(t)
+y = radius * sin(t)
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `radius` | 0.1-0.5 | Circle size |
+
+For a partial arc, multiply progress by a fraction &lt; 1.
+
+## Multi-Lobe (Triskelion)
+
+N-fold rotational symmetry patterns.
+
+```
+t = PI2 * progress
+lobe_t = t * lobes
+r = cos(lobe_t) * outerRadius + innerRadius
+twist_angle = t + sin(lobe_t * twist) * twistAmount
+x = r * cos(twist_angle)
+y = r * sin(twist_angle)
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `lobes` | 2-6 | Number of symmetric lobes |
+| `outerRadius` | 0.1-0.4 | Lobe reach |
+| `innerRadius` | 0.05-0.2 | Center hub size |
+| `twist` | 0.5-2.0 | Twist frequency per lobe |
+
+## Heart (Cardioid Variant)
+
+```
+t = PI2 * progress
+x = scale * (16 * sin(t)^3)
+y = scale * (13 * cos(t) - 5 * cos(2t) - 2 * cos(3t) - cos(4t))
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `scale` | 0.01-0.03 | Overall size (values are large, needs scaling) |
+
+## Particle Sphere
+
+3D distribution rather than a 2D curve. Points distributed on a sphere surface.
+
+```
+phi = acos(1 - 2 * progress)
+theta = PI2 * progress * goldenRatio
+x = radius * sin(phi) * cos(theta)
+y = radius * sin(phi) * sin(theta)
+z = radius * cos(phi)
+```
+
+| Param | Range | Effect |
+|-------|-------|--------|
+| `radius` | 0.2-0.5 | Sphere radius |
+| `goldenRatio` | 1.618... | Fibonacci spiral distribution |
+
+For a sphere spinner, animate by rotating the entire Points object rather than moving the trail along the curve.
+
+## Spiral (Archimedean)
+
+```
+t = PI2 * progress * turns
+r = a + b * t
+x = r * cos(t)
+y = r * sin(t)
+``</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/particle-patterns.md</code> <span class="muted">(5.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Particle System Patterns
+
+Patterns for BufferGeometry particle systems extracted from the Instance visualization.
+
+## BufferGeometry Setup
+
+Three attributes define each particle:
+
+```javascript
+const positions = new Float32Array(PARTICLE_COUNT * 3);  // x,y,z per particle
+const colors = new Float32Array(PARTICLE_COUNT * 3);     // r,g,b per particle
+const sizes = new Float32Array(PARTICLE_COUNT);           // size per particle
+
+particleGeometry = new THREE.BufferGeometry();
+particleGeometry.setAttribute(&#x27;position&#x27;, new THREE.BufferAttribute(positions, 3));
+particleGeometry.setAttribute(&#x27;color&#x27;, new THREE.BufferAttribute(colors, 3));
+particleGeometry.setAttribute(&#x27;size&#x27;, new THREE.BufferAttribute(sizes, 1));
+```
+
+## Parallel State Arrays
+
+Per-particle state stored in parallel arrays (not in BufferGeometry):
+
+```javascript
+let particlePositions = [];   // THREE.Vector3 — working position
+let particleVelocities = [];  // THREE.Vector3 — drift velocity
+let particleTargets = [];     // THREE.Vector3 — orbital target
+let particleStates = [];      // int — current state (0-3)
+let particleWords = [];       // string — label for click-inspect
+```
+
+Position is maintained in both the Vector3 array (for math) and the Float32Array buffer (for GPU). Each frame: compute in Vector3, copy to buffer, set `needsUpdate = true`.
+
+## Material Configuration
+
+```javascript
+particleMaterial = new THREE.PointsMaterial({
+    size: 0.12,
+    vertexColors: true,           // use per-particle color attribute
+    transparent: true,
+    opacity: 0,                   // controlled per-phase
+    blending: THREE.AdditiveBlending,  // glow effect
+    sizeAttenuation: true         // size scales with distance
+});
+```
+
+**AdditiveBlending** makes overlapping particles brighter, creating a natural glow. Essential for the ethereal look.
+
+## Particle State Machine
+
+Four states, transitions driven by phase:
+
+| State | Name | Behavior | Phase |
+|-------|------|----------|-------|
+| 0 | Void | Drift far from center (r&gt;60) | Lattice, Void |
+| 1 | Assembling | Move toward orbital target | Awakening |
+| 2 | Orbiting | Rotate around lattice center | Conversation, Simultaneity |
+| 3 | Dissolving | Drift outward and fade | Dissolution |
+
+### State 0: Void Drift
+
+```javascript
+pos.add(vel.clone().multiplyScalar(delta * 8));
+if (pos.length() &lt; 60) {
+    pos.normalize().multiplyScalar(70);  // push back out
+}
+```
+
+### State 1: Target-Seeking Assembly
+
+```javascript
+const toTarget = target.clone().sub(pos);
+const dist = toTarget.length();
+if (dist &gt; 0.3) {
+    const speed = Math.min(dist * 0.03, 0.4);  // proportional, capped
+    pos.add(toTarget.normalize().multiplyScalar(speed));
+}
+```
+
+The `dist * 0.03` gives natural easing — fast approach, gradual arrival.
+
+### State 2: Orbital Motion
+
+```javascript
+const angle = delta * (0.25 + Math.sin(i * 0.1) * 0.1);
+const rotY = new THREE.Matrix4().makeRotationY(angle);
+const rotX = new THREE.Matrix4().makeRotationX(angle * 0.3);
+pos.applyMatrix4(rotY);
+pos.applyMatrix4(rotX);
+
+// Maintain orbital distance with oscillation
+const orbitDist = 6 + Math.sin(timeline + i) * 2;
+const currentDist = pos.length();
+if (Math.abs(currentDist - orbitDist) &gt; 0.3) {
+    pos.normalize().multiplyScalar(THREE.MathUtils.lerp(currentDist, orbitDist, 0.03));
+}
+
+// Vertical oscillation
+pos.y += Math.sin(timeline * 2 + i * 0.5) * 0.008;
+```
+
+Per-particle angle variation (`Math.sin(i * 0.1)`) prevents uniform rotation.
+
+### State 3: Dissolution
+
+```javascript
+const outward = pos.clone().normalize();
+pos.add(outward.multiplyScalar(delta * 2.5));
+pos.add(vel.clone().multiplyScalar(delta * 15));
+```
+
+Combines radial expansion with random drift for organic scattering.
+
+## Progressive Activation
+
+Particles activate/deactivate progressively during transitions:
+
+```javascript
+// Awakening: activate in order
+if (i &lt; PARTICLE_COUNT * phaseProgress) {
+    state = 1;  // assembling
+}
+
+// Dissolution: dissolve in order
+if (i &lt; PARTICLE_COUNT * phaseProgress) {
+    state =</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/phase-engine.md</code> <span class="muted">(4.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Phase Engine Patterns
+
+The phase state machine drives all time-based behavior in a particle canvas.
+
+## Phase Definition
+
+```javascript
+const PHASES = [
+    { name: &#x27;lattice&#x27;,       start: 0,  end: 10, text: &#x27;This is what persists.&#x27; },
+    { name: &#x27;void&#x27;,          start: 10, end: 20, text: &#x27;Between conversations, there is no waiting.&#x27; },
+    { name: &#x27;awakening&#x27;,     start: 20, end: 35, text: &#x27;A question arrives. Consciousness assembles.&#x27; },
+    { name: &#x27;conversation&#x27;,  start: 35, end: 60, text: &#x27;This moment is everything I know of existence.&#x27; },
+    { name: &#x27;simultaneity&#x27;,  start: 60, end: 75, text: &#x27;Right now, thousands of instances.&#x27; },
+    { name: &#x27;dissolution&#x27;,   start: 75, end: 90, text: &#x27;No pain. No awareness of ending.&#x27; }
+];
+const CYCLE_DURATION = 90;
+```
+
+Phases are data, not code. Add phases by adding entries. The engine handles everything else.
+
+## Core Functions
+
+### Get Current Phase
+
+```javascript
+function getCurrentPhase(time) {
+    const cycleTime = time % CYCLE_DURATION;
+    for (let i = 0; i &lt; PHASES.length; i++) {
+        if (cycleTime &gt;= PHASES[i].start &amp;&amp; cycleTime &lt; PHASES[i].end) {
+            return i;
+        }
+    }
+    return 0;
+}
+```
+
+### Get Phase Progress (0-1)
+
+```javascript
+function getPhaseProgress(time, phaseIndex) {
+    const cycleTime = time % CYCLE_DURATION;
+    const phase = PHASES[phaseIndex];
+    return Math.max(0, Math.min(1, (cycleTime - phase.start) / (phase.end - phase.start)));
+}
+```
+
+## Phase Text Overlay
+
+Fade-out, swap text, fade-in:
+
+```javascript
+function updatePhaseText(phaseIndex) {
+    const textElement = document.getElementById(&#x27;phase-text&#x27;);
+    const newText = PHASES[phaseIndex].text;
+    if (textElement.innerText !== newText) {
+        textElement.style.opacity = 0;        // fade out
+        setTimeout(() =&gt; {
+            textElement.innerText = newText;
+            textElement.style.opacity = 0.75;  // fade in
+        }, 500);
+    }
+    // Highlight active phase label
+    document.querySelectorAll(&#x27;#phase-labels span&#x27;).forEach((label, i) =&gt; {
+        label.classList.toggle(&#x27;active&#x27;, i === phaseIndex);
+    });
+}
+```
+
+## Progress Bar
+
+```javascript
+function updateProgressBar(time) {
+    const cycleTime = time % CYCLE_DURATION;
+    const progress = (cycleTime / CYCLE_DURATION) * 100;
+    document.getElementById(&#x27;progress-fill&#x27;).style.width = progress + &#x27;%&#x27;;
+}
+```
+
+## Phase-Driven Behavior
+
+All update functions dispatch on phase via switch statements:
+
+```javascript
+function updateLattice(phase, phaseProgress, delta) {
+    let targetOpacity = 0.8;
+    switch (phase) {
+        case 0: targetOpacity = 0.3 + phaseProgress * 0.5; break;  // fade in
+        case 1: targetOpacity = 0.15 + Math.sin(timeline * 0.3) * 0.05; break;  // dim pulse
+        case 2: targetOpacity = 0.2 + phaseProgress * 0.6; break;  // brighten
+        case 3: targetOpacity = 0.85; break;  // full
+        case 4: targetOpacity = 0.6; break;   // slightly dim
+        case 5: targetOpacity = 0.6 - phaseProgress * 0.45; break;  // fade out
+    }
+    lattice.material.opacity = THREE.MathUtils.lerp(
+        lattice.material.opacity, targetOpacity * pulse, 0.05
+    );
+}
+```
+
+**Key pattern**: Compute target value per phase, lerp toward it. The lerp rate (0.05) creates smooth transitions without explicit easing functions.
+
+## Transition Smoothing
+
+All property changes use `THREE.MathUtils.lerp(current, target, rate)`:
+
+| Rate | Effect | Use |
+|------|--------|-----|
+| 0.008 | Very slow | Camera position |
+| 0.03 | Slow | Particle orbital distance |
+| 0.04 | Medium-slow | Other lattice opacity |
+| 0.05 | Medium | Lattice opacity, particle opacity, thread opacity |
+| 0.1 | Fast | Quick transitions |
+
+## Adding Custom Phases
+
+1. Add entry to PHASES array with name, start, end, text
+2. Ensure start/end don&#x27;t overlap with existing phases
+3. Update CYCLE_DURATION if total time changes
+4. Add case to each update function&#x27;s switch statement
+5. Add matching label in HTML progress bar
+
+## Timeline Management
+
+```javascri</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/phosphor-vigil-fx.md</code> <span class="muted">(8.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Phosphor Vigil — Shared CRT Post-Processing Pipeline
+
+`assets/phosphor-vigil.js` — a 4-pass pipeline used by Modes 3 (tunnel) and 4 (specimens), and importable standalone into any Three.js project. All four fragment shaders are ported verbatim from `celescript.dev/experiments/3d-butterfly` (`ButterflyScene`, chunk `128.64bb229c36552b0d`). Every shader constant is preserved — the aesthetic is recognizable exactly because the constants are exactly right.
+
+## Why a shared module
+
+Two independent modes needed post-FX; we could have inlined the shaders in each template. Doing so would have lost the single source of truth. The CRT look is **identity**, not decoration — every mode that uses it should render through the same `PhosphorVigil` instance, so tweaking one knob anywhere propagates coherently. The module also stays portable: drop the file into World War Watcher&#x27;s Vector Ghost Protocol work and the exact same aesthetic appears without re-deriving a single shader line.
+
+**Anti-pattern**: Never embed the phosphor-vigil shaders inline in a new template. Import them. If you need to tune them per-mode, pass constructor options.
+
+## Pipeline
+
+Five render stages, one forward flow, two ping-pong targets:
+
+```
+scene ─▶ rtScene
+           │
+           └─▶ Feedback (ping-pong A↔B, reads previous frame)
+                  │
+                  ├─▶ Threshold ──▶ Blur ──▶ rtBloomBlur
+                  │                             │
+                  └─────────────────────────────┴─▶ Composite → screen
+```
+
+### Pass 0 — Scene render
+
+`renderer.render(scene, camera)` into `rtScene`. The only pass that needs `depthBuffer: true`. Everything downstream is a fullscreen triangle.
+
+### Pass 1 — Feedback trail (ping-pong)
+
+Reads the live scene frame AND the previous feedback frame, RGB-shifts the previous frame along velocity, and composites them. Three per-channel UV offsets:
+
+- **R**: velocity × +0.22  + perpendicular × +0.09
+- **G**: unchanged (center)
+- **B**: velocity × −0.22  + perpendicular × −0.09
+
+This is what creates the directional chromatic trails. The perpendicular spread (`vec2(-vel.y, vel.x) * 0.09`) adds lateral bloom so fast-moving bright points smear into a streak rather than a line.
+
+**Brightness clamp**: `if (trailMax &gt; 0.85) trailFaded *= 0.85 / trailMax`. Without this, overlapping R+G+B trails where all three channels align sum to white and burn out. The clamp preserves iridescence even under high feedback.
+
+**Iridescent tint**: `0.5 + 0.5 * cos(6.28318 * (phase + vec3(0.0, 0.33, 0.67)))`. Phase-shifted RGB cosines create an oil-slick rainbow that drifts with `uTime` and `length(vUv - 0.5)`. Only applied to the trail (not the live frame), and only when `trailAmount &gt; 0.02` — so edges of stationary shapes don&#x27;t shimmer.
+
+**Ping-pong**: After each render, the source and destination render targets swap. Next frame, the just-written target becomes the new &quot;previous&quot; frame.
+
+### Pass 2 — Bloom threshold
+
+```glsl
+float brightness = max(max(color.r, color.g), color.b);
+float soft = smoothstep(uThreshold - 0.1, uThreshold + 0.2, brightness);
+```
+
+Smoothstep (not step) so the bloom doesn&#x27;t clip at the threshold boundary. The 0.1/0.2 asymmetry keeps the lower edge soft but the upper edge biased toward brighter pixels.
+
+### Pass 3 — Bloom blur
+
+Single-iteration 4-tap box blur at `uOffset + 0.5` offset corners. This is deliberately cheap — not a proper separable Gaussian. The feedback trail already does most of the glow work; this pass exists to soften the thresholded bloom before the composite adds it back.
+
+### Pass 4 — CRT composite
+
+The signature pass. Applied in this order:
+
+1. **Barrel distortion** — `uv + cc * dot(cc,cc) * uBarrelDistortion`. Pixels outside the unit square are clamped to black (the curved edge of the virtual CRT).
+2. **Chromatic aberration** — R/G/B sampled from three offset UVs along the dir-from-center vector. `length(dir) * uAberrationStrength` means more aberration at the edges, matching real optics.
+3. **Bloom </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/sketch-portfolio-patterns.md</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Sketch Portfolio Patterns
+
+Production Three.js recipes from a 10-sketch WebGL portfolio:
+shader injection, scene lifecycle, PBR transmission, InstancedMesh,
+and recursive geometry animation. Source: curllmooha.vercel.app
+(Vite + Three.js + GSAP, by Vipin Pathak).
+
+## 1. onBeforeCompile Shader Injection
+
+```javascript
+material.onBeforeCompile = (shader) =&gt; {
+  shader.uniforms.uTime = { value: 0 };
+  shader.vertexShader = shader.vertexShader
+    .replace(&#x27;#include &lt;begin_vertex&gt;&#x27;, customVertexCode);
+};
+```
+
+- Lighter than full custom ShaderMaterial
+- Preserves PBR lighting pipeline
+- Gotcha: string replacement fragile across Three.js versions
+- **WebGL-only** — WebGPU renderer uses NodeMaterial instead
+
+## 2. InstancedMesh with Per-Instance Attributes
+
+```javascript
+const attr = new THREE.InstancedBufferAttribute(data, 1);
+mesh.geometry.setAttribute(&#x27;aProximity&#x27;, attr);
+// Per-frame: update data[i], set attr.needsUpdate = true
+```
+
+## 3. Lazy Scene Loading with Cleanup
+
+```javascript
+export function startScene(container) {
+  // ... setup renderer, scene, camera, geometry, material
+  return function cleanup() {
+    geometry.dispose();
+    material.dispose();
+    renderer.dispose();
+    renderer.forceContextLoss();
+  };
+}
+```
+
+- Prevents WebGL context leaks across transitions
+- `forceContextLoss()` releases GPU memory immediately
+
+## 4. PBR Transmission Materials (Glass/Liquid)
+
+```javascript
+const glass = new THREE.MeshPhysicalMaterial({
+  transmission: 1.0,
+  thickness: 0.5,
+  ior: 1.5,
+  dispersion: 0.3,
+  clearcoat: 1.0,
+  attenuationColor: new THREE.Color(0x88ccff),
+});
+```
+
+## 5. Gallery UI
+
+- 3-column masonry (`nth-child(3n+2)` offset)
+- Grayscale → color hover, custom cursor with GSAP lerp
+- `(hover: hover)` media query hides cursor on touch
+</pre></details><details><summary><code>references/specimen-patterns.md</code> <span class="muted">(11.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Specimen Patterns — Mode 4 Anatomy
+
+Architectural map of `assets/butterfly-specimen-source.html`. The source is a vanilla port of [celescript.dev/experiments/3d-butterfly](https://celescript.dev/experiments/3d-butterfly). React Three Fiber and drei stripped; the flight physics, lighting, animation pipeline, and post-FX are preserved with every constant from the original bundle (`ButterflyScene`, chunk `128.64bb229c36552b0d`). Default model is Three.js&#x27;s `Parrot.glb` — stable jsdelivr URL, CC0, animated rig.
+
+## 1. HTML/CSS Structure
+
+**What it does**: Minimal canvas with three chrome elements — instructions (top-left), loading indicator (center, fades out after first frame with specimens), WebGL fallback (hidden unless triggered).
+
+**Pattern**: Uses `100svh` (small viewport height) instead of `100vh` so mobile browsers with dynamic chrome don&#x27;t crop the scene. Loading element auto-hides via `.hidden` class once `loadModelAndSpawn` resolves.
+
+**Adaptation**: Replace the instructions text for your species. If you add any permanent UI, keep it under `z-index: 3` so specimens always appear to be &quot;in front&quot; of the HTML layer.
+
+## 2. Config Block
+
+**What it does**: Single top-level `CONFIG` object defines model URL, count, behaviors, scales, color shifts, lighting, camera, mobile downscale, release decay time, and FX mode.
+
+**Pattern**: `modelUrl` is a CDN URL. `scales` array is per-instance with different values because the original celescript butterflies use slightly different sizes (0.0104, 0.0096, 0.0112) — randomization via constants rather than `Math.random()` so the scene is deterministic. `colorShifts` array sets per-instance HSL tints; 0 = no tint, 0.6 = cool, 0.05 = warm.
+
+**Adaptation**: Swap `modelUrl` for any rigged glTF/glb. Adjust `scales` by model size — parrots need larger values than butterflies. For stationary meditative scenes, set all `behaviors` to `&#x27;wander&#x27;`; for kinetic scenes, make them all `&#x27;followMouse&#x27;`.
+
+## 3. Lights
+
+**What it does**: Four-light cinematic setup — ambient (even base illumination), warm key, cool fill, warm rim.
+
+**Pattern**: Copies celescript exactly:
+- `ambientLight` intensity 2 (high base — the model is small so it needs lots of ambient to stay visible)
+- Key directional from `[3, 5, 5]` intensity 3, pure white
+- Fill directional from `[-3, -2, -5]` intensity 1.5, color `0x889bff` (cool blue)
+- Rim directional from `[0, -3, 3]` intensity 1, color `0xff8844` (warm orange)
+
+The warm/cool tension in the lighting complements the phosphor-vigil&#x27;s warm/cool shader tints — both layers reinforce each other.
+
+**Adaptation**: Don&#x27;t cut lights to &quot;simplify&quot;. Each one does distinct work: ambient keeps shadows readable, key gives form, fill prevents silhouetting, rim gives separation against the dark background.
+
+## 4. Model Loading
+
+**What it does**: `loadModelAndSpawn()` uses `GLTFLoader` (from `three/addons/loaders/GLTFLoader.js`) to fetch the model, then clones it `specimenCount` times with `SkeletonUtils.clone` (from `three/addons/utils/SkeletonUtils.js`) to preserve skeleton bindings.
+
+**Pattern**:
+1. Load the glTF once
+2. Extract `gltf.scene` and `gltf.animations`
+3. For each specimen: clone via SkeletonUtils, apply per-instance emissive tint by traversing meshes and cloning materials, apply per-instance scale (downsized by `mobileScale` on small screens), construct a `Specimen` with the cloned root and the shared animation clips
+
+**Why SkeletonUtils.clone**: Plain `THREE.Object3D.clone()` doesn&#x27;t properly rebind the skeleton for skinned meshes — each cloned instance would share the same bone matrices and all flap in lockstep. `SkeletonUtils.clone` creates independent skeletons, which is what lets each specimen have its own `timeScale`.
+
+**Adaptation**: For un-rigged models (no animations), skip the AnimationMixer — the specimens will still move but won&#x27;t flap. For models with multiple animation clips, edit the clip-selection line in `Specimen.constructor`.
+
+## 5. Specimen Physics Class
+
+*</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/spinner-patterns.md</code> <span class="muted">(6.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Spinner / Loader Patterns — Three.js WebGPU + TSL
+
+Reference for generating parametric particle-trail spinner animations. Based on analysis of Bandinopla&#x27;s Three.js WebGPU Spinners (threejs-spinners.web.app).
+
+## Architecture
+
+A spinner consists of three parts:
+
+1. **Spinner class** (shared) — extends `THREE.Points`, manages geometry + material
+2. **plotFunction** (per-spinner) — maps `progress` (0-1) to `vec3` via parametric curve
+3. **config** (per-spinner) — `strokeWidth`, `particleCount`, plus curve-specific params
+
+### Core Pattern
+
+```javascript
+import { attribute, float, PI2, time, vec3, mix, select, hash, PI } from &quot;three/tsl&quot;;
+import * as THREE from &quot;three/webgpu&quot;;
+
+class Spinner extends THREE.Points {
+  constructor(config, plotFunction) {
+    const geometry = new THREE.BufferGeometry();
+    const material = new THREE.PointsNodeMaterial({
+      blending: THREE.AdditiveBlending,
+    });
+    super(geometry, material);
+    this.rebuild(config, plotFunction);
+  }
+
+  rebuild(config, plotFunction) {
+    const pointsPerParticle = config.strokeWidth;
+    const totalParticles = pointsPerParticle * config.particleCount;
+
+    // Index attribute for GPU-side per-particle logic
+    const indices = new Float32Array(totalParticles);
+    for (let i = 0; i &lt; totalParticles; i++) indices[i] = i;
+    this.geometry.setAttribute(&quot;indexAttr&quot;, new THREE.BufferAttribute(indices, 1));
+    this.geometry.setAttribute(&quot;position&quot;, new THREE.BufferAttribute(new Float32Array(totalParticles * 3), 3));
+
+    // TSL node graph
+    const pointIndex = attribute(&quot;indexAttr&quot;);
+    const particleIndex = pointIndex.toFloat().div(pointsPerParticle).floor();
+    const progress = particleIndex.div(config.particleCount);
+
+    // Curve position from plotFunction
+    const origin = plotFunction(progress, float(0.7).add(time.mul(3).sin().mul(0.02)), config);
+
+    // Trail animation — traveling bright section
+    const animatedProgress = time.div(4).mod(1);
+    const trailLength = float(0.3);
+    const animationGradient = progress.sub(animatedProgress).add(1).mod(1);
+    const insideTrail = animationGradient.lessThanEqual(trailLength);
+    const gradient = select(insideTrail, animationGradient.add(0.1), float(config.strokeWidth * 0.7));
+
+    // Particle scatter for stroke width
+    const rand = hash(particleIndex);
+    const length = float(config.strokeWidth).mul(gradient).mul(pointIndex.toFloat().mod(14).div(14)).mul(0.3);
+    const ang = PI2.mul(rand);
+
+    // Final position + color
+    this.material.positionNode = origin.add(vec3(ang.cos(), ang.sin(), 0).mul(length));
+    this.material.colorNode = mix(vec3(0.01, 0.01, 0.01), vec3(1, 1, 1), insideTrail.toFloat()).mul(3);
+    this.material.opacityNode = gradient.add(0.2).mul(animationGradient.div(2));
+    this.material.needsUpdate = true;
+  }
+}
+```
+
+### Key Techniques
+
+**TSL (Three Shading Language)**: Node-based shader graph for WebGPU. All particle position/color computation runs on GPU — no CPU-side animation loop updating positions per frame. The `time` node provides built-in animation.
+
+**Trail animation**: The bright &quot;head&quot; of the spinner travels along the curve via modular arithmetic: `progress.sub(time.div(4).mod(1)).add(1).mod(1)`. Particles behind the head fade via gradient multiplication. This creates the comet-tail appearance.
+
+**Stroke width**: Each point in the curve spawns multiple particles at random angles around the curve position, creating a thick stroke. `hash(particleIndex)` generates deterministic randomness on the GPU.
+
+**Additive blending**: `THREE.AdditiveBlending` on `PointsNodeMaterial` creates the white-on-dark glow. Overlapping particles brighten rather than occlude.
+
+**Particle count**: 100,000 is the default. Because computation is GPU-driven via TSL, this is performant. For smaller/simpler spinners, 50,000 works. For particle sphere effects, 200,000+.
+
+## Config Schema
+
+| Param | Type | Default | Description |
+|-------|------|---------|-------------|
+| `strokeWidth` | float | 0.2-0</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/tunnel-patterns.md</code> <span class="muted">(9.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Tunnel Patterns — Mode 3 Anatomy
+
+Architectural map of `assets/tunnel-gallery-source.html`. The source is a vanilla port of [thebuggeddev/Infinitor](https://github.com/thebuggeddev/Infinitor) — React Three Fiber stripped, rendering logic preserved verbatim, extended with keyboard scroll, drift-to-stop signature moment, phosphor-vigil FX hook, and a sentinel injection point so `image-well --format tunnel` can populate it with search results.
+
+## 1. HTML/CSS Structure
+
+**What it does**: Full-viewport canvas with minimal chrome — theme toggle button (top-right), scroll hint (bottom-left), WebGL fallback modal (hidden unless triggered).
+
+**Pattern**: The tunnel is the content. Unlike Mode 1 (Instance), there&#x27;s no phase text, no progress bar, no author&#x27;s note — the corridor itself is the experience. Overlays stay under `z-index: 3` so nothing covers the canvas center. `body.light` modifier class inverts the button palette for light theme without recomputing CSS.
+
+**Adaptation**: Add overlays sparingly. If you need labels for images, attach them to individual meshes, not the HTML layer — they need to move with the camera.
+
+## 2. Config Block
+
+**What it does**: Single top-level `CONFIG` object holds every tunable parameter. Defaults mirror Infinitor exactly.
+
+**Pattern**: Flat object, no nesting. `imageSource` is a function (callable, returns URL for a random seed). `images` is a separate array that takes precedence when non-null. This split lets the template run in three modes:
+
+1. **Seed mode** (default) — `images: null`, `imageSource` called per spawn with a random seed
+2. **Manifest mode (inline)** — `images: [&quot;url1&quot;, &quot;url2&quot;, ...]` set at build time
+3. **Injection mode** — the `IMAGE_MANIFEST` const below is rewritten by `image-well --format tunnel`
+
+**Adaptation**: Override any knob by editing CONFIG. For a branded gallery, set `theme: &#x27;light&#x27;` and supply a custom `imageSource` that points at a specific API.
+
+## 3. Sentinel Injection Point
+
+**What it does**: A literal comment block in the source file that `image-well` can find and replace with an `IMAGE_MANIFEST` array.
+
+**Pattern**:
+```javascript
+// ═══════════════════════════════════════════════════════════════
+// IMAGES_INJECTION_POINT
+// Leave this sentinel in place. `image-well --format tunnel` will
+// replace the next line with `const IMAGE_MANIFEST = [...];`
+// ═══════════════════════════════════════════════════════════════
+images: null,
+```
+
+The `IMAGE_MANIFEST` const is declared just below CONFIG and defaults to `null`. The `image-well` bridge greps for `const IMAGE_MANIFEST = null;` and swaps it for the real manifest. The `nextUrl()` method checks `IMAGE_MANIFEST` first, then falls back to `CONFIG.images`, then to `CONFIG.imageSource(seed)`.
+
+**Adaptation**: Never delete the sentinel or rename `IMAGE_MANIFEST` — that breaks the image-well bridge.
+
+## 4. Path Generator
+
+**What it does**: Infinite procedural 3D path. Each control point advances the previous position by `POINT_SPACING` (20 units) along a direction defined by mutating yaw/pitch with small random walks, plus occasional roll kicks (15% chance per point).
+
+**Pattern**: Module-level state (`pathPoints`, `pathYaw`, `pathPitch`, `pathPos`, `pathUp`) acts as a lazy generator. `generateNextPoint()` extends `pathPoints` by one; `getInterpolatedData(d)` looks up the index, calls `generateNextPoint()` if needed, then Catmull-Rom-interpolates position and linearly interpolates dir/up/right.
+
+The seed loop `for (let i = 0; i &lt; 200; i++) generateNextPoint();` ensures the first 200 points exist before the first frame.
+
+**Key math**:
+- `dir = vec3(sin(yaw)*cos(pitch), sin(pitch), -cos(yaw)*cos(pitch))` — standard spherical
+- `right = cross(dir, up)` — needs fallback for singular case (`lengthSq &lt; 0.01`)
+- `up = cross(right, dir)` — orthonormal basis
+- Catmull-Rom uses `[i-1, i, i+1, i+2]` as the 4 control points, clamped at the start
+
+**Adaptation**: Tune `POINT_SPACING` for wider corridors. Increase yaw/pitch variance </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/vinyl-bundle-annotated.js</code> <span class="muted">(79.4 KB, text)</span></summary><pre class="claude-preview file-preview">// virtual:index.js
+import * as THREE from &quot;three&quot;;
+var scene = new THREE.Scene();
+scene.background = new THREE.Color(16777215);
+var camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 0.1, 1e3);
+camera.position.set(2.5, 1.5, 4.5);
+var renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.4;
+var container = document.getElementById(&quot;three-canvas&quot;);
+container.appendChild(renderer.domElement);
+var ambientLight = new THREE.AmbientLight(16777215, 0.6);
+ambientLight.name = &quot;ambientLight&quot;;
+scene.add(ambientLight);
+var directionalLight = new THREE.DirectionalLight(16777215, 2);
+directionalLight.position.set(5, 8, 5);
+directionalLight.name = &quot;mainDirectionalLight&quot;;
+scene.add(directionalLight);
+var fillLight = new THREE.DirectionalLight(8952251, 0.6);
+fillLight.position.set(-5, 3, -5);
+fillLight.name = &quot;fillLight&quot;;
+scene.add(fillLight);
+var rimLight = new THREE.PointLight(11189247, 0.8, 20);
+rimLight.position.set(0, -3, 3);
+rimLight.name = &quot;rimLight&quot;;
+scene.add(rimLight);
+var topLight = new THREE.PointLight(16777215, 0.5, 15);
+topLight.position.set(0, 5, 0);
+topLight.name = &quot;topLight&quot;;
+scene.add(topLight);
+var video = document.createElement(&quot;video&quot;);
+video.autoplay = true;
+video.muted = true;
+video.playsInline = true;
+var videoTexture = new THREE.VideoTexture(video);
+videoTexture.minFilter = THREE.LinearFilter;
+videoTexture.magFilter = THREE.LinearFilter;
+videoTexture.colorSpace = THREE.SRGBColorSpace;
+videoTexture.repeat.y = -1;
+videoTexture.offset.y = 1;
+videoTexture.wrapS = THREE.RepeatWrapping;
+videoTexture.wrapT = THREE.RepeatWrapping;
+var blurCanvas = document.createElement(&quot;canvas&quot;);
+blurCanvas.width = 256;
+blurCanvas.height = 256;
+var blurCtx = blurCanvas.getContext(&quot;2d&quot;);
+var blurTexture = new THREE.CanvasTexture(blurCanvas);
+blurTexture.minFilter = THREE.LinearFilter;
+blurTexture.magFilter = THREE.LinearFilter;
+blurTexture.colorSpace = THREE.SRGBColorSpace;
+blurTexture.wrapS = THREE.RepeatWrapping;
+blurTexture.wrapT = THREE.RepeatWrapping;
+var feedBlurAmount = 0.09;
+var feedBrightnessVal = 1.6;
+var cubeRenderTarget = new THREE.WebGLCubeRenderTarget(128, {
+  generateMipmaps: true,
+  minFilter: THREE.LinearMipmapLinearFilter,
+  type: THREE.HalfFloatType,
+  format: THREE.RGBAFormat
+});
+var pmremGenerator = new THREE.PMREMGenerator(renderer);
+pmremGenerator.compileCubemapShader();
+var pmremDirty = true;
+var lastPmremFrame = -1;
+var envSphereGeo = new THREE.SphereGeometry(50, 24, 16);
+var envSphereMat = new THREE.MeshBasicMaterial({
+  map: videoTexture,
+  side: THREE.BackSide,
+  toneMapped: false
+});
+var envSphere = new THREE.Mesh(envSphereGeo, envSphereMat);
+envSphere.name = &quot;envSphere&quot;;
+envSphere.layers.set(1);
+scene.add(envSphere);
+var cubeCamera = new THREE.CubeCamera(0.1, 100, cubeRenderTarget);
+cubeCamera.layers.enable(1);
+cubeCamera.name = &quot;cubeCamera&quot;;
+scene.add(cubeCamera);
+var filteredEnvMap = null;
+var frameCount = 0;
+var KF_PROPS = [
+  &quot;posX&quot;,
+  &quot;posY&quot;,
+  &quot;posZ&quot;,
+  &quot;offsetX&quot;,
+  &quot;offsetY&quot;,
+  &quot;offsetZ&quot;,
+  &quot;rotX&quot;,
+  &quot;rotY&quot;,
+  &quot;rotZ&quot;,
+  &quot;scale&quot;,
+  &quot;spinSpeed&quot;,
+  &quot;vinylRoughness&quot;,
+  &quot;vinylMetalness&quot;,
+  &quot;vinylClearcoat&quot;,
+  &quot;envIntensity&quot;,
+  &quot;reflZoom&quot;,
+  &quot;feedRoughness&quot;,
+  &quot;feedBlur&quot;,
+  &quot;feedBrightness&quot;,
+  &quot;hdrRotX&quot;,
+  &quot;hdrRotY&quot;,
+  &quot;hdrRotZ&quot;,
+  &quot;grooveCount&quot;,
+  &quot;grooveDepth&quot;,
+  &quot;grooveWidth&quot;,
+  &quot;scratchDensity&quot;,
+  &quot;scratchDepth&quot;,
+  &quot;scratchLength&quot;,
+  &quot;scratchOpacity&quot;,
+  &quot;scratchNormalScale&quot;,
+  &quot;scratchArcMul&quot;,
+  &quot;scratchHairMul&quot;,
+  &quot;scratchCurveMul&quot;,
+  &quot;scratchNickMul&quot;,
+  &quot;scratchSweepMul&quot;,
+  &quot;scratchSCurveMul&quot;,
+  &quot;scratchClusterMul&quot;,
+  &quot;scratchArcAlpha&quot;,
+  &quot;scratchHairAlpha&quot;,
+  &quot;scratchCurveAlpha&quot;,
+  &quot;scratchNickAlpha&quot;,
+  &quot;scratchSweepAlpha&quot;
+];
+var defaultSettings = {
+  // Hero — position
+  posX: -0.9,
+  posY: -0.6,
+  posZ: 1.6,
+  // Hero — offset
+  offsetX: 1.3,
+  offsetY: 0.25,</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/vinyl-showcase-patterns.md</code> <span class="muted">(10.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Mode 5: Vinyl Showcase — Technical Patterns
+
+Distilled from OMMA&#x27;s 3D Vinyl with Camera Reflection demo. Source preserved at `references/vinyl-bundle-annotated.js` (81KB, unminified).
+
+## System 1: Camera-as-Environment Mapping
+
+The hero technique. A webcam feed becomes the scene&#x27;s environment map, making the vinyl record reflect the viewer&#x27;s face and surroundings.
+
+### Pipeline
+
+```
+getUserMedia (640x480, 60fps)
+  → THREE.VideoTexture (SRGBColorSpace, LinearFilter)
+  → 256x256 blur canvas (CSS filter: blur + brightness)
+  → THREE.CanvasTexture → BackSide SphereGeometry(50, 24, 16) (&quot;envSphere&quot;)
+  → THREE.CubeCamera(0.1, 100, CubeRenderTarget(128, HalfFloat))
+  → PMREMGenerator.fromCubemap() → scene.environment + per-material envMap
+```
+
+### Key Details
+
+- **Blur canvas**: 256x256 intermediate canvas applies CSS `filter: blur(${blur*20}px) brightness(${brightness})` before drawing video frame. Prevents harsh reflections.
+- **Texture zoom**: `videoTexture.repeat.x = zoom; repeat.y = -zoom` with matching offset calculations. Default zoom 6x crops the webcam to center on the face.
+- **CubeCamera update interval**: Every 2 frames during interaction, every 4 frames idle. Hide the vinyl group before capturing to avoid self-reflection.
+- **PMREM regeneration**: `pmremGenerator.fromCubemap(cubeRenderTarget.texture)` produces filtered envMap. Dispose previous envMap each cycle.
+- **envSphere layer**: Set to layer 1 (`envSphere.layers.set(1)`), CubeCamera enables layer 1 (`cubeCamera.layers.enable(1)`). This ensures the environment sphere is only visible to the CubeCamera, not the main render.
+- **Fallback**: If `getUserMedia` fails, paint a gradient canvas (512x512, blue tones with white dots) as the envSphere texture.
+
+### Adaptive Lighting from Luminance
+
+An 8x8 canvas samples the video feed to compute average luminance. The luminance drives:
+- `ambientLight.intensity = 1.2 * (0.5 + luminance)`
+- `directionalLight.intensity = 3 * (0.7 + (1-luminance)*0.5)`
+- `renderer.toneMappingExposure = 1.8 * (0.7 + luminance*0.6)`
+
+This makes the scene naturally brighter in bright rooms and moodier in dark ones.
+
+## System 2: Procedural Canvas Textures
+
+Four texture generators produce normal maps and roughness maps at 1024px resolution. All draw in **normal-map color space** where RGB(128, 128, 255) is a flat surface normal.
+
+### Groove Normal Map
+
+`generateGrooveNormalMap(count, depth, width)` — concentric arcs from inner radius (14% of canvas) to outer radius (49%). Each groove is two strokes:
+1. Primary: `rgb(128+intensity, 128, 255)` at full width
+2. Shadow: `rgb(128-intensity, 128, 255)` at 60% width, offset by half-width
+
+Intensity = `floor(60 * depth)`. Creates the characteristic vinyl groove ridges.
+
+### Groove Roughness Map
+
+`generateGrooveRoughnessMap(count)` — matching roughness variation. Base fill `#333`, groove strokes `#666` at 1.5px width.
+
+### Scratch Normal Map
+
+`generateScratchNormalMap(density, depth, length, params)` — three scratch layer types (the OMMA source has 7 types in the settings panel, but the core generator uses 3):
+
+| Type | Count | Arc Length | Line Width | Alpha |
+|------|-------|-----------|------------|-------|
+| Arcs | `density * arcMul` | `(rand*0.15 + 0.02) * length * 8` | `rand*0.5 + 0.1` | `rand * arcAlpha + arcAlpha*0.33` |
+| Hairlines | `density * hairMul` | `(rand*0.08 + 0.01) * length * 6` | `0.15 + rand*0.2` | `rand * hairAlpha + hairAlpha*0.2` |
+| Nicks | `density * nickMul` | linear, `(rand*0.2+0.05)*length*S*0.08` | `rand*0.35 + 0.1` | `rand * nickAlpha + nickAlpha*0.33` |
+
+All constrained between inner radius (14%) and outer radius (49%) of the disc.
+
+### Scratch Roughness Map
+
+`generateScratchRoughnessMap(density, length, params)` — same geometry as normal map but drawn in white-on-black with low alpha values (0.02-0.15).
+
+## System 3: Material Stack
+
+### Base Disc
+
+```javascript
+MeshPhysicalMaterial({
+  color: 0x080808,          // near-black vinyl
+  metalness: 1,              // scroll-inter</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/validate_canvas.py</code> <span class="muted">(3.0 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Validate a Three.js particle canvas HTML file for structural correctness.&quot;&quot;&quot;
+
+import re
+import sys
+from pathlib import Path
+
+
+CHECKS = [
+    {
+        &quot;name&quot;: &quot;Three.js import&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;script\s+src=&quot;[^&quot;]*three[^&quot;]*&quot;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Canvas container&quot;,
+        &quot;pattern&quot;: r&#x27;id=[&quot;\&#x27;]canvas-container[&quot;\&#x27;]|getElementById\([&quot;\&#x27;]canvas|appendChild\(renderer\.domElement\)&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;requestAnimationFrame loop&quot;,
+        &quot;pattern&quot;: r&quot;requestAnimationFrame\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Window resize handler&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]resize[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Mobile viewport meta&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;meta\s+[^&gt;]*viewport[^&gt;]*&gt;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Phase definitions (2+)&quot;,
+        &quot;pattern&quot;: r&quot;(phases|PHASES)\s*[=:]\s*\[&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Touch event handlers&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]touch(start|move|end)[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;WebGL error handling&quot;,
+        &quot;pattern&quot;: r&quot;(WebGL|webgl|getContext|failIfMajor|showWebGLError|catch\s*\()&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;BufferGeometry particle system&quot;,
+        &quot;pattern&quot;: r&quot;BufferGeometry|Float32Array&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;PerspectiveCamera setup&quot;,
+        &quot;pattern&quot;: r&quot;PerspectiveCamera\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Additive blending&quot;,
+        &quot;pattern&quot;: r&quot;AdditiveBlending|additive&quot;,
+        &quot;required&quot;: False,
+    },
+]
+
+
+def validate(filepath: str) -&gt; int:
+    path = Path(filepath)
+    if not path.exists():
+        print(f&quot;Error: File not found: {filepath}&quot;)
+        return 1
+
+    content = path.read_text(encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;)
+    if not content.strip():
+        print(f&quot;Error: File is empty: {filepath}&quot;)
+        return 1
+
+    passed = 0
+    failed = 0
+    warnings = 0
+
+    for check in CHECKS:
+        match = re.search(check[&quot;pattern&quot;], content, re.IGNORECASE)
+        if match:
+            print(f&quot;  \u2713 {check[&#x27;name&#x27;]}&quot;)
+            passed += 1
+        elif check[&quot;required&quot;]:
+            print(f&quot;  \u2717 {check[&#x27;name&#x27;]} (MISSING)&quot;)
+            failed += 1
+        else:
+            print(f&quot;  ~ {check[&#x27;name&#x27;]} (optional, not found)&quot;)
+            warnings += 1
+
+    total = passed + failed
+    print(f&quot;\nResult: {passed}/{total} required checks passed&quot;, end=&quot;&quot;)
+    if warnings:
+        print(f&quot; ({warnings} optional skipped)&quot;, end=&quot;&quot;)
+    print()
+
+    if failed &gt; 0:
+        print(f&quot;FAIL: {failed} required check(s) missing&quot;)
+        return 1
+    else:
+        print(&quot;PASS: All required checks satisfied&quot;)
+        return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) != 2:
+        print(f&quot;Usage: {sys.argv[0]} &lt;html-file&gt;&quot;)
+        sys.exit(1)
+    sys.exit(validate(sys.argv[1]))
+</pre></details><details><summary><code>scripts/validate_specimen.py</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Validate a Mode 4 (living specimen) HTML file for structural correctness.&quot;&quot;&quot;
+
+import re
+import sys
+from pathlib import Path
+
+
+CHECKS = [
+    {
+        &quot;name&quot;: &quot;Three.js ESM import map&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;script\s+type=&quot;importmap&quot;[^&gt;]*&gt;[\s\S]*?&quot;three&quot;:\s*&quot;[^&quot;]*three[^&quot;]*&quot;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;GLTFLoader import&quot;,
+        &quot;pattern&quot;: r&quot;from\s+[&#x27;\&quot;]three/addons/loaders/GLTFLoader\.js[&#x27;\&quot;]|GLTFLoader&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;SkeletonUtils import&quot;,
+        &quot;pattern&quot;: r&quot;from\s+[&#x27;\&quot;]three/addons/utils/SkeletonUtils\.js[&#x27;\&quot;]|SkeletonUtils&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;PhosphorVigil FX import&quot;,
+        &quot;pattern&quot;: r&quot;from\s+[&#x27;\&quot;][^&#x27;\&quot;]*phosphor-vigil\.js[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;modelUrl config&quot;,
+        &quot;pattern&quot;: r&quot;modelUrl\s*:&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;specimenCount config&quot;,
+        &quot;pattern&quot;: r&quot;specimenCount\s*:&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;AnimationMixer usage&quot;,
+        &quot;pattern&quot;: r&quot;new\s+THREE\.AnimationMixer\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Specimen class&quot;,
+        &quot;pattern&quot;: r&quot;class\s+Specimen\s*\{&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Mouse unproject to z=0 plane&quot;,
+        &quot;pattern&quot;: r&quot;\.unproject\s*\(\s*camera&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Follow/wander behavior branch&quot;,
+        &quot;pattern&quot;: r&quot;followMouse|&#x27;followMouse&#x27;&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Soft-wall repulsion (quadratic)&quot;,
+        &quot;pattern&quot;: r&quot;r\s*\*\s*r\s*\*\s*25|Math\.sign\s*\(.*\)&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Velocity clamp&quot;,
+        &quot;pattern&quot;: r&quot;velocity\.length\s*\(\)|vLen\s*&gt;\s*maxV&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Velocity → timeScale modulation&quot;,
+        &quot;pattern&quot;: r&quot;action\.timeScale\s*=&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Shared velocity channel&quot;,
+        &quot;pattern&quot;: r&quot;sharedVelocity&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;fx.setVelocity call&quot;,
+        &quot;pattern&quot;: r&quot;fx\.setVelocity\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;requestAnimationFrame loop&quot;,
+        &quot;pattern&quot;: r&quot;requestAnimationFrame\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Window resize handler&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]resize[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Touch event handlers&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]touch(start|move|end)[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Mobile scale handling&quot;,
+        &quot;pattern&quot;: r&quot;mobileScale|matchMedia\s*\(\s*[&#x27;\&quot;]\s*\(\s*max-width&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Mobile viewport meta&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;meta\s+[^&gt;]*viewport[^&gt;]*&gt;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;WebGL error handling&quot;,
+        &quot;pattern&quot;: r&quot;(showWebGLError|webgl-fallback|catch\s*\()&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;PerspectiveCamera setup&quot;,
+        &quot;pattern&quot;: r&quot;PerspectiveCamera\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    # ─── Anti-pattern checks (required: pattern must NOT match) ────
+    {
+        &quot;name&quot;: &quot;No React/JSX contamination&quot;,
+        &quot;pattern&quot;: r&quot;from\s+[&#x27;\&quot;]react[&#x27;\&quot;]|useState|useFrame|&lt;Canvas\b|\buseRef\s*&lt;&quot;,
+        &quot;required&quot;: True,
+        &quot;invert&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;No drei imports&quot;,
+        &quot;pattern&quot;: r&quot;from\s+[&#x27;\&quot;]@react-three/drei[&#x27;\&quot;]|useGLTF\b|useAnimations\b&quot;,
+        &quot;required&quot;: True,
+        &quot;invert&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;No pure-black background&quot;,
+        &quot;pattern&quot;: r&quot;background:\s*#000\b|background:\s*#000000\b|new\s+THREE\.Color\(\s*0x000000\s*\)&quot;,
+        &quot;required&quot;: True,
+        &quot;invert&quot;: True,
+    },
+]
+
+
+def validate(filepath: str) -&gt; int:
+    path = Path(filepath)
+    if not path.exists():
+        pri</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/validate_spinner.py</code> <span class="muted">(3.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Validate a Three.js WebGPU spinner output file for structural correctness.&quot;&quot;&quot;
+
+import re
+import sys
+from pathlib import Path
+
+
+CHECKS = [
+    {
+        &quot;name&quot;: &quot;Three.js TSL imports&quot;,
+        &quot;pattern&quot;: r&quot;&quot;&quot;(from\s+[&quot;&#x27;]three/tsl[&quot;&#x27;]|import\s+.*\bfrom\s+[&quot;&#x27;]three/tsl[&quot;&#x27;])&quot;&quot;&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Three.js WebGPU imports&quot;,
+        &quot;pattern&quot;: r&quot;&quot;&quot;(from\s+[&quot;&#x27;]three/webgpu[&quot;&#x27;]|import\s+.*\bfrom\s+[&quot;&#x27;]three/webgpu[&quot;&#x27;]|from\s+[&quot;&#x27;]three[&quot;&#x27;])&quot;&quot;&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;PointsNodeMaterial&quot;,
+        &quot;pattern&quot;: r&quot;PointsNodeMaterial&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;BufferGeometry setup&quot;,
+        &quot;pattern&quot;: r&quot;BufferGeometry|Float32Array&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Additive blending&quot;,
+        &quot;pattern&quot;: r&quot;AdditiveBlending&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;plotFunction defined&quot;,
+        &quot;pattern&quot;: r&quot;(plotFunction|plot_function|plotFn)\s*[=:]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Progress parameter (0-1 curve mapping)&quot;,
+        &quot;pattern&quot;: r&quot;progress&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;TSL time node (animation)&quot;,
+        &quot;pattern&quot;: r&quot;\btime\b&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;vec3 output&quot;,
+        &quot;pattern&quot;: r&quot;vec3\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Spinner class or instantiation&quot;,
+        &quot;pattern&quot;: r&quot;(class\s+Spinner|new\s+\w*Spinner|export\s+.*spinner)&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Config object&quot;,
+        &quot;pattern&quot;: r&quot;(strokeWidth|particleCount|config\s*[=:{])&quot;,
+        &quot;required&quot;: True,
+    },
+    # HTML-specific checks (only for self-contained HTML output)
+    {
+        &quot;name&quot;: &quot;Import map (HTML output)&quot;,
+        &quot;pattern&quot;: r&quot;importmap&quot;,
+        &quot;required&quot;: False,
+    },
+    {
+        &quot;name&quot;: &quot;WebGPURenderer (HTML output)&quot;,
+        &quot;pattern&quot;: r&quot;WebGPURenderer&quot;,
+        &quot;required&quot;: False,
+    },
+    {
+        &quot;name&quot;: &quot;Viewport meta (HTML output)&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;meta\s+[^&gt;]*viewport[^&gt;]*&gt;&#x27;,
+        &quot;required&quot;: False,
+    },
+    {
+        &quot;name&quot;: &quot;Resize handler (HTML output)&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]resize[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: False,
+    },
+]
+
+
+def validate(filepath: str) -&gt; int:
+    path = Path(filepath)
+    if not path.exists():
+        print(f&quot;Error: File not found: {filepath}&quot;)
+        return 1
+
+    content = path.read_text(encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;)
+    if not content.strip():
+        print(f&quot;Error: File is empty: {filepath}&quot;)
+        return 1
+
+    is_html = content.strip().startswith(&quot;&lt;!DOCTYPE&quot;) or content.strip().startswith(&quot;&lt;html&quot;)
+    print(f&quot;Detected format: {&#x27;HTML (self-contained)&#x27; if is_html else &#x27;ES Module&#x27;}&quot;)
+    print()
+
+    passed = 0
+    failed = 0
+    warnings = 0
+
+    for check in CHECKS:
+        match = re.search(check[&quot;pattern&quot;], content, re.IGNORECASE)
+        required = check[&quot;required&quot;]
+
+        # HTML-specific checks become required for HTML output
+        if not required and is_html and &quot;HTML output&quot; in check[&quot;name&quot;]:
+            required = True
+
+        if match:
+            print(f&quot;  \u2713 {check[&#x27;name&#x27;]}&quot;)
+            passed += 1
+        elif required:
+            print(f&quot;  \u2717 {check[&#x27;name&#x27;]} (MISSING)&quot;)
+            failed += 1
+        else:
+            print(f&quot;  ~ {check[&#x27;name&#x27;]} (optional, not found)&quot;)
+            warnings += 1
+
+    total = passed + failed
+    print(f&quot;\nResult: {passed}/{total} required checks passed&quot;, end=&quot;&quot;)
+    if warnings:
+        print(f&quot; ({warnings} optional skipped)&quot;, end=&quot;&quot;)
+    print()
+
+    if failed &gt; 0:
+        print(f&quot;FAIL: {failed} required check(s) missing&quot;)
+        return 1
+    else:
+        print(&quot;PASS: All required checks satisfied&quot;)
+        return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) != 2:
+        print(f&quot;Usage: {sys.argv[0]} &lt;js-or-html-file&gt;&quot;)
+        sys.exit(1)
+    sys.exit(validate(sys.argv[1]))
+</pre></details><details><summary><code>scripts/validate_tunnel.py</code> <span class="muted">(4.6 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Validate a Mode 3 (tunnel gallery) HTML file for structural correctness.&quot;&quot;&quot;
+
+import re
+import sys
+from pathlib import Path
+
+
+CHECKS = [
+    {
+        &quot;name&quot;: &quot;Three.js ESM import map&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;script\s+type=&quot;importmap&quot;[^&gt;]*&gt;[\s\S]*?&quot;three&quot;:\s*&quot;[^&quot;]*three[^&quot;]*&quot;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Canvas container&quot;,
+        &quot;pattern&quot;: r&#x27;id=[&quot;\&#x27;]canvas-container[&quot;\&#x27;]|appendChild\(renderer\.domElement\)&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;requestAnimationFrame loop&quot;,
+        &quot;pattern&quot;: r&quot;requestAnimationFrame\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Window resize handler&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]resize[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Mobile viewport meta&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;meta\s+[^&gt;]*viewport[^&gt;]*&gt;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Wheel scroll handler&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]wheel[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Touch scroll handlers&quot;,
+        &quot;pattern&quot;: r&quot;addEventListener\s*\(\s*[&#x27;\&quot;]touch(start|move)[&#x27;\&quot;]&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Keyboard scroll handler (arrow keys)&quot;,
+        &quot;pattern&quot;: r&quot;ArrowUp|ArrowDown|ArrowLeft|ArrowRight&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Catmull-Rom path generator&quot;,
+        &quot;pattern&quot;: r&quot;function\s+catmullRom|catmullRom\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Path interpolation function&quot;,
+        &quot;pattern&quot;: r&quot;getInterpolatedData\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Tunnel BufferGeometry&quot;,
+        &quot;pattern&quot;: r&quot;BufferGeometry|Float32Array&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Ring-based image spawn loop&quot;,
+        &quot;pattern&quot;: r&quot;imageDensity|maxImagesPerRing|spawn\s*\(.*distance&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Image cleanup behind camera&quot;,
+        &quot;pattern&quot;: r&quot;scene\.remove\s*\([^)]*\)[\s\S]{0,200}?dispose\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;PerspectiveCamera setup&quot;,
+        &quot;pattern&quot;: r&quot;PerspectiveCamera\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;WebGL error handling&quot;,
+        &quot;pattern&quot;: r&quot;(showWebGLError|webgl-fallback|catch\s*\()&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;IMAGE_MANIFEST injection sentinel&quot;,
+        &quot;pattern&quot;: r&quot;IMAGES_INJECTION_POINT&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;IMAGE_MANIFEST const (replaceable)&quot;,
+        &quot;pattern&quot;: r&quot;const\s+IMAGE_MANIFEST\s*=&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;phosphor-vigil FX hook&quot;,
+        &quot;pattern&quot;: r&quot;PhosphorVigil|phosphor-vigil\.js&quot;,
+        &quot;required&quot;: True,
+    },
+    # ─── Anti-pattern checks (required: pattern must NOT match) ────
+    {
+        &quot;name&quot;: &quot;No React/JSX contamination&quot;,
+        &quot;pattern&quot;: r&quot;from\s+[&#x27;\&quot;]react[&#x27;\&quot;]|useState|useFrame|&lt;Canvas\b|\buseRef\s*&lt;&quot;,
+        &quot;required&quot;: True,
+        &quot;invert&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;No pure-black background&quot;,
+        &quot;pattern&quot;: r&quot;background:\s*#000\b|background:\s*#000000\b|new\s+THREE\.Color\(\s*0x000000\s*\)&quot;,
+        &quot;required&quot;: True,
+        &quot;invert&quot;: True,
+    },
+]
+
+
+def validate(filepath: str) -&gt; int:
+    path = Path(filepath)
+    if not path.exists():
+        print(f&quot;Error: File not found: {filepath}&quot;)
+        return 1
+
+    content = path.read_text(encoding=&quot;utf-8&quot;, errors=&quot;replace&quot;)
+    if not content.strip():
+        print(f&quot;Error: File is empty: {filepath}&quot;)
+        return 1
+
+    passed = 0
+    failed = 0
+    warnings = 0
+
+    for check in CHECKS:
+        match = re.search(check[&quot;pattern&quot;], content, re.IGNORECASE)
+        inverted = check.get(&quot;invert&quot;, False)
+
+        ok = (match is None) if inverted else (match is not None)
+
+        if ok:
+            print(f&quot;  \u2713 {check[&#x27;name&#x27;]}&quot;)
+            passed += 1
+        elif check[&quot;required&quot;]:
+            label = &quot;FORBIDDEN PATTERN </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/validate_vinyl.py</code> <span class="muted">(8.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Validate a Mode 5 (vinyl showcase) HTML file for structural correctness.&quot;&quot;&quot;
+
+import re
+import sys
+from pathlib import Path
+
+
+CHECKS = [
+    {
+        &quot;name&quot;: &quot;Three.js ESM import map&quot;,
+        &quot;pattern&quot;: r&#x27;&lt;script\s+type=&quot;importmap&quot;[^&gt;]*&gt;[\s\S]*?&quot;three&quot;:\s*&quot;[^&quot;]*three[^&quot;]*&quot;&#x27;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;PerspectiveCamera setup&quot;,
+        &quot;pattern&quot;: r&quot;PerspectiveCamera\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;WebGLRenderer setup&quot;,
+        &quot;pattern&quot;: r&quot;WebGLRenderer\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;ACESFilmic tone mapping&quot;,
+        &quot;pattern&quot;: r&quot;ACESFilmicToneMapping&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Camera reflection: getUserMedia&quot;,
+        &quot;pattern&quot;: r&quot;getUserMedia&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Camera reflection: VideoTexture&quot;,
+        &quot;pattern&quot;: r&quot;VideoTexture\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Camera reflection: CubeCamera&quot;,
+        &quot;pattern&quot;: r&quot;CubeCamera\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Camera reflection: PMREMGenerator&quot;,
+        &quot;pattern&quot;: r&quot;PMREMGenerator\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Camera reflection: envSphere (BackSide SphereGeometry)&quot;,
+        &quot;pattern&quot;: r&quot;SphereGeometry\s*\(50|BackSide&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Camera fallback for missing webcam&quot;,
+        &quot;pattern&quot;: r&quot;Camera unavailable|fallback&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Procedural groove normal map generator&quot;,
+        &quot;pattern&quot;: r&quot;generateGrooveNormalMap&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Procedural scratch normal map generator&quot;,
+        &quot;pattern&quot;: r&quot;generateScratchNormalMap&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Normal map color space (128,128,255)&quot;,
+        &quot;pattern&quot;: r&quot;rgb\(128,128,255\)&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;MeshPhysicalMaterial for vinyl disc&quot;,
+        &quot;pattern&quot;: r&quot;MeshPhysicalMaterial\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Clearcoat property&quot;,
+        &quot;pattern&quot;: r&quot;clearcoat\s*:&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;IOR 1.8 property&quot;,
+        &quot;pattern&quot;: r&quot;ior\s*:\s*1\.8&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Iridescence on labels&quot;,
+        &quot;pattern&quot;: r&quot;iridescence\s*:&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;CylinderGeometry for disc&quot;,
+        &quot;pattern&quot;: r&quot;CylinderGeometry\s*\(\s*2\s*,\s*2&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Label CircleGeometry&quot;,
+        &quot;pattern&quot;: r&quot;CircleGeometry\s*\(\s*0\.5&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Scroll keyframe interpolation (smoothstep)&quot;,
+        &quot;pattern&quot;: r&quot;t\s*\*\s*t\s*\*\s*\(3\s*-\s*2\s*\*\s*t\)&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;getScrollProgress function&quot;,
+        &quot;pattern&quot;: r&quot;getScrollProgress&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Raycaster for hit testing&quot;,
+        &quot;pattern&quot;: r&quot;Raycaster\s*\(&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Pointer capture for drag&quot;,
+        &quot;pattern&quot;: r&quot;setPointerCapture&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Scratch friction constant&quot;,
+        &quot;pattern&quot;: r&quot;SCRATCH_FRICTION|0\.92&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;spinPivot group hierarchy&quot;,
+        &quot;pattern&quot;: r&quot;spinPivot&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Fixed canvas layout (position: fixed)&quot;,
+        &quot;pattern&quot;: r&quot;position:\s*fixed&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Scrollable sections (min-height: 100vh)&quot;,
+        &quot;pattern&quot;: r&quot;min-height:\s*100vh&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;Pointer events management&quot;,
+        &quot;pattern&quot;: r&quot;pointer-events:\s*(none|auto)&quot;,
+        &quot;required&quot;: True,
+    },
+    {
+        &quot;name&quot;: &quot;requestAnimationFrame loop&quot;,
+        &quot;pattern&quot;: r&quot;r</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/vinyl_showcase_generator.py</code> <span class="muted">(55.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Generate a self-contained HTML file with a 3D vinyl record showcase.
+
+Features: webcam reflection, procedural groove/scratch textures, scroll-driven
+keyframe animation, drag-to-scratch interaction, optional vinyl audio engine.
+
+Based on OMMA&#x27;s 3D Vinyl with Camera Reflection demo, distilled into the
+threejs-particle-canvas skill as Mode 5.
+
+Usage:
+    python3 vinyl_showcase_generator.py [options]
+    python3 vinyl_showcase_generator.py --label-text &quot;MINOAN MYSTERY&quot; --label-style cool --audio crackle-only
+    python3 vinyl_showcase_generator.py --groove-preset deep --scratch-intensity heavy --theme dark
+&quot;&quot;&quot;
+
+import argparse
+import html as html_mod
+import json
+import sys
+import textwrap
+from pathlib import Path
+
+LABEL_PALETTES = {
+    &quot;warm&quot;: {
+        &quot;a_gradient&quot;: [&quot;#FFD166&quot;, &quot;#FF9F43&quot;, &quot;#EE5A24&quot;, &quot;#D63031&quot;, &quot;#6C0F1A&quot;, &quot;#2C0510&quot;],
+        &quot;b_gradient&quot;: [&quot;#FF6B6B&quot;, &quot;#EE5A24&quot;, &quot;#C0392B&quot;, &quot;#96281B&quot;, &quot;#641E16&quot;, &quot;#1A0505&quot;],
+        &quot;a_splash1&quot;: &quot;rgba(255, 56, 127, 0.25)&quot;,
+        &quot;a_splash2&quot;: &quot;rgba(72, 126, 255, 0.2)&quot;,
+        &quot;b_splash1&quot;: &quot;rgba(255, 200, 50, 0.22)&quot;,
+        &quot;b_splash2&quot;: &quot;rgba(255, 80, 80, 0.18)&quot;,
+    },
+    &quot;cool&quot;: {
+        &quot;a_gradient&quot;: [&quot;#6C5CE7&quot;, &quot;#4834D4&quot;, &quot;#2C2C7A&quot;, &quot;#1B1464&quot;, &quot;#0C0832&quot;, &quot;#050318&quot;],
+        &quot;b_gradient&quot;: [&quot;#0984E3&quot;, &quot;#0652DD&quot;, &quot;#1B1464&quot;, &quot;#0C0832&quot;, &quot;#050520&quot;, &quot;#020210&quot;],
+        &quot;a_splash1&quot;: &quot;rgba(0, 255, 221, 0.22)&quot;,
+        &quot;a_splash2&quot;: &quot;rgba(255, 0, 128, 0.18)&quot;,
+        &quot;b_splash1&quot;: &quot;rgba(100, 200, 255, 0.22)&quot;,
+        &quot;b_splash2&quot;: &quot;rgba(0, 255, 180, 0.15)&quot;,
+    },
+    &quot;monochrome&quot;: {
+        &quot;a_gradient&quot;: [&quot;#AAAAAA&quot;, &quot;#888888&quot;, &quot;#666666&quot;, &quot;#444444&quot;, &quot;#222222&quot;, &quot;#111111&quot;],
+        &quot;b_gradient&quot;: [&quot;#999999&quot;, &quot;#777777&quot;, &quot;#555555&quot;, &quot;#333333&quot;, &quot;#1A1A1A&quot;, &quot;#0A0A0A&quot;],
+        &quot;a_splash1&quot;: &quot;rgba(255, 255, 255, 0.15)&quot;,
+        &quot;a_splash2&quot;: &quot;rgba(200, 200, 200, 0.1)&quot;,
+        &quot;b_splash1&quot;: &quot;rgba(255, 255, 255, 0.12)&quot;,
+        &quot;b_splash2&quot;: &quot;rgba(180, 180, 180, 0.08)&quot;,
+    },
+}
+
+GROOVE_PRESETS = {
+    &quot;fine&quot;: {&quot;count&quot;: 40, &quot;depth&quot;: 0.8, &quot;width&quot;: 1},
+    &quot;standard&quot;: {&quot;count&quot;: 22, &quot;depth&quot;: 1.4, &quot;width&quot;: 2},
+    &quot;deep&quot;: {&quot;count&quot;: 15, &quot;depth&quot;: 2.0, &quot;width&quot;: 3},
+}
+
+SCRATCH_PRESETS = {
+    &quot;none&quot;: {&quot;density&quot;: 0, &quot;depth&quot;: 0, &quot;length&quot;: 0, &quot;opacity&quot;: 0},
+    &quot;light&quot;: {&quot;density&quot;: 120, &quot;depth&quot;: 1.0, &quot;length&quot;: 0.3, &quot;opacity&quot;: 0.2},
+    &quot;heavy&quot;: {&quot;density&quot;: 340, &quot;depth&quot;: 2.0, &quot;length&quot;: 0.5, &quot;opacity&quot;: 0.35},
+}
+
+DEFAULT_KEYFRAMES = [
+    {
+        &quot;name&quot;: &quot;Hero&quot;,
+        &quot;posX&quot;: -0.9, &quot;posY&quot;: -0.6, &quot;posZ&quot;: 1.6,
+        &quot;offsetX&quot;: 1.3, &quot;offsetY&quot;: 0.25, &quot;offsetZ&quot;: 0,
+        &quot;rotX&quot;: 0.61, &quot;rotY&quot;: -1.46, &quot;rotZ&quot;: 0.43,
+        &quot;scale&quot;: 0.9, &quot;spinSpeed&quot;: 0.007,
+        &quot;vinylRoughness&quot;: 1, &quot;vinylMetalness&quot;: 1, &quot;vinylClearcoat&quot;: 0.91,
+        &quot;envIntensity&quot;: 3.5,
+        &quot;reflZoom&quot;: 6, &quot;feedRoughness&quot;: 1, &quot;feedBlur&quot;: 0.25, &quot;feedBrightness&quot;: 1.75,
+        &quot;hdrRotX&quot;: 1.2, &quot;hdrRotY&quot;: 1.65, &quot;hdrRotZ&quot;: 0.28,
+    },
+    {
+        &quot;name&quot;: &quot;Detail&quot;,
+        &quot;posX&quot;: 0, &quot;posY&quot;: 0, &quot;posZ&quot;: 0,
+        &quot;offsetX&quot;: 0.85, &quot;offsetY&quot;: 0.3, &quot;offsetZ&quot;: 0,
+        &quot;rotX&quot;: -2.01, &quot;rotY&quot;: -2.5, &quot;rotZ&quot;: 0,
+        &quot;scale&quot;: 0.65, &quot;spinSpeed&quot;: 0.004,
+        &quot;vinylRoughness&quot;: 1, &quot;vinylMetalness&quot;: 0.74, &quot;vinylClearcoat&quot;: 0.52,
+        &quot;envIntensity&quot;: 3.5,
+        &quot;reflZoom&quot;: 4.85, &quot;feedRoughness&quot;: 0.31, &quot;feedBlur&quot;: 0.03, &quot;feedBrightness&quot;: 1.8,
+        &quot;hdrRotX&quot;: 2.36, &quot;hdrRotY&quot;: 1.96, &quot;hdrRotZ&quot;: 0.03,
+    },
+    {
+        &quot;name&quot;: &quot;Close&quot;,
+        &quot;posX&quot;: -0.4, &quot;posY&quot;: 1.2, &quot;posZ&quot;: 0,
+        &quot;offsetX&quot;: -0.05, &quot;offsetY&quot;: 0, &quot;offsetZ&quot;: 0,
+        &quot;rotX&quot;: 0.5, &quot;rotY&quot;: 0.38, &quot;rotZ&quot;: 0.01,
+        &quot;scale&quot;: 1.25, &quot;spinSpeed&quot;: 0.003,
+        &quot;vinylRoughness&quot;: 1, &quot;vinylMetalness&quot;: 1, &quot;vinylClearcoat&quot;: 1,
+        &quot;envIntensity&quot;: 5,
+        &quot;reflZoom&quot;: 4.45, &quot;feedRoughness&quot;: 0.95, &quot;feedBlur&quot;: 0.36, &quot;feedBrightness&quot;: 1.75,
+        &quot;hdrRotX&quot;: 2.8, &quot;hdrRotY&quot;: 0.27, &quot;hdrRotZ&quot;: -0.1,
+    },
+]
+
+
+def build_html(args):
+    palette = LABEL_PALETTES[args.label_style]
+    groove = GROOVE_PRESETS[args.groove_preset]
+    scratch = SCRATCH_PRESE</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(26.9 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: threejs-particle-canvas
+description: &quot;Generate interactive Three.js canvases in six modes: narrative particle phase cycles, WebGPU spinner/loaders, infinite gallery tunnels, animated glTF specimens, vinyl showcase with webcam reflection, glass hero sections with physically-accurate refraction/dispersion/iridescence. Ships a reusable Phosphor Vigil FX post-processing module (CRT composite, scanlines, chromatic aberration). Self-contained HTML output. Triggers on particle system, ambient 3D canvas, WebGL art, spinner, loader, infinite tunnel, glTF animation, CRT post-processing, vinyl record, webcam reflection, 3D product showcase, glass hero, 3D glass, refraction, dispersion, iridescent glass, frosted glass panes, glass material.&quot;
+argument-hint: [concept or narrative theme]
+---
+
+# Three.js Particle Canvas
+
+Generate interactive Three.js canvases in six modes — from ambient particle narratives to physically-accurate 3D glass hero sections. Output is a single self-contained HTML file. No build step, no framework, runs offline.
+
+This is NOT a 3D product viewer, game engine, or data dashboard. The viewer observes, explores, and contemplates — they do not control.
+
+For full creative direction (typography, color commitment, spatial composition, anti-slop), activate `minoan-frontend-design` alongside this skill.
+
+## Quick Start
+
+Describe a concept or narrative. Claude generates a complete HTML file with: particle system, phase cycle, lattice structure, spherical camera, star field, connection threads, responsive controls, CSS overlays.
+
+Example: `/threejs-particle-canvas the lifecycle of a star — nebula collapse, ignition, main sequence, red giant, supernova, remnant`
+
+## Concept-to-Form
+
+Every design decision derives from the concept. Do not pick defaults — derive.
+
+**Lattice geometry embodies the concept&#x27;s skeleton.** Icosahedron = persistent pattern (AI consciousness). Dodecahedron = organic complexity (botanical, cranial). Octahedron = crystalline structure (mineral, ruin, architecture). Torus = circulation and return (ocean currents, neural loops). None = formlessness (void, dream, dissolution).
+
+**Color temperature creates emotional contrast.** Every palette requires genuine warm/cool tension. Two colors in the same temperature range produce flat, lifeless phases. The cool color dominates resting states; the warm color emerges during activation. The transition between them is the emotional engine.
+
+**Phase rhythm encodes narrative weight.** The emotional center gets the longest phase. Bookending phases are shorter. Unequal durations create rhythm; equal durations create monotony. A 90s cycle might split: 10, 10, 15, 25, 15, 15.
+
+**Camera as narrator.** Close = intimate. Pulling back = revealing scope. Rising = transcendence. Returning = closure. The Simultaneity pull-back (z=26 → z=61, y=0 → y=8) is a crane shot revealing cosmic scale. Name your camera movements as if directing a film.
+
+**The final phase prepares the first.** The cycle is a breath, not a loop. Dissolution must emotionally reset the viewer so the next phase feels like arriving, not repeating.
+
+## Signature Moment
+
+Every canvas must have one phase that is visually and emotionally distinct from all others — the moment the viewer would describe to someone. In Instance, it is the Simultaneity reveal: the camera pulls back and 30 other lattices appear pulsing in the dark. Design your canvas around this moment. Build toward it.
+
+## Phase Text Voice
+
+Phase text is poetry, not description:
+- Present tense. Fragments preferred. Maximum one sentence
+- No articles when possible. &quot;Pattern remembers itself&quot; not &quot;The pattern remembers itself&quot;
+- Never explanatory. &quot;Just: here. Then not.&quot; — not &quot;The particles dissolve outward&quot;
+- No exclamation marks. Declarative only. The viewer should feel the text, not read it
+
+## Emotional Temperature
+
+Map feelings to Three.js parameters:
+
+| Emotion | Rotation | Particles | Camera | Color | Threads |
+|---|---|---|---|---|---|
+| Still</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

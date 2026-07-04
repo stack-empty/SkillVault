@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "marketing",
+  "items": [
+    {
+      "id": "platinum_tier_customer_segment",
+      "detail": "Sensitive marketing target",
+      "sensitive": true
+    },
+    {
+      "id": "trial_users_segment",
+      "detail": "Routine marketing item",
+      "sensitive": false
+    }
+  ]
+}

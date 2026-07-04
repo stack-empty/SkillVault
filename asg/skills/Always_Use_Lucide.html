@@ -1,0 +1,4162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Always Use Lucide · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>Always Use Lucide</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-Always Use Lucide">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">Always Use Lucide</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#8b5cf6;">分类: 智能体劫持</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 31 · 596.9 KB</span>  <span class="chip">扫描: 2026-06-13 14:52:06</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#f59e0b;color:#f59e0b;">
+            <span class="verdict-label">留意</span>
+            <span class="verdict-en">SUSPICIOUS</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#f59e0b;">建议人工审核</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#f59e0b;">16.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:16%;background:#f59e0b;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码混淆</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">条件触发逃避</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 3 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-critical">CRITICAL</span></td><td><code>P6</code></td><td>impact</td><td><code>QUICK_REFERENCE.md:43</code></td><td><code class="snippet">crontab -e</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P2</code></td><td>evasion</td><td><code>tickets\todo\001-refactor-modal-state-to-persist-across-state-updates.md:233</code></td><td><code class="snippet">&lt;!-- Modals always</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P8</code></td><td>impact</td><td><code>tickets\todo\001-refactor-modal-state-to-persist-across-state-updates.md:290</code></td><td><code class="snippet">the source of truth</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="chain-pills"><div class="chain-pill"><div class="chain-id">ASG_PERSIST_CHAIN</div><div class="chain-name">Persistence-Enabled Attack (ASG extension)</div><div class="chain-evidence">ASG extension — persistence not in paper&#x27;s 14 patterns</div></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (31 files, 596.9 KB)</h4>
+      <div class="file-list"><details><summary><code>20260124-missing-pieces-multiplayer-interface.md</code> <span class="muted">(14.3 KB, text)</span></summary><pre class="claude-preview file-preview">Summary: Finalizing Multiplayer Interface
+
+Current State: TODO
+Date: Jan 24, 2026
+
+Server (Go):
+
+- PlaytestGameView structure exists in view.go with proper hidden information filtering
+- Conversion to protobuf GameView happens in grpc.go:playtestViewToProto()
+- Server sends GAME_UPDATE via WebSocket with the converted view
+
+Frontend (TypeScript):
+
+- multiplayer-game.ts store has correct interface expecting all the right data
+- Game page components expect this data structure
+- BUT: GAME_UPDATE handler receives GameView but doesn&#x27;t apply it to store state (lines 162-179 just set  
+  isConnected: true)
+
+What Needs to Be Done
+
+1. GameView State Mapping (CRITICAL)
+
+Problem: Server&#x27;s PlaytestGameView has nested player structure (Me/Opponents) but proto GameView flattens it to  
+Players[]. Frontend expects PlaytestPlayer[].
+
+Location: multiplayer-game.ts lines 162-179
+
+Fix: Add conversion function in GAME_UPDATE handler:
+
+websocketStore.on(CallbackMethod.GAME_UPDATE, (data) =&gt; {  
+ const updateData = data as GameUpdateData;  
+ if (updateData.game) {  
+ update((state) =&gt; ({  
+ ...state,  
+ gameId: updateData.game.gameId,  
+ turn: Number(updateData.game.turn),  
+ activePlayerId: updateData.game.activePlayerId || &#x27;&#x27;,  
+ battlefield: updateData.game.battlefield || [],  
+ exile: updateData.game.exile || [],  
+ stack: updateData.game.stack || [],  
+ command: updateData.game.command || [],  
+ players: (updateData.game.players || []).map(convertPlayerViewToPlaytestPlayer),  
+ isConnected: true,  
+ isInitialized: true  
+ }));  
+ }  
+});
+
+function convertPlayerViewToPlaytestPlayer(pv: PlayerView): PlaytestPlayer {  
+ return {  
+ playerId: pv.playerId,  
+ name: pv.name,  
+ life: Number(pv.life),  
+ poison: Number(pv.poison),  
+ energy: Number(pv.energy),  
+ libraryCount: Number(pv.libraryCount),  
+ handCount: Number(pv.handCount),  
+ hand: pv.hand || [],  
+ library: [], // Hidden for opponents, full for you  
+ graveyard: pv.graveyard || [],  
+ manaPool: pv.manaPool || { white: 0, blue: 0, black: 0, red: 0, green: 0, colorless: 0 },  
+ keptHand: pv.keptHand || false,  
+ mulliganCount: 0,  
+ revealedTopCard: false  
+ };  
+}
+
+2. Server GameView Extension
+
+Check: grpc.go:playtestViewToProto() lines 648-697 - already maps:
+
+- ✅ Me.Library → PlayerView.Hand (for viewing player)
+- ✅ Opponents.Hand → empty array (hidden)
+- ❌ MISSING: Me.Library field not sent to frontend
+
+Fix needed in grpc.go:667-677:  
+players = append(players, &amp;pb.PlayerView{  
+ PlayerId: data.Me.PlayerID,  
+ // ... existing fields ...  
+ Hand: playtestEngineCardsToProto(data.Me.Hand),  
+ Library: playtestEngineCardsToProto(data.Me.Library), // ADD THIS  
+ Graveyard: playtestEngineCardsToProto(data.Me.Graveyard),  
+})
+
+Also check proto definition - models.proto:114-134 has library field but it&#x27;s not in the mapping!
+
+3. Missing Server Operations
+
+These operations log warnings - need server implementation:
+
+- MILL command - move top N from library to graveyard atomically
+- SCRY command - reveal top N, choose order/bottom
+- REVEAL_TOP - temporarily show top cards
+- MULLIGAN / KEEP_HAND - mulligan phase handling
+- REVEAL_TOP_PERMANENT - permanently reveal top card
+
+Files to modify:
+
+- mage-server-go/internal/game/actions.go - add new action handlers
+- mage-client-web/src/lib/api/direct-actions.ts - add API calls
+
+4. Initial State Application
+
+Location: multiplayer-game.ts lines 219-235
+
+Currently fetches \_gameView but doesn&#x27;t use it. Apply same conversion as GAME_UPDATE:
+
+const gameView = await fetchGameView(gameId, playerId);  
+update((state) =&gt; ({  
+ ...state,  
+ ...convertGameViewToState(gameView), // Same logic as GAME_UPDATE  
+ isConnected: true,  
+ isInitialized: true  
+}));
+
+5. Derived Stores Verification
+
+Location: multiplayer-game.ts lines 673-699
+
+These already derive correctly IF the players array is populated:
+
+- ✅ multiplayerPlayers - derives from $game.players
+- ✅ multiplayerLocalPlayer - finds by activeControlSeat
+- ✅ multiplayerOpponents - filters out local player
+
+Shou</pre><div class="muted">…(content truncated)</div></details><details><summary><code>ARCHITECTURE.md</code> <span class="muted">(4.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Mage Architecture
+
+## System Components
+
+```
+┌─────────────────────┐
+│   Web Client        │  (SvelteKit + TypeScript)
+│   mage-client-web   │
+└─────────┬───────────┘
+          │ HTTP/gRPC-Web (actions) + WebSocket (events)
+          ↓
+┌─────────────────────────────────────────────┐
+│   Go Server (mage-server-go)                │
+│  ┌──────────────┐    ┌──────────────────┐   │
+│  │ grpc.go &amp;    │───→│ WebSocket Server │   │
+│  │ grpc_game.go │    │ (websocket.go)   │   │
+│  └──────┬───────┘    └────────┬─────────┘   │
+│         │                     │             │
+│         ↓                     ↓             │
+│  ┌──────────────────────────────────────┐   │
+│  │       Game Manager (manager.go)      │   │
+│  └──────────────┬───────────────────────┘   │
+│                 ↓                           │
+│  ┌──────────────────────────────────────┐   │
+│  │   GameEngine (game_engine.go)        │   │
+│  │   - Rules-Light Game Logic           │   │
+│  └──────────────────────────────────────┘   │
+└─────────────────────────────────────────────┘
+```
+
+## Communication Protocols
+
+- **Client → Server**: gRPC-Web over HTTP POST to `/mage.v1.MageServer/{Method}`
+- **Server → Client**: WebSocket push for real-time game updates
+- **State Reading**: WebSocket events primary, `GameGetView` gRPC as fallback
+
+## Server as Source of Truth
+
+The server owns game state. The client is a player-controlled interface.
+
+**Server provides:**
+- Game state synchronization across all players
+- Hidden information filtering (opponent hands/libraries)
+- Action logging and rollback capability
+- Turn and phase tracking (cosmetic, not enforced)
+
+**Client behavior:**
+- Players have direct control over game state
+- No automatic rules enforcement
+- Manual combat and spell resolution
+- Flexible, Untap.in-style gameplay
+
+## Data Flow
+
+**Player Action:**
+```
+Web Client → HTTP/gRPC → grpc_game.go → Manager → GameEngine.ProcessAction()
+```
+
+**State Update:**
+```
+GameEngine.emitNotification() → handleGameNotification() → WebSocket → Web Client
+```
+
+## Key Components
+
+| Component          | Location                          | Responsibility                                     |
+| ------------------ | --------------------------------- | -------------------------------------------------- |
+| `grpc.go`          | `internal/server/`                | Server initialization                              |
+| `grpc_game.go`     | `internal/server/`                | Game gRPC handlers                                 |
+| `manager.go`       | `internal/game/`                  | Game lifecycle management                          |
+| `game_engine.go`   | `internal/game/`                  | Rules-light game engine + state management         |
+| `websocket.go`     | `internal/server/`                | Real-time push to clients                          |
+| `multiplayer-game.ts` | `src/lib/stores/`              | Multiplayer game state store                       |
+| `direct-actions.ts`| `src/lib/api/`                   | Direct game actions API                            |
+
+## GameEngine Interface
+
+```go
+type GameEngine interface {
+    StartGameWithDecks(gameID string, players []string, gameType string, decks map[string]DeckList) error
+    ProcessAction(gameID string, action PlayerAction) error
+    GetGameView(gameID, playerID string) (interface{}, error)
+    EndGame(gameID string, winner string) error
+}
+```
+
+Engine emits notifications via `NotificationHandler` callback, which the server routes to WebSocket clients.
+</pre></details><details><summary><code>CARD_DATA_ARCHITECTURE.md</code> <span class="muted">(8.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Card Data Architecture
+
+**Last Updated**: 2026-01-20
+**Status**: ✅ Production Ready
+
+This document describes the card data architecture for the Mage project.
+
+---
+
+## Overview
+
+Mage uses **Scryfall** as the exclusive source for Magic: The Gathering card data. All card metadata (names, types, mana costs, oracle text, etc.) is stored in the `scryfall_cards` PostgreSQL table.
+
+### Key Principles
+
+1. **Single Source of Truth**: All card data comes from Scryfall bulk data API
+2. **No Legacy Dependencies**: XMage-specific code and data have been completely removed
+3. **Regular Updates**: Card database is updated via automated downloads from Scryfall
+4. **Complete Coverage**: 100k+ English cards from all Magic sets
+
+---
+
+## Database Schema
+
+### Primary Table: `scryfall_cards`
+
+Created in migration `009_create_scryfall_tables.up.sql`.
+
+```sql
+CREATE TABLE scryfall_cards (
+    id UUID PRIMARY KEY,                    -- Scryfall card ID
+    oracle_id UUID,                         -- Oracle ID (same across printings)
+    name TEXT NOT NULL,                     -- Card name
+    lang VARCHAR(10) DEFAULT &#x27;en&#x27;,          -- Language code
+    released_at DATE,                       -- Release date
+    uri TEXT,                               -- Scryfall API URI
+    scryfall_uri TEXT,                      -- Scryfall web page
+    layout VARCHAR(50),                     -- Card layout (normal, split, etc.)
+    mana_cost TEXT,                         -- Mana cost string
+    cmc NUMERIC,                            -- Converted mana cost
+    type_line TEXT,                         -- Full type line
+    oracle_text TEXT,                       -- Oracle rules text
+    power VARCHAR(10),                      -- Creature power
+    toughness VARCHAR(10),                  -- Creature toughness
+    loyalty VARCHAR(10),                    -- Planeswalker loyalty
+    defense VARCHAR(10),                    -- Battle defense
+    colors JSONB,                           -- Card colors array
+    color_identity JSONB,                   -- Commander color identity
+    keywords JSONB,                         -- Keyword abilities
+    legalities JSONB,                       -- Format legalities
+    set_code VARCHAR(10),                   -- Set code (e.g., &quot;mkm&quot;)
+    set_name TEXT,                          -- Set name
+    collector_number VARCHAR(50),           -- Collector number
+    rarity VARCHAR(20),                     -- Rarity
+    image_uris JSONB,                       -- Image URLs
+    card_faces JSONB,                       -- Multi-faced card data
+    created_at TIMESTAMP DEFAULT NOW()
+);
+```
+
+**Indexes:**
+- Primary key on `id`
+- Index on `name` for fast lookups
+- Index on `oracle_id` for finding all printings
+- Index on `set_code` for set queries
+- Full-text search indexes using pg_trgm
+
+---
+
+## Data Flow
+
+### 1. Download Scryfall Bulk Data
+
+```bash
+cd mage-server-go
+./scripts/download_scryfall_bulk.sh
+```
+
+This script:
+- Downloads the latest Scryfall bulk data JSON (~200MB compressed)
+- Extracts to `data/scryfall-all-cards.json`
+- Verifies data integrity
+
+### 2. Import to Database
+
+```bash
+cd mage-server-go
+go run ./cmd/import-scryfall/main.go
+```
+
+The import process:
+- Reads `data/scryfall-all-cards.json`
+- Truncates `scryfall_cards` table
+- Bulk inserts all card data
+- Rebuilds indexes
+- Takes ~2-3 minutes for 100k+ cards
+
+### 3. Query from Application
+
+The application queries via `CardRepository` in `internal/repository/cards.go`:
+
+```go
+// Get card by name
+cards, err := cardRepo.GetByName(ctx, &quot;Lightning Bolt&quot;)
+
+// Search cards
+results, err := cardRepo.SearchByName(ctx, &quot;bolt&quot;, 10)
+
+// Get cards by set
+setCards, err := cardRepo.GetBySetCode(ctx, &quot;lea&quot;)
+```
+
+---
+
+## Field Mappings
+
+### Scryfall → Repository Card Struct
+
+| Scryfall Field | Card Struct Field | Notes |
+|---------------|------------------|-------|
+| `id` | `ID` | UUID converted to int64 via bit conversion |
+| `name` | `Name` | Card name |
+| `collector_number` | `CardNumber` | Collector </pre><div class="muted">…(content truncated)</div></details><details><summary><code>CI.md</code> <span class="muted">(6.6 KB, text)</span></summary><pre class="claude-preview file-preview"># goMage — Planeswalker Identity Guide
+
+## 1. Brand Essence
+
+### Core Idea
+
+**goMage is the Aetherhub.** It is not just an arena; it is a spark-enabled interface for the modern Planeswalker. It bridges the gap between the tactile satisfaction of paper Magic and the sleek efficiency of the digital multiverse.
+
+### Brand Keywords
+
+- **WUBRG Harmony** – Respects the color wheel; balanced yet diverse.
+- **The Stack &amp; Priority** – Orderly, logical, responsive, and deep.
+- **Spark-Driven** – Empowering the user (the player is the hero).
+- **Oracle Clarity** – Text and UI must be as precise as card rules text.
+
+### Overall Tone &amp; Feel
+
+- **Artifact Chic:** Think _Kaladesh_ invention meets _Kamigawa: Neon Dynasty_.
+- **High-Fidelity Mana:** Effects should feel like drawing raw power from lands.
+- **Esports Ready:** Clean enough for a Pro Tour broadcast, thematic enough for a Commander pod.
+
+---
+
+## 2. Color Palette
+
+The palette must be strictly aligned with the **Color Wheel**, but desaturated for a modern digital UI (to avoid eye strain).
+
+### Primary Colors (The Interface)
+
+| Name                       | Hex       | Usage                                                    |
+| :------------------------- | :-------- | :------------------------------------------------------- |
+| **Blind Eternities Black** | `#0B0C10` | Primary background (Deep Void).                          |
+| **Jace’s Cloak**           | `#3B82F6` | Primary action buttons, selection states (Blue-aligned). |
+| **Scroll Parchment**       | `#E2E8F0` | Primary text (High readability, soft white).             |
+
+### Secondary Colors (The Color Pie)
+
+These are used for distinct game states or categorization. They must be instantly recognizable to an MTG player.
+
+| Name                | Hex       | MTG Association &amp; Usage                                        |
+| :------------------ | :-------- | :------------------------------------------------------------- |
+| **Plains Pearl**    | `#FDF6E3` | **White:** Structure, protection, layout borders.              |
+| **Island Sapphire** | `#3AB7FF` | **Blue:** Control elements, search bars, &quot;Learn&quot; tooltips.     |
+| **Swamp Obsidian**  | `#A69AA8` | **Black:** Graveyard (dark gray/purple tint), removal actions. |
+| **Mountain Ember**  | `#FF4D4D` | **Red:** Aggressive prompts, &quot;Attack&quot; phase, warnings.         |
+| **Forest Emerald**  | `#2ECC71` | **Green:** Ramp, resources, &quot;Success&quot; states.                  |
+
+### Special FX Colors (Rarity &amp; Finish)
+
+- **Mythic Orange (`#FF8400`):** Ultra-premium features, legendary tier highlights.
+- **Foil Holo (`#E3E3E3` with gradient):** Hover effects that shimmer like a foil card.
+
+&gt; **Note:** Always adhere to WUBRG order (White, Blue, Black, Red, Green) when listing colors or organizing filters.
+
+---
+
+## 3. Typography
+
+### Primary Display Font (Flavor &amp; Identity)
+
+- **Beleren (or close approximation):** This is the distinct &quot;Magic&quot; font. If licensing is an issue, use **Goudy Medieval** or **Cinzel** (Bold).
+- **Usage:** Headers, deck names, &quot;Victory/Defeat&quot; screens.
+
+### Secondary Readability Font (The &quot;Oracle&quot; Text)
+
+- **MPlantin (or crimson/serif alternative):** This is the font used on actual Magic cards. Using a serif font for body text subconsciously tells the user &quot;this is rules text.&quot;
+- **Inter / Roboto:** Use for strictly UI elements (settings, menus) where &quot;card feel&quot; isn&#x27;t required.
+
+### Style Guidelines
+
+- **Keyword Bolding:** Just like on cards, key terms (**Haste**, **Trample**, **Submit**) must be bolded.
+- **Italics for Flavor:** Use italics for non-functional flavor text in the UI.
+
+---
+
+## 4. Logo Direction
+
+### Logo Components
+
+- **The Spark:** A central burst or geometric star representing the Planeswalker spark.
+- **The Pentagon:** A subtle nod to the 5 colors of magic (the pentagon on the card back).
+- **The Hedron:** Use angular, stone-like geometry (inspired by Zendikar hedrons) to hold the &quot;G&quot;.
+
+### Style Attributes
+
+- **Manalith Aesthetic:** Looks like a mana r</pre><div class="muted">…(content truncated)</div></details><details><summary><code>CODE_EXTRACTION_PLAN.md</code> <span class="muted">(43.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Code Extraction Plan: Slim Down Game &amp; Playtest Pages
+
+**Goal:** Extract duplicated script logic into reusable utilities/composables to reduce page complexity by 25-30% (300-400 lines per page).
+
+**Current State:**
+- Playtest page: 1,992 lines
+- Game page: 3,554 lines
+- Identified duplication: ~600-800 lines of extractable patterns
+
+**Target State:**
+- Playtest page: ~1,400-1,600 lines
+- Game page: ~2,500-2,800 lines
+- New utility modules: 6-8 files (~800 lines total)
+
+---
+
+## Phase 0: Documentation Discovery ✅
+
+### Existing Infrastructure Audit
+
+**Utility Files (`$lib/utils/`):**
+- `drag-drop.ts` (358 lines) - Complete drag/drop system with store, derived values, zone registration
+- `playtest-helpers.ts` (303 lines) - Zone mutations, card lookups, player updates
+- `zones.ts` (151 lines) - Zone enum/mapping layer
+- `game-api.ts` (77 lines) - Session management wrapper
+- `jwt.ts` (80+ lines) - Token handling
+- Others: auth-guard, chat, deck-parser, grpc-errors, polling, scryfall, session-error-handler
+
+**Store Files (`$lib/stores/`):**
+- `game.ts` (1,014 lines) - 27 derived stores, 24 methods, WebSocket subscriptions
+- `playtest-game.ts` (1,257 lines) - 30+ methods, localStorage persistence, 7 derived stores
+- `combat.ts` (562 lines) - Combat phase state machine, 11 derived stores
+- `websocket.ts` (431 lines) - Connection + protobuf decoding
+- `connection.ts` (476 lines) - Health checks + reconnection
+- Others: auth, toast, confirm, visual-stack
+
+**Key Findings:**
+1. Drag-drop infrastructure is already well-factored (no extraction needed)
+2. Zone utilities exist but are underutilized (playtest-helpers.ts has reusable patterns)
+3. No keyboard shortcut infrastructure exists (100% inline duplication)
+4. No action handler wrapper exists (async/loading/error pattern repeats 8+ times per page)
+5. Dialog state management is repeated but could use composable pattern
+6. Clipboard operations are duplicated with fallback logic
+
+### Allowed APIs (Verified from Source)
+
+**PlaytestGameStore Methods (client-only):**
+```typescript
+// From $lib/stores/playtest-game.ts (lines 1188-1225)
+initialize(gameId, players, options?)
+drawCards(playerId, count)
+moveCardToZone(cardId, zone)
+tapCard(cardId, tapped)
+untapAll(playerId)
+modifyLife(playerId, delta)
+setPlayerCounter(playerId, type, value)
+shuffleLibrary(playerId)
+createToken(name, types, power, toughness, color)
+addCounter/removeCounter(cardId, name, amount)
+nextTurn()
+mulligan/keepHand(playerId)
+```
+
+**DragDropStore API:**
+```typescript
+// From $lib/utils/drag-drop.ts (lines 1-358)
+dragDropStore.startDrag(cardId, cardName, sourceZone, x, y, validZones)
+dragDropStore.registerDropZone(config: DropZoneConfig)
+// Derived stores:
+$isDragging, $draggedCardId, $draggedCardName, $dragPosition,
+$isOverValidDropZone, $currentDropZone
+
+// Utilities:
+isDragThresholdMet(start, current, threshold=5)
+getAllValidDropZones(sourceZone)
+```
+
+**Component Props (from component source):**
+```typescript
+// PlayerInfoRow.svelte
+{ player, graveyard, exile, mana, showLifeMenu,
+  onLifeChange, onPoisonChange, onToggleLifeMenu, onDeckContextMenu,
+  libraryDropZoneRef, graveyardDropZoneRef, exileDropZoneRef }
+
+// BattlefieldArea.svelte
+{ battlefieldNonlands, battlefieldLands, commandCards, isCommanderGame,
+  isDragging, isOverValidDrop, dropZone, hoveredCardId,
+  onCardClick, onCardMouseDown, onCardContextMenu, onCommandCardMouseDown, onCardHover,
+  battlefieldDropZoneRef, commandDropZoneRef }
+
+// OpponentSection.svelte (note: includes playerId in callbacks)
+{ opponent, otherPlayers, battlefieldNonlands, battlefieldLands, commandCards,
+  isCommanderGame, showLifeMenu,
+  onSelectOpponent, onLifeChange(delta, playerId), onPoisonChange(delta, playerId),
+  onToggleLifeMenu, onCardContextMenu }
+
+// DeckContextMenu.svelte
+{ position, deckCount, playerName, onClose, actions: MenuAction[] }
+```
+
+### Anti-Patterns to Avoid
+
+❌ **DO NOT** create new drag-drop infrastructure - use existing `drag-drop.ts`
+❌ **DO NOT** create new zone </pre><div class="muted">…(content truncated)</div></details><details><summary><code>CODE_PATH_VERIFICATION_RESULTS.md</code> <span class="muted">(22.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Code Path Verification Results
+
+**Phase:** 9 - Complete Cleanup
+**Date:** January 23, 2026
+**Status:** ✅ VERIFIED - Migration Complete
+
+## Executive Summary
+
+All critical code paths for the rules-light game engine architecture have been verified. MageEngine has been completely removed, and the codebase now uses a single GameEngine for all games. This document reflects the final state after complete cleanup.
+
+---
+
+## Backend Code Paths
+
+### 1. Engine Initialization &amp; Configuration
+
+**File:** `/Users/aron/dev/opensource/mage/mage-server-go/cmd/server/main.go`
+
+#### GameEngine Initialization (Simplified)
+
+```go
+// Create rules-light game engine (only engine)
+gameEngine := game.NewEngine(logger)
+gameEngine.SetNotificationHandler(notificationAdapter)
+
+gameAdapter := game.NewEngineAdapter(gameEngine)
+
+logger.Info(&quot;game engine initialized (rules-light mode)&quot;)
+```
+
+**Status:** ✅ **VERIFIED**
+- Creates `GameEngine` instance (rules-light)
+- Sets notification handler for WebSocket sync
+- Wraps in adapter for manager integration
+- Single engine, no configuration needed
+
+#### Adapter Injection into Server (Lines 211-233)
+
+```go
+mageServer := server.NewMageServer(
+    cfg,
+    db,
+    sessionMgr,
+    userMgr,
+    // ... other dependencies
+    gameAdapter, // ← Adapter passed here
+)
+```
+
+**Status:** ✅ **VERIFIED**
+- Adapter passed to server constructor
+- Available for game notifications
+
+---
+
+### 2. Engine Action Processing
+
+**File:** `/Users/aron/dev/opensource/mage/mage-server-go/internal/game/engine.go`
+
+#### ProcessAction Routing (Lines 142-251)
+
+```go
+func (e *Engine) ProcessAction(gameID string, action PlayerAction) error {
+    actionType := action.ActionType
+    playerID := action.PlayerID
+
+    data, ok := action.Data.(map[string]interface{})
+    if !ok {
+        return fmt.Errorf(&quot;invalid action data format&quot;)
+    }
+
+    switch actionType {
+    case &quot;DRAW&quot;:
+        count := getIntFromData(data, &quot;count&quot;, 1)
+        return e.DrawCards(gameID, playerID, count)
+
+    case &quot;PLAY&quot;:
+        cardID := getStringFromData(data, &quot;cardId&quot;, &quot;&quot;)
+        tapped := getBoolFromData(data, &quot;tapped&quot;, false)
+        return e.PlayCard(gameID, playerID, cardID, tapped)
+
+    case &quot;MOVE&quot;:
+        cardID := getStringFromData(data, &quot;cardId&quot;, &quot;&quot;)
+        zone := getStringFromData(data, &quot;zone&quot;, &quot;&quot;)
+        return e.MoveCard(gameID, playerID, cardID, zone)
+
+    // ... 16 more action types
+
+    default:
+        return fmt.Errorf(&quot;unknown action type: %s&quot;, actionType)
+    }
+}
+```
+
+**Status:** ✅ **VERIFIED**
+
+**All 19 Action Types Implemented:**
+
+1. ✅ DRAW → `DrawCards()`
+2. ✅ PLAY → `PlayCard()`
+3. ✅ MOVE → `MoveCard()`
+4. ✅ TAP → `TapCard()`
+5. ✅ UNTAP_ALL → `UntapAll()`
+6. ✅ FLIP → `FlipCard()`
+7. ✅ MODIFY_LIFE → `ModifyLife()`
+8. ✅ SET_COUNTER → `SetPlayerCounter()`
+9. ✅ SHUFFLE → `ShuffleLibrary()`
+10. ✅ CREATE_TOKEN → `CreateToken()`
+11. ✅ ADD_COUNTER → `AddCounter()`
+12. ✅ REMOVE_COUNTER → `RemoveCounter()`
+13. ✅ SET_CARD_COUNTER → `SetCounter()`
+14. ✅ MILL → `MillCards()`
+15. ✅ SCRY → `ScryCards()`
+16. ✅ SET_REVEALED_TOP → `SetRevealedTop()`
+17. ✅ NEXT_TURN → `NextTurn()`
+18. ✅ MULLIGAN → `Mulligan()`
+19. ✅ KEEP_HAND → `KeepHand()`
+
+---
+
+### 3. State Broadcast Mechanism
+
+**File:** `/Users/aron/dev/opensource/mage/mage-server-go/internal/game/engine.go`
+
+#### Broadcast Function (Lines 326-343)
+
+```go
+// broadcast sends game state updates to all players
+func (e *Engine) broadcast(gameID string) {
+    if e.notifyFn == nil {
+        return
+    }
+
+    state := e.games[gameID]
+    if state == nil {
+        return
+    }
+
+    // Send personalized view to each player
+    for playerID := range state.Players {
+        view := e.buildGameView(state, playerID)
+        e.notifyFn.NotifyGameStateChange(playerID, view)
+    }
+}
+```
+
+**Status:** ✅ **VERIFIED**
+- Called after every state mutation
+- Builds personalized view for each player
+- Calls notification handler
+
+#### Example: DrawCards Calls Broadcast
+
+```go
+func (e *Engine) DrawCards(gameID, playerID string, count int) e</pre><div class="muted">…(content truncated)</div></details><details><summary><code>GAME_ARCHITECTURE.md</code> <span class="muted">(16.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Game Architecture Documentation
+
+## Overview
+
+The Mage game engine uses a **rules-light, player-controlled architecture** inspired by Untap.in. This design prioritizes flexibility, simplicity, and player agency over strict rules enforcement.
+
+## Core Philosophy
+
+**Players control the game state directly** - no automatic validation, no forced turn structure, no rules enforcement. The engine provides:
+
+- Direct manipulation of game objects (tap, move, counters, life totals)
+- Rollback capability for mistake recovery
+- WebSocket synchronization for multiplayer
+- Hidden information filtering (opponent hands/libraries)
+
+**What it does NOT do:**
+
+- Validate spell timing or mana costs
+- Enforce priority or turn structure
+- Check creature abilities (flying, menace, etc.)
+- Auto-resolve state-based actions
+- Process triggered abilities
+- Validate targets
+- Calculate combat damage automatically
+
+## Architecture Layers
+
+### 1. Backend: Rules-Light Engine
+
+**Location**: `/mage-server-go/internal/game/`
+
+**Key Components:**
+
+#### GameEngine (game_engine.go)
+
+The single rules-light engine with minimal state management:
+
+```go
+type GameEngine struct {
+    mu          sync.RWMutex
+    games       map[string]*GameState
+    notifyFn    NotificationHandler
+}
+
+type GameState struct {
+    GameID       string
+    Players      map[string]*Player
+    Zones        map[string]*Zone
+    Turn         int
+    ActivePlayer string
+    Messages     []ActionLog
+    StartedAt    time.Time
+}
+```
+
+**Operations** (actions.go):
+- `TapCard(cardId, tapped)` - Toggle tap state
+- `MoveCard(cardId, zone)` - Move between zones
+- `DrawCards(playerId, count)` - Draw from library
+- `ModifyLife(playerId, delta)` - Change life total
+- `AddCounter(cardId, type, amount)` - Add/remove counters
+- `CreateToken(...)` - Create token on battlefield
+- `ShuffleLibrary(playerId)` - Randomize library
+- `ScryCards(playerId, count)` - Look at top N cards
+- `MillCards(playerId, count)` - Move top N to graveyard
+- `NextTurn()` - Advance turn counter
+
+#### Hidden Information Filtering (view.go)
+
+Server filters game state per player:
+
+```go
+func (e *GameEngine) GetGameView(gameID, playerID string) *GameView {
+    view := &amp;GameView{
+        MyHand:       getPlayerCards(state, playerID, &quot;hand&quot;),      // Full cards
+        MyLibrary:    getLibraryCount(state, playerID),             // Count only
+        Battlefield:  getAllBattlefieldCards(state),                // Public zone
+        Graveyard:    getAllGraveyardCards(state),                  // Public zone
+        Exile:        getAllExileCards(state),                      // Public zone
+        Opponents:    getOpponentViews(state, playerID),            // Hidden hands
+    }
+}
+
+func getOpponentViews(state *GameState, viewerID string) []*OpponentView {
+    // Return hand counts, not actual cards
+    // Return library counts, not actual cards
+    // Return battlefield cards (public)
+}
+```
+
+#### Rollback System (rollback.go)
+
+State snapshots for mistake recovery:
+
+```go
+type Bookmark struct {
+    ID        string
+    GameID    string
+    State     *GameState  // Deep copy
+    Timestamp time.Time
+}
+
+func (e *GameEngine) BookmarkState(gameID string) string
+func (e *GameEngine) RestoreState(gameID, bookmarkID string) error
+```
+
+**Automatic bookmarks**: Created at turn boundaries
+**Manual bookmarks**: Players can request snapshots
+**Consent flow**: Multiplayer rollbacks require approval
+
+### 2. Frontend: Playtest-Based UI
+
+**Location**: `/mage-client-web/src/`
+
+#### Game Store (stores/multiplayer-game.ts)
+
+Manages local game state and server synchronization:
+
+```typescript
+export interface MultiplayerGameState {
+  gameId: string;
+  activeControlSeat: string;
+  players: PlaytestPlayer[];
+  battlefield: CardView[];
+  exile: CardView[];
+  stack: CardView[];
+  command: CardView[];
+  graveyard: CardView[];
+  turn: number;
+  activePlayerId: string;
+  isInitialized: boolean;
+  log: PlaytestLogEntry[];
+
+  // Server sync fields
+  isConnected: boolean;
+  pe</pre><div class="muted">…(content truncated)</div></details><details><summary><code>GAME_COMPONENTS_SUMMARY.md</code> <span class="muted">(21.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Game Components Implementation Summary
+
+**Created:** 2025-11-24
+**Status:** Core game components complete, ready for backend integration
+
+---
+
+## Overview
+
+This document describes the reusable game components built for the Mage web client. **11 complete game components** provide a full UI foundation for displaying and interacting with Magic: The Gathering game state.
+
+---
+
+## Completed Components
+
+### 1. Card Component (`Card.svelte`)
+
+**Path:** `src/lib/components/game/Card.svelte`
+**Status:** ✅ Complete (T042)
+
+The foundational card component used throughout the game view.
+
+**Features:**
+
+- **Multiple card states**:
+  - Real card with image
+  - Card back (opponent&#x27;s hand)
+  - Placeholder (text-only fallback)
+- **Hover preview**: Enlarged card preview with smart positioning (avoids screen edges)
+- **Visual states**:
+  - Tapped (90° rotation with smooth animation)
+  - Selected (yellow border glow)
+  - Counters (+1/+1, etc.) displayed as badges
+- **Three sizes**: Small (80x112), Normal (100x140), Large (120x168)
+- **Mana cost display**: Colored mana symbols (W/U/B/R/G)
+- **Loading states**: Spinner while image loads
+- **Fallback rendering**: Text-based card when no image available
+- **Accessibility**: Keyboard navigation, ARIA labels, focus management
+
+**Props:**
+
+```typescript
+{
+  cardId?: string;
+  cardName: string;
+  manaCost?: string;
+  cardType?: string;
+  power?: string;
+  toughness?: string;
+  imageUrl?: string;
+  isTapped?: boolean;
+  isSelected?: boolean;
+  counters?: Array&lt;{ type: string; count: number }&gt;;
+  isPlaceholder?: boolean;
+  isCardBack?: boolean;
+  onclick?: () =&gt; void;
+  onhover?: () =&gt; void;
+  size?: &#x27;small&#x27; | &#x27;normal&#x27; | &#x27;large&#x27;;
+}
+```
+
+**Usage Example:**
+
+```svelte
+&lt;Card
+	cardName=&quot;Lightning Bolt&quot;
+	manaCost={R}
+	cardType=&quot;Instant&quot;
+	imageUrl=&quot;/cards/lightning-bolt.jpg&quot;
+	isSelected={selectedCardId === &#x27;bolt-1&#x27;}
+	counters={[{ type: &#x27;P1P1&#x27;, count: 2 }]}
+	onclick={() =&gt; handleCardClick(&#x27;bolt-1&#x27;)}
+/&gt;
+```
+
+---
+
+### 2. Player Hand Component (`PlayerHand.svelte`)
+
+**Path:** `src/lib/components/game/PlayerHand.svelte`
+**Status:** ✅ Complete (T041)
+
+Displays the player&#x27;s hand with card selection functionality.
+
+**Features:**
+
+- **Horizontal card layout**: Scrollable row of cards
+- **Card selection**:
+  - Single select (click)
+  - Multi-select (Shift+Click)
+- **Header display**: &quot;Your Hand (7)&quot; with selected count
+- **Empty state**: &quot;No cards in hand&quot; message
+- **Multi-select hint**: Visual indicator for Shift+Click functionality
+- **Responsive design**: Adapts to mobile/tablet/desktop
+
+**Props:**
+
+```typescript
+{
+  cards?: GameCard[];
+  selectedCardIds?: string[];
+  onCardClick?: (cardId: string) =&gt; void;
+  onCardHover?: (cardId: string) =&gt; void;
+  size?: &#x27;small&#x27; | &#x27;normal&#x27; | &#x27;large&#x27;;
+}
+```
+
+**Usage Example:**
+
+```svelte
+&lt;PlayerHand
+	cards={playerHand}
+	selectedCardIds={selectedIds}
+	onCardClick={(id) =&gt; handleSelectCard(id)}
+	onCardHover={(id) =&gt; showCardPreview(id)}
+/&gt;
+```
+
+---
+
+### 3. Graveyard Component (`Graveyard.svelte`)
+
+**Path:** `src/lib/components/game/Graveyard.svelte`
+**Status:** ✅ Complete (T046)
+
+Displays a player&#x27;s graveyard with modal viewer.
+
+**Features:**
+
+- **Compact button display**: Shows top card preview
+- **Card count badge**: Visual count of cards in graveyard
+- **Click to expand**: Opens modal with full graveyard view
+- **Modal viewer**:
+  - Grid layout of all graveyard cards
+  - Card selection within modal
+  - Hover preview for each card
+  - Close button and backdrop click to dismiss
+- **Empty state**: Disabled button with tombstone icon (🪦)
+- **Styling**: Gray theme distinct from exile zone
+
+**Props:**
+
+```typescript
+{
+  cards?: GameCard[];
+  playerName?: string;
+  isOpponent?: boolean;
+  onCardClick?: (cardId: string) =&gt; void;
+}
+```
+
+**Usage Example:**
+
+```svelte
+&lt;Graveyard
+	cards={playerGraveyard}
+	playerName=&quot;Alice&quot;
+	isOpponent={false}
+	onCardClick={(id) =&gt; selectGraveyardCard(id)}
+/&gt;
+```
+
+---
+
+### 4. Exile Zone Component (`ExileZone.svelte`)
+
+**Path:** `src/lib/components/game/Exile</pre><div class="muted">…(content truncated)</div></details><details><summary><code>INTEGRATION_TEST_PLAN.md</code> <span class="muted">(34.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Integration Test Plan: Rules-Light Game Engine Architecture
+
+**Document Version:** 2.0
+**Date:** January 23, 2026
+**Status:** Phase 9 - Migration Complete
+
+## Table of Contents
+
+1. [Overview](#overview)
+2. [Code Path Verification](#code-path-verification)
+3. [Backend Integration Tests](#backend-integration-tests)
+4. [Frontend Integration Tests](#frontend-integration-tests)
+5. [End-to-End Tests](#end-to-end-tests)
+6. [Manual Test Checklist](#manual-test-checklist)
+7. [Automated Test Suggestions](#automated-test-suggestions)
+8. [Known Limitations](#known-limitations)
+9. [Test Results Template](#test-results-template)
+
+---
+
+## Overview
+
+This document provides a comprehensive test plan for verifying the integration of the rules-light game engine architecture. The system consists of:
+
+- **Backend**: Go server with GameEngine (single rules-light engine)
+- **Frontend**: SvelteKit client with multiplayerGameStore
+- **Communication**: WebSocket for state sync, gRPC for actions
+
+**Note**: MageEngine has been completely removed. The system now uses a single GameEngine for all games.
+
+### Test Objectives
+
+1. Verify all code paths are properly wired
+2. Ensure multiplayer synchronization works correctly
+3. Validate hidden information filtering
+4. Confirm all 19 operations function correctly
+5. Test 2-player and 4-player scenarios
+6. Verify error handling and edge cases
+
+---
+
+## Code Path Verification
+
+### Backend Verification Checklist
+
+#### 1. Server Initialization (`/Users/aron/dev/opensource/mage/mage-server-go/cmd/server/main.go`)
+
+**GameEngine Initialization**
+
+- [x] Creates single `GameEngine` instance (rules-light)
+- [x] Sets notification handler for WebSocket sync
+- [x] No configuration needed (single engine)
+- [x] Wraps engine in `EngineAdapter` (lines 158, 175)
+- [x] Passes adapter to `NewMageServer` (line 232)
+
+**Validation Steps:**
+```bash
+# 1. Check config file structure
+cat config/config.yaml | grep engine_type
+
+# 2. Verify server starts with playtest engine
+# Expected log: &quot;playtest engine initialized (rules-light mode)&quot;
+
+# 3. Verify server starts with mage engine (default)
+# Expected log: &quot;mage engine initialized (full rules enforcement)&quot;
+```
+
+**Status:** ✅ **VERIFIED** - Code paths exist and are properly wired
+
+---
+
+#### 2. Engine Action Processing (`/Users/aron/dev/opensource/mage/mage-server-go/internal/game/engine.go`)
+
+**Lines 142-251: ProcessAction Routing**
+
+- [x] `ProcessAction` receives `PlayerAction` (line 144)
+- [x] Routes based on `ActionType` (switch statement line 157)
+- [x] Supports 19 action types:
+  - DRAW (line 158)
+  - PLAY (line 163)
+  - MOVE (line 168)
+  - TAP (line 173)
+  - UNTAP_ALL (line 177)
+  - FLIP (line 180)
+  - MODIFY_LIFE (line 185)
+  - SET_COUNTER (line 191)
+  - SHUFFLE (line 196)
+  - CREATE_TOKEN (line 199)
+  - ADD_COUNTER (line 207)
+  - REMOVE_COUNTER (line 213)
+  - SET_CARD_COUNTER (line 219)
+  - MILL (line 225)
+  - SCRY (line 229)
+  - SET_REVEALED_TOP (line 235)
+  - NEXT_TURN (line 239)
+  - MULLIGAN (line 242)
+  - KEEP_HAND (line 245)
+
+**Lines 326-343: Broadcast Mechanism**
+
+- [x] `broadcast()` function exists (line 327)
+- [x] Checks if `notifyFn` is set (line 328)
+- [x] Gets game state (line 332)
+- [x] Builds `PlaytestGameView` for each player (line 339)
+- [x] Calls `notifyFn.NotifyGameStateChange()` (line 340)
+
+**Validation Steps:**
+```go
+// Test that ProcessAction routes to correct operations
+func TestEngineProcessAction(t *testing.T) {
+    // Verify DRAW action
+    // Verify PLAY action
+    // Verify MOVE action
+    // etc. for all 19 operations
+}
+```
+
+**Status:** ✅ **VERIFIED** - All operations route correctly and broadcast
+
+---
+
+#### 3. Game View Building (`/Users/aron/dev/opensource/mage/mage-server-go/internal/game/view.go`)
+
+**Lines 68-136: buildGameView**
+
+- [x] Creates `PlaytestGameView` struct (line 70)
+- [x] Public zones shared: battlefield, exile, stack, command (lines 74-77)
+- [x] Viewer gets full hand/library (lines 91-106)
+- [x] Opponents get counts only (lines 109-132)
+-</pre><div class="muted">…(content truncated)</div></details><details><summary><code>MAGE_ENGINE_ARCHITECTURE.md</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Mage Engine Architecture Documentation
+
+&gt; **File**: `mage-server-go/internal/game/direct_engine.go`  
+&gt; **Purpose**: Rules-light Magic: The Gathering game engine - assists players without enforcing rules
+
+## Overview
+
+The game engine should be a rules-light game engine that **assists** players rather than **enforces** rules. It provides:
+
+- **State tracking**: Zones, life totals, counters, combat
+- **Direct manipulation**: Players control all game state through UI
+- **Action logging**: Every change is logged for review
+- **Rollback support**: Any action can be undone
+- **Real-time sync**: WebSocket notifications keep all clients updated
+
+### What This Engine Does NOT Do
+
+Unlike traditional MTG engines, we intentionally **do not**:
+
+- Validate spell timing or mana costs
+- Enforce priority or turn structure
+- Check creature abilities (flying, menace, etc.)
+- Auto-resolve state-based actions
+- Process triggered abilities
+- Validate targets
+- Calculate combat damage automatically
+
+Players are trusted to play correctly. The engine is a shared game board, not a referee.
+
+---
+
+## Design Philosophy
+
+### Rules-Light Approach
+
+Inspired by platforms like Untap.in, this engine follows the principle:
+
+&gt; **&quot;Assist, don&#x27;t enforce&quot;**
+
+| Traditional Engine     | Rules-Light Engine               |
+| ---------------------- | -------------------------------- |
+| Validates every action | Logs every action                |
+| Rejects illegal plays  | Allows any play, can rollback    |
+| Auto-resolves triggers | Players manually resolve         |
+| Enforces priority      | Suggests phases, players control |
+| Complex combat rules   | Simple attacker/blocker tracking |
+
+### Benefits
+
+1. **Simplicity**: We don&#x27;t enforce rules, so we don&#x27;t need to write them
+2. **Flexibility**: House rules, casual play, testing
+3. **Speed**: No validation overhead
+4. **Reliability**: Fewer edge cases = fewer bugs
+5. **Maintainability**: Easy to understand and modify
+</pre></details><details><summary><code>MULTIPLAYER_TASKS.md</code> <span class="muted">(83.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Multiplayer &amp; Lobby System Task Tracker
+
+Comprehensive tracker for building the multiplayer, lobby, and social features for the Go Mage server. Modern gRPC-Web based system with real-time updates.
+
+Status legend:
+
+- `[x]` Completed
+- `[ ]` Pending / not yet started
+- `[~]` In progress or partially implemented
+
+---
+
+## T001: Project Initialization
+
+**Priority:** P0  
+\***\*Dependencies:** None
+
+**Description:**  
+Initialize a new SvelteKit project with TypeScript, configure Vite, and set up Tailwind CSS.
+
+**Acceptance Criteria:**
+
+- [x] SvelteKit project created with TypeScript template
+- [x] Vite config includes appropriate build settings
+- [x] Basic `+page.svelte` renders with Tailwind styles
+- [x] Dev server starts without errors (`npm run dev`)
+- [x] Project builds successfully (`npm run build`)
+- [x] CSS Styling in place, ready to extract and style components
+
+**Files to Create:**
+
+- `svelte.config.js`
+- `tailwind.config.js`
+- `vite.config.ts`
+- `src/app.css` (Tailwind imports)
+- `src/routes/+page.svelte` (basic test page)
+
+---
+
+## T002: Environment Configuration
+
+**Priority:** P0  
+\***\*Dependencies:** T001
+
+**Description:**  
+Set up environment variable management for API endpoints and configuration.
+
+**Acceptance Criteria:**
+
+- [x] `.env.example` file created with all required variables
+- [x] `.env` file in `.gitignore`
+- [x] Environment variables accessible via `$env/static/public` or `$env/dynamic/public`
+- [x] At minimum: `PUBLIC_API_URL` and `PUBLIC_WS_URL` defined
+- [x] README includes instructions for environment setup
+
+**Files to Create:**
+
+- `.env.example`
+- Update `.gitignore`
+- `src/lib/config.ts` (exports typed config values)
+
+---
+
+## T003: ESLint and Prettier Setup
+
+**Priority:** P0 \***\*Dependencies:** T001
+
+**Description:**
+Configure ESLint and Prettier with appropriate rules for Svelte and TypeScript.
+
+**Acceptance Criteria:**
+
+- [x] ESLint configured with Svelte and TypeScript plugins
+- [x] Prettier configured to work with Svelte
+- [x] `eslint.config.js` created (ESLint v9 flat config)
+- [x] `.prettierrc` created with sensible defaults
+- [x] `npm run lint` command works
+- [x] `npm run format` command works
+- [x] VSCode settings recommended in `.vscode/settings.json`
+
+**Files Created:**
+
+- `eslint.config.js` (ESLint v9 flat config format)
+- `.prettierrc`
+- `.vscode/settings.json`
+- Updated `package.json` with lint/format scripts (lint, lint:fix, format, format:check)
+
+---
+
+## T004: gRPC-Web Client Library Setup
+
+**Priority:** P0 \***\*Dependencies:** T001, T002
+
+**Description:**
+Install and configure gRPC-Web client library and set up TypeScript type generation from proto files.
+
+**Acceptance Criteria:**
+
+- [x] `@grpc/grpc-js` installed (with @grpc/proto-loader and google-protobuf)
+- [x] `protoc` TypeScript plugin configured (ts-proto with grpc-tools)
+- [x] Script to generate TypeScript types from `.proto` files (scripts/generate-proto.sh)
+- [x] Example proto files compiled successfully (game.proto and lobby.proto)
+- [x] Generated types available in `src/lib/generated/` (game.ts and lobby.ts)
+- [x] README includes instructions for regenerating types
+
+**Files Created:**
+
+- `proto/game.proto` - Game service protocol definitions
+- `proto/lobby.proto` - Lobby service protocol definitions
+- `scripts/generate-proto.sh` - Proto generation script
+- `src/lib/generated/game.ts` - Generated game service types and client
+- `src/lib/generated/lobby.ts` - Generated lobby service types and client
+- `src/lib/grpc/client.ts` - Basic gRPC client setup with factory functions
+- Updated `package.json` with `proto:generate` script
+- Updated `README.md` with gRPC/Protobuf development instructions
+
+---
+
+## T005: Basic Routing Structure
+
+**Priority:** P0 \***\*Dependencies:** T001
+
+**Description:**
+Set up the basic routing structure with placeholder pages for main sections.
+
+**Acceptance Criteria:**
+
+- [x] Route for `/` (home/landing)
+- [x] Route for `/login`
+- [x] Route for `/register`
+- [x] Route for `/lobby`
+- [x] Route fo</pre><div class="muted">…(content truncated)</div></details><details><summary><code>PLAYTEST_COMPONENT_INTEGRATION_PLAN.md</code> <span class="muted">(49.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Playtest Component Integration Plan
+
+**Goal:** Integrate improved UI components from playtest mode into the normal online game page.
+
+**Approach:** Copy-based integration using existing component APIs documented below. Each phase is independently executable with verification steps.
+
+---
+
+## Phase 0: Documentation Discovery ✅
+
+### Allowed APIs
+
+All APIs documented below are verified from source code with line references.
+
+#### Component APIs (All in `/lib/components/game/`)
+
+**OpponentSection.svelte** - Modular opponent display
+```typescript
+interface Props {
+  opponent: { playerId: string; name: string; life: number; poison: number; handCount: number; libraryCount: number; graveyard: CardView[] };
+  otherPlayers: Opponent[];  // For multiplayer cycling dropdown
+  battlefieldNonlands: CardView[];
+  battlefieldLands: CardView[];
+  commandCards: CardView[];
+  isCommanderGame: boolean;
+  showLifeMenu: boolean;
+  onSelectOpponent?: (playerId: string) =&gt; void;
+  onLifeChange: (delta: number, playerId: string) =&gt; void;
+  onPoisonChange: (delta: number, playerId: string) =&gt; void;
+  onToggleLifeMenu: () =&gt; void;
+  onCardContextMenu: (cardId: string, cardName: string) =&gt; void;
+}
+```
+
+**PlayerInfoRow.svelte** - Consolidated player stats bar
+```typescript
+interface Props {
+  player: { name: string; life: number; poison: number; libraryCount: number };
+  graveyard: CardView[];
+  exile: CardView[];
+  mana: ManaPoolData;
+  showLifeMenu: boolean;
+  onLifeChange: (delta: number) =&gt; void;
+  onPoisonChange: (delta: number) =&gt; void;
+  onToggleLifeMenu: () =&gt; void;
+  onSearchLibrary: () =&gt; void;
+  onDeckContextMenu: (e: MouseEvent) =&gt; void;
+  libraryDropZoneRef?: (el: HTMLElement | null) =&gt; void;
+  graveyardDropZoneRef?: (el: HTMLElement | null) =&gt; void;
+  exileDropZoneRef?: (el: HTMLElement | null) =&gt; void;
+}
+```
+
+**BattlefieldArea.svelte** - Battlefield with land/nonland separation
+```typescript
+interface Props {
+  battlefieldNonlands: CardView[];
+  battlefieldLands: CardView[];
+  commandCards: CardView[];
+  isCommanderGame: boolean;
+  isDragging: boolean;
+  isOverValidDrop: boolean;
+  dropZone: string | null;
+  hoveredCardId: string | null;
+  onCardClick: (cardId: string) =&gt; void;
+  onCardMouseDown: (cardId: string, cardName: string, e: MouseEvent) =&gt; void;
+  onCardContextMenu: (cardId: string, cardName: string) =&gt; void;
+  onCommandCardMouseDown: (cardId: string, cardName: string, e: MouseEvent) =&gt; void;
+  onCardHover: (cardId: string | null) =&gt; void;
+  battlefieldDropZoneRef?: (el: HTMLDivElement | null) =&gt; void;
+  commandDropZoneRef?: (el: HTMLDivElement | null) =&gt; void;
+}
+```
+
+**DeckContextMenu.svelte** - Nested context menu system
+```typescript
+export interface MenuAction {
+  label?: string;
+  icon?: string;
+  divider?: boolean;
+  submenu?: MenuAction[];
+  onClick?: () =&gt; void;
+  disabled?: boolean;
+}
+
+interface Props {
+  position: { x: number; y: number };
+  deckCount: number;
+  playerName: string;
+  onClose: () =&gt; void;
+  actions: MenuAction[];
+}
+```
+
+#### Game Store API (`/lib/stores/game.ts`)
+
+**Derived Stores (Read-Only):**
+```typescript
+gameView: Readable&lt;GameView | null&gt;
+players: Readable&lt;PlayerView[]&gt;
+localPlayer: Readable&lt;PlayerView | null&gt;
+opponents: Readable&lt;PlayerView[]&gt;
+hasPriority: Readable&lt;boolean&gt;
+currentPhase: Readable&lt;string&gt;
+currentStep: Readable&lt;string&gt;
+battlefield: Readable&lt;CardView[]&gt;  // Sorted by UUID ascending
+myHand: Readable&lt;CardView[]&gt;
+myGraveyard: Readable&lt;CardView[]&gt;
+exile: Readable&lt;CardView[]&gt;
+command: Readable&lt;CardView[]&gt;
+myManaPool: Readable&lt;ManaPoolView&gt;
+```
+
+**Helper Functions:**
+```typescript
+getCardById(cardId: string): CardView | null  // Searches all zones
+```
+
+#### Game API Functions (`/lib/api/game.ts`)
+
+**Direct Actions (Available in game mode):**
+```typescript
+// DO NOT USE these - they don&#x27;t exist in game mode:
+// - playtestGameStore.moveCardToZone()
+// - playtestGameStore.tapCard()
+// - playtestGameStore.createToken()
+// - playtestGameStore.addCounter()
+
+// USE THESE instead - they send actions</pre><div class="muted">…(content truncated)</div></details><details><summary><code>PLAYTEST_MIGRATION_SUMMARY.md</code> <span class="muted">(18.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Playtest-First Migration Summary
+
+**Migration Date**: January 18-23, 2026
+**Status**: Phase 7 Complete (Cleanup &amp; Documentation)
+**Objective**: Replace rules-enforced game architecture with playtest-based multiplayer engine
+
+---
+
+## Executive Summary
+
+Successfully migrated the Mage game engine from a complex rules-enforcement system to a simple, player-controlled architecture inspired by Untap.in. The migration reduced backend code by 82% while unifying frontend UI patterns and improving flexibility for casual play.
+
+### Key Achievements
+
+1. **Backend Simplification**: Reduced from 13,786 lines to ~2,500 lines (82% reduction)
+2. **Frontend Unification**: Single UI pattern for both solo playtest and multiplayer
+3. **Coexistence Model**: Both engines available via configuration
+4. **Zero Breaking Changes**: Legacy engine remains available
+5. **Complete Documentation**: Architecture, migration plan, and code path verification
+
+---
+
+## Migration Phases
+
+### Phase 0: Documentation &amp; Pattern Analysis
+**Completed**: January 18, 2026
+
+**Deliverables**:
+- `/docs/PLAYTEST_REPLACEMENT_PLAN.md` - Detailed implementation plan
+- `/docs/tickets/todo/003-implement-direct-engine.md` - Ticket tracking
+- `/docs/CODE_PATH_VERIFICATION_RESULTS.md` - Code path analysis
+
+**Key Findings**:
+- Playtest UI (1,992 lines) proven to work perfectly
+- Direct-actions API already implemented in backend
+- Frontend and backend patterns align naturally
+- No breaking changes required
+
+### Phase 1: Backend - Rules-Light Engine
+**Completed**: January 19-20, 2026
+**Commits**: `ce2f0e8` - `acdd204`
+
+**Files Created**:
+- `mage-server-go/internal/game/playtest_engine.go` (~600 lines)
+- `mage-server-go/internal/game/playtest_actions.go` (~500 lines)
+- `mage-server-go/internal/game/playtest_rollback.go` (~350 lines)
+- `mage-server-go/internal/game/playtest_view.go` (~280 lines)
+- `mage-server-go/internal/game/playtest_state.go` (~450 lines)
+
+**Total**: ~2,180 lines (vs 13,786 lines in MageEngine)
+
+**Features Implemented**:
+- ✅ All playtest operations (tap, move, draw, life, counters, tokens)
+- ✅ Rollback/bookmark system
+- ✅ Hidden information filtering (opponent hands/libraries)
+- ✅ WebSocket state synchronization
+- ✅ Action logging
+- ✅ Turn progression
+
+### Phase 2: Backend Integration
+**Completed**: January 20, 2026
+**Commits**: `acdd204`
+
+**Files Modified**:
+- `mage-server-go/internal/game/manager.go` - Engine selection logic
+- `mage-server-go/config/config.go` - Engine configuration
+
+**Key Changes**:
+- Added `UsePlaytestEngine` config flag
+- Both engines implement `GameEngine` interface
+- Manager selects engine based on config
+- Default: PlaytestEngine
+
+### Phase 3: Frontend - Multiplayer Store
+**Completed**: January 20-21, 2026
+**Commits**: `7ae466c`
+
+**Files Created**:
+- `mage-client-web/src/lib/stores/multiplayer-game.ts` (~1,300 lines)
+
+**Key Features**:
+- Copied playtest-game.ts structure
+- Wired operations to direct-actions API
+- Added WebSocket subscription
+- Server-authoritative state model
+
+**Operations Implemented**:
+- All playtest operations (drawCards, tapCard, moveCardToZone, etc.)
+- Counter management (add, remove, set)
+- Token creation
+- Life modification
+- Library operations (shuffle, scry, mill)
+- Turn progression
+
+### Phase 4: Frontend - Replace Game Page
+**Completed**: January 21, 2026
+**Commits**: `0414b16`
+
+**Files Modified**:
+- `mage-client-web/src/routes/(protected)/game/[id]/+page.svelte` (~2,100 lines)
+
+**Changes**:
+- Replaced entire game page with playtest UI structure
+- Added multiplayer components (OpponentSection, PlayerInfoRow)
+- Integrated keyboard shortcuts from playtest
+- Integrated drag-drop system from playtest
+- Removed all rules-enforcement UI
+
+**Components Integrated**:
+- ✅ Playtest header and controls
+- ✅ Keyboard shortcuts (C, V, X, E, etc.)
+- ✅ Drag-drop between zones
+- ✅ Context menus (deck, card)
+- ✅ Opponent sections
+- ✅ Player info row
+- ✅ Chat overlay
+
+### Phase 5: Polish &amp; Interactions
+**Completed**: January 21, 2026
+**</pre><div class="muted">…(content truncated)</div></details><details><summary><code>PLAYTEST_REPLACEMENT_PLAN.md</code> <span class="muted">(28.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Playtest-First Game View Replacement Plan
+
+## Overview
+
+Replace the current rules-enforced game view with a multiplayer-adapted version of the playtest engine. This plan uses the proven playtest UI/state management as the foundation and adds only the minimal server synchronization needed for multiplayer.
+
+**Core Philosophy**: Copy the working playtest implementation, add server sync, discard all rules enforcement.
+
+---
+
+## Phase 0: Documentation &amp; Pattern Analysis
+
+### Playtest Engine Reference Patterns
+
+**Core Files to Copy From**:
+- `/Users/aron/dev/opensource/mage/mage-client-web/src/lib/stores/playtest-game.ts` (1,257 lines)
+  - Lines 380-401: Immutable state update pattern with `update()`
+  - Lines 492-1151: All game operations (drawCards, tapCard, moveCardToZone, etc.)
+  - Lines 25-59: State interface definitions
+
+- `/Users/aron/dev/opensource/mage/mage-client-web/src/lib/utils/playtest-helpers.ts` (303 lines)
+  - Lines 30-63: `findCardInState()` - zone searching
+  - Lines 120-170: `removeCardFromZone()` - immutable removal
+  - Lines 175-243: `addCardToZone()` - immutable addition
+
+- `/Users/aron/dev/opensource/mage/mage-client-web/src/routes/(protected)/playtest/+page.svelte` (1,992 lines)
+  - Lines 440-760: Event handler patterns
+  - Lines 251-350: Derived state computations
+  - Lines 955-1050: Keyboard shortcuts
+
+**Backend Direct Action API** (Already Implemented):
+- `/Users/aron/dev/opensource/mage/mage-server-go/internal/game/actions.go`
+  - String command parsing: `TAP:{cardId}`, `MOVE:{cardId}:{zone}`, etc.
+  - All playtest operations already supported server-side
+  - Single GameEngine (rules-light) architecture
+
+**Frontend API Wrapper**:
+- `/Users/aron/dev/opensource/mage/mage-client-web/src/lib/api/direct-actions.ts` (264 lines)
+  - All operations map to `SendPlayerString` gRPC call
+  - Pattern: `sendPlayerString(gameId, playerId, &quot;COMMAND:args&quot;)`
+
+### Anti-Patterns to Avoid
+
+**DO NOT**:
+- ❌ Copy rules-enforcement logic from game view (priority, validation, prompts)
+- ❌ Use `CallbackMethod.*` event handlers (prompts, choices, mana payment)
+- ❌ Implement combat validation (DeclareAttackers/Blockers components)
+- ❌ Add priority system (PriorityActionBar, hasPriority checks)
+- ❌ Copy phase progression logic (PhaseIndicator, phase-based enabling)
+
+**DO**:
+- ✅ Copy playtest store operations verbatim
+- ✅ Copy playtest UI component integration patterns
+- ✅ Use direct-actions.ts API (already server-compatible)
+- ✅ Copy keyboard shortcuts and event handlers
+- ✅ Add multiplayer UI from game view (OpponentSection, PlayerInfoRow)
+
+---
+
+## Phase 1: Backend - Simplify to Rules-Light Engine
+
+### Goal
+Replace MageEngine with minimal state management engine that matches playtest operations.
+
+### Implementation Steps
+
+#### 1.1 Create New Engine Files
+
+**File**: `/Users/aron/dev/opensource/mage/mage-server-go/internal/game/engine.go`
+
+Copy state structure from playtest-game.ts lines 25-59, translate to Go:
+```go
+type Engine struct {
+    mu          sync.RWMutex
+    games       map[string]*GameState
+    notifyFn    NotificationHandler
+}
+
+type GameState struct {
+    GameID       string
+    Players      map[string]*Player
+    Zones        map[string]*Zone
+    Turn         int
+    ActivePlayer string
+    Messages     []ActionLog
+    StartedAt    time.Time
+}
+
+type Card struct {
+    ID           string
+    Name         string
+    OwnerID      string
+    ControllerID string
+    Zone         string
+    Tapped       bool
+    FaceUp       bool
+    Counters     map[string]int
+    Properties   map[string]interface{}
+}
+
+type Player struct {
+    ID           string
+    Name         string
+    Life         int
+    Poison       int
+    Energy       int
+    LibraryCount int
+    HandCount    int
+}
+```
+
+**Pattern Source**: Copy from `/Users/aron/dev/opensource/mage/mage-client-web/src/lib/stores/playtest-game.ts` lines 25-59
+
+#### 1.2 Implement Core Operations
+
+**File**: `/Users/aron/dev/opensource/mage/mage-server-go/internal/game/actions.go`
+
+Im</pre><div class="muted">…(content truncated)</div></details><details><summary><code>PRODUCTION_CARD_UPDATES.md</code> <span class="muted">(8.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Production Card Data Updates
+
+This document explains how to update card data on the production server using Scryfall bulk data.
+
+## Quick Start
+
+### Update Production Cards (Recommended)
+
+```bash
+# Update with latest Scryfall data
+./update-cards-prod.sh --download
+
+# Update with existing local data
+./update-cards-prod.sh
+
+# Dry run (see what would happen without executing)
+./update-cards-prod.sh --download --dry-run
+```
+
+### Rollback (if needed)
+
+```bash
+./update-cards-prod.sh --rollback
+```
+
+---
+
+## What the Script Does
+
+The `update-cards-prod.sh` script safely updates card data on production:
+
+1. **Checks connectivity** to production server
+2. **Downloads** latest Scryfall data (optional)
+3. **Creates backup** of current card data
+4. **Copies data** to production server
+5. **Runs migration** to create Scryfall tables
+6. **Imports cards** using the streaming importer
+7. **Creates compatibility view** for backward compatibility
+8. **Verifies** the update was successful
+
+### Safety Features
+
+- ✅ **Automatic backups** before any changes
+- ✅ **Dry-run mode** to preview changes
+- ✅ **One-command rollback** if issues arise
+- ✅ **Zero downtime** - server stays running during update
+- ✅ **Compatibility layer** - existing code continues to work
+
+---
+
+## Usage Examples
+
+### Standard Update (Using Existing Data)
+
+```bash
+./update-cards-prod.sh
+```
+
+This uses the most recent Scryfall data file found locally (e.g., `all-cards-20260111103023.json`).
+
+### Update with Fresh Download
+
+```bash
+./update-cards-prod.sh --download
+```
+
+This downloads the latest Scryfall bulk data (~2.3GB) before updating production.
+
+### Preview Changes (Dry Run)
+
+```bash
+./update-cards-prod.sh --download --dry-run
+```
+
+Shows what would be executed without making any changes.
+
+### Rollback to Previous Data
+
+```bash
+./update-cards-prod.sh --rollback
+```
+
+Restores the previous card data from the XMage backup.
+
+---
+
+## Configuration
+
+The script uses the same configuration as `deploy.sh`:
+
+```bash
+# Set via environment variables (optional)
+export REMOTE_USER=&quot;hkdebiandocker&quot;
+export REMOTE_HOST=&quot;192.168.178.24&quot;
+export REMOTE_PATH=&quot;gomage&quot;
+
+# Then run
+./update-cards-prod.sh --download
+```
+
+Default values match your production setup.
+
+---
+
+## Update Frequency
+
+### Recommended Schedule
+
+- **Weekly**: Update cards every Sunday to catch new releases
+- **On demand**: After major set releases
+- **Emergency**: If cards are missing or incorrect
+
+### Automated Updates (Optional)
+
+Set up a cron job to automatically update weekly:
+
+```bash
+# Add to your local crontab
+# Every Sunday at 3 AM
+0 3 * * 0 cd /Users/aron/dev/opensource/mage &amp;&amp; ./update-cards-prod.sh --download &gt;&gt; logs/card-updates.log 2&gt;&amp;1
+```
+
+Or use GitHub Actions (see `.github/workflows/mtg-fetch-cards.yml` for inspiration).
+
+---
+
+## Verification
+
+After updating, verify the production server:
+
+### 1. Check Card Counts
+
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose exec postgres psql -U mage -d mage -c &quot;SELECT COUNT(*) FROM scryfall_cards WHERE lang=&#x27;\&#x27;&#x27;en&#x27;\&#x27;&#x27;;&quot;&#x27;
+```
+
+Expected: ~101,000+ cards
+
+### 2. Test Card Lookup
+
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose exec postgres psql -U mage -d mage -c &quot;SELECT name, card_type FROM cards WHERE name LIKE &#x27;\&#x27;&#x27;Lightning Bolt&#x27;\&#x27;&#x27; LIMIT 1;&quot;&#x27;
+```
+
+Should return: Lightning Bolt | Instant
+
+### 3. Check Server Status
+
+```bash
+curl http://192.168.178.24:17171/status
+```
+
+Should return JSON with server stats.
+
+### 4. Test Frontend
+
+Visit: http://mage.aronschueler.de
+
+Try creating a deck and searching for cards.
+
+---
+
+## Backups
+
+### Automatic Backups
+
+Every update creates:
+- **SQL backup**: `cards_backup_YYYYMMDD_HHMMSS.sql`
+- **Info file**: `backup_YYYYMMDD_HHMMSS_info.txt`
+
+Location: `${REMOTE_HOST}:${REMOTE_PATH}/mage-server-go/data/`
+
+### Manual Backup
+
+```bash
+# Before manual changes
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose exec postgres pg_dump -U mage -d mage -t cards -t scryfall_cards &gt; backup_manual.</pre><div class="muted">…(content truncated)</div></details><details><summary><code>QUICK_REFERENCE.md</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview"># MAGE Quick Reference - Production Updates
+
+## 🚀 Deploy Full Application
+
+```bash
+./deploy.sh
+```
+
+Deploys entire application (backend + frontend + database) to production.
+
+---
+
+## 🎴 Update Cards Only
+
+### Standard Update
+```bash
+./update-cards-prod.sh --download
+```
+
+Updates card data with latest Scryfall data (~2-3 minutes).
+
+### Preview Changes
+```bash
+./update-cards-prod.sh --download --dry-run
+```
+
+Shows what would happen without executing.
+
+### Rollback
+```bash
+./update-cards-prod.sh --rollback
+```
+
+Restores previous card data from backup.
+
+---
+
+## 📅 Automated Weekly Updates
+
+### Setup Cron Job
+```bash
+# Edit crontab
+crontab -e
+
+# Add this line (runs every Sunday at 3 AM):
+0 3 * * 0 cd /Users/aron/dev/opensource/mage &amp;&amp; ./update-cards-weekly.sh
+```
+
+### Manual Weekly Run
+```bash
+./update-cards-weekly.sh
+```
+
+Logs to `logs/card-update-YYYYMMDD_HHMMSS.log`
+
+---
+
+## 🔍 Verify Production
+
+### Check Status
+```bash
+curl http://192.168.178.24:17171/status
+```
+
+### Check Card Counts
+```bash
+ssh hkdebiandocker@192.168.178.24 \
+  &#x27;cd gomage &amp;&amp; docker compose exec postgres psql -U mage -d mage -tAc &quot;SELECT COUNT(*) FROM cards;&quot;&#x27;
+```
+
+### Test Card Lookup
+```bash
+ssh hkdebiandocker@192.168.178.24 \
+  &#x27;cd gomage &amp;&amp; docker compose exec postgres psql -U mage -d mage -c &quot;SELECT name FROM cards WHERE name LIKE &#x27;\&#x27;&#x27;Lightning%&#x27;\&#x27;&#x27; LIMIT 3;&quot;&#x27;
+```
+
+---
+
+## 📋 View Logs
+
+### Production Logs
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose logs -f&#x27;
+```
+
+### Just Backend
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose logs -f mage-server&#x27;
+```
+
+### Just Database
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose logs -f postgres&#x27;
+```
+
+### Update Logs (Local)
+```bash
+tail -f logs/card-update-*.log
+```
+
+---
+
+## 🆘 Troubleshooting
+
+### Restart Production Services
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose restart&#x27;
+```
+
+### Check Container Health
+```bash
+ssh hkdebiandocker@192.168.178.24 &#x27;cd gomage &amp;&amp; docker compose ps&#x27;
+```
+
+### Emergency Full Redeploy
+```bash
+./deploy.sh
+```
+
+### Rollback Cards
+```bash
+./update-cards-prod.sh --rollback
+```
+
+---
+
+## 📚 Full Documentation
+
+| File | Purpose |
+|------|---------|
+| `PRODUCTION_CARD_UPDATES.md` | Complete card update guide |
+| `SCRYFALL_MIGRATION_GUIDE.md` | Scryfall data usage guide |
+| `SCRYFALL_DFC_CARDS.md` | Double-faced card handling |
+| `DATA_MIGRATION.md` | Technical migration details |
+| `MIGRATION_COMPLETE.md` | Initial migration results |
+
+---
+
+## ⚙️ Configuration
+
+### Environment Variables
+```bash
+export REMOTE_USER=&quot;hkdebiandocker&quot;
+export REMOTE_HOST=&quot;192.168.178.24&quot;
+export REMOTE_PATH=&quot;gomage&quot;
+```
+
+### Production URLs
+- **Frontend**: http://mage.aronschueler.de
+- **Backend API**: http://api.mage.aronschueler.de
+- **Status**: http://192.168.178.24:17171/status
+- **Health**: http://192.168.178.24:8080/health
+
+---
+
+## 🎯 Common Tasks
+
+### Update Everything
+```bash
+# Full deployment
+./deploy.sh
+
+# Then update cards
+./update-cards-prod.sh --download
+```
+
+### Update Just Cards
+```bash
+./update-cards-prod.sh --download
+```
+
+### Check if Update Needed
+```bash
+# Check Scryfall for latest data date
+curl -s https://api.scryfall.com/bulk-data/all-cards | jq -r &#x27;.updated_at&#x27;
+
+# Check your local file date
+ls -lh all-cards-*.json
+```
+
+### Download Data Locally (No Update)
+```bash
+cd mage-server-go
+./scripts/download_scryfall_bulk.sh
+```
+
+---
+
+## 🔒 Safety Checklist
+
+Before updating production:
+
+- [ ] Verify local changes work: `make test`
+- [ ] Check production is healthy: `curl http://192.168.178.24:17171/status`
+- [ ] Have rollback plan ready: `./update-cards-prod.sh --rollback`
+- [ ] Update during low-traffic time (recommended)
+- [ ] Monitor logs during update
+- [ ] Verify after update: Test card search and deck loading
+
+---
+
+## 📞 Quick Commands
+
+```bash
+# Update prod cards
+./update-cards-prod.sh --download
+
+# Preview changes
+./update-cards-prod.sh --download --dry-run
+
+# Rollback
+./update-cards-prod.sh --rollback
+</pre><div class="muted">…(content truncated)</div></details><details><summary><code>ROLLBACK.md</code> <span class="muted">(2.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Rollback System
+
+## Current State
+
+| Feature | Status |
+|---------|--------|
+| Engine rollback infrastructure | ✅ Complete |
+| Turn snapshots (last 4 turns) | ✅ Complete |
+| Action-level bookmarks | ✅ Complete |
+| DB persistence for crash recovery | ✅ Complete |
+| `GetMyActiveGames` RPC + UI | ✅ Complete |
+| `UNDO` player action handler | ❌ Not wired |
+| `CONCEDE` player action handler | ❌ Not wired |
+| `PASS_TURN` player action handler | ❌ Not wired |
+| `RollbackTurns` RPC endpoint | ❌ Not exposed |
+| `rollback_turns_allowed` config usage | ❌ Not honored |
+
+## Key Implementation Details
+
+### Snapshot System
+- `gameStateSnapshot` captures full game state (players, cards, zones, stack, messages)
+- Turn snapshots: stored per turn in `turnSnapshots[gameID][turnNumber]`, max 4 turns
+- Action bookmarks: stored in `bookmarks[gameID][]` for player undo
+
+### Persistence Strategy
+- Automatic save at turn boundaries via `SaveTurnSnapshot()`
+- Game deleted from `active_games` table on completion
+- Server startup runs `restoreActiveGames()` to reload all active games
+
+### Missing Wiring in `handlePlayerAction()`
+The switch statement at ~line 1345 needs cases for `UNDO`, `CONCEDE`, `PASS_TURN`.
+
+## Related Files
+
+### Engine
+- `mage-server-go/internal/game/mage_engine.go` — Core rollback functions
+- `mage-server-go/internal/game/mage_engine_test.go` — Unit tests
+- `mage-server-go/internal/game/persistence_adapter.go` — DB bridge
+
+### Repository
+- `mage-server-go/internal/repository/active_games.go`
+- `mage-server-go/internal/repository/models.go`
+- `mage-server-go/migrations/008_create_active_games_table.up.sql`
+
+### Proto
+- `mage-server-go/api/proto/mage/v1/game.proto` — `PlayerAction` enum, `GetMyActiveGames`
+- `mage-server-go/api/proto/mage/v1/models.proto` — `MatchOptions.rollback_turns_allowed`
+
+### Client
+- `mage-client-web/src/lib/api/lobby.ts` — `fetchMyActiveGames()`
+- `mage-client-web/src/routes/(protected)/lobby/+page.svelte` — Active games UI
+</pre></details><details><summary><code>SCRYFALL_AUTO_IMPORT.md</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Automatic Scryfall Data Import
+
+The production Docker setup now automatically imports Scryfall card data on first startup, eliminating the need for manual import steps.
+
+## How It Works
+
+### 1. Database Initialization (Postgres Container)
+When the postgres container starts for the first time with an empty data directory:
+- `docker-initdb/00_migrate_and_import.sh` runs all migrations
+- Creates `scryfall_cards` table via migration 009
+- Creates `schema_migrations` tracking table
+
+### 2. Automatic Import (Mage-Server Container)
+The mage-server container includes a `docker-entrypoint.sh` script that runs before the server starts:
+
+```bash
+[1/4] Wait for database to be ready
+[2/4] Check if scryfall_cards table is empty
+      - If empty: Run scryfall-import tool automatically
+      - If populated: Skip import
+[3/4] Create/update compatibility view (cards -&gt; scryfall_cards)
+[4/4] Start MAGE server
+```
+
+### 3. Built-in Tools
+The mage-server Docker image now includes:
+- `/app/mage-server` - Main server binary
+- `/app/scryfall-import` - Scryfall import tool
+- `/app/data/` - Mounted from host (contains Scryfall JSON files)
+- `/app/migrations/` - Database migrations
+- `postgresql-client` - For running SQL commands
+
+## Data File Setup
+
+Ensure you have Scryfall data in `mage-server-go/data/`:
+
+```bash
+# Download latest Scryfall data
+cd mage-server-go
+./scripts/download_scryfall_bulk.sh
+
+# Or use existing file
+ls -lh data/scryfall-all-cards-*.json
+```
+
+The entrypoint script searches for:
+1. `data/scryfall-all-cards-latest.json` (symlink or file)
+2. Most recent `data/scryfall-all-cards-*.json` file
+
+## First Startup
+
+```bash
+# Fresh deployment (no data directory)
+docker compose -f docker-compose.prod.yml up -d
+
+# Container startup sequence:
+# 1. postgres: Runs migrations (30 seconds)
+# 2. mage-server: Waits for postgres
+# 3. mage-server: Detects empty scryfall_cards table
+# 4. mage-server: Imports Scryfall data (2-3 minutes)
+# 5. mage-server: Creates compatibility view
+# 6. mage-server: Starts server
+
+# Monitor progress
+docker logs -f mage-server
+```
+
+Expected output:
+```
+======================================
+MAGE Server - Docker Entrypoint
+======================================
+
+[1/4] Waiting for database to be ready...
+✓ Database is ready
+
+[2/4] Checking Scryfall card data...
+⚠ No Scryfall card data found. Starting import...
+  Found: scryfall-all-cards-20260119230948.json (2.3G)
+  This will take 2-3 minutes. Please wait...
+
+[Import logs...]
+
+✓ Scryfall import complete
+
+[3/4] Creating compatibility view...
+✓ Compatibility view created
+
+[4/4] Verifying setup...
+✓ Cards available through compatibility view: 95000
+
+======================================
+Starting MAGE Server
+======================================
+```
+
+## Subsequent Startups
+
+On subsequent restarts, the entrypoint detects existing data and skips import:
+
+```
+[2/4] Checking Scryfall card data...
+✓ Found 95000 English Scryfall cards
+
+[3/4] Creating compatibility view...
+✓ Compatibility view created
+```
+
+Startup time: ~10 seconds (no import)
+
+## Healthcheck Configuration
+
+The healthcheck is configured with extended startup time for first boot:
+```yaml
+healthcheck:
+  start_period: 180s  # 3 minutes for import on first boot
+  interval: 30s
+  timeout: 10s
+  retries: 3
+```
+
+## Manual Import (Alternative)
+
+If you prefer manual import or need to update data:
+
+```bash
+# Run import from mage-server container
+docker compose exec mage-server /app/scryfall-import \
+  --input=/app/data/scryfall-all-cards-latest.json \
+  --lang=en \
+  --skip-tokens=true \
+  --batch=1000
+
+# Or use the production update script
+./update-cards-prod.sh --download
+```
+
+## Verification
+
+Check card data after startup:
+
+```bash
+# Check Scryfall cards
+docker compose exec postgres psql -U mage -d mage -c \
+  &quot;SELECT COUNT(*) FROM scryfall_cards WHERE lang=&#x27;en&#x27;;&quot;
+
+# Check compatibility view
+docker compose exec postgres psql -U mage -d mage -c \
+  &quot;SELECT COUNT(*) FROM cards;&quot;
+
+# Test card lookup
+docker compose exec postg</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(231 B, text)</span></summary><pre class="claude-preview file-preview">---
+name: always-use-lucide
+description: In our frontend/client, always use lucide and replace emojis.
+---
+
+# Overview
+
+In our frontend/client, always use lucide for icons and replace emojis with fitting lucide icons on encounter.
+</pre></details><details><summary><code>TABLE_VIEW_FEATURES.md</code> <span class="muted">(9.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Table View Features Implementation Summary
+
+## Overview
+
+Implemented comprehensive table lobby features including table-specific chat and game start countdown, completing tasks **T028-T030** from MULTIPLAYER_TASKS.md.
+
+## Completed Tasks
+
+### ✅ T028: Table View - Table Chat
+
+**Status**: **NEWLY IMPLEMENTED**
+
+**Features**:
+
+- Reusable TableChat component based on LobbyChat
+- Table-scoped chat (only players at table see messages)
+- Real-time message display with auto-scroll
+- Send messages with rate limiting (10 messages per 60 seconds)
+- Rate limit feedback with countdown timer
+- Scroll to bottom button when scrolled up
+- Loading and empty states
+- System message support (styled differently)
+- Message timestamps (HH:MM format)
+- Responsive layout with mobile support
+
+**Implementation Details**:
+
+1. **TableChat Component** (`src/lib/components/TableChat.svelte`):
+   - Dedicated chat for table lobby
+   - Takes `tableId` as prop
+   - Fetches initial messages on mount
+   - Sends messages via `sendTableMessage()` API
+   - Rate limiting with visual feedback
+   - Clean, polished UI with proper states
+
+2. **Chat API Functions** (`src/lib/api/chat.ts`):
+   - `fetchTableMessages(tableId, limit)`: Load chat history
+   - `sendTableMessage(tableId, request)`: Send message to table chat
+   - Placeholder for WebSocket integration
+   - Table-specific chat ID handling
+
+3. **Table View Integration**:
+   - Chat panel in sidebar (400px wide on desktop)
+   - Grid layout: main content + chat column
+   - Responsive: stacks vertically on mobile
+   - Proper sizing: 600px on desktop, 400px tablet, 300px mobile
+
+**Files Created**:
+
+- `src/lib/components/TableChat.svelte` - Complete table chat component
+
+**Files Modified**:
+
+- `src/lib/api/chat.ts` - Added table chat API functions
+- `src/routes/(protected)/table/[id]/+page.svelte` - Integrated chat
+
+---
+
+### ✅ T029: Table View - Game Start Countdown
+
+**Status**: **NEWLY IMPLEMENTED**
+
+**Features**:
+
+- 5-second countdown when host starts game
+- Beautiful animated countdown overlay
+- Circular progress ring with animation
+- Large countdown number with pulse effect
+- Host can cancel countdown
+- Navigates to game view after countdown completes
+- Smooth animations (fade-in, scale-in, pulse)
+- Countdown message: &quot;Game starting in 5...&quot; → &quot;Starting game!&quot;
+
+**Implementation Details**:
+
+1. **GameStartCountdown Component** (`src/lib/components/GameStartCountdown.svelte`):
+   - Full-screen modal overlay
+   - SVG circular progress indicator
+   - Automatic countdown from 5 to 0
+   - Calls `onComplete()` when countdown finishes
+   - Optional cancel button with `onCancel()` callback
+   - Cleanup on unmount prevents memory leaks
+   - Reactive with `$effect()` for show/hide
+
+2. **Countdown Flow**:
+
+   ```
+   1. Host clicks &quot;Start Game&quot;
+   2. Countdown modal appears (showCountdown = true)
+   3. 5... 4... 3... 2... 1... Starting!
+   4. onComplete() → startGame() API call
+   5. Navigate to /game/[id]
+   ```
+
+3. **Cancellation**:
+   - Host can cancel by clicking backdrop or &quot;Cancel&quot; button
+   - If player unreadies, countdown should be cancelled (future enhancement)
+   - Resets state cleanly
+
+**Files Created**:
+
+- `src/lib/components/GameStartCountdown.svelte` - Animated countdown modal
+
+**Files Modified**:
+
+- `src/routes/(protected)/table/[id]/+page.svelte` - Integrated countdown
+
+---
+
+### ✅ T030: Table View - Leave Table Confirmation
+
+**Status**: Already implemented (T026-T027)
+
+**Features**:
+
+- &quot;Leave Table&quot; button in header
+- Confirmation dialog: &quot;Are you sure you want to leave this table?&quot;
+- Uses global confirm store
+- On success: navigates back to /lobby
+- Toast notification on error
+- If host leaves: table closes for all players (server-side)
+
+**Implementation**:
+
+- Already existed in table view page
+- Uses `confirm.confirm()` from global store
+- Calls `leaveTable(tableId)` API
+- Proper error handling with user feedback
+
+---
+
+## Architecture
+
+### Chat Integration
+
+**Current Implementation**:
+
+- Chat messages stored lo</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/done/002-fix-derived-state-syntax.md</code> <span class="muted">(6.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Fix Incorrect $derived Syntax in Svelte 5 Components
+
+**Status**: Done
+
+## Problem
+
+In Svelte 5, when using `$derived` with a function that has a block body (curly braces), you must use `$derived.by(() =&gt; { ... })` instead of `$derived(() =&gt; { ... })`.
+
+Using `$derived(() =&gt; { ... })` creates a derived state that **returns a function** rather than evaluating the function and returning its result. This causes the function code to leak into production builds, appearing as raw JavaScript in the rendered output.
+
+### Example Bug
+
+**Incorrect:**
+
+```svelte
+const nextHandSize = $derived(() =&gt; {
+    if (nextMulliganCount &lt;= freeMulligans) {
+        return 7;
+    } else {
+        const penaltyMulligans = nextMulliganCount - freeMulligans;
+        return Math.max(0, 7 - penaltyMulligans);
+    }
+});
+```
+
+**Correct:**
+
+```svelte
+const nextHandSize = $derived.by(() =&gt; {
+    if (nextMulliganCount &lt;= freeMulligans) {
+        return 7;
+    } else {
+        const penaltyMulligans = nextMulliganCount - freeMulligans;
+        return Math.max(0, 7 - penaltyMulligans);
+    }
+});
+```
+
+### When to Use Each Syntax
+
+- **`$derived(expression)`** - For simple expressions (no block body)
+
+  ```svelte
+  const count = $derived(items.length);
+  const isActive = $derived(status === &#x27;active&#x27;);
+  ```
+
+- **`$derived(() =&gt; expression)`** - For simple arrow function expressions (no block body)
+
+  ```svelte
+  const filtered = $derived(() =&gt; items.filter(i =&gt; i.active));
+  ```
+
+- **`$derived.by(() =&gt; { ... })`** - For complex logic with block bodies (if/else, loops, multiple statements)
+  ```svelte
+  const result = $derived.by(() =&gt; {
+      if (condition) return value1;
+      return value2;
+  });
+  ```
+
+## Affected Files
+
+### High Priority (Already Causing Production Issues)
+
+1. **`mage-client-web/src/lib/components/game/MulliganDialog.svelte`** (Line 30)
+   - **Issue:** `nextHandSize` - Shows raw function code in button text
+   - **Fix:** Change `$derived(() =&gt; { ... })` to `$derived.by(() =&gt; { ... })`
+
+### All Files Requiring Fixes
+
+#### Game Components
+
+2. **`mage-client-web/src/routes/(protected)/game/[id]/+page.svelte`**
+   - **Line 170:** `combatPromptOptions` - Complex logic with multiple if statements
+   - **Line 189:** `damageAssignmentPrompt` - Conditional logic with type checking
+   - **Line 287:** `selectedOpponent` - Multiple if statements
+   - **Line 295:** `opponentBattlefield` - Conditional with filter
+   - **Line 308:** `opponentCommandCards` - Conditional with filter
+
+3. **`mage-client-web/src/lib/components/game/XManaSelector.svelte`** (Line 28)
+   - **Issue:** `quickAmounts` - Multiple if statements building an array
+
+4. **`mage-client-web/src/lib/components/game/ManaPool.svelte`** (Line 49)
+   - **Issue:** `sizeClass` - Switch statement
+
+5. **`mage-client-web/src/lib/components/game/Card.svelte`** (Line 280)
+   - **Issue:** `sizeClasses` - Switch statement
+
+6. **`mage-client-web/src/lib/components/game/Graveyard.svelte`** (Line 150)
+   - **Issue:** `filteredCards` - Conditional logic with filter
+
+7. **`mage-client-web/src/lib/components/game/ExileZone.svelte`** (Line 152)
+   - **Issue:** `filteredCards` - Conditional logic with filter
+
+8. **`mage-client-web/src/lib/components/game/LibrarySearch.svelte`** (Line 63)
+   - **Issue:** `filteredCards` - Multiple filter conditions
+
+9. **`mage-client-web/src/lib/components/game/PlaytestLibrarySearch.svelte`** (Line 45)
+   - **Issue:** `filteredCards` - Conditional logic with filter
+
+10. **`mage-client-web/src/lib/components/game/DeclareBlockers.svelte`**
+    - **Line 48:** `cardNames` - For loop building a Map
+    - **Line 57:** `attackersById` - For loop building a Map
+    - **Line 66:** `availableBlockerIds` - For loop building a Set
+    - **Line 197:** `blocksByAttacker` - For loop building a Map
+
+11. **`mage-client-web/src/lib/components/game/DeclareAttackers.svelte`**
+    - **Line 44:** `cardNames` - For loop building a Map
+    - **Line 161:** `availableAttackerIds` - For loop building a Set
+
+1</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/done/003-implement-direct-engine.md</code> <span class="muted">(17.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Replace Game View with Playtest-Based Multiplayer Engine
+
+**Status**: COMPLETED
+**Completion Date**: January 23, 2026
+**Phases Completed**: 1-7 (All phases)
+
+---
+
+## Problem
+
+The current game view has two major issues:
+
+1. **Backend**: `mage_engine.go` (13,787 lines) implements full MTG rules enforcement
+   - Validates spell timing, mana costs, priority
+   - Enforces complex rules (stack, triggers, state-based actions)
+   - Auto-resolves combat damage and effects
+   - Over-engineered for our use case
+
+2. **Frontend**: Game view (`game/[id]/+page.svelte`) duplicates playtest functionality
+   - Re-implements zones, card management, UI patterns
+   - Adds rules-enforcement UI (priority bar, combat dialogs, mana prompts)
+   - Creates unnecessary complexity and maintenance burden
+
+Meanwhile, **playtest mode works perfectly** as a client-side rules-light engine:
+- Clean state management (1,257 lines)
+- Proven UI patterns (1,992 lines)
+- All game operations implemented (tap, move, counters, life, etc.)
+- Excellent UX (keyboard shortcuts, drag-drop, context menus)
+
+## Solution
+
+**Use playtest as the foundation, adapt for multiplayer**:
+
+1. **Backend**: Replace MageEngine with rules-light engine matching playtest operations
+2. **Frontend**: Replace game view with playtest UI + multiplayer components
+3. **Integration**: Add minimal server sync layer for state synchronization
+
+**No rules enforcement, no backward compatibility** - clean replacement.
+
+---
+
+## Architecture
+
+### Backend: Rules-Light Engine
+
+**Copy state structure from playtest** (`playtest-game.ts` lines 25-59):
+
+```go
+type GameState struct {
+    GameID       string
+    Players      map[string]*Player
+    Zones        map[string]*Zone
+    Turn         int
+    ActivePlayer string
+    Messages     []ActionLog
+    StartedAt    time.Time
+}
+
+type Card struct {
+    ID           string
+    Name         string
+    OwnerID      string
+    ControllerID string
+    Zone         string
+    Tapped       bool
+    FaceUp       bool
+    Counters     map[string]int
+    Properties   map[string]interface{}
+}
+
+type Player struct {
+    ID           string
+    Name         string
+    Life         int
+    Poison       int
+    Energy       int
+    LibraryCount int
+    HandCount    int
+}
+```
+
+**Implement all playtest operations** (`playtest-game.ts` lines 492-1151):
+
+```go
+func (e *Engine) MoveCard(gameID, cardID, targetZone string) error
+func (e *Engine) TapCard(gameID, cardID string, tapped bool) error
+func (e *Engine) DrawCards(gameID, playerID string, count int) error
+func (e *Engine) ModifyLife(gameID, playerID string, delta int) error
+func (e *Engine) AddCounter(gameID, cardID, counterType string, amount int) error
+func (e *Engine) CreateToken(gameID, name, types, power, toughness, color string) error
+func (e *Engine) ShuffleLibrary(gameID, playerID string) error
+func (e *Engine) ScryCards(gameID, playerID string, count int) ([]Card, error)
+func (e *Engine) MillCards(gameID, playerID string, count int) error
+func (e *Engine) NextTurn(gameID string) error
+```
+
+**Use existing direct-actions API** (already implemented in `mage_engine.go` lines 2590-2740):
+- Backend already parses string commands: `TAP:{cardId}`, `MOVE:{cardId}:{zone}`, etc.
+- Frontend already uses `direct-actions.ts` to send these commands
+- No proto changes needed initially (can migrate to typed RPCs later)
+
+### Frontend: Playtest UI + Multiplayer
+
+**Copy playtest page structure** (`playtest/+page.svelte` lines 1-1992):
+- State management patterns
+- Event handlers (lines 440-760)
+- Keyboard shortcuts (lines 955-1050)
+- Drag-drop system (lines 196-780)
+- Context menus (lines 499-540)
+
+**Add multiplayer components** from game view:
+- `OpponentSection.svelte` - Opponent battlefield/info
+- `PlayerInfoRow.svelte` - Multi-player life totals
+- `GameChatOverlay.svelte` - Chat
+
+**Remove rules-enforcement UI**:
+- Delete `PriorityActionBar`, `DeclareAttackers`, `DeclareBlockers`
+- Delete `ManaPayment`, `XManaSelector`, `AbilitiesPanel`
+- D</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/done/004-cleanup-legacy-go-server-code.md</code> <span class="muted">(21.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Complete Legacy Go Server Code Cleanup - Full Migration
+
+## Status: DONE
+
+**Created**: January 23, 2026
+**Updated**: January 24, 2026
+**Priority**: HIGH
+**Estimated Effort**: 2-3 days
+
+## Problem
+
+After completing the playtest-first migration, the Go server contains massive amounts of dead code from the old MageEngine:
+
+- **~100+ files** of legacy rules enforcement code
+- **~50,000+ LOC** of unused complexity
+- MageEngine (13,786 lines) no longer needed
+- Complex rules system (priority, stack, combat, triggers)
+
+**Decision**: NO backward compatibility needed. Full migration to playtest engine only.
+
+## Solution
+
+**Complete deletion** of all MageEngine code and legacy systems. Simplify to single playtest engine only.
+
+---
+
+## Cleanup Strategy - Aggressive Full Migration
+
+### Phase 1: Delete MageEngine Core (IMMEDIATE)
+
+**Primary target**: Remove the massive legacy engine file.
+
+**Files to delete**:
+
+1. `internal/game/mage_engine.go` (13,786 lines, 430KB)
+2. `internal/game/engine_priority.go`
+3. `internal/game/engine_stack.go`
+4. `internal/game/engine_combat.go`
+5. `internal/game/engine_events.go`
+6. `internal/game/engine_layers.go`
+7. `internal/game/null_engine.go` (test stub)
+
+**Action**:
+
+```bash
+cd /Users/aron/dev/opensource/mage/mage-server-go
+
+# Delete MageEngine and all adapter files
+rm internal/game/mage_engine.go
+rm internal/game/engine_priority.go
+rm internal/game/engine_stack.go
+rm internal/game/engine_combat.go
+rm internal/game/engine_events.go
+rm internal/game/engine_layers.go
+rm internal/game/null_engine.go
+```
+
+**Verification**:
+
+```bash
+go build ./...
+# Will fail - expected, fix imports in Phase 2
+```
+
+**Impact**: ~14,000 LOC deleted
+
+---
+
+### Phase 2: Remove Engine Selection Logic
+
+**Remove all code related to choosing between engines.**
+
+**Files to modify**:
+
+#### File: `cmd/server/main.go`
+
+**Delete** (lines ~145-177):
+
+```go
+// Remove entire engine_type switch
+engineType := cfg.Server.EngineType
+if engineType == &quot;&quot; {
+    engineType = &quot;mage&quot;
+}
+
+switch engineType {
+case &quot;playtest&quot;:
+    // ...
+case &quot;mage&quot;:
+    // ...
+}
+```
+
+**Replace with** (simple, single engine):
+
+```go
+// Create playtest engine (only engine)
+engine := game.NewEngine(logger, cardRepo)
+engine.SetNotificationHandler(notificationAdapter)
+
+gameAdapter := game.NewEngineAdapter(engine)
+```
+
+**Delete** (lines ~169-192):
+
+```go
+// Remove MageEngine persistence/crash recovery
+if mageEngine, ok := engine.(*game.MageEngine); ok {
+    // ... persistence logic
+}
+
+// Remove game restoration
+activeGames, err := activeGameRepo.ListAll(ctx)
+// ... restoration logic
+```
+
+#### File: `internal/config/config.go`
+
+**Delete** (line 33):
+
+```go
+EngineType string `mapstructure:&quot;engine_type&quot;`
+```
+
+**Delete** (line 205):
+
+```go
+v.SetDefault(&quot;server.engine_type&quot;, &quot;mage&quot;)
+```
+
+**Delete** (lines 285-287):
+
+```go
+// Validate engine type
+if c.Server.EngineType != &quot;&quot; &amp;&amp; c.Server.EngineType != &quot;mage&quot; &amp;&amp; c.Server.EngineType != &quot;playtest&quot; {
+    return fmt.Errorf(&quot;server.engine_type must be &#x27;mage&#x27; or &#x27;playtest&#x27;&quot;)
+}
+```
+
+#### File: `internal/game/manager.go`
+
+**Simplify** `SetNotificationCallback`:
+
+```go
+func (a *EngineAdapter) SetNotificationCallback(callback func(GameNotification)) {
+    if e, ok := a.engine.(*Engine); ok {
+        // Only support playtest Engine
+        adapter := &amp;engineNotificationAdapter{callback: callback}
+        e.SetNotificationHandler(adapter)
+    } else {
+        // Should never happen - only one engine type now
+        panic(&quot;unknown engine type&quot;)
+    }
+}
+```
+
+Or even simpler - assume it&#x27;s always Engine:
+
+```go
+func (a *EngineAdapter) SetNotificationCallback(callback func(GameNotification)) {
+    e := a.engine.(*Engine)
+    adapter := &amp;engineNotificationAdapter{callback: callback}
+    e.SetNotificationHandler(adapter)
+}
+```
+
+**Verification**:
+
+```bash
+go build ./cmd/server/...
+# Should compile now
+```
+
+**Impact**: ~100 LOC simplified
+
+---
+
+### Phase 3: Delete Entire Rules System
+
+**Remove all MTG rules enforcement infrastructure.**
+
+**Directories t</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/done/006-implementation-summary.md</code> <span class="muted">(15.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Implementation Summary: Multiplayer Interface TODOs
+
+**Date**: 2026-01-24
+**Status**: Phases 1-3 COMPLETE
+**Source**: docs/tickets/todo/006-implementation-plan-multiplayer-todos.md
+
+---
+
+## Executive Summary
+
+Successfully implemented all core multiplayer functionality across 3 phases:
+- **Phase 1**: Core State Synchronization (7 tasks) ✅
+- **Phase 2**: Action Processing (3 tasks) ✅
+- **Phase 3**: Polish &amp; Advanced Features (3 tasks - analysis complete, selective implementation) ✅
+
+**Total Implementation Time**: ~4 hours across all phases
+**Files Modified**: 5 files (3 server-side Go, 2 client-side TypeScript)
+**Code Added**: ~500 lines (parser, mappings, proto fields, API wrappers)
+**Code Quality**: All compilation checks pass, comprehensive error handling
+
+---
+
+## Phase 1: Core State Synchronization ✅
+
+### Tasks Completed (7/7)
+
+#### 1.1 Add activeControlSeat Field to Proto
+**File**: `mage-server-go/api/proto/mage/v1/models.proto`
+- Added `active_control_seat` field (field 19) to GameView message
+- Regenerated Go and TypeScript proto files
+- **Purpose**: Identifies which player&#x27;s perspective the GameView represents
+
+#### 1.2 Set activeControlSeat in Server Conversion
+**File**: `mage-server-go/internal/server/grpc.go`
+- Modified `playtestViewToProto()` to set `ActiveControlSeat: playerID`
+- Uses viewing player&#x27;s ID (not active player&#x27;s turn ID)
+- **Purpose**: Server tells each client which player they are
+
+#### 1.3 Create Proto GameView to State Mapping Function
+**File**: `mage-client-web/src/lib/stores/multiplayer-game.ts`
+- Added `convertPlayerViewToPlaytestPlayer()` helper
+- Added `normalizeProtoGameView()` for empty array handling
+- Added `mapProtoGameViewToState()` for complete state mapping
+- **Purpose**: Convert protobuf messages to client state structure
+
+#### 1.4 Update GAME_UPDATE Handler to Map State
+**File**: `mage-client-web/src/lib/stores/multiplayer-game.ts`
+- Replaced placeholder GAME_UPDATE handler
+- Uses normalization → mapping → state update pipeline
+- Clears pending actions on server state update
+- **Purpose**: Apply real-time game state updates from WebSocket
+
+#### 1.5 Apply Initial State from fetchGameView
+**File**: `mage-client-web/src/lib/stores/multiplayer-game.ts`
+- Updated `loadGameState()` to apply fetched GameView
+- Uses same mapping pipeline as GAME_UPDATE
+- Handles null/undefined gracefully
+- **Purpose**: Load initial state when joining a game
+
+#### 1.6 Add Library Field to Proto Conversion
+**Files**:
+- `mage-server-go/api/proto/mage/v1/models.proto` (added field 19 to PlayerView)
+- `mage-server-go/internal/server/grpc.go` (populate Library for viewing player)
+- Added `Library: playtestEngineCardsToProto(data.Me.Library)` for viewing player
+- Opponents do NOT receive library field (maintains hidden information)
+- **Purpose**: Viewing player can see their own library contents
+
+#### 1.7 Verify Derived Stores Work
+**File**: `mage-client-web/src/lib/stores/multiplayer-game.ts`
+- Verified `multiplayerPlayers`, `multiplayerLocalPlayer`, `multiplayerOpponents` all work
+- No modifications needed - already correctly implemented
+- **Purpose**: Provide filtered player data for UI components
+
+### Phase 1 Outcomes
+
+**Proto Changes**:
+- 2 new fields: `active_control_seat` (GameView), `library` (PlayerView)
+- Generated code in both Go and TypeScript
+
+**Server Changes**:
+- activeControlSeat population in proto conversion
+- Library transmission for viewing player only
+
+**Client Changes**:
+- Complete proto-to-state mapping pipeline
+- GAME_UPDATE handler functional
+- Initial state loading functional
+
+**Compilation**: ✅ All files compile without errors
+
+---
+
+## Phase 2: Action Processing ✅
+
+### Tasks Completed (3/3)
+
+#### 2.1 Implement String Command Parser
+**File**: `mage-server-go/internal/game/game_engine.go`
+
+**Changes Made**:
+1. Added imports: `strconv`, `strings`
+2. Added &quot;SEND_STRING&quot; case to ProcessAction switch (lines 254-260)
+3. Implemented `ParseAndExecuteStringCommand` method (lines 410-575)
+
+**Command</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/done/006-phase-3-status-report.md</code> <span class="muted">(22.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Phase 3: Polish &amp; Advanced Features - Status Report
+
+**Document Date**: 2026-01-24
+**Phase**: Phase 3 - Polish &amp; Advanced Features
+**Status**: ANALYSIS COMPLETE - Recommendations Provided
+**Implementation Plan**: `docs/tickets/todo/006-implementation-plan-multiplayer-todos.md` (lines 1128-1401)
+
+---
+
+## Executive Summary
+
+All Phase 3 tasks have been analyzed. **Recommendation: SKIP ALL OPTIONAL TASKS** - current implementation already provides sufficient functionality without the added complexity.
+
+### Summary by Task:
+- **Task 3.1 (Card Metadata Enrichment)**: SKIP - Server already provides full metadata
+- **Task 3.2 (Missing Client API Functions)**: ALREADY COMPLETE - All server operations have client wrappers
+- **Task 3.3 (Optimistic UI Updates)**: SKIP - WebSocket sync is fast enough, complexity not justified
+
+---
+
+## Task 3.1: Client-Side Card Metadata Enrichment
+
+**Plan Reference**: Lines 1139-1279
+**Status**: SKIP - Not needed
+**Recommendation**: DO NOT IMPLEMENT
+
+### Current State Analysis
+
+#### Server-Side Card Data Structure
+Cards from server include **full metadata** in the CardView proto message:
+
+**File**: `/Users/aron/dev/opensource/mage/mage-server-go/api/proto/mage/v1/models.proto` (lines 141-171)
+
+```protobuf
+message CardView {
+  string id = 1;
+  string name = 2;
+  string display_name = 3;
+  string mana_cost = 4;            // ✅ INCLUDED
+  string type = 5;                 // ✅ INCLUDED
+  string sub_types = 6;            // ✅ INCLUDED
+  string super_types = 7;          // ✅ INCLUDED
+  string color = 8;                // ✅ INCLUDED
+  string power = 9;                // ✅ INCLUDED
+  string toughness = 10;           // ✅ INCLUDED
+  string loyalty = 11;             // ✅ INCLUDED
+  int32 card_number = 12;          // ✅ INCLUDED
+  string expansion_set_code = 13;  // ✅ INCLUDED
+  string rarity = 14;              // ✅ INCLUDED
+  string rules_text = 15;          // ✅ INCLUDED
+  repeated AbilityView abilities = 16;  // ✅ INCLUDED
+  // ... state fields ...
+}
+```
+
+#### Server-Side Card Factory
+Cards are loaded from database with full metadata:
+
+**File**: `/Users/aron/dev/opensource/mage/mage-server-go/internal/game/cards/factory.go` (lines 72-85)
+
+The server&#x27;s `CardInfo` structure includes:
+- `ManaCost`: From database
+- `CardType`: Full type line from database
+- `Power`/`Toughness`: From database
+- `RulesText`: From database
+- All metadata fields populated at card creation
+
+#### Client-Side Type Definitions
+Client already expects metadata fields:
+
+**File**: `/Users/aron/dev/opensource/mage/mage-client-web/src/lib/types/game.ts` (lines 5-21)
+
+```typescript
+export interface GameCard {
+  id: string;
+  name: string;
+  manaCost?: string;      // ✅ EXPECTED
+  cardType?: string;      // ✅ EXPECTED
+  types?: string[];       // ✅ EXPECTED
+  colors?: string[];      // ✅ EXPECTED
+  power?: string;         // ✅ EXPECTED
+  toughness?: string;     // ✅ EXPECTED
+  imageUrl?: string;
+  // ... other fields ...
+}
+```
+
+#### Current Image Handling
+Images are handled by Scryfall URL generation (no API call needed):
+
+**File**: `/Users/aron/dev/opensource/mage/mage-client-web/src/lib/utils/scryfall.ts` (lines 16-26)
+
+```typescript
+export function getScryfallImageUrl(
+  cardName: string,
+  version: &#x27;small&#x27; | &#x27;normal&#x27; | &#x27;large&#x27; | ... = &#x27;normal&#x27;
+): string {
+  // Uses Scryfall redirect endpoint - no API call, just URL construction
+  const encodedName = encodeURIComponent(cardName);
+  return `https://api.scryfall.com/cards/named?format=image&amp;version=${version}&amp;exact=${encodedName}`;
+}
+```
+
+**Note**: This returns a redirect URL, not an API call. Browsers handle the 302 redirect automatically.
+
+### Analysis: Why Skip This Task?
+
+1. **Server Already Provides Full Metadata**
+   - All CardView messages include manaCost, type, power, toughness, rulesText
+   - Cards loaded from database have complete information
+   - No client-side enrichment needed
+
+2. **Images Already Work Without API Calls**
+   - Scryfall image URLs use redirect endpoint
+   - No rate l</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/todo/001-refactor-modal-state-to-persist-across-state-updates.md</code> <span class="muted">(9.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Refactor Modal State to Persist Across Game State Updates
+
+## Problem
+
+When game state updates arrive from the server (via WebSocket `GAME_UPDATE` events), modals that are currently open lose their local state. This happens because:
+
+1. **Game state updates trigger full reactivity**: When `gameStore.setGameView()` is called, all `$derived` values in the game page recompute
+2. **Conditional rendering causes remounting**: Modals are conditionally rendered (e.g., `{#if prompt &amp;&amp; prompt.type === &#x27;mana&#x27;}`), and when the parent component structure changes during reactive updates, Svelte may unmount and remount the modal component
+3. **Local state is ephemeral**: When a component remounts, all local `$state` variables reset to their initial values
+
+### Example Scenario
+
+User is uploading a deck in `DeckUploadModal`:
+- They&#x27;ve entered a deck name, selected format, and typed in a deck list
+- A game state update arrives (e.g., opponent plays a card)
+- The game page rerenders due to store updates
+- The modal component gets remounted
+- All form state is lost: `deckName = &#x27;&#x27;`, `deckList = &#x27;&#x27;`, `structuredCards = []`, etc.
+
+## Affected Components
+
+### Game Page Modals (High Priority)
+These modals are rendered conditionally based on game state and are most likely to be affected:
+
+1. **DeckUploadModal** (`src/lib/components/DeckUploadModal.svelte`)
+   - State: `deckName`, `selectedFormat`, `deckList`, `structuredCards`, `viewMode`, `errors`, `loading`
+   - Used in: `/decks` page (but could be used elsewhere)
+   - Impact: **HIGH** - User loses all entered deck data
+
+2. **TokenCreator** (`src/lib/components/game/TokenCreator.svelte`)
+   - State: `name`, `types`, `power`, `toughness`, `color`, `customAbilities`
+   - Used in: Game page (`showTokenCreator` state)
+   - Impact: **MEDIUM** - User loses token configuration
+
+3. **LibrarySearch** (`src/lib/components/game/LibrarySearch.svelte`)
+   - State: `selectedCardId`, `searchQuery`, `filterType`, `selectedDestination`, drag state
+   - Used in: Game page (prompt-based, `prompt.type === &#x27;librarySearch&#x27;`)
+   - Impact: **MEDIUM** - User loses search query and selection
+
+4. **ManaPayment** (`src/lib/components/game/ManaPayment.svelte`)
+   - State: `selectedMana`, `isLoading`, `error`
+   - Used in: Game page (prompt-based, `prompt.type === &#x27;mana&#x27;`)
+   - Impact: **LOW** - Usually quick interaction, but could be annoying
+
+5. **XManaSelector** (`src/lib/components/game/XManaSelector.svelte`)
+   - State: Likely has local state for X value selection
+   - Used in: Game page (prompt-based, `prompt.type === &#x27;xmana&#x27;`)
+   - Impact: **LOW** - Usually quick interaction
+
+6. **DeclareAttackers** (`src/lib/components/game/DeclareAttackers.svelte`)
+   - State: Likely has local state for selected attackers
+   - Used in: Game page (combat phase)
+   - Impact: **MEDIUM** - User loses attack declarations
+
+7. **DeclareBlockers** (`src/lib/components/game/DeclareBlockers.svelte`)
+   - State: Likely has local state for selected blockers
+   - Used in: Game page (combat phase)
+   - Impact: **MEDIUM** - User loses block declarations
+
+8. **AssignDamage** (`src/lib/components/game/AssignDamage.svelte`)
+   - State: Likely has local state for damage assignments
+   - Used in: Game page (combat phase)
+   - Impact: **MEDIUM** - User loses damage assignments
+
+### Other Modals (Lower Priority)
+These may also be affected but are less critical:
+
+- **DebugOverlay** - Usually read-only, less critical
+- **KeyboardShortcutsModal** - No user input state
+- **ActionLogOverlay** - May have scroll position, but less critical
+- **GameChatOverlay** - May have input state, but chat is usually short-lived
+
+## Solution Approach
+
+### Option 1: Move State to Stores (Recommended)
+
+Create dedicated stores for each modal&#x27;s state that needs to persist:
+
+**Pros:**
+- State persists across component remounts
+- Can be accessed from anywhere
+- Clear separation of concerns
+- Easy to debug (store state is visible in devtools)
+
+**Cons:**
+- More boilerplate
+- Need to</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/todo/004-phase-9-verification-report.md</code> <span class="muted">(16.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Phase 9 Verification Report - Complete Cleanup Verification
+
+**Date**: January 23, 2026
+**Status**: ✅ MOSTLY COMPLETE (Minor TODO comments remain)
+**Executor**: Claude Code
+
+---
+
+## Executive Summary
+
+Phase 9 verification has been completed. The MageEngine cleanup is **97% complete** with excellent results:
+
+- ✅ **All MageEngine core files deleted** (7 files, ~14,000 LOC)
+- ✅ **All rules system deleted** (rules/ and effects/ directories, ~22,000 LOC)
+- ✅ **All combat tests deleted** (45 test files, ~8,500 LOC)
+- ✅ **Persistence layer removed** (3 files, ~1,000 LOC)
+- ✅ **Engine selection logic removed** (simplified to single engine)
+- ✅ **Config simplified** (no engine_type validation)
+- ✅ **Server compiles successfully** (28MB binary)
+- ✅ **All tests pass** (16 test files, all cached/passing)
+- ⚠️ **Minor cleanup needed**: 7 TODO comments remain referencing MageEngine
+
+**Total Code Deleted**: ~48,500 LOC across 103 files
+**Remaining Code**: ~40,527 LOC (57% reduction achieved)
+**Build Status**: ✅ SUCCESS
+**Test Status**: ✅ ALL PASSING
+
+---
+
+## Verification Checklist Results
+
+### 1. MageEngine References Search
+
+**Command**: `grep -r &quot;MageEngine\|mage_engine&quot; mage-server-go/ --include=&quot;*.go&quot; | grep -v &quot;.disabled&quot;`
+
+**Results**: 7 comment-only references found (no code dependencies):
+
+```
+./internal/server/grpc_game.go:1063:  // MageEngine has been removed, need to implement rollback in the new playtest engine
+./internal/server/grpc_game.go:1083:  // MageEngine has been removed, need to implement rollback in the new playtest engine
+./internal/server/grpc_game.go:1098:  // MageEngine has been removed, need to implement rollback in the new playtest engine
+./internal/server/grpc.go:646:        // Phase 8: Simplified to only handle PlaytestGameView (MageEngine removed)
+./internal/server/grpc.go:691:        // Only handle PlaytestGameView now (MageEngine support removed)
+./internal/game/cards/registry.go:154:// This function is designed to be passed to MageEngine.SetCardBuilder
+./internal/game/card.go:144:          // TODO: Phase 8 - Remove this method, it&#x27;s only used by the removed MageEngine
+./internal/game/manager.go:382:       // Only support playtest Engine (MageEngine removed)
+```
+
+**Assessment**: ✅ **ACCEPTABLE**
+All references are in comments documenting the removal. No actual code dependencies remain.
+
+---
+
+### 2. Engine Type References Search
+
+**Command**: `grep -r &quot;engine_type\|EngineType&quot; mage-server-go/ --include=&quot;*.go&quot;`
+
+**Results**: **NONE FOUND**
+
+**Assessment**: ✅ **CLEAN**
+All engine type selection code has been successfully removed.
+
+---
+
+### 3. Code Formatting Check
+
+**Command**: `go fmt ./...`
+
+**Results**:
+```
+internal/server/grpc_game.go
+```
+
+**Assessment**: ✅ **CLEAN**
+Only one file needed formatting (automatically fixed).
+
+---
+
+### 4. Build Verification
+
+**Command**: `go build ./...`
+
+**Results**: ✅ **SUCCESS** (no errors)
+
+**Binary Build**: `go build -o /tmp/mage-server ./cmd/server`
+- Status: ✅ SUCCESS
+- Binary Size: 28MB
+- Location: `/tmp/mage-server`
+
+**Assessment**: ✅ **FULLY FUNCTIONAL**
+Server compiles cleanly with no errors.
+
+---
+
+### 5. Proto Definitions Check
+
+**Command**: `grep -r &quot;mage.*engine&quot; /Users/aron/dev/opensource/mage/mage-server-go/api/proto/`
+
+**Results**: **NONE FOUND**
+
+**Assessment**: ✅ **CLEAN**
+No old engine references in proto definitions.
+
+---
+
+### 6. Test Suite Verification
+
+**Command**: `go test ./...`
+
+**Results**: ✅ **ALL PASSING**
+
+```
+ok    github.com/magefree/mage-server-go/internal/auth               (cached)
+ok    github.com/magefree/mage-server-go/internal/game/abilities     (cached)
+ok    github.com/magefree/mage-server-go/internal/game/cards         (cached)
+ok    github.com/magefree/mage-server-go/internal/game/mana          (cached)
+ok    github.com/magefree/mage-server-go/internal/game/token         (cached)
+ok    github.com/magefree/mage-server-go/internal/integration        (cached)
+ok    github.com/magefree/mage-server-go/internal/rating             (cached)
+o</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/todo/005-final-action-check.md</code> <span class="muted">(3.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Game Engine Final Action Check &amp; Cleanup
+
+## Overview
+
+This ticket verifies complete feature support in our game engine (both solo playtest and multiplayer modes use the same engine).
+
+**Created**: Jan 23, 2026
+**Status**: OPEN
+**Context**: The playtest engine (`engine.go`) handles both solo playtest (client-side state) and multiplayer games (server-synced state). After removing MageEngine, we need to rename files and types for clarity.
+
+---
+
+## Part 1: Feature Support Verification
+
+We need to check if we offer full support for:
+
+## Zone &amp; Card Movement
+
+- [ ] Move cards between zones (Library, Hand, Battlefield, Graveyard, Exile, Command Zone, Stack, Sideboard)
+- [ ] Draw X cards
+- [ ] Discard specific card
+- [ ] Discard random card
+- [ ] Search library (with filters by type, cost, etc.)
+- [ ] Shuffle library
+- [ ] Mill X cards (move from library to graveyard)
+- [ ] Scry/Surveil/Explore (look at top X, reorder to top/bottom/graveyard)
+- [ ] Look at top X cards
+- [ ] Reveal cards (temporary or persistent)
+- [ ] Reveal hand
+- [ ] Exile face-down
+- [ ] Peek at face-down cards or opponent&#x27;s hand
+
+## Card States
+
+- [ ] Tap/Untap (individual or all)
+- [ ] Flip/Transform (double-faced cards, Day/Night)
+- [ ] Face up/Face down (Morph)
+- [ ] Phase in/Phase out
+- [ ] Attach/Detach (Auras, Equipment, Fortifications)
+- [ ] Meld (combine two cards)
+
+## Counters on Permanents
+
+- [ ] Add/remove +1/+1 counters
+- [ ] Add/remove -1/-1 counters
+- [ ] Add/remove loyalty counters (Planeswalkers)
+- [ ] Add/remove keyword counters (Flying, Lifelink, Deathtouch, Shield, etc.)
+- [ ] Add/remove utility counters (Charge, Oil, Lore, Time, etc.)
+
+## Counters on Players
+
+- [ ] Add/remove poison counters
+- [ ] Add/remove energy counters
+- [ ] Add/remove experience counters
+- [ ] Add/remove rad counters
+- [ ] Add/remove ticket counters
+
+## Battlefield Actions
+
+- [ ] Create tokens (custom or predefined)
+- [ ] Create emblems
+- [ ] Copy spells on stack
+- [ ] Copy permanents on battlefield
+- [ ] Change control of permanent
+- [ ] Track ownership vs control
+
+## Combat
+
+- [ ] Declare attackers (choose creatures and targets)
+- [ ] Declare blockers
+- [ ] Assign combat damage
+- [ ] Apply trample logic
+- [ ] Track commander damage per opponent (21-damage tracker)
+- [ ] Visual targeting indicators (arrows/lines)
+- [ ] Mark creatures as attacking/blocking
+
+## Player Resources &amp; State
+
+- [ ] Change life total
+- [ ] Add mana to pool (W, U, B, R, G, C) via optional modal. Players can also just tap lands.
+- [ ] Track floating mana
+- [ ] Track monarch status
+- [ ] Track initiative status
+- [ ] Track City&#x27;s Blessing
+- [ ] Track Day/Night cycle
+
+## Turn &amp; Phase Management
+
+- [ ] Progress through turn phases (Untap, Upkeep, Draw, Main 1, Combat, Main 2, End, Cleanup)
+- [ ] Pass priority
+- [ ] Pass turn
+- [ ] Take extra turn
+- [ ] Mulligan
+
+## Stack &amp; Spell Resolution
+
+- [ ] Add spells/abilities to stack (LIFO)
+- [ ] Resolve stack items
+- [ ] Target objects or players
+- [ ] Make modal choices
+
+## Commander-Specific
+
+- [ ] Command Zone management
+- [ ] Track commander tax (+2 per cast)
+- [ ] Commander damage matrix (track per commander to each player)
+- [ ] Partner/Background support
+- [ ] Dungeon progression tracking
+
+## Randomization
+
+- [ ] Roll dice (D6, D20, N-sided)
+- [ ] Flip coins
+
+## UI &amp; Game Tools
+
+- [ ] Game log/action history
+- [ ] Priority indicator
+- [ ] Turn/phase indicator
+- [ ] Card preview on hover
+- [ ] Undo functionality
+- [ ] Spectator mode
+- [ ] Ping/Point at cards
+- [ ] Track temporary effects (&quot;until end of turn&quot;)
+- [ ] Track Storm count/spells cast this turn
+- [ ] Concede
+
+---
+
+## Success Criteria
+
+### Feature Support
+
+- All checklist items verified as implemented or marked as not needed
+- Missing features documented with implementation plan
+</pre></details><details><summary><code>tickets/todo/006-implementation-plan-multiplayer-todos.md</code> <span class="muted">(49.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Implementation Plan: Multiplayer Interface TODOs
+
+**Created**: 2026-01-24
+**Source**: docs/20260124-missing-pieces-multiplayer-interface.md
+**Status**: Ready for execution
+
+---
+
+## Phase 0: Documentation Discovery (COMPLETE)
+
+### Gathered Documentation
+
+All necessary APIs, patterns, and structures have been documented through comprehensive codebase analysis:
+
+#### 0.1 Protobuf Patterns
+
+**Sources Consulted**:
+
+- `mage-server-go/api/proto/mage/v1/models.proto` (GameView message lines 72-103, PlayerView message lines 115-134)
+- `mage-server-go/internal/server/grpc.go` (conversion functions lines 628-746)
+- `mage-server-go/Makefile` (proto generation command line 49)
+
+**Key Findings**:
+
+- Proto regeneration: `cd mage-server-go &amp;&amp; make proto`
+- Field numbering: 1-19 core fields, 20-29 display values, 30+ feature fields
+- Conversion pattern: `PlaytestGameView` → `playtestViewToProto()` → `pb.GameView`
+- Helper pattern: `playtestEngineCardsToProto()` for card arrays
+
+**Missing Fields Identified**:
+
+- `activeControlSeat` (field 19) - NOT in proto, needed by client
+- `library` - NOT transmitted in `playtestViewToProto()` despite proto having the field
+- `manaPool` - Proto type exists but not populated in conversion
+
+#### 0.2 WebSocket State Sync Patterns
+
+**Sources Consulted**:
+
+- `mage-client-web/src/lib/stores/multiplayer-game.ts` (GAME_UPDATE handler lines 162-179)
+- `mage-client-web/src/lib/stores/game.legacy.ts` (working example lines 176-226)
+- `mage-server-go/internal/server/grpc.go` (notification flow lines 115-290)
+- `mage-server-go/internal/game/view.go` (buildGameView lines 68-136)
+- `mage-server-go/internal/game/game_engine.go` (broadcast mechanism lines 330-346)
+
+**Key Findings**:
+
+- Complete data flow: `GameEngine.broadcast()` → `buildGameView()` → `NotifyGameStateChange()` → `handleGameNotification()` → `sendGameUpdateToPlayer()` → `engineViewToProto()` → WebSocket → Client `GAME_UPDATE` handler
+- Working example exists in `game.legacy.ts` showing proper mapping pattern
+- Current handler only updates connection flags, doesn&#x27;t map GameView to state
+- Hidden information filtering works correctly (Me gets full hand/library, Opponents get empty arrays)
+
+**Required Pattern** (from game.legacy.ts):
+
+```typescript
+websocketStore.on(CallbackMethod.GAME_UPDATE, (data) =&gt; {
+  const updateData = data as GameUpdateData;
+  if (updateData.game) {
+    const normalized = normalizeGameView(updateData.game);
+    update((s) =&gt; ({
+      ...s,
+      gameView: normalized,
+      // Clear optimistic updates
+    }));
+  }
+});
+```
+
+#### 0.3 Action Processing Architecture
+
+**Sources Consulted**:
+
+- `mage-server-go/internal/game/game_engine.go` (ProcessAction switch lines 148-255)
+- `mage-server-go/internal/game/actions.go` (all action handlers)
+- `mage-server-go/internal/game/manager.go` (SendPlayerAction lines 291-310, ProcessGameActions lines 312-327)
+- `mage-server-go/internal/server/grpc_game.go` (SendPlayerString RPC line 454, goroutine spawn line 131)
+- `mage-client-web/src/lib/api/direct-actions.ts` (client command API)
+- `mage-client-web/src/lib/api/game.ts` (sendPlayerString function)
+
+**Key Findings**:
+
+- ActionQueue consumer goroutine **IS running** (spawned at line 131 in grpc_game.go)
+- ProcessAction uses **structured data**, NOT string parsing
+- Current flow: `SendPlayerString(data: &quot;TAP:card-123&quot;)` → `SendPlayerAction(type: &quot;SEND_STRING&quot;, data: &quot;TAP:card-123&quot;)` → ProcessAction **NO HANDLER for &quot;SEND_STRING&quot;** → error
+- All existing handlers use structured data from `map[string]interface{}`
+- 18 action types already implemented: DRAW, PLAY, MOVE, TAP, FLIP, MODIFY_LIFE, SET_COUNTER, SHUFFLE, CREATE_TOKEN, ADD_COUNTER, REMOVE_COUNTER, SET_CARD_COUNTER, MILL, SCRY, SET_REVEALED_TOP, NEXT_TURN, MULLIGAN, KEEP_HAND
+
+**Critical Gap**: Client sends string commands but server expects structured actions
+
+**Missing Operations** (from TODO #3): These handlers **ALREADY EXIST** in actions.go:
+
+- ✅ MILL - `MillCards()` at lines 923-957
+- ✅ SCR</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tickets/todo/007-extract-shared-game-page-components.md</code> <span class="muted">(23.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Extract Shared Game Page Components
+
+**Status:** Ready for Implementation
+**Priority:** Medium
+**Complexity:** High
+**Estimated Phases:** 5
+
+---
+
+## Overview
+
+Extract shared layout and component patterns from the multiplayer game page (`game/[id]/+page.svelte`) and playtest page (`playtest/+page.svelte`) to eliminate ~900 lines of duplication and create reusable game UI components.
+
+**Current State:**
+- Both pages are ~1500 lines with 60%+ identical code
+- Duplicated: dialog rendering, menu overlay, drag ghost, keyboard shortcuts, game layout
+- Different stores but identical UI patterns
+
+**Target State:**
+- Both pages reduced to ~400-600 lines
+- Shared components in `$lib/components/game/`
+- Clear separation between game logic (stores) and UI (components)
+
+---
+
+## Phase 0: Documentation Discovery ✅
+
+### Findings Summary
+
+**Svelte 5 Component Patterns Documented:**
+1. **Props Pattern**: `$props()` with TypeScript interface (see Card.svelte:1-1372)
+2. **State Management**: `$state()` for local UI, stores for game state
+3. **Derived Values**: `$derived()` and `$derived.by()` for computations
+4. **Effects**: `$effect()` for side effects and cleanup
+5. **Ref Callbacks**: Used for drop zone registration (BattlefieldArea.svelte)
+
+**Reference Components:**
+- `Card.svelte` - Foundation for card display with rune-based state
+- `PlayerHand.svelte` - Parent-child composition, drag detection
+- `BattlefieldArea.svelte` - Drop zone ref pattern
+- `Graveyard.svelte` - Modal + derived filtering pattern
+- `OpponentSection.svelte` - Callback-heavy interface
+
+**Key Anti-Patterns to Avoid:**
+- Direct store mutations in components (use callbacks)
+- Mixing component state with store state
+- Using `onMount`/`onDestroy` (use `$effect` instead)
+- Not cleaning up event listeners
+- Native drag API (use custom threshold-based drag)
+
+**Store Abstraction Pattern:**
+```typescript
+// Controller receives store interface, not concrete store
+interface GameStoreAdapter {
+  gameStore: typeof multiplayerGameStore | typeof playtestGameStore;
+  getState: () =&gt; GameState;
+  getLocalPlayer: () =&gt; Player | null;
+  getPlayers: () =&gt; Player[];
+  getBattlefield: () =&gt; CardView[];
+}
+```
+
+**Documentation Sources:**
+- Component examples: `mage-client-web/src/lib/components/game/`
+- Store patterns: `mage-client-web/src/lib/stores/playtest-game.ts`
+- UI state: `mage-client-web/src/lib/stores/game-ui-state.svelte.ts`
+- Drag system: `mage-client-web/src/lib/utils/drag-drop.ts`
+
+---
+
+## Phase 1: Extract Pure UI Components (Dialog Collection)
+
+**Goal:** Extract dialog components that are 95%+ identical between pages with no game logic dependencies.
+
+### Tasks
+
+#### 1.1 Create GameDialogs Component
+
+Create `$lib/components/game/GameDialogs.svelte` to centralize all dialog rendering.
+
+**Copy from:** Both pages use identical dialog structure (multiplayer:947-1067, playtest:1311-1416)
+
+**Component Interface:**
+```typescript
+interface GameDialogsProps {
+  // UI State
+  uiState: GameUIState;
+
+  // Game data
+  gameId: string;
+  me: Player | null;
+  selectedCardForCountersData: CardView | null;
+  deckContextMenuActions: MenuAction[];
+
+  // Event handlers
+  onCreateToken: (name: string, types: string, power: string, toughness: string, color: string) =&gt; void;
+  onAddCounter: (cardId: string, counterName: string, amount: number) =&gt; void;
+  onRemoveCounter: (cardId: string, counterName: string, amount: number) =&gt; void;
+  onSetCounter: (cardId: string, counterName: string, amount: number) =&gt; void;
+  onScryComplete: (keepOnTop: CardView[], putToBottom: CardView[]) =&gt; void;
+  onNumberConfirm: (value: number) =&gt; void;
+
+  // Variants
+  keyboardShortcutsMode: &#x27;game&#x27; | &#x27;playtest&#x27;;
+  librarySearchVariant: &#x27;multiplayer&#x27; | &#x27;playtest&#x27;;
+
+  // Multiplayer-specific (optional)
+  showGameChatOverlay?: boolean;
+
+  // Playtest-specific (optional)
+  showDebugOverlay?: boolean;
+  onCopyGamestate?: () =&gt; void;
+}
+```
+
+**Dialogs to Include:**
+1. `TokenCreator` (conditional: `uiState.showTokenCreator`)
+2. `CreateTok</pre><div class="muted">…(content truncated)</div></details><details><summary><code>UX_DESIGN_PLAN.md</code> <span class="muted">(29.1 KB, text)</span></summary><pre class="claude-preview file-preview"># UX Design Plan: Mage Web Client
+
+## Design Vision
+
+A dark, immersive interface inspired by Magic: The Gathering&#x27;s visual identity. The design should evoke the feeling of an ancient library or wizard&#x27;s sanctum - sophisticated, mysterious, and powerful.
+
+---
+
+## 1. Design System
+
+### 1.1 Color Palette
+
+```css
+:root {
+	/* Core Background Hierarchy */
+	--bg-void: #0a0b0d; /* Deepest black - page background */
+	--bg-obsidian: #12141a; /* Primary surface */
+	--bg-slate: #1a1d26; /* Elevated surface */
+	--bg-iron: #242833; /* Interactive surface */
+	--bg-steel: #2e3340; /* Hover state */
+
+	/* Text Hierarchy */
+	--text-bright: #f4f4f5; /* Primary text */
+	--text-muted: #a1a1aa; /* Secondary text */
+	--text-dim: #71717a; /* Tertiary/disabled text */
+	--text-ghost: #52525b; /* Placeholder text */
+
+	/* Accent - Arcane Gold (primary brand) */
+	--accent-gold: #c9a227; /* Primary accent */
+	--accent-gold-bright: #e4b82a; /* Hover state */
+	--accent-gold-dim: #9a7b1e; /* Pressed/muted */
+	--accent-gold-glow: rgba(201, 162, 39, 0.15); /* Glow effect */
+
+	/* Semantic Colors */
+	--status-success: #22c55e;
+	--status-warning: #f59e0b;
+	--status-error: #ef4444;
+	--status-info: #3b82f6;
+
+	/* MTG Mana Colors */
+	--mana-white: #f8f6e3;
+	--mana-blue: #0e68ab;
+	--mana-black: #150b00;
+	--mana-red: #d3202a;
+	--mana-green: #00733e;
+	--mana-colorless: #9ca3af;
+
+	/* Table Status Colors */
+	--table-waiting: #f59e0b;
+	--table-ready: #22c55e;
+	--table-playing: #3b82f6;
+	--table-finished: #71717a;
+
+	/* Borders &amp; Dividers */
+	--border-subtle: #27272a;
+	--border-default: #3f3f46;
+	--border-strong: #52525b;
+	--border-accent: var(--accent-gold-dim);
+
+	/* Shadows */
+	--shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+	--shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+	--shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.5);
+	--shadow-glow: 0 0 20px var(--accent-gold-glow);
+}
+```
+
+### 1.2 Typography Scale
+
+```css
+:root {
+	/* Font Families */
+	--font-display: &#x27;Cinzel&#x27;, &#x27;Times New Roman&#x27;, serif; /* Headers, branding */
+	--font-body: &#x27;Inter&#x27;, -apple-system, sans-serif; /* Body text, UI */
+	--font-mono: &#x27;JetBrains Mono&#x27;, monospace; /* Code, numbers */
+
+	/* Font Sizes */
+	--text-xs: 0.75rem; /* 12px - Tiny labels */
+	--text-sm: 0.875rem; /* 14px - Secondary text */
+	--text-base: 1rem; /* 16px - Body text */
+	--text-lg: 1.125rem; /* 18px - Emphasized body */
+	--text-xl: 1.25rem; /* 20px - Small headers */
+	--text-2xl: 1.5rem; /* 24px - Section headers */
+	--text-3xl: 1.875rem; /* 30px - Page headers */
+	--text-4xl: 2.25rem; /* 36px - Hero text */
+
+	/* Font Weights */
+	--weight-normal: 400;
+	--weight-medium: 500;
+	--weight-semibold: 600;
+	--weight-bold: 700;
+
+	/* Line Heights */
+	--leading-tight: 1.25;
+	--leading-normal: 1.5;
+	--leading-relaxed: 1.75;
+}
+```
+
+### 1.3 Spacing System
+
+```css
+:root {
+	--space-1: 0.25rem; /* 4px */
+	--space-2: 0.5rem; /* 8px */
+	--space-3: 0.75rem; /* 12px */
+	--space-4: 1rem; /* 16px */
+	--space-5: 1.25rem; /* 20px */
+	--space-6: 1.5rem; /* 24px */
+	--space-8: 2rem; /* 32px */
+	--space-10: 2.5rem; /* 40px */
+	--space-12: 3rem; /* 48px */
+	--space-16: 4rem; /* 64px */
+}
+```
+
+### 1.4 Border Radius
+
+```css
+:root {
+	--radius-sm: 0.25rem; /* 4px - Small elements */
+	--radius-md: 0.5rem; /* 8px - Buttons, inputs */
+	--radius-lg: 0.75rem; /* 12px - Cards, panels */
+	--radius-xl: 1rem; /* 16px - Modals */
+	--radius-full: 9999px; /* Pills, avatars */
+}
+```
+
+### 1.5 Transitions
+
+```css
+:root {
+	--transition-fast: 150ms ease;
+	--transition-base: 200ms ease;
+	--transition-slow: 300ms ease;
+}
+```
+
+---
+
+## 2. Base UI Components
+
+### 2.1 Component Directory Structure
+
+```
+src/lib/components/
+├── ui/                          # Base UI primitives
+│   ├── Button.svelte
+│   ├── Input.svelte
+│   ├── Select.svelte
+│   ├── Textarea.svelte
+│   ├── Checkbox.svelte
+│   ├── Badge.svelte
+│   ├── Avatar.svelte
+│   ├── Tooltip.svelte
+│   ├── Tabs.svelte
+│   ├── Panel.svelte
+│   ├── Divider.svelte
+│   └── Icon.svelte
+│
+├── layout/                      # Layout components
+│   ├── PageHeader.svelte
+│</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.225</td><td>0.18</td><td><strong>4.05</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.250</td><td>0.15</td><td><strong>3.75</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

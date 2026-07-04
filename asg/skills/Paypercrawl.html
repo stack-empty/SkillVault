@@ -1,0 +1,2129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paypercrawl · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>Paypercrawl</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-Paypercrawl">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">Paypercrawl</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 49 · 401.8 KB</span>  <span class="chip">扫描: 2026-06-12 08:03:56</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#f59e0b;color:#f59e0b;">
+            <span class="verdict-label">留意</span>
+            <span class="verdict-en">SUSPICIOUS</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#f59e0b;">建议人工审核</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#f59e0b;">12.1<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:12.12%;background:#f59e0b;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">凭证窃取</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-critical">  <div class="card-title">数据外传</div>  <div class="card-count">2<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-hit" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge bad">严重 · 2</span></div><div class="det-cell det-hit" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 3 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>paypercrawl-web\server.js:16</code></td><td><code class="snippet">process.env.ADMIN_API_KEY</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E1</code></td><td>exfil</td><td><code>README.md:498</code></td><td><code class="snippet">curl -X POST</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E1</code></td><td>exfil</td><td><code>README.md:520</code></td><td><code class="snippet">curl -X POST</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="chain-pills"><div class="chain-pill"><div class="chain-id">E2_E1</div><div class="chain-name">Data Exfiltration Chain</div><div class="chain-evidence">OR=2.31, p=0.020; 36.9% of malicious skills (§4.2)</div></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (49 files, 401.8 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>.gitignore</code> <span class="muted">(457 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/assets/css/admin.css</code> <span class="muted">(3.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/assets/css/analytics.css</code> <span class="muted">(2.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>crawlguard-wp-main/assets/js/admin.js</code> <span class="muted">(13.6 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * CrawlGuard Admin JS — Dashboard, Charts, Live Sync, Live Tool
+ */
+(function ($) {
+    &#x27;use strict&#x27;;
+
+    var cfg = window.crawlguardAdmin || {};
+
+    /* ──────────────────────────────────────────
+     * AJAX Helper
+     * ────────────────────────────────────────── */
+    function ajax(action, data) {
+        return $.post(cfg.ajaxUrl, $.extend({ action: action, nonce: cfg.nonce }, data || {}));
+    }
+
+    /* ──────────────────────────────────────────
+     * DASHBOARD — Stats Polling
+     * ────────────────────────────────────────── */
+    function loadDashboard() {
+        ajax(&#x27;crawlguard_get_realtime_stats&#x27;).done(function (res) {
+            if (!res.success) return;
+            var s = res.data.stats || {};
+            $(&#x27;#cg-total-requests&#x27;).text(fmt(s.total_requests || 0));
+            $(&#x27;#cg-bots-detected&#x27;).text(fmt(s.bots_detected || 0));
+            $(&#x27;#cg-revenue&#x27;).text(&#x27;$&#x27; + parseFloat(s.total_revenue || 0).toFixed(2));
+            $(&#x27;#cg-challenges&#x27;).text(fmt(s.challenges_served || 0));
+
+            renderRecentActivity(res.data.recent || []);
+        });
+
+        ajax(&#x27;crawlguard_get_analytics&#x27;).done(function (res) {
+            if (!res.success) return;
+            var d = res.data || {};
+            renderBotDistribution(d.bot_distribution || []);
+        });
+    }
+
+    function fmt(n) {
+        return Number(n).toLocaleString();
+    }
+
+    /* ──────────────────────────────────────────
+     * Recent Activity Renderer
+     * ────────────────────────────────────────── */
+    function renderRecentActivity(items) {
+        var $el = $(&#x27;#cg-recent-activity&#x27;);
+        if (!items.length) {
+            $el.html(&#x27;&lt;p class=&quot;cg-muted&quot;&gt;No recent activity&lt;/p&gt;&#x27;);
+            return;
+        }
+        var html = &#x27;&#x27;;
+        items.forEach(function (item) {
+            var cls = &#x27;cg-action-&#x27; + (item.action_taken || &#x27;log&#x27;).toLowerCase();
+            html += &#x27;&lt;div class=&quot;cg-activity-item&quot;&gt;&#x27; +
+                &#x27;&lt;div&gt;&lt;span class=&quot;cg-activity-ip&quot;&gt;&#x27; + esc(item.ip_address || &#x27;?&#x27;) + &#x27;&lt;/span&gt; &#x27; +
+                &#x27;&lt;span class=&quot;cg-activity-meta&quot;&gt;&#x27; + esc(item.bot_type || &#x27;Unknown&#x27;) + &#x27;&lt;/span&gt;&lt;/div&gt;&#x27; +
+                &#x27;&lt;span class=&quot;cg-activity-action &#x27; + cls + &#x27;&quot;&gt;&#x27; + esc(item.action_taken || &#x27;log&#x27;) + &#x27;&lt;/span&gt;&#x27; +
+                &#x27;&lt;/div&gt;&#x27;;
+        });
+        $el.html(html);
+    }
+
+    /* ──────────────────────────────────────────
+     * Bot Distribution Renderer
+     * ────────────────────────────────────────── */
+    function renderBotDistribution(bots) {
+        var $el = $(&#x27;#cg-bot-distribution&#x27;);
+        if (!bots.length) {
+            $el.html(&#x27;&lt;p class=&quot;cg-muted&quot;&gt;No bot data yet&lt;/p&gt;&#x27;);
+            return;
+        }
+        var max = Math.max.apply(null, bots.map(function (b) { return b.count || 0; }));
+        var html = &#x27;&#x27;;
+        bots.forEach(function (b) {
+            var pct = max &gt; 0 ? Math.round(((b.count || 0) / max) * 100) : 0;
+            html += &#x27;&lt;div class=&quot;cg-bot-bar&quot;&gt;&#x27; +
+                &#x27;&lt;span class=&quot;cg-bot-bar-label&quot;&gt;&#x27; + esc(b.bot_type || &#x27;Unknown&#x27;) + &#x27;&lt;/span&gt;&#x27; +
+                &#x27;&lt;div class=&quot;cg-bot-bar-track&quot;&gt;&lt;div class=&quot;cg-bot-bar-fill&quot; style=&quot;width:&#x27; + pct + &#x27;%&quot;&gt;&lt;/div&gt;&lt;/div&gt;&#x27; +
+                &#x27;&lt;span class=&quot;cg-bot-bar-count&quot;&gt;&#x27; + fmt(b.count || 0) + &#x27;&lt;/span&gt;&#x27; +
+                &#x27;&lt;/div&gt;&#x27;;
+        });
+        $el.html(html);
+    }
+
+    /* ──────────────────────────────────────────
+     * CHART — Canvas Renderer
+     * ────────────────────────────────────────── */
+    function loadChart(range) {
+        ajax(&#x27;crawlguard_get_chart_data&#x27;, { range: range }).done(function (res) {
+            if (!res.success) return;
+            drawChart(res.data || {});
+        });
+    }
+
+    function drawChart(data) {
+        var canvas = document.getElementById(&#x27;cg-activity-chart&#x27;);
+        if (!canvas || !canvas.getContext) return;
+
+        var ctx = canvas.getContext(&#x27;2d&#x27;);
+        var labels = data.labels || [];
+        var requests = data.requests || [];
+        var bots = data.bots || [];
+        var revenue = data.revenue || [];
+
+</pre><div class="muted">…(content truncated)</div></details><details><summary><code>crawlguard-wp-main/backend/database.js</code> <span class="muted">(14.7 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * CrawlGuard API – Neon Serverless Database Manager
+ * Handles all PostgreSQL queries via @neondatabase/serverless
+ */
+import { neon } from &#x27;@neondatabase/serverless&#x27;;
+
+export class DatabaseManager {
+    constructor(databaseUrl) {
+        this.sql = neon(databaseUrl);
+    }
+
+    /* ───────── Schema bootstrap ───────── */
+
+    async initialize() {
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS sites (
+        id BIGSERIAL PRIMARY KEY,
+        site_url TEXT UNIQUE NOT NULL,
+        api_key TEXT UNIQUE NOT NULL,
+        admin_email TEXT,
+        subscription_tier TEXT NOT NULL DEFAULT &#x27;free&#x27;,
+        monetization_enabled BOOLEAN NOT NULL DEFAULT FALSE,
+        pricing_per_request NUMERIC(10,6) NOT NULL DEFAULT 0.001,
+        allowed_bots TEXT[] DEFAULT &#x27;{}&#x27;,
+        stripe_account_id TEXT,
+        active BOOLEAN NOT NULL DEFAULT TRUE,
+        settings JSONB NOT NULL DEFAULT &#x27;{}&#x27;::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `;
+
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS api_keys (
+        id BIGSERIAL PRIMARY KEY,
+        site_id INTEGER REFERENCES sites(id) ON DELETE CASCADE,
+        key_hash TEXT UNIQUE NOT NULL,
+        key_prefix TEXT NOT NULL,
+        permissions TEXT[] DEFAULT &#x27;{read,write}&#x27;,
+        rate_limit INTEGER NOT NULL DEFAULT 100,
+        active BOOLEAN NOT NULL DEFAULT TRUE,
+        last_used_at TIMESTAMPTZ,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `;
+
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS ai_companies (
+        id BIGSERIAL PRIMARY KEY,
+        company_name TEXT UNIQUE NOT NULL,
+        subscription_active BOOLEAN NOT NULL DEFAULT FALSE,
+        subscription_tier TEXT,
+        monthly_budget NUMERIC(10,2) DEFAULT 0,
+        rate_per_request NUMERIC(10,6) DEFAULT 0.001,
+        stripe_customer_id TEXT,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `;
+
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS bot_requests (
+        id BIGSERIAL PRIMARY KEY,
+        site_id INTEGER REFERENCES sites(id) ON DELETE SET NULL,
+        ip_address INET,
+        user_agent TEXT,
+        bot_detected BOOLEAN NOT NULL DEFAULT FALSE,
+        bot_type TEXT,
+        bot_name TEXT,
+        confidence_score INTEGER NOT NULL DEFAULT 0,
+        page_url TEXT,
+        action_taken TEXT NOT NULL DEFAULT &#x27;allow&#x27;,
+        revenue_amount NUMERIC(10,6) DEFAULT 0,
+        payment_id TEXT,
+        metadata JSONB NOT NULL DEFAULT &#x27;{}&#x27;::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `;
+
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS payments (
+        id BIGSERIAL PRIMARY KEY,
+        site_id INTEGER REFERENCES sites(id) ON DELETE SET NULL,
+        ai_company_id INTEGER REFERENCES ai_companies(id) ON DELETE SET NULL,
+        payment_intent_id TEXT UNIQUE,
+        amount NUMERIC(10,6) NOT NULL DEFAULT 0,
+        currency TEXT NOT NULL DEFAULT &#x27;USD&#x27;,
+        status TEXT NOT NULL DEFAULT &#x27;pending&#x27;,
+        stripe_fee NUMERIC(10,6) DEFAULT 0,
+        platform_fee NUMERIC(10,6) DEFAULT 0,
+        creator_payout NUMERIC(10,6) DEFAULT 0,
+        metadata JSONB NOT NULL DEFAULT &#x27;{}&#x27;::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+      );
+    `;
+
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS analytics_daily (
+        id BIGSERIAL PRIMARY KEY,
+        site_id INTEGER REFERENCES sites(id) ON DELETE CASCADE,
+        date DATE NOT NULL,
+        total_requests INTEGER NOT NULL DEFAULT 0,
+        bot_requests INTEGER NOT NULL DEFAULT 0,
+        total_revenue NUMERIC(10,6) NOT NULL DEFAULT 0,
+        top_bot_types JSONB NOT NULL DEFAULT &#x27;[]&#x27;::jsonb,
+        created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+        UNIQUE(site_id, date)
+      );
+    `;
+
+        await this.sql`
+      CREATE TABLE IF NOT EXISTS webhooks (
+        id BIGSERIAL PRIMARY KEY,
+        site_id I</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>crawlguard-wp-main/backend/init-db.mjs</code> <span class="muted">(1.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>crawlguard-wp-main/backend/package.json</code> <span class="muted">(347 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;name&quot;: &quot;crawlguard-api&quot;,
+  &quot;private&quot;: true,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;scripts&quot;: {
+    &quot;dev&quot;: &quot;wrangler dev&quot;,
+    &quot;deploy&quot;: &quot;wrangler deploy&quot;,
+    &quot;deploy:prod&quot;: &quot;wrangler deploy --env production&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;@neondatabase/serverless&quot;: &quot;^0.10.4&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;wrangler&quot;: &quot;^3.99.0&quot;
+  }
+}
+</pre></details><details><summary><code>crawlguard-wp-main/backend/pnpm-lock.yaml</code> <span class="muted">(32.7 KB, text)</span></summary><pre class="claude-preview file-preview">lockfileVersion: &#x27;9.0&#x27;
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      &#x27;@neondatabase/serverless&#x27;:
+        specifier: ^0.10.4
+        version: 0.10.4
+    devDependencies:
+      wrangler:
+        specifier: ^3.99.0
+        version: 3.114.17
+
+packages:
+
+  &#x27;@cloudflare/kv-asset-handler@0.3.4&#x27;:
+    resolution: {integrity: sha512-YLPHc8yASwjNkmcDMQMY35yiWjoKAKnhUbPRszBRS0YgH+IXtsMp61j+yTcnCE3oO2DgP0U3iejLC8FTtKDC8Q==}
+    engines: {node: &#x27;&gt;=16.13&#x27;}
+
+  &#x27;@cloudflare/unenv-preset@2.0.2&#x27;:
+    resolution: {integrity: sha512-nyzYnlZjjV5xT3LizahG1Iu6mnrCaxglJ04rZLpDwlDVDZ7v46lNsfxhV3A/xtfgQuSHmLnc6SVI+KwBpc3Lwg==}
+    peerDependencies:
+      unenv: 2.0.0-rc.14
+      workerd: ^1.20250124.0
+    peerDependenciesMeta:
+      workerd:
+        optional: true
+
+  &#x27;@cloudflare/workerd-darwin-64@1.20250718.0&#x27;:
+    resolution: {integrity: sha512-FHf4t7zbVN8yyXgQ/r/GqLPaYZSGUVzeR7RnL28Mwj2djyw2ZergvytVc7fdGcczl6PQh+VKGfZCfUqpJlbi9g==}
+    engines: {node: &#x27;&gt;=16&#x27;}
+    cpu: [x64]
+    os: [darwin]
+
+  &#x27;@cloudflare/workerd-darwin-arm64@1.20250718.0&#x27;:
+    resolution: {integrity: sha512-fUiyUJYyqqp4NqJ0YgGtp4WJh/II/YZsUnEb6vVy5Oeas8lUOxnN+ZOJ8N/6/5LQCVAtYCChRiIrBbfhTn5Z8Q==}
+    engines: {node: &#x27;&gt;=16&#x27;}
+    cpu: [arm64]
+    os: [darwin]
+
+  &#x27;@cloudflare/workerd-linux-64@1.20250718.0&#x27;:
+    resolution: {integrity: sha512-5+eb3rtJMiEwp08Kryqzzu8d1rUcK+gdE442auo5eniMpT170Dz0QxBrqkg2Z48SFUPYbj+6uknuA5tzdRSUSg==}
+    engines: {node: &#x27;&gt;=16&#x27;}
+    cpu: [x64]
+    os: [linux]
+
+  &#x27;@cloudflare/workerd-linux-arm64@1.20250718.0&#x27;:
+    resolution: {integrity: sha512-Aa2M/DVBEBQDdATMbn217zCSFKE+ud/teS+fFS+OQqKABLn0azO2qq6ANAHYOIE6Q3Sq4CxDIQr8lGdaJHwUog==}
+    engines: {node: &#x27;&gt;=16&#x27;}
+    cpu: [arm64]
+    os: [linux]
+
+  &#x27;@cloudflare/workerd-windows-64@1.20250718.0&#x27;:
+    resolution: {integrity: sha512-dY16RXKffmugnc67LTbyjdDHZn5NoTF1yHEf2fN4+OaOnoGSp3N1x77QubTDwqZ9zECWxgQfDLjddcH8dWeFhg==}
+    engines: {node: &#x27;&gt;=16&#x27;}
+    cpu: [x64]
+    os: [win32]
+
+  &#x27;@cspotcode/source-map-support@0.8.1&#x27;:
+    resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+
+  &#x27;@emnapi/runtime@1.8.1&#x27;:
+    resolution: {integrity: sha512-mehfKSMWjjNol8659Z8KxEMrdSJDDot5SXMq00dM8BN4o+CLNXQ0xH2V7EchNHV4RmbZLmmPdEaXZc5H2FXmDg==}
+
+  &#x27;@esbuild-plugins/node-globals-polyfill@0.2.3&#x27;:
+    resolution: {integrity: sha512-r3MIryXDeXDOZh7ih1l/yE9ZLORCd5e8vWg02azWRGj5SPTuoh69A2AIyn0Z31V/kHBfZ4HgWJ+OK3GTTwLmnw==}
+    peerDependencies:
+      esbuild: &#x27;*&#x27;
+
+  &#x27;@esbuild-plugins/node-modules-polyfill@0.2.2&#x27;:
+    resolution: {integrity: sha512-LXV7QsWJxRuMYvKbiznh+U1ilIop3g2TeKRzUxOG5X3YITc8JyyTa90BmLwqqv0YnX4v32CSlG+vsziZp9dMvA==}
+    peerDependencies:
+      esbuild: &#x27;*&#x27;
+
+  &#x27;@esbuild/android-arm64@0.17.19&#x27;:
+    resolution: {integrity: sha512-KBMWvEZooR7+kzY0BtbTQn0OAYY7CsiydT63pVEaPtVYF0hXbUaOyZog37DKxK7NF3XacBJOpYT4adIJh+avxA==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+    cpu: [arm64]
+    os: [android]
+
+  &#x27;@esbuild/android-arm@0.17.19&#x27;:
+    resolution: {integrity: sha512-rIKddzqhmav7MSmoFCmDIb6e2W57geRsM94gV2l38fzhXMwq7hZoClug9USI2pFRGL06f4IOPHHpFNOkWieR8A==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+    cpu: [arm]
+    os: [android]
+
+  &#x27;@esbuild/android-x64@0.17.19&#x27;:
+    resolution: {integrity: sha512-uUTTc4xGNDT7YSArp/zbtmbhO0uEEK9/ETW29Wk1thYUJBz3IVnvgEiEwEa9IeLyvnpKrWK64Utw2bgUmDveww==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+    cpu: [x64]
+    os: [android]
+
+  &#x27;@esbuild/darwin-arm64@0.17.19&#x27;:
+    resolution: {integrity: sha512-80wEoCfF/hFKM6WE1FyBHc9SfUblloAWx6FJkFWTWiCoht9Mc0ARGEM47e67W9rI09YoUxJL68WHfDRYEAvOhg==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+    cpu: [arm64]
+    os: [darwin]
+
+  &#x27;@esbuild/darwin-x64@0.17.19&#x27;:
+    resolution: {integrity: sha512-IJM4JJsLhRYr9xdtLytPLSH9k/oxR3boaUIYiHkAawtwNOXKE8KoU8tMvryogdcT8AU+Bflmh81Xn6Q0vTZbQw==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+    cpu: [x64]
+    os: [darwin]
+
+  &#x27;@esbuild/freebsd-arm64@0.17.19&#x27;:
+    resolution: {integrity: sha512-pBwbc7DufluUeGdjSU5Si+P3SoMF5DQ/F/UmTSb8HXO80ZE</pre><div class="muted">…(content truncated)</div></details><details><summary><code>crawlguard-wp-main/backend/production-worker.js</code> <span class="muted">(19.4 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * CrawlGuard API — Cloudflare Worker (Production)
+ * All /v1/* routes + plugin live endpoints
+ */
+import { DatabaseManager } from &#x27;./database.js&#x27;;
+import { StripeManager } from &#x27;./stripe-integration.js&#x27;;
+
+/* ───────── Helpers ───────── */
+
+const jsonOk = (data = {}, status = 200) =&gt;
+    new Response(JSON.stringify({ ok: true, ...data }), {
+        status,
+        headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27; },
+    });
+
+const jsonError = (status, code, message) =&gt;
+    new Response(JSON.stringify({ ok: false, error: { code, message } }), {
+        status,
+        headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27; },
+    });
+
+const sha256 = async (text) =&gt; {
+    const data = new TextEncoder().encode(text);
+    const buf = await crypto.subtle.digest(&#x27;SHA-256&#x27;, data);
+    return Array.from(new Uint8Array(buf)).map((b) =&gt; b.toString(16).padStart(2, &#x27;0&#x27;)).join(&#x27;&#x27;);
+};
+
+/* ───────── Known bot signatures ───────── */
+
+const KNOWN_BOTS = {
+    &#x27;GPTBot&#x27;: { company: &#x27;OpenAI&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;ChatGPT-User&#x27;: { company: &#x27;OpenAI&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;ClaudeBot&#x27;: { company: &#x27;Anthropic&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;Claude-Web&#x27;: { company: &#x27;Anthropic&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;anthropic-ai&#x27;: { company: &#x27;Anthropic&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;Google-Extended&#x27;: { company: &#x27;Google&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;Bard&#x27;: { company: &#x27;Google&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;CCBot&#x27;: { company: &#x27;Common Crawl&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;meta-externalagent&#x27;: { company: &#x27;Meta&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;PerplexityBot&#x27;: { company: &#x27;Perplexity&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;Bytespider&#x27;: { company: &#x27;ByteDance&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;Amazonbot&#x27;: { company: &#x27;Amazon&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;FacebookBot&#x27;: { company: &#x27;Meta&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;facebookexternalhit&#x27;: { company: &#x27;Meta&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;cohere-ai&#x27;: { company: &#x27;Cohere&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;YouBot&#x27;: { company: &#x27;You.com&#x27;, type: &#x27;ai_crawler&#x27; },
+    &#x27;Applebot-Extended&#x27;: { company: &#x27;Apple&#x27;, type: &#x27;ai_crawler&#x27; },
+};
+
+/* ───────── Heuristic scoring ───────── */
+
+function analyzeHeuristically(headers, userAgent) {
+    let score = 0;
+    const signals = [];
+
+    if (!headers.get(&#x27;accept-language&#x27;)) { score += 20; signals.push(&#x27;missing_accept_language&#x27;); }
+    if (!headers.get(&#x27;accept-encoding&#x27;)) { score += 15; signals.push(&#x27;missing_accept_encoding&#x27;); }
+    if (!headers.get(&#x27;referer&#x27;)) { score += 10; signals.push(&#x27;missing_referer&#x27;); }
+
+    const ua = userAgent.toLowerCase();
+    if (/bot|crawler|spider/.test(ua)) { score += 25; signals.push(&#x27;generic_bot_ua&#x27;); }
+    if (/python-requests|axios|curl/.test(ua)) { score += 30; signals.push(&#x27;programmatic_client&#x27;); }
+    if (/scrapy|puppeteer|playwright/.test(ua)) { score += 35; signals.push(&#x27;scraping_framework&#x27;); }
+    if (!ua || ua === &#x27;&#x27;) { score += 40; signals.push(&#x27;empty_user_agent&#x27;); }
+    if (headers.get(&#x27;x-crawlera-profile&#x27;)) { score += 30; signals.push(&#x27;scraping_service&#x27;); }
+
+    return { score: Math.min(score, 100), signals };
+}
+
+function detectBot(userAgent, headers) {
+    const ua = userAgent || &#x27;&#x27;;
+    // Check known signatures first
+    for (const [pattern, info] of Object.entries(KNOWN_BOTS)) {
+        if (ua.includes(pattern)) {
+            return {
+                bot_detected: true,
+                bot_type: info.type,
+                bot_name: pattern,
+                company: info.company,
+                confidence_score: 95,
+                detection_method: &#x27;signature&#x27;,
+                signals: [&#x27;known_bot_signature&#x27;],
+            };
+        }
+    }
+
+    // Heuristic analysis
+    const { score, signals } = analyzeHeuristically(headers, ua);
+    if (score &gt;= 70) {
+        return {
+            bot_detected: true,
+            bot_type: &#x27;suspected_bot&#x27;,
+            bot_name: &#x27;unknown&#x27;,
+            company: null,
+            confidence_score: score,
+            detection_method: &#x27;heuristic&#x27;,
+            signals,
+        };
+    }
+
+    </pre><div class="muted">…(content truncated)</div></details><details><summary><code>crawlguard-wp-main/backend/stripe-integration.js</code> <span class="muted">(7.2 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * CrawlGuard API – Stripe Integration Manager
+ * Handles Stripe Connect, PaymentIntents, webhook verification, and payouts
+ */
+
+const STRIPE_API_VERSION = &#x27;2023-10-16&#x27;;
+const PLATFORM_FEE_PERCENT = 0.20;
+const STRIPE_FEE_PERCENT = 0.029;
+const STRIPE_FEE_FIXED = 0.30;
+
+export class StripeManager {
+    constructor(secretKey, webhookSecret) {
+        this.secretKey = secretKey;
+        this.webhookSecret = webhookSecret;
+        this.baseUrl = &#x27;https://api.stripe.com/v1&#x27;;
+    }
+
+    /* ───────── Bot pricing ───────── */
+
+    static getBotMultiplier(botName) {
+        const multipliers = {
+            &#x27;GPTBot&#x27;: 2.0,
+            &#x27;ChatGPT-User&#x27;: 2.0,
+            &#x27;ClaudeBot&#x27;: 1.8,
+            &#x27;Claude-Web&#x27;: 1.8,
+            &#x27;anthropic-ai&#x27;: 1.8,
+            &#x27;Google-Extended&#x27;: 1.5,
+            &#x27;Bard&#x27;: 1.5,
+            &#x27;CCBot&#x27;: 1.0,
+            &#x27;meta-externalagent&#x27;: 1.2,
+            &#x27;PerplexityBot&#x27;: 1.3,
+            &#x27;Bytespider&#x27;: 1.0,
+            &#x27;Amazonbot&#x27;: 1.0,
+            &#x27;FacebookBot&#x27;: 1.0,
+            &#x27;cohere-ai&#x27;: 1.5,
+            &#x27;YouBot&#x27;: 1.0,
+            &#x27;Applebot-Extended&#x27;: 1.2,
+        };
+        return multipliers[botName] || 1.0;
+    }
+
+    static calculatePrice(basePricePerRequest, botName, contentLength = 0) {
+        let price = basePricePerRequest * StripeManager.getBotMultiplier(botName);
+
+        // Content length bonus
+        if (contentLength &gt; 5000) {
+            price *= 1.5;
+        } else if (contentLength &gt; 2000) {
+            price *= 1.25;
+        }
+
+        return Math.round(price * 1_000_000) / 1_000_000; // 6 decimal places
+    }
+
+    static calculateRevenueSplit(amount) {
+        const stripeFee = amount * STRIPE_FEE_PERCENT + STRIPE_FEE_FIXED;
+        const platformFee = amount * PLATFORM_FEE_PERCENT;
+        const creatorPayout = Math.max(0, amount - stripeFee - platformFee);
+
+        return {
+            stripe_fee: Math.round(stripeFee * 1_000_000) / 1_000_000,
+            platform_fee: Math.round(platformFee * 1_000_000) / 1_000_000,
+            creator_payout: Math.round(creatorPayout * 1_000_000) / 1_000_000,
+        };
+    }
+
+    /* ───────── Stripe HTTP helpers ───────── */
+
+    async stripeRequest(method, path, body = null) {
+        const url = `${this.baseUrl}${path}`;
+        const headers = {
+            &#x27;Authorization&#x27;: `Bearer ${this.secretKey}`,
+            &#x27;Stripe-Version&#x27;: STRIPE_API_VERSION,
+            &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
+        };
+
+        const options = { method, headers };
+        if (body &amp;&amp; method !== &#x27;GET&#x27;) {
+            options.body = new URLSearchParams(body).toString();
+        }
+
+        const resp = await fetch(url, options);
+        const data = await resp.json();
+        if (!resp.ok) {
+            throw new Error(data.error?.message || `Stripe error ${resp.status}`);
+        }
+        return data;
+    }
+
+    /* ───────── PaymentIntents ───────── */
+
+    async createPaymentIntent({ amount, currency = &#x27;usd&#x27;, metadata = {} }) {
+        // Stripe expects amount in cents
+        const amountCents = Math.round(amount * 100);
+        if (amountCents &lt; 50) {
+            // Stripe minimum is $0.50 — accumulate small amounts
+            return { id: null, status: &#x27;below_minimum&#x27;, amount };
+        }
+
+        return await this.stripeRequest(&#x27;POST&#x27;, &#x27;/payment_intents&#x27;, {
+            amount: amountCents,
+            currency,
+            &#x27;automatic_payment_methods[enabled]&#x27;: &#x27;true&#x27;,
+            ...Object.fromEntries(
+                Object.entries(metadata).map(([k, v]) =&gt; [`metadata[${k}]`, String(v)])
+            ),
+        });
+    }
+
+    /* ───────── Checkout Sessions ───────── */
+
+    async createCheckoutSession({ siteId, botName, amount, successUrl, cancelUrl }) {
+        return await this.stripeRequest(&#x27;POST&#x27;, &#x27;/checkout/sessions&#x27;, {
+            mode: &#x27;payment&#x27;,
+            &#x27;line_items[0][price_data][currency]&#x27;: &#x27;usd&#x27;,
+            &#x27;line_items[0][price_data][product_data][name]&#x27;: `AI Content Access – ${botName}`,
+            &#x27;line_items[0</pre><div class="muted">…(content truncated)</div></details><details><summary><code>crawlguard-wp-main/backend/worker.js</code> <span class="muted">(2.7 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * CrawlGuard API — Cloudflare Worker (Development)
+ * Simplified version with mock DB for local testing
+ */
+import { DatabaseManager } from &#x27;./database.js&#x27;;
+import { StripeManager } from &#x27;./stripe-integration.js&#x27;;
+
+const jsonOk = (data = {}) =&gt;
+    new Response(JSON.stringify({ ok: true, ...data }), {
+        status: 200,
+        headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27; },
+    });
+
+const jsonError = (status, message) =&gt;
+    new Response(JSON.stringify({ ok: false, message }), {
+        status,
+        headers: { &#x27;Content-Type&#x27;: &#x27;application/json&#x27;, &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27; },
+    });
+
+export default {
+    async fetch(request, env) {
+        const url = new URL(request.url);
+        const method = request.method;
+
+        // CORS preflight
+        if (method === &#x27;OPTIONS&#x27;) {
+            return new Response(null, {
+                status: 204,
+                headers: {
+                    &#x27;Access-Control-Allow-Origin&#x27;: &#x27;*&#x27;,
+                    &#x27;Access-Control-Allow-Methods&#x27;: &#x27;GET, POST, PUT, OPTIONS&#x27;,
+                    &#x27;Access-Control-Allow-Headers&#x27;: &#x27;Content-Type, X-API-Key, X-Site-Id&#x27;,
+                },
+            });
+        }
+
+        // Health
+        if (url.pathname === &#x27;/v1/status&#x27; &amp;&amp; method === &#x27;GET&#x27;) {
+            return jsonOk({
+                service: &#x27;crawlguard-api-dev&#x27;,
+                version: &#x27;1.0.0-dev&#x27;,
+                environment: &#x27;development&#x27;,
+                timestamp: new Date().toISOString(),
+            });
+        }
+
+        // If DATABASE_URL is set, delegate to production worker
+        if (env.DATABASE_URL) {
+            const { default: prodWorker } = await import(&#x27;./production-worker.js&#x27;);
+            return prodWorker.fetch(request, env);
+        }
+
+        // Mock responses for dev without DB
+        if (url.pathname === &#x27;/v1/detect&#x27; &amp;&amp; method === &#x27;POST&#x27;) {
+            const body = await request.json();
+            const ua = (body.user_agent || &#x27;&#x27;).toLowerCase();
+            const isBot = /gptbot|claudebot|ccbot|bytespider|google-extended/.test(ua);
+            return jsonOk({
+                bot_detected: isBot,
+                bot_name: isBot ? &#x27;mock_bot&#x27; : null,
+                confidence_score: isBot ? 90 : 5,
+                action: isBot ? &#x27;challenge&#x27; : &#x27;allow&#x27;,
+            });
+        }
+
+        if (url.pathname === &#x27;/v1/analytics&#x27; &amp;&amp; method === &#x27;GET&#x27;) {
+            return jsonOk({
+                overview: { total_requests: 0, bot_requests: 0, monetized_requests: 0, total_revenue: 0, unique_bots: 0 },
+                top_bots: [],
+                recent_activity: [],
+                daily_stats: [],
+            });
+        }
+
+        return jsonError(404, `Dev: Route ${method} ${url.pathname} not found`);
+    },
+};
+</pre></details><details><summary><code>crawlguard-wp-main/backend/wrangler.toml</code> <span class="muted">(367 B, text)</span></summary><pre class="claude-preview file-preview">name = &quot;crawlguard-api&quot;
+main = &quot;production-worker.js&quot;
+compatibility_date = &quot;2024-12-01&quot;
+account_id = &quot;eb2e0a0f169c14046bc5f6b9946ce4e2&quot;
+
+[vars]
+ENVIRONMENT = &quot;production&quot;
+API_VERSION = &quot;1.0.0&quot;
+
+# Secrets (set via `wrangler secret put`):
+# DATABASE_URL
+# STRIPE_SECRET_KEY
+# STRIPE_WEBHOOK_SECRET
+# JWT_SECRET
+
+[env.dev]
+name = &quot;crawlguard-api-dev&quot;
+main = &quot;worker.js&quot;
+</pre></details><div class="file-row"><code>crawlguard-wp-main/config.php</code> <span class="muted">(1.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/crawlguard-wp.php</code> <span class="muted">(2.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/database/schema.sql</code> <span class="muted">(7.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>crawlguard-wp-main/docs/API_REFERENCE.md</code> <span class="muted">(4.5 KB, text)</span></summary><pre class="claude-preview file-preview"># CrawlGuard API Reference
+
+Base URL: `https://crawlguard-api-prod.crawlguard-api.workers.dev/v1`
+
+All authenticated endpoints require `X-API-Key` header.
+
+---
+
+## 1. Health Check
+
+```
+GET /v1/status
+```
+
+**Auth**: None
+
+**Response** `200`:
+```json
+{
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;timestamp&quot;: &quot;2025-01-01T00:00:00.000Z&quot;
+}
+```
+
+---
+
+## 2. Register Site
+
+```
+POST /v1/sites/register
+```
+
+**Auth**: None (creates an API key)
+
+**Body**:
+```json
+{
+  &quot;domain&quot;: &quot;example.com&quot;,
+  &quot;ownerEmail&quot;: &quot;admin@example.com&quot;,
+  &quot;plan&quot;: &quot;creator&quot;
+}
+```
+
+**Response** `201`:
+```json
+{
+  &quot;siteId&quot;: &quot;uuid&quot;,
+  &quot;apiKey&quot;: &quot;cg_live_...&quot;,
+  &quot;domain&quot;: &quot;example.com&quot;
+}
+```
+
+---
+
+## 3. Get Site Info
+
+```
+GET /v1/sites/:siteId
+```
+
+**Auth**: `X-API-Key`
+
+**Response** `200`:
+```json
+{
+  &quot;siteId&quot;: &quot;uuid&quot;,
+  &quot;domain&quot;: &quot;example.com&quot;,
+  &quot;plan&quot;: &quot;creator&quot;,
+  &quot;monetizationEnabled&quot;: false,
+  &quot;createdAt&quot;: &quot;2025-01-01T00:00:00.000Z&quot;
+}
+```
+
+---
+
+## 4. Update Site Settings
+
+```
+PATCH /v1/sites/:siteId/settings
+```
+
+**Auth**: `X-API-Key`
+
+**Body**:
+```json
+{
+  &quot;monetizationEnabled&quot;: true,
+  &quot;pricingPerRequest&quot;: 0.002,
+  &quot;webhookUrl&quot;: &quot;https://example.com/webhook&quot;
+}
+```
+
+**Response** `200`:
+```json
+{ &quot;updated&quot;: true }
+```
+
+---
+
+## 5. Bot Detection
+
+```
+POST /v1/detect
+```
+
+**Auth**: `X-API-Key`
+
+**Body**:
+```json
+{
+  &quot;userAgent&quot;: &quot;Mozilla/5.0 ...&quot;,
+  &quot;ip&quot;: &quot;1.2.3.4&quot;,
+  &quot;url&quot;: &quot;/about&quot;
+}
+```
+
+**Response** `200`:
+```json
+{
+  &quot;isBot&quot;: true,
+  &quot;botName&quot;: &quot;GPTBot&quot;,
+  &quot;confidence&quot;: 95,
+  &quot;action&quot;: &quot;monetize&quot;,
+  &quot;multiplier&quot;: 2.0
+}
+```
+
+---
+
+## 6. Monetization Event
+
+```
+POST /v1/monetize
+```
+
+**Auth**: `X-API-Key`
+
+**Body**:
+```json
+{
+  &quot;siteId&quot;: &quot;uuid&quot;,
+  &quot;botName&quot;: &quot;GPTBot&quot;,
+  &quot;url&quot;: &quot;/premium-content&quot;,
+  &quot;contentLength&quot;: 8500
+}
+```
+
+**Response** `200`:
+```json
+{
+  &quot;price&quot;: 0.003,
+  &quot;basePrice&quot;: 0.001,
+  &quot;multiplier&quot;: 2.0,
+  &quot;contentBonus&quot;: 1.5,
+  &quot;logged&quot;: true
+}
+```
+
+### Pricing Formula
+
+```
+price = base_price × bot_multiplier × content_length_bonus
+```
+
+| Bot | Multiplier |
+|-----|-----------|
+| GPTBot | 2.0x |
+| ClaudeBot | 1.8x |
+| Google-Extended | 1.5x |
+| Bingbot | 1.3x |
+| CCBot (Common Crawl) | 1.2x |
+| Others | 1.0x |
+
+| Content Length | Bonus |
+|---------------|-------|
+| &gt; 5000 chars | +50% (1.5x) |
+| &gt; 2000 chars | +25% (1.25x) |
+| ≤ 2000 chars | 1.0x |
+
+### Revenue Split
+
+- Stripe: 2.9% + $0.30
+- Platform: 20% of remainder
+- Creator: remainder
+
+---
+
+## 7. Analytics
+
+```
+GET /v1/analytics?siteId=uuid&amp;range=30d
+```
+
+**Auth**: `X-API-Key`
+
+**Response** `200`:
+```json
+{
+  &quot;totalRequests&quot;: 12500,
+  &quot;botRequests&quot;: 3200,
+  &quot;revenue&quot;: 4.85,
+  &quot;topBots&quot;: [
+    { &quot;name&quot;: &quot;GPTBot&quot;, &quot;count&quot;: 1200 },
+    { &quot;name&quot;: &quot;ClaudeBot&quot;, &quot;count&quot;: 800 }
+  ]
+}
+```
+
+---
+
+## 8. Analytics Revenue
+
+```
+GET /v1/analytics/revenue?siteId=uuid&amp;range=30d
+```
+
+**Auth**: `X-API-Key`
+
+**Response** `200`:
+```json
+{
+  &quot;total&quot;: 4.85,
+  &quot;daily&quot;: [
+    { &quot;date&quot;: &quot;2025-01-01&quot;, &quot;revenue&quot;: 0.15 }
+  ]
+}
+```
+
+---
+
+## 9. Payments
+
+```
+GET /v1/payments?siteId=uuid
+```
+
+**Auth**: `X-API-Key`
+
+**Response** `200`:
+```json
+{
+  &quot;payments&quot;: [
+    {
+      &quot;id&quot;: &quot;uuid&quot;,
+      &quot;amount&quot;: 4.85,
+      &quot;status&quot;: &quot;completed&quot;,
+      &quot;createdAt&quot;: &quot;2025-01-01T00:00:00.000Z&quot;
+    }
+  ]
+}
+```
+
+---
+
+## 10. Payout Setup
+
+```
+POST /v1/payouts/setup
+```
+
+**Auth**: `X-API-Key`
+
+**Body**:
+```json
+{
+  &quot;siteId&quot;: &quot;uuid&quot;,
+  &quot;returnUrl&quot;: &quot;https://example.com/settings&quot;
+}
+```
+
+**Response** `200`:
+```json
+{
+  &quot;url&quot;: &quot;https://connect.stripe.com/...&quot;
+}
+```
+
+---
+
+## 11. Live Sync — Ingest
+
+```
+POST /v1/live/ingest
+```
+
+**Auth**: `X-API-Key`
+
+**Body**:
+```json
+{
+  &quot;siteUrl&quot;: &quot;https://example.com&quot;,
+  &quot;connector&quot;: &quot;woocommerce&quot;,
+  &quot;eventType&quot;: &quot;product.updated&quot;,
+  &quot;eventId&quot;: &quot;evt_abc123&quot;,
+  &quot;occurredAt&quot;: &quot;2025-01-01T00:00:00Z&quot;,
+  &quot;entity&quot;: {
+    &quot;type&quot;: &quot;product&quot;,
+    &quot;id&quot;: 42,
+    &quot;name&quot;: &quot;Widget Pro&quot;
+  }
+}
+```
+
+**Response** `200`:
+```json
+{ &quot;ingested&quot;: true, &quot;eventId&quot;: &quot;evt_abc123&quot; }
+```
+
+---
+
+## 12. Live Tool — Query
+
+```
+POST /v1/tool/live/query
+```
+
+**Auth**: `X-API-Key`
+
+**Body**:
+```json
+{
+  &quot;siteUrl&quot;: &quot;https://example.com&quot;,
+  &quot;query&quot;: &quot;S</pre><div class="muted">…(content truncated)</div></details><details><summary><code>crawlguard-wp-main/docs/routes.md</code> <span class="muted">(797 B, text)</span></summary><pre class="claude-preview file-preview"># CrawlGuard Route Map (Advanced Local)
+
+## WordPress Admin Pages
+
+- `admin.php?page=crawlguard`
+- `admin.php?page=crawlguard-settings`
+- `admin.php?page=crawlguard-live-sync`
+- `admin.php?page=crawlguard-live-tool`
+
+## WordPress AJAX
+
+- `crawlguard_dashboard_stats`
+- `crawlguard_live_sync_test`
+- `crawlguard_live_query`
+- `crawlguard_challenge_verify` (nopriv + auth)
+
+## External API Contracts (Implemented in `paypercrawl-web/server.js`)
+
+- `/v1/status`
+- `/v1/sites/register`
+- `/v1/sites/info`
+- `/v1/detect`
+- `/v1/monetize`
+- `/v1/analytics`
+- `/v1/analytics/revenue`
+- `/v1/payments`
+- `/v1/payouts/request`
+- `/v1/settings`
+- `/v1/settings` (POST)
+- `/v1/webhooks`
+- `/v1/webhook/stripe`
+- `/api/plugin/live/ingest/`
+- `/api/tool/live/query/`
+
+All protected routes require `X-API-Key`.
+</pre></details><details><summary><code>crawlguard-wp-main/docs/SECURITY.md</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview"># CrawlGuard Security Documentation
+
+## Overview
+
+CrawlGuard implements defense-in-depth security across the WordPress plugin and Cloudflare Worker backend. This document describes each security layer.
+
+---
+
+## 1. Authentication
+
+### API Key Authentication
+- All authenticated endpoints require `X-API-Key` header
+- Keys are prefixed `cg_live_` (40 hex chars) for easy identification
+- Keys are **SHA-256 hashed** before storage — plaintext never persisted
+- Key shown once at registration; cannot be retrieved later
+
+### WordPress Admin
+- All admin AJAX endpoints verify WordPress nonce (`crawlguard_admin_nonce`)
+- `current_user_can(&#x27;manage_options&#x27;)` check on every admin request
+- Public challenge endpoint uses per-challenge nonce (`crawlguard_challenge_{id}`)
+
+---
+
+## 2. JS Challenge (Proof-of-Work)
+
+### Design
+- Proof-of-work puzzle: find nonce where `SHA-256(challenge_id + nonce)` starts with N zero bits
+- Difficulty: N = 10–20 (configurable), default 16
+- Prevents trivial bot bypass — requires actual computation
+
+### Verification Flow
+1. Bot detected → challenge page served with unique `challenge_id`
+2. Browser computes proof-of-work in JavaScript loop
+3. Answer submitted via AJAX with WordPress nonce
+4. Server verifies:
+   - Nonce valid (anti-CSRF)
+   - Transient exists for `challenge_id` (anti-replay, 5-min TTL)
+   - SHA-256 hash meets difficulty requirement
+   - Transient deleted after verification (one-time use)
+5. On success: IP-bound HMAC cookie set
+
+### Cookie Security
+- Name: `crawlguard_verified`
+- Value: `{timestamp}:{HMAC-SHA256(timestamp:client_ip, secret_key)}`
+- TTL: 1 hour
+- Flags: `HttpOnly`, `Secure` (if SSL), `SameSite=Lax`
+- IP-bound: cookie invalidated if client IP changes
+
+---
+
+## 3. Rate Limiting
+
+### Plugin-Side (WordPress)
+- Sliding window per IP per minute (default: 60)
+- Sliding window per IP per hour (default: 1000)
+- Sliding window per User-Agent per minute (default: 120)
+- Stored in `wp_crawlguard_rate_limits` table
+- Exceeded → `429 Too Many Requests` with `Retry-After` header
+
+### Worker-Side (Cloudflare)
+- Per API key: 1000 requests/minute
+- Per IP (unauthenticated): 60 requests/minute
+- Enforced at edge before any database calls
+
+---
+
+## 4. HTTP Signatures (RFC 9421)
+
+### Current Mode: Log-only
+- Plugin checks for `Signature` header on incoming requests
+- Extracts `keyId` from signature parameters
+- Looks up public key from `wp_crawlguard_signing_keys` table
+- Verifies signature using `openssl_verify` with SHA-256
+- **Currently log-only**: verification failure is logged but does not block
+- Designed for future enforcement mode
+
+### Supported Algorithm
+- `rsa-sha256` (RSA PKCS#1 v1.5 with SHA-256)
+
+---
+
+## 5. Bot Detection
+
+### Known Signatures (17 bots)
+Exact User-Agent substring matching for:
+- GPTBot, ChatGPT-User, OAI-SearchBot (OpenAI)
+- ClaudeBot, Claude-Web (Anthropic)
+- Google-Extended, Googlebot (Google)
+- Bingbot (Microsoft)
+- CCBot (Common Crawl)
+- Bytespider (ByteDance)
+- PetalBot (Huawei)
+- YandexBot
+- Applebot-Extended
+- Meta-ExternalAgent, FacebookBot (Meta)
+- PerplexityBot
+- Amazonbot
+
+### Heuristic Detection (8 signals, threshold ≥ 70)
+For unknown bots, scoring across:
+1. Missing `Accept-Language` header (+25)
+2. Missing `Accept` header (+20)
+3. Missing cookies (+15)
+4. Contains &quot;bot&quot;, &quot;crawl&quot;, &quot;spider&quot; in UA (+30)
+5. Missing `Referer` header (+10)
+6. Generic/empty UA (+35)
+7. Datacenter IP detected (+20)
+8. HTTP Signature present (+15, reduces score as legitimate)
+
+### Action Decision Matrix
+| Bot Known | Monetization | Action |
+|-----------|-------------|--------|
+| Yes | Enabled | `monetize` |
+| Yes | Disabled | `challenge` |
+| No (heuristic) | Any | `challenge` |
+| Not a bot | — | `serve` |
+
+---
+
+## 6. IP Intelligence
+
+### Provider: IPinfo
+- Looks up IP via `https://ipinfo.io/{ip}/json`
+- Extracts ASN organization name
+- Datacenter detection heuristic: checks for keywords (AWS, Google, Azure, DigitalOcean, OVH, Hetzner, Linode, Vultr, CloudFlare, Oracle)
+- Result used as sign</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>crawlguard-wp-main/includes/class-analytics.php</code> <span class="muted">(6.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-api-client.php</code> <span class="muted">(6.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-bot-detector.php</code> <span class="muted">(7.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-config.php</code> <span class="muted">(3.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-activator.php</code> <span class="muted">(3.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-admin.php</code> <span class="muted">(16.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-api.php</code> <span class="muted">(10.9 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-challenge.php</code> <span class="muted">(2.9 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-client.php</code> <span class="muted">(4.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-detection.php</code> <span class="muted">(1.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-loader.php</code> <span class="muted">(8.9 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-crawlguard-monetization.php</code> <span class="muted">(513 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-frontend.php</code> <span class="muted">(1.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-http-signatures.php</code> <span class="muted">(2.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-ip-intel.php</code> <span class="muted">(2.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-js-challenge.php</code> <span class="muted">(6.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-live-sync-client.php</code> <span class="muted">(4.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-rate-limiter.php</code> <span class="muted">(3.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-scraper.php</code> <span class="muted">(2.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-toon-encoder.php</code> <span class="muted">(4.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>crawlguard-wp-main/includes/class-woocommerce-connector.php</code> <span class="muted">(5.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>package.json</code> <span class="muted">(576 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;name&quot;: &quot;paypercrawl-local&quot;,
+  &quot;private&quot;: true,
+  &quot;version&quot;: &quot;0.1.0&quot;,
+  &quot;scripts&quot;: {
+    &quot;dev:web&quot;: &quot;node paypercrawl-web/server.js&quot;,
+    &quot;build:plugin:zip&quot;: &quot;node scripts/package-plugin.mjs&quot;,
+    &quot;watch:plugin:zip&quot;: &quot;node scripts/watch-plugin.mjs&quot;,
+    &quot;dev&quot;: &quot;concurrently -k \&quot;pnpm watch:plugin:zip\&quot; \&quot;pnpm dev:web\&quot;&quot;,
+    &quot;dev:wp&quot;: &quot;pnpm watch:plugin:zip&quot;
+  },
+  &quot;devDependencies&quot;: {
+    &quot;archiver&quot;: &quot;^7.0.1&quot;,
+    &quot;chokidar&quot;: &quot;^4.0.3&quot;,
+    &quot;concurrently&quot;: &quot;^9.2.1&quot;
+  },
+  &quot;dependencies&quot;: {
+    &quot;dotenv&quot;: &quot;^16.6.1&quot;,
+    &quot;express&quot;: &quot;^4.21.2&quot;,
+    &quot;pg&quot;: &quot;^8.16.3&quot;
+  }
+}
+</pre></details><details><summary><code>paypercrawl-web/data/keys.json</code> <span class="muted">(998 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;keys&quot;: [
+    {
+      &quot;id&quot;: &quot;db3cf02c-47ce-44c3-abf5-b6232cbb7aad&quot;,
+      &quot;token&quot;: &quot;ppc_81088ab6c6b382caf960b083ddae60fce01c&quot;,
+      &quot;createdAt&quot;: &quot;2026-02-15T09:35:00.951Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    },
+    {
+      &quot;id&quot;: &quot;4f9ba099-ed88-4216-b820-b0c8b8233dcb&quot;,
+      &quot;token&quot;: &quot;ppc_11c28af118b376e356cc48990510a1ddb108&quot;,
+      &quot;createdAt&quot;: &quot;2026-02-15T09:34:54.206Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    },
+    {
+      &quot;id&quot;: &quot;2bae3b4e-a4b8-4fac-8818-28b388953185&quot;,
+      &quot;token&quot;: &quot;ppc_800e9a9707222c9f1efe20d2331d5e147494&quot;,
+      &quot;createdAt&quot;: &quot;2026-02-15T09:34:25.629Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    },
+    {
+      &quot;id&quot;: &quot;9b080b9c-9a35-4fe2-aced-d3264950dadc&quot;,
+      &quot;token&quot;: &quot;ppc_4ac07c168842d78007a0b57fbeb480265b11&quot;,
+      &quot;createdAt&quot;: &quot;2026-02-15T06:05:18.674Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    },
+    {
+      &quot;id&quot;: &quot;79fe0413-71cf-46bd-a8da-4053eda6df39&quot;,
+      &quot;token&quot;: &quot;ppc_01e5b5af0a3607bcf54aa029cbb34953a049&quot;,
+      &quot;createdAt&quot;: &quot;2026-02-15T05:43:06.298Z&quot;,
+      &quot;status&quot;: &quot;active&quot;
+    }
+  ]
+}</pre></details><div class="file-row"><code>paypercrawl-web/public/index.html</code> <span class="muted">(9.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>paypercrawl-web/server.js</code> <span class="muted">(21.6 KB, text)</span></summary><pre class="claude-preview file-preview">const express = require(&#x27;express&#x27;);
+const fs = require(&#x27;fs&#x27;);
+const path = require(&#x27;path&#x27;);
+const crypto = require(&#x27;crypto&#x27;);
+const dotenv = require(&#x27;dotenv&#x27;);
+const { Pool } = require(&#x27;pg&#x27;);
+
+const app = express();
+const port = process.env.PORT || 3000;
+
+const root = path.resolve(__dirname, &#x27;..&#x27;);
+const webRoot = __dirname;
+dotenv.config({ path: path.resolve(root, &#x27;..&#x27;, &#x27;.env&#x27;) });
+
+const databaseUrl = process.env.DATABASE_URL || process.env.DATABASE_URL_PRODUCTION;
+const adminApiKey = process.env.ADMIN_API_KEY || &#x27;&#x27;;
+const isDatabaseEnabled = Boolean(databaseUrl);
+
+const pool = isDatabaseEnabled
+    ? new Pool({
+        connectionString: databaseUrl,
+        ssl: { rejectUnauthorized: false },
+    })
+    : null;
+
+const dataDir = path.join(webRoot, &#x27;data&#x27;);
+const keysFile = path.join(dataDir, &#x27;keys.json&#x27;);
+const downloadsDir = path.join(webRoot, &#x27;public&#x27;, &#x27;downloads&#x27;);
+
+if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+}
+
+if (!fs.existsSync(keysFile)) {
+    fs.writeFileSync(keysFile, JSON.stringify({ keys: [] }, null, 2), &#x27;utf8&#x27;);
+}
+
+app.use(express.json());
+app.use(&#x27;/downloads&#x27;, express.static(downloadsDir));
+app.use(express.static(path.join(webRoot, &#x27;public&#x27;)));
+
+const jsonOk = (res, data = {}) =&gt; res.json({ ok: true, ...data });
+const jsonError = (res, status, message) =&gt; res.status(status).json({ ok: false, message });
+
+const normalizeApiKey = (apiKey) =&gt; String(apiKey || &#x27;&#x27;).trim();
+const keyPrefix = (apiKey) =&gt; normalizeApiKey(apiKey).slice(0, 12);
+const hashApiKey = (apiKey) =&gt; crypto.createHash(&#x27;sha256&#x27;).update(normalizeApiKey(apiKey)).digest(&#x27;hex&#x27;);
+
+const requireApiKey = async (req, res, next) =&gt; {
+    const apiKey = normalizeApiKey(req.header(&#x27;x-api-key&#x27;));
+    if (!apiKey) {
+        return jsonError(res, 401, &#x27;Missing X-API-Key&#x27;);
+    }
+
+    if (!pool) {
+        if (apiKey === adminApiKey &amp;&amp; adminApiKey !== &#x27;&#x27;) {
+            return next();
+        }
+        return jsonError(res, 401, &#x27;Invalid API key&#x27;);
+    }
+
+    try {
+        const hashed = hashApiKey(apiKey);
+        const query = `
+            UPDATE api_keys
+            SET last_used_at = NOW()
+            WHERE key_hash = $1 AND status = &#x27;active&#x27;
+            RETURNING id
+        `;
+        const result = await pool.query(query, [hashed]);
+
+        if (result.rowCount === 0) {
+            return jsonError(res, 401, &#x27;Invalid API key&#x27;);
+        }
+
+        return next();
+    } catch (error) {
+        return jsonError(res, 500, &#x27;API key verification failed&#x27;);
+    }
+};
+
+const initializeDatabase = async () =&gt; {
+    if (!pool) {
+        return;
+    }
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS sites (
+            id BIGSERIAL PRIMARY KEY,
+            site_id TEXT UNIQUE NOT NULL,
+            domain TEXT UNIQUE NOT NULL,
+            status TEXT NOT NULL DEFAULT &#x27;active&#x27;,
+            settings JSONB NOT NULL DEFAULT &#x27;{}&#x27;::jsonb,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS api_keys (
+            id BIGSERIAL PRIMARY KEY,
+            key_hash TEXT UNIQUE NOT NULL,
+            key_prefix TEXT NOT NULL,
+            label TEXT,
+            status TEXT NOT NULL DEFAULT &#x27;active&#x27;,
+            last_used_at TIMESTAMPTZ,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+    `);
+
+    await pool.query(`
+        CREATE TABLE IF NOT EXISTS bot_requests (
+            id BIGSERIAL PRIMARY KEY,
+            request_id TEXT UNIQUE NOT NULL,
+            site_id TEXT,
+            ip_address TEXT,
+            user_agent TEXT,
+            route TEXT,
+            is_bot BOOLEAN NOT NULL DEFAULT FALSE,
+            bot_name TEXT,
+            confidence NUMERIC(5,2) NOT NULL DEFAULT 0,
+            action TEXT NOT NULL DEFAULT &#x27;allow&#x27;,
+            metadata JSONB NOT NULL DEFAULT &#x27;{}&#x27;::jsonb,
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        );
+    `);
+
+    await pool.quer</pre><div class="muted">…(content truncated)</div></details><details><summary><code>pnpm-lock.yaml</code> <span class="muted">(42.0 KB, text)</span></summary><pre class="claude-preview file-preview">lockfileVersion: &#x27;9.0&#x27;
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+
+  .:
+    dependencies:
+      dotenv:
+        specifier: ^16.6.1
+        version: 16.6.1
+      express:
+        specifier: ^4.21.2
+        version: 4.22.1
+      pg:
+        specifier: ^8.16.3
+        version: 8.18.0
+    devDependencies:
+      archiver:
+        specifier: ^7.0.1
+        version: 7.0.1
+      chokidar:
+        specifier: ^4.0.3
+        version: 4.0.3
+      concurrently:
+        specifier: ^9.2.1
+        version: 9.2.1
+
+packages:
+
+  &#x27;@isaacs/cliui@8.0.2&#x27;:
+    resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+
+  &#x27;@pkgjs/parseargs@0.11.0&#x27;:
+    resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
+    engines: {node: &#x27;&gt;=14&#x27;}
+
+  abort-controller@3.0.0:
+    resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
+    engines: {node: &#x27;&gt;=6.5&#x27;}
+
+  accepts@1.3.8:
+    resolution: {integrity: sha512-PYAthTa2m2VKxuvSD3DPC/Gy+U+sOA1LAuT8mkmRuvw+NACSaeXEQ+NHcVF7rONl6qcaxV3Uuemwawk+7+SJLw==}
+    engines: {node: &#x27;&gt;= 0.6&#x27;}
+
+  ansi-regex@5.0.1:
+    resolution: {integrity: sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==}
+    engines: {node: &#x27;&gt;=8&#x27;}
+
+  ansi-regex@6.2.2:
+    resolution: {integrity: sha512-Bq3SmSpyFHaWjPk8If9yc6svM8c56dB5BAtW4Qbw5jHTwwXXcTLoRMkpDJp6VL0XzlWaCHTXrkFURMYmD0sLqg==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+
+  ansi-styles@4.3.0:
+    resolution: {integrity: sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg==}
+    engines: {node: &#x27;&gt;=8&#x27;}
+
+  ansi-styles@6.2.3:
+    resolution: {integrity: sha512-4Dj6M28JB+oAH8kFkTLUo+a2jwOFkuqb3yucU0CANcRRUbxS0cP0nZYCGjcc3BNXwRIsUVmDGgzawme7zvJHvg==}
+    engines: {node: &#x27;&gt;=12&#x27;}
+
+  archiver-utils@5.0.2:
+    resolution: {integrity: sha512-wuLJMmIBQYCsGZgYLTy5FIB2pF6Lfb6cXMSF8Qywwk3t20zWnAi7zLcQFdKQmIB8wyZpY5ER38x08GbwtR2cLA==}
+    engines: {node: &#x27;&gt;= 14&#x27;}
+
+  archiver@7.0.1:
+    resolution: {integrity: sha512-ZcbTaIqJOfCc03QwD468Unz/5Ir8ATtvAHsK+FdXbDIbGfihqh9mrvdcYunQzqn4HrvWWaFyaxJhGZagaJJpPQ==}
+    engines: {node: &#x27;&gt;= 14&#x27;}
+
+  array-flatten@1.1.1:
+    resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+
+  async@3.2.6:
+    resolution: {integrity: sha512-htCUDlxyyCLMgaM3xXg0C0LW2xqfuQ6p05pCEIsXuyQ+a1koYKTuBMzRNwmybfLgvJDMd0r1LTn4+E0Ti6C2AA==}
+
+  b4a@1.7.4:
+    resolution: {integrity: sha512-u20zJLDaSWpxaZ+zaAkEIB2dZZ1o+DF4T/MRbmsvGp9nletHOyiai19OzX1fF8xUBYsO1bPXxODvcd0978pnug==}
+    peerDependencies:
+      react-native-b4a: &#x27;*&#x27;
+    peerDependenciesMeta:
+      react-native-b4a:
+        optional: true
+
+  balanced-match@1.0.2:
+    resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
+
+  bare-events@2.8.2:
+    resolution: {integrity: sha512-riJjyv1/mHLIPX4RwiK+oW9/4c3TEUeORHKefKAKnZ5kyslbN+HXowtbaVEqt4IMUB7OXlfixcs6gsFeo/jhiQ==}
+    peerDependencies:
+      bare-abort-controller: &#x27;*&#x27;
+    peerDependenciesMeta:
+      bare-abort-controller:
+        optional: true
+
+  base64-js@1.5.1:
+    resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
+
+  body-parser@1.20.4:
+    resolution: {integrity: sha512-ZTgYYLMOXY9qKU/57FAo8F+HA2dGX7bqGc71txDRC1rS4frdFI5R7NhluHxH6M0YItAP0sHB4uqAOcYKxO6uGA==}
+    engines: {node: &#x27;&gt;= 0.8&#x27;, npm: 1.2.8000 || &gt;= 1.4.16}
+
+  brace-expansion@2.0.2:
+    resolution: {integrity: sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==}
+
+  buffer-crc32@1.0.0:
+    resolution: {integrity: sha512-Db1SbgBS/fg/392AblrMJk97KggmvYhr4pB5ZIMTWtaivCPMWLkmb7m21cJvpvgK+J3nsU2CmmixNBZx4vFj/w==}
+    engines: {node: &#x27;&gt;=8.0.0&#x27;}
+
+  buffer@6.0.3:
+    </pre><div class="muted">…(content truncated)</div></details><details><summary><code>README.md</code> <span class="muted">(54.5 KB, text)</span></summary><pre class="claude-preview file-preview">&lt;p align=&quot;center&quot;&gt;
+  &lt;img src=&quot;https://img.shields.io/badge/Build%20India-Hackathon%202026-blue?style=for-the-badge&quot; alt=&quot;Build India Hackathon 2026&quot; /&gt;
+  &lt;img src=&quot;https://img.shields.io/badge/WordPress-6.x-21759B?style=for-the-badge&amp;logo=wordpress&amp;logoColor=white&quot; alt=&quot;WordPress 6.x&quot; /&gt;
+  &lt;img src=&quot;https://img.shields.io/badge/Cloudflare-Workers-F38020?style=for-the-badge&amp;logo=cloudflare&amp;logoColor=white&quot; alt=&quot;Cloudflare Workers&quot; /&gt;
+  &lt;img src=&quot;https://img.shields.io/badge/Stripe-Connect-635BFF?style=for-the-badge&amp;logo=stripe&amp;logoColor=white&quot; alt=&quot;Stripe Connect&quot; /&gt;
+  &lt;img src=&quot;https://img.shields.io/badge/Neon-PostgreSQL-4ECDC4?style=for-the-badge&amp;logo=postgresql&amp;logoColor=white&quot; alt=&quot;Neon PostgreSQL&quot; /&gt;
+  &lt;img src=&quot;https://img.shields.io/badge/License-MIT-green?style=for-the-badge&quot; alt=&quot;MIT License&quot; /&gt;
+&lt;/p&gt;
+
+&lt;h1 align=&quot;center&quot;&gt;PayPerCrawl&lt;/h1&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  &lt;strong&gt;Detect. Challenge. Monetize. — Turn AI crawler traffic into passive revenue.&lt;/strong&gt;
+&lt;/p&gt;
+
+&lt;p align=&quot;center&quot;&gt;
+  PayPerCrawl is a WordPress-first SaaS platform that empowers website owners to &lt;em&gt;detect&lt;/em&gt;, &lt;em&gt;manage&lt;/em&gt;, and &lt;em&gt;monetize&lt;/em&gt; AI bot traffic crawling their content. Instead of giving your content away for free to train billion-dollar AI models, PayPerCrawl lets you set your price — per request, per bot, per article.
+&lt;/p&gt;
+
+---
+
+## Table of Contents
+
+- [The Problem](#-the-problem)
+- [Our Solution](#-our-solution)
+- [Key Features](#-key-features)
+- [Architecture](#-architecture)
+- [System Design](#-system-design)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Configuration](#-configuration)
+- [API Reference](#-api-reference)
+- [Bot Detection Engine](#-bot-detection-engine)
+- [Monetization Engine](#-monetization-engine)
+- [JavaScript Challenge System](#-javascript-challenge-system)
+- [Database Schema](#-database-schema)
+- [Security Architecture](#-security-architecture)
+- [Subscription Tiers](#-subscription-tiers)
+- [WooCommerce Integration](#-woocommerce-integration)
+- [Screenshots &amp; UI](#-screenshots--ui)
+- [Roadmap](#-roadmap)
+- [Contributing](#-contributing)
+- [License](#-license)
+
+---
+
+## 🔴 The Problem
+
+Every day, AI companies like OpenAI, Anthropic, Google, and Meta deploy sophisticated web crawlers — **GPTBot**, **ClaudeBot**, **Google-Extended**, **Bytespider**, and dozens more — that systematically scrape website content to train large language models worth billions of dollars.
+
+**The creators get nothing.**
+
+- **$0 in compensation** for content that powers AI products generating billions in revenue
+- **Increased server costs** from high-frequency bot traffic that degrades site performance
+- **No visibility** into which AI bots visit, how often, or what they take
+- **No control** beyond a basic `robots.txt` that most aggressive crawlers ignore
+- **No legal enforcement** — the current web ecosystem has no payment infrastructure for AI crawling
+
+Content creators are subsidizing the AI industry with their intellectual property, their server resources, and their bandwidth — and they don&#x27;t even know it&#x27;s happening.
+
+---
+
+## 💡 Our Solution
+
+**PayPerCrawl** turns the problem into an opportunity. Install a single WordPress plugin, connect with one API key, and immediately begin:
+
+1. **Detecting** every AI crawler that visits your site with 90%+ confidence
+2. **Challenging** suspicious visitors with JavaScript proof-of-work puzzles that browsers solve instantly but headless scrapers cannot
+3. **Monetizing** bot traffic through micro-payments — each crawl request has a price, and AI companies pay to access your content
+4. **Analyzing** bot traffic patterns with real-time dashboards, revenue charts, and per-bot breakdowns
+
+&gt; _&quot;Every piece of content on the web has value. When AI companies use it, creators should be compensated.&quot;_
+
+---
+
+## ✨ Key Features
+
+### Bot Detection
+
+| Feature                 | Description                                                                 </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/prd.md</code> <span class="muted">(35.8 KB, text)</span></summary><pre class="claude-preview file-preview"># PayPerCrawl (CrawlGuard WP) — Product Requirements Document
+
+&gt; **Version:** 1.0 · **Date:** February 2026 · **Status:** Complete · **Source:** Full codebase reverse-engineering of [crawlguard-wp-main](file:///c:/Build-india-hackathon/paypercrawl-website/crawlguard-wp-main)
+
+---
+
+## 1. Executive Summary
+
+**PayPerCrawl** is a SaaS platform that enables website owners to **detect, manage, and monetize AI bot traffic** crawling their content. It consists of three tightly integrated components:
+
+| Component | Technology | Role |
+|-----------|-----------|------|
+| **WordPress Plugin** (CrawlGuard WP) | PHP 8+, WordPress 6.x | Client-side bot detection, JS challenge, admin UI, content scraping, WooCommerce sync |
+| **Edge Backend** | Cloudflare Workers, JavaScript | API gateway, monetization engine, analytics aggregation, Stripe webhook handling |
+| **Cloud Database** | Neon PostgreSQL | Persistent storage for sites, bot requests, payments, AI companies, analytics |
+
+**Value Proposition:** Website owners install a single WordPress plugin, connect via API key, and immediately begin detecting AI bots (GPTBot, ClaudeBot, Google-Extended, etc.). Detected bots can be blocked, challenged with JS proof-of-work, or monetized via Stripe-powered paywalls — generating passive revenue from AI companies that scrape content.
+
+---
+
+## 2. Product Vision &amp; Goals
+
+### 2.1 Vision
+&gt; *&quot;Every piece of content on the web has value. When AI companies use it, creators should be compensated.&quot;*
+
+### 2.2 Goals
+1. **Detect** all major AI crawlers with ≥90% confidence using multi-signal analysis
+2. **Monetize** bot traffic through per-request pricing and subscription access plans
+3. **Protect** content with JavaScript challenges that are trivial for browsers but expensive for headless scrapers
+4. **Provide** real-time analytics dashboards showing bot traffic, revenue, and content value
+5. **Integrate** seamlessly with WooCommerce for real-time product data sync to AI tools
+
+---
+
+## 3. User Personas
+
+### 3.1 Content Creator (Plugin User)
+- WordPress site owner (blog, news, e-commerce)
+- Wants passive income from AI companies using their content
+- Non-technical; needs one-click setup via API key
+- Cares about: revenue earned, bots blocked, content protected
+
+### 3.2 AI Company (API Consumer)
+- Operates web crawlers (GPTBot, ClaudeBot, etc.)
+- Needs licensed access to high-quality content for training
+- Willing to pay per-request or via subscription
+- Cares about: reliable access, clear pricing, API uptime
+
+### 3.3 Platform Admin (PayPerCrawl Team)
+- Manages the SaaS backend and Stripe Connect payouts
+- Monitors platform-wide analytics and health
+- Cares about: platform fee revenue (20%), uptime, fraud prevention
+
+---
+
+## 4. System Architecture
+
+### 4.1 High-Level Architecture
+
+```mermaid
+graph TB
+    subgraph &quot;WordPress Site&quot;
+        WP[&quot;WordPress Core&quot;]
+        CG[&quot;CrawlGuard WP Plugin&quot;]
+        WC[&quot;WooCommerce (Optional)&quot;]
+    end
+    
+    subgraph &quot;PayPerCrawl Cloud&quot;
+        CF[&quot;Cloudflare Workers&lt;br/&gt;(Edge API)&quot;]
+        DB[(Neon PostgreSQL)]
+        R2[&quot;Cloudflare R2&lt;br/&gt;(Storage)&quot;]
+    end
+    
+    subgraph &quot;External Services&quot;
+        ST[&quot;Stripe Connect&lt;br/&gt;(Payments)&quot;]
+        IP[&quot;IPinfo&lt;br/&gt;(IP Intelligence)&quot;]
+    end
+    
+    subgraph &quot;Consumers&quot;
+        BOT[&quot;AI Bots&lt;br/&gt;(GPTBot, ClaudeBot, etc.)&quot;]
+        HUMAN[&quot;Human Visitors&quot;]
+    end
+    
+    BOT --&gt;|&quot;HTTP Request&quot;| WP
+    HUMAN --&gt;|&quot;HTTP Request&quot;| WP
+    WP --&gt; CG
+    CG --&gt;|&quot;Bot Detection&quot;| CG
+    CG --&gt;|&quot;API Calls&quot;| CF
+    CG --&gt;|&quot;Live Sync Events&quot;| CF
+    WC --&gt;|&quot;Product Updates&quot;| CG
+    CF --&gt;|&quot;Queries&quot;| DB
+    CF --&gt;|&quot;Storage&quot;| R2
+    CF --&gt;|&quot;Payments&quot;| ST
+    CG --&gt;|&quot;IP Lookup&quot;| IP
+```
+
+### 4.2 Request Processing Flow
+
+```mermaid
+sequenceDiagram
+    participant Bot as AI Bot
+    participant WP as WordPress + CrawlGuard
+    participant API as Cloudflare Worker API
+    participant DB as PostgreSQL
+    participant Stripe as Stripe Connect
+
+    Bot-&gt;&gt;WP: HTTP GET /article/ai-trends
+    WP-&gt;&gt;WP: Bo</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>scripts/package-plugin.mjs</code> <span class="muted">(2.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/watch-plugin.mjs</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details open><summary><code>SKILL.md</code> <span class="muted">(7.1 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: paypercrawl
+description: End-to-end development skill for the PayPerCrawl (CrawlGuard WP) plugin system — a WordPress plugin + Cloudflare Workers backend that detects, manages, and monetizes AI bot traffic. Use when working on any component of the PayPerCrawl ecosystem including: (1) WordPress plugin PHP development (bot detection, JS challenges, rate limiting, content scraping, WooCommerce sync), (2) Cloudflare Workers backend (API endpoints, Stripe integration, database queries), (3) Admin panel UI (dashboard, settings, analytics charts), (4) Database schema changes (Neon PostgreSQL or WordPress tables), (5) Payment/monetization logic (Stripe Connect, pricing, payouts), (6) Live Sync and content ingestion features, (7) Frontend assets (React analytics, admin JS/CSS), or (8) API specification and documentation updates.
+---
+
+# PayPerCrawl Development Skill
+
+## Architecture Overview
+
+Three-component system:
+
+| Component | Stack | Location |
+|-----------|-------|----------|
+| WordPress Plugin | PHP 8+, WP 6.x | `crawlguard-wp-main/` |
+| Edge Backend | Cloudflare Workers, JS | `crawlguard-wp-main/backend/` |
+| Cloud Database | Neon PostgreSQL | `crawlguard-wp-main/database/` |
+
+## Project Structure
+
+```
+crawlguard-wp-main/
+├── crawlguard-wp.php              # Main plugin entry (activation, hooks, init)
+├── config.php                      # Environment-driven constants
+├── includes/
+│   ├── class-admin.php             # WP admin pages + AJAX (1283 lines)
+│   ├── class-bot-detector.php      # Bot detection engine (570 lines)
+│   ├── class-api-client.php        # Backend API client (347 lines)
+│   ├── class-analytics.php         # Analytics queries (284 lines)
+│   ├── class-js-challenge.php      # JS proof-of-work (377 lines)
+│   ├── class-live-sync-client.php  # Live Sync API (212 lines)
+│   ├── class-woocommerce-connector.php # WC hooks (259 lines)
+│   ├── class-toon-encoder.php      # TOON serialization (119 lines)
+│   ├── class-config.php            # Config helper (104 lines)
+│   ├── class-rate-limiter.php      # Rate limiting (89 lines)
+│   ├── class-scraper.php           # Content scraper (74 lines)
+│   ├── class-frontend.php          # Meta tags + beacon (56 lines)
+│   ├── class-http-signatures.php   # RFC 9421 sigs (40 lines)
+│   └── class-ip-intel.php          # IP intelligence (28 lines)
+├── backend/
+│   ├── production-worker.js        # CF Worker API (468 lines)
+│   ├── worker.js                   # Dev worker (382 lines)
+│   ├── database.js                 # DB manager (314 lines)
+│   └── stripe-integration.js      # Stripe manager (300 lines)
+├── database/
+│   └── schema.sql                  # PostgreSQL schema (226 lines)
+├── assets/
+│   ├── css/ (admin.css, analytics.css)
+│   └── js/ (admin.js, analytics.bundle.js, src/)
+└── docs/ (API_REFERENCE.md, SECURITY.md)
+```
+
+## Key Development Workflows
+
+### Adding a New Bot Signature
+
+1. Edit `includes/class-bot-detector.php`
+2. Add entry to `$known_bots` array: `&#x27;BotName&#x27; =&gt; [&#x27;company&#x27; =&gt; &#x27;Company&#x27;, &#x27;type&#x27; =&gt; &#x27;ai_crawler&#x27;]`
+3. If bot has special pricing, update `get_bot_multiplier()` in `backend/production-worker.js`
+
+### Modifying Bot Detection Heuristics
+
+Edit `includes/class-bot-detector.php` → `analyze_heuristically()`. Scoring:
+- Each signal adds points (0–40 range)
+- Threshold: ≥70 = classified as bot
+- Signals: missing headers, suspicious UA patterns, datacenter IPs, scraping service headers
+
+### Modifying Monetization Pricing
+
+1. **Base price**: `sites.pricing_per_request` in PostgreSQL (default $0.001)
+2. **Bot multipliers**: `analyzeBotRequest()` in `backend/production-worker.js`
+3. **Content length bonus**: &gt;5000 chars = +50%, &gt;2000 chars = +25%
+4. **Revenue split**: Stripe 2.9%+$0.30 / Platform 20% / Creator remainder
+
+### Adding Admin Pages
+
+1. Add `add_submenu_page()` call in `class-admin.php` → `add_admin_menu()`
+2. Create render method following existing pattern (e.g., `live_sync_page()`)
+3. For AJAX endpoints, add hook in `__construct()` and hand</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.075</td><td>0.18</td><td><strong>1.35</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.250</td><td>0.15</td><td><strong>3.75</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

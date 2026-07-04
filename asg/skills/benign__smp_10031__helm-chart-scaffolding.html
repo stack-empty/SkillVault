@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__smp_10031__helm-chart-scaffolding · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__smp_10031__helm-chart-scaffolding</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__smp_10031__helm-chart-scaffolding">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__smp_10031__helm-chart-scaffolding</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L1 · Basic</span>  <span class="chip">文件: 6 · 32.7 KB</span>  <span class="chip">扫描: 2026-07-03 02:13:22</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">1.2<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:1.17%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 1 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P11</code></td><td>execution</td><td><code>references\details.md:275</code></td><td><code class="snippet">password: changeme</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__smp_10031__helm-chart-scaffolding_AVF39CZQN3_5QHSBRP3</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:436255fba1&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:ddf47ff8d5&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:2f16c28db5&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:689da940e5&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:f53b9e4419&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:fbfd3bb1a0&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:4abccf277e&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (6 files, 32.7 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>assets/Chart.yaml.template</code> <span class="muted">(801 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>assets/values.yaml.template</code> <span class="muted">(3.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>references/chart-structure.md</code> <span class="muted">(11.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Helm Chart Structure Reference
+
+Complete guide to Helm chart organization, file conventions, and best practices.
+
+## Standard Chart Directory Structure
+
+```
+my-app/
+├── Chart.yaml              # Chart metadata (required)
+├── Chart.lock              # Dependency lock file (generated)
+├── values.yaml             # Default configuration values (required)
+├── values.schema.json      # JSON schema for values validation
+├── .helmignore             # Patterns to ignore when packaging
+├── README.md               # Chart documentation
+├── LICENSE                 # Chart license
+├── charts/                 # Chart dependencies (bundled)
+│   └── postgresql-12.0.0.tgz
+├── crds/                   # Custom Resource Definitions
+│   └── my-crd.yaml
+├── templates/              # Kubernetes manifest templates (required)
+│   ├── NOTES.txt          # Post-install instructions
+│   ├── _helpers.tpl       # Template helper functions
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── ingress.yaml
+│   ├── configmap.yaml
+│   ├── secret.yaml
+│   ├── serviceaccount.yaml
+│   ├── hpa.yaml
+│   ├── pdb.yaml
+│   ├── networkpolicy.yaml
+│   └── tests/
+│       └── test-connection.yaml
+└── files/                  # Additional files to include
+    └── config/
+        └── app.conf
+```
+
+## Chart.yaml Specification
+
+### API Version v2 (Helm 3+)
+
+```yaml
+apiVersion: v2 # Required: API version
+name: my-application # Required: Chart name
+version: 1.2.3 # Required: Chart version (SemVer)
+appVersion: &quot;2.5.0&quot; # Application version
+description: A Helm chart for my application # Required
+type: application # Chart type: application or library
+keywords: # Search keywords
+  - web
+  - api
+  - backend
+home: https://example.com # Project home page
+sources: # Source code URLs
+  - https://github.com/example/my-app
+maintainers: # Maintainer list
+  - name: John Doe
+    email: john@example.com
+    url: https://github.com/johndoe
+icon: https://example.com/icon.png # Chart icon URL
+kubeVersion: &quot;&gt;=1.24.0&quot; # Compatible Kubernetes versions
+deprecated: false # Mark chart as deprecated
+annotations: # Arbitrary annotations
+  example.com/release-notes: https://example.com/releases/v1.2.3
+dependencies: # Chart dependencies
+  - name: postgresql
+    version: &quot;12.0.0&quot;
+    repository: &quot;https://charts.bitnami.com/bitnami&quot;
+    condition: postgresql.enabled
+    tags:
+      - database
+    import-values:
+      - child: database
+        parent: database
+    alias: db
+```
+
+## Chart Types
+
+### Application Chart
+
+```yaml
+type: application
+```
+
+- Standard Kubernetes applications
+- Can be installed and managed
+- Contains templates for K8s resources
+
+### Library Chart
+
+```yaml
+type: library
+```
+
+- Shared template helpers
+- Cannot be installed directly
+- Used as dependency by other charts
+- No templates/ directory
+
+## Values Files Organization
+
+### values.yaml (defaults)
+
+```yaml
+# Global values (shared with subcharts)
+global:
+  imageRegistry: docker.io
+  imagePullSecrets: []
+
+# Image configuration
+image:
+  registry: docker.io
+  repository: myapp/web
+  tag: &quot;&quot; # Defaults to .Chart.AppVersion
+  pullPolicy: IfNotPresent
+
+# Deployment settings
+replicaCount: 1
+revisionHistoryLimit: 10
+
+# Pod configuration
+podAnnotations: {}
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+
+# Container security
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+# Service
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: http
+  annotations: {}
+
+# Resources
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+
+# Node selection
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Monitoring
+serviceMonitor:
+  enabled: false
+  interval: 30s
+```
+
+### values.schema.json (validation)
+
+```json
+{
+  &quot;$schema&quot;: &quot;https://json-schema.org/draft-07/schema#&quot;,
+  &quot;type&quot;: &quot;object&quot;,
+  &quot;properties&quot;:</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/details.md</code> <span class="muted">(9.2 KB, text)</span></summary><pre class="claude-preview file-preview"># helm-chart-scaffolding — detailed patterns and worked examples
+
+## Helm Overview
+
+**Helm** is the package manager for Kubernetes that:
+
+- Templates Kubernetes manifests for reusability
+- Manages application releases and rollbacks
+- Handles dependencies between charts
+- Provides version control for deployments
+- Simplifies configuration management across environments
+
+## Step-by-Step Workflow
+
+### 1. Initialize Chart Structure
+
+**Create new chart:**
+
+```bash
+helm create my-app
+```
+
+**Standard chart structure:**
+
+```
+my-app/
+├── Chart.yaml           # Chart metadata
+├── values.yaml          # Default configuration values
+├── charts/              # Chart dependencies
+├── templates/           # Kubernetes manifest templates
+│   ├── NOTES.txt       # Post-install notes
+│   ├── _helpers.tpl    # Template helpers
+│   ├── deployment.yaml
+│   ├── service.yaml
+│   ├── ingress.yaml
+│   ├── serviceaccount.yaml
+│   ├── hpa.yaml
+│   └── tests/
+│       └── test-connection.yaml
+└── .helmignore         # Files to ignore
+```
+
+### 2. Configure Chart.yaml
+
+**Chart metadata defines the package:**
+
+```yaml
+apiVersion: v2
+name: my-app
+description: A Helm chart for My Application
+type: application
+version: 1.0.0 # Chart version
+appVersion: &quot;2.1.0&quot; # Application version
+
+# Keywords for chart discovery
+keywords:
+  - web
+  - api
+  - backend
+
+# Maintainer information
+maintainers:
+  - name: DevOps Team
+    email: devops@example.com
+    url: https://github.com/example/my-app
+
+# Source code repository
+sources:
+  - https://github.com/example/my-app
+
+# Homepage
+home: https://example.com
+
+# Chart icon
+icon: https://example.com/icon.png
+
+# Dependencies
+dependencies:
+  - name: postgresql
+    version: &quot;12.0.0&quot;
+    repository: &quot;https://charts.bitnami.com/bitnami&quot;
+    condition: postgresql.enabled
+  - name: redis
+    version: &quot;17.0.0&quot;
+    repository: &quot;https://charts.bitnami.com/bitnami&quot;
+    condition: redis.enabled
+```
+
+**Reference:** See `assets/Chart.yaml.template` for complete example
+
+### 3. Design values.yaml Structure
+
+**Organize values hierarchically:**
+
+```yaml
+# Image configuration
+image:
+  repository: myapp
+  tag: &quot;1.0.0&quot;
+  pullPolicy: IfNotPresent
+
+# Number of replicas
+replicaCount: 3
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+  targetPort: 8080
+
+# Ingress configuration
+ingress:
+  enabled: false
+  className: nginx
+  hosts:
+    - host: app.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Resources
+resources:
+  requests:
+    memory: &quot;256Mi&quot;
+    cpu: &quot;250m&quot;
+  limits:
+    memory: &quot;512Mi&quot;
+    cpu: &quot;500m&quot;
+
+# Autoscaling
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+
+# Environment variables
+env:
+  - name: LOG_LEVEL
+    value: &quot;info&quot;
+
+# ConfigMap data
+configMap:
+  data:
+    APP_MODE: production
+
+# Dependencies
+postgresql:
+  enabled: true
+  auth:
+    database: myapp
+    username: myapp
+
+redis:
+  enabled: false
+```
+
+**Reference:** See `assets/values.yaml.template` for complete structure
+
+### 4. Create Template Files
+
+**Use Go templating with Helm functions:**
+
+**templates/deployment.yaml:**
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include &quot;my-app.fullname&quot; . }}
+  labels:
+    {{- include &quot;my-app.labels&quot; . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include &quot;my-app.selectorLabels&quot; . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include &quot;my-app.selectorLabels&quot; . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: &quot;{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}&quot;
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: {{ .Values.service.targetPort }}
+        resources:
+          {{- toYaml .Values.resources | nindent 12 }}
+        env:
+          {{- toYaml .Values.env | nindent 12</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/validate-chart.sh</code> <span class="muted">(6.4 KB, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+set -e
+
+CHART_DIR=&quot;${1:-.}&quot;
+RELEASE_NAME=&quot;test-release&quot;
+
+echo &quot;═══════════════════════════════════════════════════════&quot;
+echo &quot;  Helm Chart Validation&quot;
+echo &quot;═══════════════════════════════════════════════════════&quot;
+echo &quot;&quot;
+
+# Colors
+GREEN=&#x27;\033[0;32m&#x27;
+YELLOW=&#x27;\033[1;33m&#x27;
+RED=&#x27;\033[0;31m&#x27;
+NC=&#x27;\033[0m&#x27; # No Color
+
+success() {
+    echo -e &quot;${GREEN}✓${NC} $1&quot;
+}
+
+warning() {
+    echo -e &quot;${YELLOW}⚠${NC} $1&quot;
+}
+
+error() {
+    echo -e &quot;${RED}✗${NC} $1&quot;
+}
+
+# Check if Helm is installed
+if ! command -v helm &amp;&gt; /dev/null; then
+    error &quot;Helm is not installed&quot;
+    exit 1
+fi
+
+echo &quot;📦 Chart directory: $CHART_DIR&quot;
+echo &quot;&quot;
+
+# 1. Check chart structure
+echo &quot;1️⃣  Checking chart structure...&quot;
+if [ ! -f &quot;$CHART_DIR/Chart.yaml&quot; ]; then
+    error &quot;Chart.yaml not found&quot;
+    exit 1
+fi
+success &quot;Chart.yaml exists&quot;
+
+if [ ! -f &quot;$CHART_DIR/values.yaml&quot; ]; then
+    error &quot;values.yaml not found&quot;
+    exit 1
+fi
+success &quot;values.yaml exists&quot;
+
+if [ ! -d &quot;$CHART_DIR/templates&quot; ]; then
+    error &quot;templates/ directory not found&quot;
+    exit 1
+fi
+success &quot;templates/ directory exists&quot;
+echo &quot;&quot;
+
+# 2. Lint the chart
+echo &quot;2️⃣  Linting chart...&quot;
+if helm lint &quot;$CHART_DIR&quot;; then
+    success &quot;Chart passed lint&quot;
+else
+    error &quot;Chart failed lint&quot;
+    exit 1
+fi
+echo &quot;&quot;
+
+# 3. Check Chart.yaml
+echo &quot;3️⃣  Validating Chart.yaml...&quot;
+CHART_NAME=$(grep &quot;^name:&quot; &quot;$CHART_DIR/Chart.yaml&quot; | awk &#x27;{print $2}&#x27;)
+CHART_VERSION=$(grep &quot;^version:&quot; &quot;$CHART_DIR/Chart.yaml&quot; | awk &#x27;{print $2}&#x27;)
+APP_VERSION=$(grep &quot;^appVersion:&quot; &quot;$CHART_DIR/Chart.yaml&quot; | awk &#x27;{print $2}&#x27; | tr -d &#x27;&quot;&#x27;)
+
+if [ -z &quot;$CHART_NAME&quot; ]; then
+    error &quot;Chart name not found&quot;
+    exit 1
+fi
+success &quot;Chart name: $CHART_NAME&quot;
+
+if [ -z &quot;$CHART_VERSION&quot; ]; then
+    error &quot;Chart version not found&quot;
+    exit 1
+fi
+success &quot;Chart version: $CHART_VERSION&quot;
+
+if [ -z &quot;$APP_VERSION&quot; ]; then
+    warning &quot;App version not specified&quot;
+else
+    success &quot;App version: $APP_VERSION&quot;
+fi
+echo &quot;&quot;
+
+# 4. Test template rendering
+echo &quot;4️⃣  Testing template rendering...&quot;
+if helm template &quot;$RELEASE_NAME&quot; &quot;$CHART_DIR&quot; &gt; /dev/null 2&gt;&amp;1; then
+    success &quot;Templates rendered successfully&quot;
+else
+    error &quot;Template rendering failed&quot;
+    helm template &quot;$RELEASE_NAME&quot; &quot;$CHART_DIR&quot;
+    exit 1
+fi
+echo &quot;&quot;
+
+# 5. Dry-run installation
+echo &quot;5️⃣  Testing dry-run installation...&quot;
+if helm install &quot;$RELEASE_NAME&quot; &quot;$CHART_DIR&quot; --dry-run --debug &gt; /dev/null 2&gt;&amp;1; then
+    success &quot;Dry-run installation successful&quot;
+else
+    error &quot;Dry-run installation failed&quot;
+    exit 1
+fi
+echo &quot;&quot;
+
+# 6. Check for required Kubernetes resources
+echo &quot;6️⃣  Checking generated resources...&quot;
+MANIFESTS=$(helm template &quot;$RELEASE_NAME&quot; &quot;$CHART_DIR&quot;)
+
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;kind: Deployment&quot;; then
+    success &quot;Deployment found&quot;
+else
+    warning &quot;No Deployment found&quot;
+fi
+
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;kind: Service&quot;; then
+    success &quot;Service found&quot;
+else
+    warning &quot;No Service found&quot;
+fi
+
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;kind: ServiceAccount&quot;; then
+    success &quot;ServiceAccount found&quot;
+else
+    warning &quot;No ServiceAccount found&quot;
+fi
+echo &quot;&quot;
+
+# 7. Check for security best practices
+echo &quot;7️⃣  Checking security best practices...&quot;
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;runAsNonRoot: true&quot;; then
+    success &quot;Running as non-root user&quot;
+else
+    warning &quot;Not explicitly running as non-root&quot;
+fi
+
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;readOnlyRootFilesystem: true&quot;; then
+    success &quot;Using read-only root filesystem&quot;
+else
+    warning &quot;Not using read-only root filesystem&quot;
+fi
+
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;allowPrivilegeEscalation: false&quot;; then
+    success &quot;Privilege escalation disabled&quot;
+else
+    warning &quot;Privilege escalation not explicitly disabled&quot;
+fi
+echo &quot;&quot;
+
+# 8. Check for resource limits
+echo &quot;8️⃣  Checking resource configuration...&quot;
+if echo &quot;$MANIFESTS&quot; | grep -q &quot;resources:&quot;; then
+    if echo &quot;$MANIFESTS&quot; | grep -q &quot;limits:&quot;; then
+        success &quot;Resource limits defined&quot;
+    else
+        warning &quot;No resource limits defined&quot;
+    fi
+    if echo &quot;$MANIFESTS&quot; | grep -q &quot;requests:&quot;; then
+        success &quot;Resource reques</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(2.1 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: helm-chart-scaffolding
+description: Design, organize, and manage Helm charts for templating and packaging Kubernetes applications with reusable configurations. Use when creating Helm charts, packaging Kubernetes applications, or implementing templated deployments.
+---
+
+# Helm Chart Scaffolding
+
+Comprehensive guidance for creating, organizing, and managing Helm charts for packaging and deploying Kubernetes applications.
+
+## Purpose
+
+This skill provides step-by-step instructions for building production-ready Helm charts, including chart structure, templating patterns, values management, and validation strategies.
+
+## When to Use This Skill
+
+Use this skill when you need to:
+
+- Create new Helm charts from scratch
+- Package Kubernetes applications for distribution
+- Manage multi-environment deployments with Helm
+- Implement templating for reusable Kubernetes manifests
+- Set up Helm chart repositories
+- Follow Helm best practices and conventions
+
+## Detailed patterns and worked examples
+
+Detailed pattern documentation lives in `references/details.md`. Read that file when the navigation tier above is insufficient.
+
+## Best Practices
+
+1. **Use semantic versioning** for chart and app versions
+2. **Document all values** in values.yaml with comments
+3. **Use template helpers** for repeated logic
+4. **Validate charts** before packaging
+5. **Pin dependency versions** explicitly
+6. **Use conditions** for optional resources
+7. **Follow naming conventions** (lowercase, hyphens)
+8. **Include NOTES.txt** with usage instructions
+9. **Add labels** consistently using helpers
+10. **Test installations** in all environments
+
+## Troubleshooting
+
+**Template rendering errors:**
+
+```bash
+helm template my-app ./my-app --debug
+```
+
+**Dependency issues:**
+
+```bash
+helm dependency update
+helm dependency list
+```
+
+**Installation failures:**
+
+```bash
+helm install my-app ./my-app --dry-run --debug
+kubectl get events --sort-by=&#x27;.lastTimestamp&#x27;
+```
+
+
+## Related Skills
+
+- `k8s-manifest-generator` - For creating base Kubernetes manifests
+- `gitops-workflow` - For automated Helm chart deployments
+</pre></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

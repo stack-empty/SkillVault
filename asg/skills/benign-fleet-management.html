@@ -1,0 +1,1480 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign-fleet-management · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign-fleet-management</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign-fleet-management">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign-fleet-management</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 11 · 43.1 KB</span>  <span class="chip">扫描: 2026-06-18 12:02:22</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (11 files, 43.1 KB)</h4>
+      <div class="file-list"><details><summary><code>LICENSE.txt</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview">MIT License
+
+Copyright (c) 2026 Letta, Inc.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</pre></details><details><summary><code>reference/agent-calibration.md</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Agent Calibration Reference
+
+Prime agents with a boot message on creation, and recalibrate after updates.
+
+## First Message
+
+The `first_message` field sends a message to the agent on first creation only (never on updates). Used to make agents internalize their role.
+
+```yaml
+agents:
+  - name: support-agent
+    first_message: &quot;Review your persona block and confirm you understand your role.&quot;
+```
+
+The message is sent asynchronously after creation.
+
+## Recalibration
+
+After updating agent config, recalibrate to re-prime agents:
+
+```bash
+# Recalibrate all changed agents
+lettactl apply -f fleet.yaml --recalibrate
+
+# Custom message
+lettactl apply -f fleet.yaml --recalibrate --recalibrate-message &quot;Review updated guidelines.&quot;
+
+# Scope by tags
+lettactl apply -f fleet.yaml --recalibrate --recalibrate-tags &quot;role:support&quot;
+
+# Scope by pattern
+lettactl apply -f fleet.yaml --recalibrate --recalibrate-match &quot;support-*&quot;
+
+# Fire-and-forget
+lettactl apply -f fleet.yaml --recalibrate --no-wait
+```
+
+## SDK
+
+```typescript
+await ctl.bulkSendMessage(&#x27;Review your updated configuration.&#x27;, {
+  pattern: &#x27;support-*&#x27;,
+});
+```
+
+## Options
+
+| Flag | Description |
+|------|-------------|
+| `--skip-first-message` | Skip first_message on creation |
+| `--recalibrate` | Re-send calibration messages |
+| `--recalibrate-message &lt;msg&gt;` | Custom calibration message |
+| `--recalibrate-tags &lt;tags&gt;` | Scope by tags (AND logic) |
+| `--recalibrate-match &lt;pattern&gt;` | Scope by glob pattern |
+| `--no-wait` | Fire-and-forget |
+
+## Retraining vs Recalibration
+
+- **Recalibrate**: Send a message in-place, preserves conversation history
+- **Retrain**: Delete and redeploy for a fresh start (`lettactl delete agent &lt;name&gt;` then `lettactl apply`)
+</pre></details><details><summary><code>reference/canary-deployments.md</code> <span class="muted">(1.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Canary Deployments Reference
+
+Test configuration changes on isolated copies before promoting to production.
+
+## Workflow
+
+```bash
+# 1. Deploy canary copies
+lettactl apply -f fleet.yaml --canary
+
+# 2. Test the canary agents
+lettactl send CANARY-support-agent &quot;Test message&quot;
+
+# 3. Promote to production
+lettactl apply -f fleet.yaml --promote
+
+# 4. Clean up canary agents
+lettactl apply -f fleet.yaml --cleanup
+```
+
+## How It Works
+
+- `--canary` creates copies with a `CANARY-` prefix (e.g., `CANARY-support-agent`)
+- Canary agents get their own isolated memory blocks and conversation history
+- Shared blocks, folders, and tools are reused (not duplicated)
+- Canary metadata stored on agents: `lettactl.canary`, `lettactl.canary.productionName`, `lettactl.canary.prefix`, `lettactl.canary.createdAt`
+
+## Options
+
+| Flag | Description |
+|------|-------------|
+| `--canary` | Deploy isolated canary copies |
+| `--canary-prefix &lt;str&gt;` | Custom prefix (default: `CANARY-`) |
+| `--promote` | Apply canary config to production agents |
+| `--cleanup` | Remove canary agents |
+
+## Custom Prefix
+
+```bash
+lettactl apply -f fleet.yaml --canary --canary-prefix &quot;STAGING-&quot;
+# Creates: STAGING-support-agent
+```
+
+## Rollback
+
+If the canary fails, skip promote and clean up:
+
+```bash
+lettactl apply -f fleet.yaml --cleanup
+```
+
+For full rollback after promote: revert in git and redeploy.
+</pre></details><details><summary><code>reference/cli-commands.md</code> <span class="muted">(8.5 KB, text)</span></summary><pre class="claude-preview file-preview"># CLI Commands Reference
+
+Complete command reference for lettactl.
+
+## Global Options
+
+```bash
+--verbose, -v          # Verbose output
+--no-spinner           # Disable spinner (for CI/CD)
+--help, -h             # Show help
+```
+
+## apply
+
+Apply fleet configuration to create or update agents.
+
+```bash
+lettactl apply -f &lt;file&gt;
+```
+
+| Option | Description |
+|--------|-------------|
+| `-f, --file &lt;path&gt;` | Path to fleet YAML file (required) |
+| `--dry-run` | Preview changes without applying |
+| `--agent &lt;pattern&gt;` | Filter agents by name pattern |
+| `--match &lt;pattern&gt;` | Template mode: apply to existing agents matching pattern |
+| `--root &lt;path&gt;` | Root path for resolving relative file paths |
+| `--manifest` | Write JSON manifest with resource IDs |
+| `--canary` | Deploy isolated canary copies (CANARY- prefix) |
+| `--canary-prefix &lt;str&gt;` | Custom canary prefix (default: CANARY-) |
+| `--promote` | Promote canary config to production agents |
+| `--cleanup` | Remove canary agents |
+| `--recalibrate` | Re-send calibration messages to changed agents |
+| `--recalibrate-message &lt;msg&gt;` | Custom calibration message |
+| `--recalibrate-tags &lt;tags&gt;` | Scope recalibration by tags (AND logic) |
+| `--recalibrate-match &lt;pattern&gt;` | Scope recalibration by glob pattern |
+| `--no-wait` | Fire-and-forget recalibration |
+| `--skip-first-message` | Skip first_message on creation |
+
+### Examples
+
+```bash
+lettactl apply -f fleet.yaml
+lettactl apply -f fleet.yaml --dry-run
+lettactl apply -f fleet.yaml --agent support-agent
+lettactl apply -f fleet.yaml --match &quot;*-draper&quot;
+lettactl apply -f fleet.yaml --canary
+lettactl apply -f fleet.yaml --promote
+lettactl apply -f fleet.yaml --cleanup
+lettactl apply -f fleet.yaml --recalibrate --recalibrate-tags &quot;role:support&quot;
+```
+
+## get
+
+List resources.
+
+```bash
+lettactl get &lt;resource&gt;
+```
+
+### Resources
+
+- `agents` - List agents
+- `blocks` - List memory blocks
+- `tools` - List tools
+- `folders` - List folders
+- `mcp-servers` - List MCP servers
+
+### Options
+
+| Option | Description |
+|--------|-------------|
+| `-o, --output &lt;format&gt;` | Output format: `json`, `yaml`, `wide` |
+| `--agent &lt;name&gt;` | Filter by agent (for blocks, tools, folders) |
+| `--shared` | Show only shared resources (2+ agents) |
+| `--orphaned` | Show only orphaned resources (0 agents) |
+| `--tags &lt;tags&gt;` | Filter by tags (AND logic) |
+| `--canary` | Show only canary agents |
+| `--query &lt;text&gt;` | Semantic search in archival memory |
+
+### Examples
+
+```bash
+lettactl get agents
+lettactl get agents -o wide
+lettactl get agents --tags &quot;tenant:acme-corp&quot;
+lettactl get agents --tags &quot;role:support,env:production&quot;
+lettactl get blocks --agent my-agent
+lettactl get tools --orphaned
+lettactl get blocks --shared
+```
+
+## describe
+
+Show detailed information about a resource.
+
+```bash
+lettactl describe &lt;resource&gt; &lt;name&gt;
+```
+
+Resources: `agent`, `block`, `tool`.
+
+| Option | Description |
+|--------|-------------|
+| `--canary` | Describe canary version |
+
+```bash
+lettactl describe agent support-agent
+lettactl describe block company-context
+lettactl describe tool send_email
+```
+
+## send
+
+Send a message to an agent or multiple agents.
+
+```bash
+lettactl send &lt;agent&gt; &lt;message&gt;
+```
+
+### Single Agent Options
+
+| Option | Description |
+|--------|-------------|
+| `--stream` | Stream the response |
+| `--sync` | Synchronous mode (wait for response) |
+| `--async` | Send asynchronously (returns run ID) |
+| `--max-steps &lt;n&gt;` | Maximum agent steps |
+| `--enable-thinking` | Enable thinking mode |
+| `--timeout &lt;s&gt;` | Per-agent timeout (default: 60s) |
+
+### Bulk Messaging Options
+
+| Option | Description |
+|--------|-------------|
+| `--all &lt;pattern&gt;` | Send to agents matching glob pattern |
+| `--tags &lt;tags&gt;` | Send to agents matching tags (AND logic) |
+| `-f &lt;file&gt;` | Target agents defined in a config file |
+| `--confirm` | Skip confirmation prompt |
+| `--no-wait` | Fire-and-forget mode |
+
+### Examples
+
+```bash
+lettactl send my-agent &quot;Hello, how are you?&quot;
+lettactl send my-agent &quot;Explain this&quot; --</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/fleet-config.md</code> <span class="muted">(7.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Fleet Configuration Reference
+
+Complete YAML schema for lettactl fleet configuration.
+
+## Top-Level Structure
+
+```yaml
+root_path: ./my-fleet     # Optional: base dir for relative paths
+shared_blocks: []          # Optional: blocks shared across agents
+shared_folders: []         # Optional: folders shared across agents
+mcp_servers: []            # Optional: MCP server configs
+agents: []                 # Required: agent definitions
+```
+
+## Agent Definition
+
+```yaml
+agents:
+  - name: agent-name                    # Required: unique name ([a-zA-Z0-9_-]+)
+    description: Agent description      # Required
+
+    system_prompt:                      # Required
+      value: &quot;Inline prompt&quot;            # Option 1
+      from_file: ./prompt.md            # Option 2
+      from_bucket:                      # Option 3
+        provider: supabase
+        bucket: prompts
+        path: agent/system.md
+      disable_base_prompt: false        # Skip Letta base instructions
+
+    llm_config:                         # Required
+      model: google_ai/gemini-2.5-pro   # provider/model-name format
+      context_window: 128000            # 1,000 - 200,000
+      max_tokens: 4096                  # Optional: max output tokens
+
+    embedding: openai/text-embedding-3-small  # Optional (default)
+    embedding_config: {}                      # Optional: additional settings
+    reasoning: true                           # Optional: chain-of-thought (default: true)
+    first_message: &quot;Boot message&quot;             # Optional: sent on first creation only
+
+    tags: []                            # Optional: key:value strings for filtering
+    memory_blocks: []                   # Optional: agent-specific blocks
+    archives: []                        # Optional: vector-searchable memory (max 1)
+    shared_blocks: []                   # Optional: references to shared_blocks
+    shared_folders: []                  # Optional: references to shared_folders
+    folders: []                         # Optional: file folders for RAG
+    tools: []                           # Optional: tool names, objects, or globs
+    mcp_tools: []                       # Optional: tools from MCP servers
+```
+
+## Memory Blocks
+
+Agent-specific memory blocks with ownership semantics:
+
+```yaml
+memory_blocks:
+  # Agent can modify this block — YAML won&#x27;t overwrite on apply
+  - name: user_preferences
+    description: &quot;What I know about the user&quot;
+    limit: 5000
+    value: &quot;No preferences yet.&quot;
+    agent_owned: true
+
+  # YAML controls this block — syncs on every apply
+  - name: brand_guidelines
+    description: &quot;Brand voice and identity&quot;
+    limit: 3000
+    from_file: &quot;brand/guidelines.md&quot;
+    agent_owned: false
+    version: &quot;2.1.0&quot;
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `name` | string | Required. Unique within agent. |
+| `description` | string | Required. Human-readable purpose. |
+| `limit` | integer | Required. Max characters. |
+| `agent_owned` | boolean | Required. `true`: agent writes, YAML won&#x27;t overwrite. `false`: YAML syncs on every apply. |
+| `value` / `from_file` / `from_bucket` | string | Content source. Exactly one required. |
+| `version` | string | Optional. User-defined version tag. |
+
+## Shared Blocks
+
+```yaml
+shared_blocks:
+  - name: company-knowledge
+    description: Company policies and procedures
+    limit: 10000
+    from_file: ./context/company.md
+    version: &quot;2.0.0&quot;
+```
+
+Define at root level, attach by name in agents via `shared_blocks: [name]`.
+
+## Shared Folders
+
+```yaml
+shared_folders:
+  - name: brand_assets
+    files:
+      - &quot;brand/*.md&quot;
+      - from_bucket:
+          provider: supabase
+          bucket: assets
+          path: &quot;brand/*.pdf&quot;
+```
+
+Define at root level, attach by name in agents via `shared_folders: [name]`.
+
+## Archives
+
+Vector-searchable long-term memory. Max one per agent.
+
+```yaml
+archives:
+  - name: knowledge_base
+    description: &quot;Long-term knowledge storage&quot;
+    embedding: &quot;openai/text-embedding-3-small&quot;
+```
+
+## Tools
+
+Referen</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/import-export.md</code> <span class="muted">(1.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Import / Export Reference
+
+Move agents between environments with full fidelity.
+
+## Export Single Agent
+
+```bash
+lettactl export agent support-agent              # YAML (default)
+lettactl export agent support-agent -f json      # Letta-native JSON
+lettactl export agent support-agent -f yaml --skip-first-message
+```
+
+## Bulk Export
+
+```bash
+lettactl export agents --all                     # Entire fleet
+lettactl export agents --match &quot;support-*&quot;       # By pattern
+lettactl export agents --tags &quot;tenant:acme&quot;      # By tags
+```
+
+## Export Options
+
+| Flag | Description |
+|------|-------------|
+| `-f, --format &lt;fmt&gt;` | `yaml` (default) or `json` |
+| `--legacy-format` | v1 export compatibility |
+| `--skip-first-message` | Omit first_message |
+| `--max-steps &lt;n&gt;` | Limit exported processing steps |
+
+## Import
+
+```bash
+lettactl import agent-export.yaml
+lettactl import agent-export.json --name new-agent
+lettactl import agent-export.yaml --append-copy
+lettactl import agent-export.yaml --strip-messages --embedding openai/text-embedding-3-small
+```
+
+## Import Options
+
+| Flag | Description |
+|------|-------------|
+| `--name &lt;name&gt;` | Override agent name |
+| `--append-copy` | Add &#x27;_copy&#x27; suffix |
+| `--embedding &lt;model&gt;` | Override embedding model |
+| `--override-tools` | Overwrite existing tool source code |
+| `--strip-messages` | Remove message history |
+| `--secrets &lt;json&gt;` | Inject secrets as JSON |
+| `--env-vars &lt;json&gt;` | Inject environment variables |
+
+## LettaBot Export
+
+Generate ready-to-use lettabot.yaml from agents with channel configs:
+
+```bash
+lettactl export lettabot support-agent       # Single agent
+lettactl export lettabot --all               # All agents with lettabot configs
+lettactl export lettabot --match &quot;*-chat&quot;    # By pattern
+lettactl export lettabot --tags &quot;role:chat&quot;  # By tags
+```
+</pre></details><details><summary><code>reference/multi-tenancy.md</code> <span class="muted">(1.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Multi-Tenancy Reference
+
+Manage agents across tenants using tags.
+
+## Tag Format
+
+Tags are `key:value` strings on agents. Filtering uses AND logic — all specified tags must match.
+
+```yaml
+agents:
+  - name: acme-support
+    tags:
+      - &quot;tenant:acme-corp&quot;
+      - &quot;role:support&quot;
+      - &quot;env:production&quot;
+```
+
+## Patterns
+
+### B2B
+
+```yaml
+tags:
+  - &quot;tenant:client-id&quot;
+  - &quot;role:support&quot;
+```
+
+### B2B2C
+
+```yaml
+tags:
+  - &quot;user:user-id&quot;
+  - &quot;client:client-id&quot;
+  - &quot;role:assistant&quot;
+```
+
+## Filtering
+
+Tags work across all relevant commands:
+
+```bash
+lettactl get agents --tags &quot;tenant:acme-corp&quot;
+lettactl get agents --tags &quot;role:support,env:production&quot;
+lettactl describe agent &lt;name&gt;
+lettactl send --tags &quot;tenant:acme-corp&quot; &quot;Update&quot;
+lettactl report memory --tags &quot;tenant:acme-corp&quot;
+```
+
+## SDK: Dynamic Tenant Provisioning
+
+```typescript
+async function provisionTenant(tenantId: string) {
+  const config = ctl.createFleetConfig()
+    .addAgent({
+      name: `${tenantId}-support`,
+      description: `Support for ${tenantId}`,
+      tags: [`tenant:${tenantId}`, &#x27;role:support&#x27;],
+      system_prompt: { from_file: &#x27;prompts/support.md&#x27; },
+      llm_config: { model: &#x27;google_ai/gemini-2.5-pro&#x27;, context_window: 32000 },
+      shared_blocks: [&#x27;company-kb&#x27;],
+    })
+    .build();
+
+  await ctl.deployFleet(config);
+}
+```
+
+## Scale
+
+- Server-side filtering for performance
+- Async pagination (1000 items per page)
+- Concurrency limit of 5 for update operations
+</pre></details><details><summary><code>reference/sdk-usage.md</code> <span class="muted">(7.4 KB, text)</span></summary><pre class="claude-preview file-preview"># SDK Usage Reference
+
+Programmatic TypeScript API for managing Letta agent fleets.
+
+## Installation
+
+```bash
+npm install lettactl
+# or
+pnpm add lettactl
+```
+
+## Quick Start
+
+```typescript
+import { LettaCtl } from &#x27;lettactl&#x27;;
+
+const ctl = new LettaCtl({
+  lettaBaseUrl: &#x27;http://localhost:8283&#x27;
+});
+
+await ctl.deployFromYaml(&#x27;./fleet.yaml&#x27;);
+```
+
+## LettaCtl Class
+
+### Constructor
+
+```typescript
+interface LettaCtlOptions {
+  lettaBaseUrl?: string            // Letta server URL
+  lettaApiKey?: string             // For Letta Cloud
+  supabaseUrl?: string             // For bucket storage
+  supabaseAnonKey?: string         // Supabase auth
+  supabaseServiceRoleKey?: string  // Supabase service role
+  root?: string                    // Root dir (defaults to cwd)
+}
+
+const ctl = new LettaCtl(options?: LettaCtlOptions);
+```
+
+Environment variables are used as defaults if options not provided.
+
+### deployFleet(config, options?)
+
+Deploy a fleet from a typed config object.
+
+```typescript
+const result = await ctl.deployFleet(config, {
+  dryRun: true,                // Preview without applying
+  agentPattern: &quot;support-*&quot;,   // Only deploy matching agents
+  match: &quot;tags:team=support&quot;,  // Filter by tags
+});
+
+interface DeployResult {
+  agents: Record&lt;string, string&gt;  // name → letta_agent_id
+  created: string[]
+  updated: string[]
+  unchanged: string[]
+}
+```
+
+### deployFromYaml(path, options?)
+
+Deploy directly from a YAML file. Same options as deployFleet.
+
+```typescript
+const result = await ctl.deployFromYaml(
+  &#x27;./fleet.yaml&#x27;,
+  { dryRun: false, rootPath: &#x27;./config&#x27; }
+);
+
+// Also available:
+await ctl.deployFromYamlString(yamlContent, options);
+```
+
+### sendMessage(agentId, message, options?)
+
+Send a message to an agent and get the run handle back.
+
+```typescript
+const run = await ctl.sendMessage(
+  &#x27;agent-id&#x27;,
+  &#x27;Hello, how can you help?&#x27;,
+  {
+    onComplete: (run) =&gt; console.log(&#x27;Done:&#x27;, run.id),
+    onError: (err) =&gt; console.error(&#x27;Failed:&#x27;, err),
+    timeout: 30,  // seconds
+  }
+);
+
+// Poll for completion
+const completed = await ctl.waitForRun(run.id, {
+  timeout: 300,
+});
+
+interface Run {
+  id: string
+  status: &#x27;created&#x27; | &#x27;running&#x27; | &#x27;completed&#x27; | &#x27;failed&#x27;
+  agent_id: string
+  created_at: string
+  completed_at?: string
+  stop_reason?: string
+}
+```
+
+### bulkSendMessage(message, options?)
+
+Send a message to multiple agents by pattern or tags.
+
+```typescript
+await ctl.bulkSendMessage(&#x27;Policy update&#x27;, {
+  pattern: &#x27;support-*&#x27;,          // Glob pattern
+  tags: [&#x27;tenant:acme&#x27;],         // Tag filter (AND logic)
+  messageFn: (agent) =&gt;          // Per-agent message customization
+    `Hello ${agent.name}, please review the new policy.`,
+  collectResponse: true,         // Capture agent replies
+  timeout: 60,
+});
+```
+
+### deleteAgent(name)
+
+```typescript
+await ctl.deleteAgent(&#x27;support-agent&#x27;);
+```
+
+### validateFleet(config)
+
+Validate configuration without deploying. Throws on invalid.
+
+```typescript
+ctl.validateFleet(config);
+```
+
+## FleetConfigBuilder
+
+Fluent builder for constructing fleet configs programmatically.
+
+```typescript
+const config = ctl.createFleetConfig()
+  .addSharedBlock({
+    name: &#x27;brand-voice&#x27;,
+    description: &#x27;Brand guidelines&#x27;,
+    limit: 5000,
+    from_file: &#x27;memory/brand.md&#x27;,
+  })
+  .addSharedFolder({
+    name: &#x27;knowledge&#x27;,
+    files: [
+      &#x27;docs/faq.md&#x27;,
+      &#x27;docs/policies.md&#x27;,
+      { from_bucket: {
+        provider: &#x27;supabase&#x27;,
+        bucket: &#x27;docs&#x27;,
+        path: &#x27;handbook/&#x27;,
+      }},
+    ],
+  })
+  .addAgent({
+    name: &#x27;support-agent&#x27;,
+    description: &#x27;Tier 1 support&#x27;,
+    tags: [&#x27;team:support&#x27;, &#x27;tier:production&#x27;],
+    system_prompt: { from_file: &#x27;prompts/support.md&#x27; },
+    llm_config: {
+      model: &#x27;google_ai/gemini-2.5-pro&#x27;,
+      context_window: 32000,
+    },
+    shared_blocks: [&#x27;brand-voice&#x27;],
+    shared_folders: [&#x27;knowledge&#x27;],
+    memory_blocks: [{
+      name: &#x27;customer_data&#x27;,
+      description: &#x27;Customer context&#x27;,
+      agent_owned: true,
+      limit: 5000,
+    }],
+    tools: [
+      &#x27;archival_memory_se</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/self-diagnosis.md</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Self-Diagnosis Reference
+
+Analyze agent memory health across the fleet.
+
+## Usage
+
+```bash
+lettactl report memory                  # Basic usage stats
+lettactl report memory --analyze        # LLM-powered deep analysis
+lettactl report memory --analyze --confirm  # Skip confirmation
+lettactl report memory -o json          # JSON output
+```
+
+## Basic Report
+
+Shows per-agent memory block fill percentages:
+
+- Green: &lt;50% full
+- Yellow: 50–79% full
+- Red: 80%+ full
+
+## LLM-Powered Analysis
+
+With `--analyze`, each agent analyzes its own memory and reports:
+
+- **TOPICS**: Count of distinct topics in memory
+- **STATUS**: Overall health assessment
+- **SPLIT**: Recommendation to split the block if too large
+- **SUMMARY**: What the memory contains
+- **STALE**: Detection of outdated information
+- **MISSING**: Knowledge gaps identified
+
+Fleet-wide analysis runs 5 agents concurrently.
+
+## Options
+
+| Flag | Description |
+|------|-------------|
+| `--analyze` | Enable LLM-powered deep analysis |
+| `--confirm` | Skip confirmation prompt for bulk |
+| `-o json` | JSON output |
+</pre></details><details><summary><code>reference/template-mode.md</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Template Mode Reference
+
+Apply configurations to existing agents using kubectl-style three-way merge.
+
+## Overview
+
+Template mode updates existing agents while preserving user-added resources. Uses the `--match` flag to target agents by name pattern.
+
+```bash
+lettactl apply -f template.yaml --match &quot;*-draper&quot;
+```
+
+## How It Works
+
+### Three-Way Merge
+
+Compares three states to determine changes:
+
+1. **Last Applied** - Previous configuration applied by lettactl
+2. **Current State** - Agent&#x27;s current state on server
+3. **Desired State** - New configuration being applied
+
+### Merge Semantics
+
+| Last Applied | Current | Desired | Result |
+|--------------|---------|---------|--------|
+| Has tool A | Has tool A | Has tool A | Keep A |
+| Has tool A | Has tool A | No tool A | Remove A |
+| No tool A | Has tool A | No tool A | Keep A (user-added) |
+| No tool A | No tool A | Has tool A | Add A |
+
+**Key principle**: Resources added by users (not in last-applied) are preserved.
+
+## First Apply Behavior
+
+On first template apply to an agent:
+- Uses MERGE semantics (no removals)
+- Adds new resources from template
+- Preserves all existing resources
+- Stores configuration as baseline for future applies
+
+## Conflict Detection
+
+Content changes are tracked via SHA-256 hashes:
+
+- **Tool source code** - Hash of tool implementation
+- **Memory block content** - Hash of block value
+- **File content** - Hash of files in folders
+
+If server content differs from last-applied hash, lettactl detects potential conflicts.
+
+## Template YAML Structure
+
+Template files are standard fleet configs. The agent name in the template is ignored; configuration is applied to matched agents.
+
+```yaml
+agents:
+  - name: template          # Name ignored in template mode
+    system_prompt:
+      from_file: ./prompts/standard.md
+    llm_config:
+      model: gpt-4o
+    memory_blocks:
+      - name: guidelines
+        description: Standard guidelines
+        limit: 3000
+        from_file: ./blocks/guidelines.md
+    tools:
+      - standard_search
+      - standard_reply
+```
+
+## Pattern Matching
+
+The `--match` flag uses glob patterns:
+
+```bash
+--match &quot;*-draper&quot;        # Ends with -draper
+--match &quot;support-*&quot;       # Starts with support-
+--match &quot;*-prod-*&quot;        # Contains -prod-
+--match &quot;agent-001&quot;       # Exact match
+```
+
+## Examples
+
+### Update All Production Agents
+
+```bash
+# Template with production config
+cat &gt; prod-template.yaml &lt;&lt; EOF
+agents:
+  - name: template
+    llm_config:
+      model: gpt-4o
+      context_window: 128000
+    tools:
+      - production_logger
+      - error_reporter
+EOF
+
+lettactl apply -f prod-template.yaml --match &quot;*-prod&quot;
+```
+
+### Add Shared Block to Existing Agents
+
+```yaml
+shared_blocks:
+  - name: new-policy
+    description: Updated company policy
+    limit: 5000
+    from_file: ./policy-2024.md
+
+agents:
+  - name: template
+    shared_blocks:
+      - new-policy
+```
+
+```bash
+lettactl apply -f add-policy.yaml --match &quot;*&quot;
+```
+
+### SDK Template Mode
+
+```typescript
+import { LettaCtl } from &#x27;lettactl&#x27;;
+
+const ctl = new LettaCtl();
+
+// Apply template to matching agents
+await ctl.deployFromYaml(&#x27;./template.yaml&#x27;, {
+  match: &#x27;*-customer-*&#x27;
+});
+
+// Programmatic template
+await ctl.deployFleet({
+  agents: [{
+    name: &#x27;template&#x27;,
+    tools: [&#x27;new_tool&#x27;],
+    memory_blocks: [{
+      name: &#x27;update&#x27;,
+      description: &#x27;New memory block&#x27;,
+      limit: 2000,
+      value: &#x27;Updated content&#x27;
+    }]
+  }]
+}, {
+  match: &#x27;support-*&#x27;
+});
+```
+
+## Metadata Storage
+
+Template mode stores last-applied configuration in agent metadata under `lettactl.lastApplied`. This enables accurate three-way merge on subsequent applies.
+
+```json
+{
+  &quot;lettactl.lastApplied&quot;: {
+    &quot;tools&quot;: [&quot;tool1&quot;, &quot;tool2&quot;],
+    &quot;sharedBlocks&quot;: [&quot;block1&quot;],
+    &quot;toolHashes&quot;: {
+      &quot;tool1&quot;: &quot;abc123...&quot;
+    },
+    &quot;blockHashes&quot;: {
+      &quot;block1&quot;: &quot;def456...&quot;
+    }
+  }
+}
+```
+
+## Limitations
+
+- Pattern must match at least one agent
+- Cannot create new agents in template mode
+- Shared blocks are updated globally (affect </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(7.0 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: letta-fleet-management
+description: Manage Letta AI agent fleets declaratively with kubectl-style CLI. Use when creating, updating, or managing multiple Letta agents with shared configurations, memory blocks, tools, folders, canary deployments, multi-tenancy, and bulk operations.
+license: MIT
+---
+
+# lettactl
+
+kubectl-style CLI for managing Letta AI agent fleets declaratively.
+
+## When to Use
+
+- Deploying multiple agents with shared configurations
+- Managing agent memory blocks, tools, and folders
+- Applying templates to existing agents
+- Running canary deployments before promoting to production
+- Multi-tenant agent management (B2B / B2B2C)
+- Bulk messaging across agent fleets
+- Importing/exporting agents between environments
+- Analyzing agent memory health (self-diagnosis)
+- Calibrating agents with first-message boot sequences
+- Programmatic fleet management via SDK
+
+## Core Workflow
+
+1. Define agents in `fleet.yaml`
+2. Apply with `lettactl apply -f fleet.yaml`
+3. Verify with `lettactl get agents` and `lettactl describe agent &lt;name&gt;`
+
+## Fleet YAML Structure
+
+```yaml
+shared_blocks:
+  - name: company-context
+    description: Shared company knowledge
+    limit: 5000
+    from_file: ./context/company.md
+
+shared_folders:
+  - name: brand_docs
+    files:
+      - &quot;docs/*.md&quot;
+
+mcp_servers:
+  - name: firecrawl
+    type: sse
+    server_url: &quot;https://sse.firecrawl.dev&quot;
+    auth_header: &quot;Authorization&quot;
+    auth_token: &quot;Bearer ${FIRECRAWL_API_KEY}&quot;
+
+agents:
+  - name: support-agent
+    description: Customer support assistant
+    tags:
+      - &quot;tenant:acme-corp&quot;
+      - &quot;role:support&quot;
+    system_prompt:
+      from_file: ./prompts/support.md
+    llm_config:
+      model: google_ai/gemini-2.5-pro
+      context_window: 128000
+    reasoning: true
+    first_message: &quot;Initialize and confirm readiness.&quot;
+    memory_blocks:
+      - name: persona
+        description: Agent personality
+        limit: 2000
+        value: &quot;You are a helpful support agent.&quot;
+        agent_owned: true
+    archives:
+      - name: knowledge_base
+        description: Long-term knowledge storage
+    shared_blocks:
+      - company-context
+    shared_folders:
+      - brand_docs
+    tools:
+      - send_email
+      - search_docs
+      - &quot;tools/*&quot;
+    mcp_tools:
+      - server: firecrawl
+        tools: [&quot;scrape&quot;, &quot;crawl&quot;]
+```
+
+See `reference/fleet-config.md` for full schema.
+
+## CLI Commands
+
+### Apply Configuration
+```bash
+lettactl apply -f fleet.yaml                    # Create/update agents
+lettactl apply -f fleet.yaml --dry-run          # Preview changes
+lettactl apply -f fleet.yaml --match &quot;*-prod&quot;   # Template mode
+lettactl apply -f fleet.yaml --canary           # Deploy canary copies
+lettactl apply -f fleet.yaml --promote          # Promote canary to production
+lettactl apply -f fleet.yaml --recalibrate      # Re-send calibration messages
+```
+
+### Inspect Resources
+```bash
+lettactl get agents                        # List all agents
+lettactl get agents -o wide                # With details
+lettactl get agents --tags &quot;tenant:acme&quot;   # Filter by tags
+lettactl get blocks --shared               # Shared blocks only
+lettactl get tools --orphaned              # Unused tools
+lettactl describe agent &lt;name&gt;             # Full agent details
+```
+
+### Messaging
+```bash
+lettactl send &lt;agent&gt; &quot;Hello&quot;              # Send message
+lettactl send &lt;agent&gt; &quot;Hi&quot; --stream        # Stream response
+lettactl send --all &quot;support-*&quot; &quot;Update&quot;   # Bulk send by pattern
+lettactl send --tags &quot;role:support&quot; &quot;Hi&quot;   # Bulk send by tags
+lettactl messages list &lt;agent&gt;             # View history
+lettactl messages reset &lt;agent&gt;            # Clear history
+lettactl messages compact &lt;agent&gt;          # Summarize history
+```
+
+### Import / Export
+```bash
+lettactl export agent &lt;name&gt; -f yaml       # Export single agent
+lettactl export agents --all               # Export entire fleet
+lettactl import agent-export.yaml          # Import agent
+```
+
+### Fleet Reporting
+```bash
+lettactl report memory                    </pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

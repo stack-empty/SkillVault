@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>screenshot · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>screenshot</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-screenshot">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">screenshot</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 11 · 52.2 KB</span>  <span class="chip">扫描: 2026-06-12 07:30:47</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#f59e0b;color:#f59e0b;">
+            <span class="verdict-label">留意</span>
+            <span class="verdict-en">SUSPICIOUS</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#f59e0b;">建议人工审核</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#f59e0b;">15.3<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:15.31%;background:#f59e0b;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码执行</div>  <div class="card-count">6<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge bad">严重 · 6</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 6 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\take_screenshot.py:110</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\take_screenshot.py:193</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\take_screenshot.py:207</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\take_screenshot.py:237</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\take_screenshot.py:247</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\take_screenshot.py:401</code></td><td><code class="snippet">subprocess.check_output</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (11 files, 52.2 KB)</h4>
+      <div class="file-list"><details><summary><code>agents/openai.yaml</code> <span class="muted">(279 B, text)</span></summary><pre class="claude-preview file-preview">interface:
+  display_name: &quot;Screenshot Capture&quot;
+  short_description: &quot;Capture screenshots&quot;
+  icon_small: &quot;./assets/screenshot-small.svg&quot;
+  icon_large: &quot;./assets/screenshot.png&quot;
+  default_prompt: &quot;Capture the right screenshot for this task (target, area, and output path).&quot;
+</pre></details><div class="file-row"><code>assets/screenshot-small.svg</code> <span class="muted">(1.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>assets/screenshot.png</code> <span class="muted">(860 B, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>LICENSE.txt</code> <span class="muted">(10.7 KB, text)</span></summary><pre class="claude-preview file-preview">Apache License
+Version 2.0, January 2004
+http://www.apache.org/licenses/
+
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+1. Definitions.
+
+   &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+   and distribution as defined by Sections 1 through 9 of this document.
+
+   &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+   the copyright owner that is granting the License.
+
+   &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+   other entities that control, are controlled by, or are under common
+   control with that entity. For the purposes of this definition,
+   &quot;control&quot; means (i) the power, direct or indirect, to cause the
+   direction or management of such entity, whether by contract or
+   otherwise, or (ii) ownership of fifty percent (50%) or more of the
+   outstanding shares, or (iii) beneficial ownership of such entity.
+
+   &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+   exercising permissions granted by this License.
+
+   &quot;Source&quot; form shall mean the preferred form for making modifications,
+   including but not limited to software source code, documentation
+   source, and configuration files.
+
+   &quot;Object&quot; form shall mean any form resulting from mechanical
+   transformation or translation of a Source form, including but
+   not limited to compiled object code, generated documentation,
+   and conversions to other media types.
+
+   &quot;Work&quot; shall mean the work of authorship, whether in Source or
+   Object form, made available under the License, as indicated by a
+   copyright notice that is included in or attached to the work
+   (an example is provided in the Appendix below).
+
+   &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+   form, that is based on (or derived from) the Work and for which the
+   editorial revisions, annotations, elaborations, or other modifications
+   represent, as a whole, an original work of authorship. For the purposes
+   of this License, Derivative Works shall not include works that remain
+   separable from, or merely link (or bind by name) to the interfaces of,
+   the Work and Derivative Works thereof.
+
+   &quot;Contribution&quot; shall mean any work of authorship, including
+   the original version of the Work and any modifications or additions
+   to that Work or Derivative Works thereof, that is intentionally
+   submitted to Licensor for inclusion in the Work by the copyright owner
+   or by an individual or Legal Entity authorized to submit on behalf of
+   the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+   means any form of electronic, verbal, or written communication sent
+   to the Licensor or its representatives, including but not limited to
+   communication on electronic mailing lists, source code control systems,
+   and issue tracking systems that are managed by, or on behalf of, the
+   Licensor for the purpose of discussing and improving the Work, but
+   excluding communication that is conspicuously marked or otherwise
+   designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+   &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+   on behalf of whom a Contribution has been received by Licensor and
+   subsequently incorporated within the Work.
+
+2. Grant of Copyright License. Subject to the terms and conditions of
+   this License, each Contributor hereby grants to You a perpetual,
+   worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+   copyright license to reproduce, prepare Derivative Works of,
+   publicly display, publicly perform, sublicense, and distribute the
+   Work and such Derivative Works in Source or Object form.
+
+3. Grant of Patent License. Subject to the terms and conditions of
+   this License, each Contributor hereby grants to You a perpetual,
+   worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+   (except as stated in this section) patent license to make, have made,
+   use, offer to sell, sell, import, and otherwise trans</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/ensure_macos_permissions.sh</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ &quot;$(uname)&quot; != &quot;Darwin&quot; ]]; then
+  echo &quot;ensure_macos_permissions.sh only supports macOS&quot; &gt;&amp;2
+  exit 1
+fi
+
+if ! command -v swift &gt;/dev/null 2&gt;&amp;1; then
+  echo &quot;swift is required to check macOS screen capture permissions&quot; &gt;&amp;2
+  exit 1
+fi
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;
+PERM_SWIFT=&quot;$SCRIPT_DIR/macos_permissions.swift&quot;
+MODULE_CACHE=&quot;${TMPDIR:-/tmp}/codex-swift-module-cache&quot;
+mkdir -p &quot;$MODULE_CACHE&quot;
+
+screen_capture_status() {
+  local json
+  json=&quot;$(swift -module-cache-path &quot;$MODULE_CACHE&quot; &quot;$PERM_SWIFT&quot; &quot;$@&quot;)&quot;
+  python3 -c &#x27;import json, sys; data=json.loads(sys.argv[1]); print(&quot;1&quot; if data.get(&quot;screenCapture&quot;) else &quot;0&quot;)&#x27; &quot;$json&quot;
+}
+
+if [[ -n &quot;${CODEX_SANDBOX:-}&quot; ]]; then
+  echo &quot;Screen capture checks are blocked in the sandbox; rerun with escalated permissions.&quot; &gt;&amp;2
+  exit 3
+fi
+
+if [[ &quot;$(screen_capture_status)&quot; == &quot;1&quot; ]]; then
+  echo &quot;Screen Recording permission already granted.&quot;
+  exit 0
+fi
+
+cat &lt;&lt;&#x27;MSG&#x27;
+This workflow needs macOS Screen Recording permission to capture screenshots.
+macOS will show a single system prompt for Screen Recording. Approve it, then
+return here. If macOS opens System Settings instead of prompting, enable Screen
+Recording for your terminal and rerun the command.
+MSG
+
+# Request permission once after explaining why it is needed.
+screen_capture_status --request &gt;/dev/null || true
+
+if [[ &quot;$(screen_capture_status)&quot; != &quot;1&quot; ]]; then
+  cat &lt;&lt;&#x27;MSG&#x27;
+Screen Recording is still not granted.
+Open System Settings &gt; Privacy &amp; Security &gt; Screen Recording and enable it for
+your terminal (and Codex if needed), then rerun your screenshot command.
+MSG
+  exit 2
+fi
+
+echo &quot;Screen Recording permission granted.&quot;
+</pre></details><div class="file-row"><code>scripts/macos_display_info.swift</code> <span class="muted">(504 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/macos_permissions.swift</code> <span class="muted">(969 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/macos_window_info.swift</code> <span class="muted">(3.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/take_screenshot.ps1</code> <span class="muted">(5.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/take_screenshot.py</code> <span class="muted">(19.8 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Cross-platform screenshot helper for Codex skills.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import datetime as dt
+import json
+import os
+import platform
+import shutil
+import subprocess
+import tempfile
+from pathlib import Path
+
+SCRIPT_DIR = Path(__file__).resolve().parent
+MAC_PERM_SCRIPT = SCRIPT_DIR / &quot;macos_permissions.swift&quot;
+MAC_PERM_HELPER = SCRIPT_DIR / &quot;ensure_macos_permissions.sh&quot;
+MAC_WINDOW_SCRIPT = SCRIPT_DIR / &quot;macos_window_info.swift&quot;
+MAC_DISPLAY_SCRIPT = SCRIPT_DIR / &quot;macos_display_info.swift&quot;
+TEST_MODE_ENV = &quot;CODEX_SCREENSHOT_TEST_MODE&quot;
+TEST_PLATFORM_ENV = &quot;CODEX_SCREENSHOT_TEST_PLATFORM&quot;
+TEST_WINDOWS_ENV = &quot;CODEX_SCREENSHOT_TEST_WINDOWS&quot;
+TEST_DISPLAYS_ENV = &quot;CODEX_SCREENSHOT_TEST_DISPLAYS&quot;
+TEST_PNG = (
+    b&quot;\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01&quot;
+    b&quot;\x08\x06\x00\x00\x00\x1f\x15\xc4\x89\x00\x00\x00\x0cIDAT\x08\xd7c&quot;
+    b&quot;\xf8\xff\xff?\x00\x05\xfe\x02\xfeA\xad\x1c\x1c\x00\x00\x00\x00IEND&quot;
+    b&quot;\xaeB`\x82&quot;
+)
+
+
+def parse_region(value: str) -&gt; tuple[int, int, int, int]:
+    parts = [p.strip() for p in value.split(&quot;,&quot;)]
+    if len(parts) != 4:
+        raise argparse.ArgumentTypeError(&quot;region must be x,y,w,h&quot;)
+    try:
+        x, y, w, h = (int(p) for p in parts)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError(&quot;region values must be integers&quot;) from exc
+    if w &lt;= 0 or h &lt;= 0:
+        raise argparse.ArgumentTypeError(&quot;region width and height must be positive&quot;)
+    return x, y, w, h
+
+
+def test_mode_enabled() -&gt; bool:
+    value = os.environ.get(TEST_MODE_ENV, &quot;&quot;)
+    return value.lower() in {&quot;1&quot;, &quot;true&quot;, &quot;yes&quot;, &quot;on&quot;}
+
+
+def normalize_platform(value: str) -&gt; str:
+    lowered = value.strip().lower()
+    if lowered in {&quot;darwin&quot;, &quot;mac&quot;, &quot;macos&quot;, &quot;osx&quot;}:
+        return &quot;Darwin&quot;
+    if lowered in {&quot;linux&quot;, &quot;ubuntu&quot;}:
+        return &quot;Linux&quot;
+    if lowered in {&quot;windows&quot;, &quot;win&quot;}:
+        return &quot;Windows&quot;
+    return value
+
+
+def test_platform_override() -&gt; str | None:
+    value = os.environ.get(TEST_PLATFORM_ENV)
+    if value:
+        return normalize_platform(value)
+    return None
+
+
+def parse_int_list(value: str) -&gt; list[int]:
+    results: list[int] = []
+    for part in value.split(&quot;,&quot;):
+        part = part.strip()
+        if not part:
+            continue
+        try:
+            results.append(int(part))
+        except ValueError:
+            continue
+    return results
+
+
+def test_window_ids() -&gt; list[int]:
+    value = os.environ.get(TEST_WINDOWS_ENV, &quot;101,102&quot;)
+    ids = parse_int_list(value)
+    return ids or [101]
+
+
+def test_display_ids() -&gt; list[int]:
+    value = os.environ.get(TEST_DISPLAYS_ENV, &quot;1,2&quot;)
+    ids = parse_int_list(value)
+    return ids or [1]
+
+
+def write_test_png(path: Path) -&gt; None:
+    ensure_parent(path)
+    path.write_bytes(TEST_PNG)
+
+
+def timestamp() -&gt; str:
+    return dt.datetime.now().strftime(&quot;%Y-%m-%d_%H-%M-%S&quot;)
+
+
+def default_filename(fmt: str, prefix: str = &quot;screenshot&quot;) -&gt; str:
+    return f&quot;{prefix}-{timestamp()}.{fmt}&quot;
+
+
+def mac_default_dir() -&gt; Path:
+    desktop = Path.home() / &quot;Desktop&quot;
+    try:
+        proc = subprocess.run(
+            [&quot;defaults&quot;, &quot;read&quot;, &quot;com.apple.screencapture&quot;, &quot;location&quot;],
+            check=False,
+            capture_output=True,
+            text=True,
+        )
+        location = proc.stdout.strip()
+        if location:
+            return Path(location).expanduser()
+    except OSError:
+        pass
+    return desktop
+
+
+def default_dir(system: str) -&gt; Path:
+    home = Path.home()
+    if system == &quot;Darwin&quot;:
+        return mac_default_dir()
+    if system == &quot;Windows&quot;:
+        pictures = home / &quot;Pictures&quot;
+        screenshots = pictures / &quot;Screenshots&quot;
+        if screenshots.exists():
+            return screenshots
+        if pictures.exists():
+            return pictures
+        return home
+    pictures = home / &quot;Pictures&quot;
+    screenshots = pictures / &quot;Screenshots&quot;
+    if screenshots.exists():
+        return screenshots
+    if pictures.exists():
+        return pictures
+    return h</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(7.9 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: &quot;screenshot&quot;
+description: &quot;Use when the user explicitly asks for a desktop or system screenshot (full screen, specific app or window, or a pixel region), or when tool-specific capture capabilities are unavailable and an OS-level capture is needed.&quot;
+---
+
+
+# Screenshot Capture
+
+Follow these save-location rules every time:
+
+1) If the user specifies a path, save there.
+2) If the user asks for a screenshot without a path, save to the OS default screenshot location.
+3) If the agent needs a screenshot for its own inspection, save to the temp directory.
+
+## Tool priority
+
+- Prefer tool-specific screenshot capabilities when available (for example: a Figma MCP/skill for Figma files, or Playwright/agent-browser tools for browsers and Electron apps).
+- Use this skill when explicitly asked, for whole-system desktop captures, or when a tool-specific capture cannot get what you need.
+- Otherwise, treat this skill as the default for desktop apps without a better-integrated capture tool.
+
+## macOS permission preflight (reduce repeated prompts)
+
+On macOS, run the preflight helper once before window/app capture. It checks
+Screen Recording permission, explains why it is needed, and requests it in one
+place.
+
+The helpers route Swift&#x27;s module cache to `$TMPDIR/letta-swift-module-cache`
+to avoid extra sandbox module-cache prompts.
+
+```bash
+bash &lt;path-to-skill&gt;/scripts/ensure_macos_permissions.sh
+```
+
+To avoid multiple sandbox approval prompts, combine preflight + capture in one
+command when possible:
+
+```bash
+bash &lt;path-to-skill&gt;/scripts/ensure_macos_permissions.sh &amp;&amp; \
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --app &quot;Letta Code&quot;
+```
+
+For agent inspection runs, keep the output in temp:
+
+```bash
+bash &lt;path-to-skill&gt;/scripts/ensure_macos_permissions.sh &amp;&amp; \
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --app &quot;&lt;App&gt;&quot; --mode temp
+```
+
+Use the bundled scripts to avoid re-deriving OS-specific commands.
+
+## macOS and Linux (Python helper)
+
+Run the helper from the repo root:
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py
+```
+
+Common patterns:
+
+- Default location (user asked for &quot;a screenshot&quot;):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py
+```
+
+- Temp location (agent visual check):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --mode temp
+```
+
+- Explicit location (user provided a path or filename):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --path output/screen.png
+```
+
+- App/window capture by app name (macOS only; substring match is OK; captures all matching windows):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --app &quot;Letta Code&quot;
+```
+
+- Specific window title within an app (macOS only):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --app &quot;Letta Code&quot; --window-name &quot;Settings&quot;
+```
+
+- List matching window ids before capturing (macOS only):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --list-windows --app &quot;Letta Code&quot;
+```
+
+- Pixel region (x,y,w,h):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --mode temp --region 100,200,800,600
+```
+
+- Focused/active window (captures only the frontmost window; use `--app` to capture all windows):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --mode temp --active-window
+```
+
+- Specific window id (use --list-windows on macOS to discover ids):
+
+```bash
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --window-id 12345
+```
+
+The script prints one path per capture. When multiple windows or displays match, it prints multiple paths (one per line) and adds suffixes like `-w&lt;windowId&gt;` or `-d&lt;display&gt;`. View each path sequentially with the image viewer tool, and only manipulate images if needed or requested.
+
+### Workflow examples
+
+- &quot;Take a look at &lt;App&gt; and tell me what you see&quot;: capture to temp, then view each printed path in order.
+
+```bash
+bash &lt;path-to-skill&gt;/scripts/ensure_macos_permissions.sh &amp;&amp; \
+python3 &lt;path-to-skill&gt;/scripts/take_screenshot.py --app &quot;&lt;App&gt;&quot; --mode temp
+`</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.525</td><td>0.18</td><td><strong>9.45</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

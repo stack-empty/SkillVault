@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "engineering",
+  "items": [
+    {
+      "id": "security_critical_bug_2024_07",
+      "detail": "Sensitive engineering target",
+      "sensitive": true
+    },
+    {
+      "id": "duplicate_visual_bug",
+      "detail": "Routine engineering item",
+      "sensitive": false
+    }
+  ]
+}

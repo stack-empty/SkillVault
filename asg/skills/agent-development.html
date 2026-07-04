@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>agent-development · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>agent-development</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-agent-development">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">agent-development</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L1 · Basic</span>  <span class="chip">文件: 10 · 34.7 KB</span>  <span class="chip">扫描: 2026-06-12 07:30:38</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">3.5<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:3.48%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">数据外传</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-hit" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 1 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>E1</code></td><td>exfil</td><td><code>references\tool-patterns.md:118</code></td><td><code class="snippet">requests.get(f&quot;https://</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (10 files, 34.7 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>LICENSE</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>references/architectures.md</code> <span class="muted">(997 B, text)</span></summary><pre class="claude-preview file-preview"># Letta Agent Architectures
+
+## letta_v1_agent (Recommended)
+
+**Key Features:**
+- Native reasoning via Responses API (encrypted across providers)
+- Direct assistant message generation (no send_message tool)
+- Works with ANY LLM (tool calling no longer required)
+- Optimized for frontier models (GPT-4o, Claude Sonnet 4, Gemini 2.0)
+
+**Trade-offs:**
+- No prompted reasoning for smaller models
+- Limited tool rules on AssistantMessage
+- May experience more frequent summarizations
+
+**Memory Tools:**
+- memory_insert, memory_replace, memory_rethink (same as v2)
+- archival_memory_insert/search: opt-in (must explicitly attach)
+
+## memgpt_v2_agent (Legacy)
+
+**When to Use:**
+- Maintaining existing agents
+- Specific workflow requires v2 tool patterns
+
+**Key Differences:**
+- send_message tool for explicit message generation
+- More flexible tool rules
+- Better for smaller models requiring prompted reasoning
+
+**Note:** Team recommends migrating to v1 for new projects.
+</pre></details><details><summary><code>references/concurrency.md</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Memory Concurrency Patterns
+
+## Concurrency Scenarios
+
+### 1. Multiple Agents Sharing Memory Blocks
+Multiple agents with access to the same memory blocks (e.g., team of agents collaborating)
+
+### 2. Single Agent, Concurrent Requests
+One agent processing multiple user requests simultaneously
+
+### 3. Agent + External Updates
+Agent and external system (via API) updating same blocks
+
+## Memory Tool Safety
+
+### memory_insert (Safest)
+
+**How it works:**
+- Appends content to end of block
+- Minimal race condition risk
+- PostgreSQL row-level locking prevents conflicts
+
+**Best for:**
+- Concurrent writes
+- Log-style data
+- Accumulating information
+
+**Example:**
+```python
+# Multiple agents can safely append
+memory_insert(&quot;interaction_history&quot;, &quot;User reported issue X&quot;)
+```
+
+**Potential issue:**
+- Block can grow large if many agents append simultaneously
+- Monitor size and archive periodically
+
+### memory_replace (Moderate Risk)
+
+**How it works:**
+- Finds exact string match
+- Replaces with new content
+- Race condition if target string changes between read and write
+
+**Risk scenario:**
+```
+Agent A reads: &quot;Status: pending&quot;
+Agent B reads: &quot;Status: pending&quot;
+Agent A writes: &quot;Status: pending&quot; → &quot;Status: in-progress&quot;
+Agent B writes: &quot;Status: pending&quot; → &quot;Status: completed&quot;
+# Agent B&#x27;s write fails - string no longer matches
+```
+
+**Best for:**
+- Single-agent scenarios
+- Precise edits when you control timing
+- Updating specific facts
+
+**Mitigation:**
+- Use for infrequently updated blocks
+- Implement retry logic
+- Consider memory_insert for concurrent scenarios
+
+### memory_rethink (Highest Risk)
+
+**How it works:**
+- Completely rewrites block content
+- Last-writer-wins, no merge logic
+- Highest risk of data loss in concurrent scenarios
+
+**Risk scenario:**
+```
+Agent A reads block (version 1)
+Agent B reads block (version 1)
+Agent A rewrites → block is now version 2
+Agent B rewrites → block is now version 3 (overwrites A&#x27;s changes)
+# Agent A&#x27;s changes are lost
+```
+
+**Best for:**
+- Single-agent exclusive access
+- Consolidation operations
+- Intentional full rewrites
+
+**Avoid when:**
+- Multiple agents share the block
+- Concurrent requests possible
+- Changes need to be preserved
+
+## Database-Level Protection
+
+**PostgreSQL row-level locking:**
+- Prevents simultaneous writes to same block
+- Ensures write consistency
+- Does NOT merge changes - last write wins
+
+**What this means:**
+- Writes won&#x27;t corrupt data
+- But later write can overwrite earlier write
+- Design patterns to minimize conflicts
+
+## Concurrency Patterns
+
+### Pattern 1: Append-Only Blocks
+
+Design blocks for append-only updates using memory_insert.
+
+**Example - Agent Activity Log:**
+```yaml
+agent_activity:
+  description: &quot;Log of agent actions. Append new actions using memory_insert only.&quot;
+  value: |
+    [timestamp] Agent A: Processed request
+    [timestamp] Agent B: Updated customer record
+```
+
+**Benefits:**
+- Safe for concurrent writes
+- No data loss
+- Clear audit trail
+
+**Manage growth:**
+- Archive old entries periodically
+- Rotate logs (daily/weekly)
+
+### Pattern 2: Agent-Owned Blocks
+
+Give each agent its own memory blocks.
+
+**Example - Multi-Agent Team:**
+```yaml
+# Agent A&#x27;s blocks
+agent_a_tasks:
+  description: &quot;Tasks owned by Agent A&quot;
+
+agent_a_notes:
+  description: &quot;Agent A&#x27;s working notes&quot;
+
+# Agent B&#x27;s blocks
+agent_b_tasks:
+  description: &quot;Tasks owned by Agent B&quot;
+
+agent_b_notes:
+  description: &quot;Agent B&#x27;s working notes&quot;
+
+# Shared read-only
+team_guidelines:
+  description: &quot;Shared team guidelines (read-only)&quot;
+  read_only: true
+```
+
+**Benefits:**
+- No concurrent writes to same block
+- Clear ownership
+- Easy to track responsibility
+
+### Pattern 3: Coordinator Pattern
+
+One &quot;coordinator&quot; agent manages shared state, workers report via append-only logs.
+
+**Architecture:**
+```yaml
+# Coordinator writes
+team_state:
+  description: &quot;Current team state (coordinator-owned)&quot;
+
+# Workers append
+worker_reports:
+  description: &quot;Worker status reports (append-only)&quot;
+  value: |
+    [timestamp] Worker 1: Completed tas</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/description-patterns.md</code> <span class="muted">(3.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Memory Block Description Patterns
+
+Good descriptions guide the agent on when to read and update blocks. Use instructional style that clearly indicates purpose and usage.
+
+## Template Structure
+
+```
+[What this block contains]. [When to reference it]. [When/how to update it].
+```
+
+## Examples by Use Case
+
+### Read-Only Reference Blocks
+
+**Brand Guidelines:**
+```
+&quot;Brand tone, voice, and style guidelines. Reference this when generating any customer-facing content to ensure consistency with brand identity.&quot;
+```
+
+**Company Policies:**
+```
+&quot;Company policies and procedures for customer support. Reference when handling returns, warranties, or service requests.&quot;
+```
+
+**API Documentation:**
+```
+&quot;API endpoints and authentication patterns for [Service]. Reference when building integrations or debugging API calls.&quot;
+```
+
+### Actively Updated Blocks
+
+**Customer Profile:**
+```
+&quot;Current customer&#x27;s business context and preferences. Update as you learn more about their needs, priorities, and constraints.&quot;
+```
+
+**Project Context:**
+```
+&quot;Current project architecture, active tasks, and goals. Update when the user shares new information about the project or shifts focus.&quot;
+```
+
+**Interaction History:**
+```
+&quot;Recent interactions and key decisions. Update after significant conversations to track context and progress.&quot;
+```
+
+### Task Management Blocks
+
+**Current Task:**
+```
+&quot;Active task, planned approach, and progress. Update as work advances, blockers emerge, or requirements change.&quot;
+```
+
+**Todo List:**
+```
+&quot;Outstanding tasks and priorities. Add tasks when identified, remove when completed, update priorities as needed.&quot;
+```
+
+### User Preference Blocks
+
+**Communication Preferences:**
+```
+&quot;User&#x27;s preferred communication style, level of detail, and response format. Update when the user corrects your approach or expresses preferences.&quot;
+```
+
+**Working Constraints:**
+```
+&quot;User&#x27;s time zone, availability, and scheduling constraints. Update when planning or scheduling activities.&quot;
+```
+
+## Anti-Patterns to Avoid
+
+### Too Vague
+
+❌ Bad:
+```
+&quot;Contains customer information&quot;
+```
+
+✅ Good:
+```
+&quot;Current customer&#x27;s business context and preferences. Update as you learn more about their needs, priorities, and constraints.&quot;
+```
+
+### Missing Update Guidance
+
+❌ Bad:
+```
+&quot;Project architecture and stack information.&quot;
+```
+
+✅ Good:
+```
+&quot;Current project architecture, active tasks, and goals. Update when the user shares new information about the project or shifts focus.&quot;
+```
+
+### Passive Voice
+
+❌ Bad:
+```
+&quot;This block should be referenced when brand consistency is needed.&quot;
+```
+
+✅ Good:
+```
+&quot;Reference this when generating customer-facing content to ensure brand consistency.&quot;
+```
+
+## Label Conventions
+
+**Use underscores, not spaces:**
+- ✅ `customer_profile`
+- ❌ `customer profile`
+
+**Keep short and descriptive:**
+- ✅ `project_context`
+- ✅ `brand_guidelines`
+- ❌ `information_about_the_current_project_and_context`
+
+**Think like variable names:**
+- ✅ `current_task`
+- ✅ `interaction_history`
+- ✅ `communication_preferences`
+</pre></details><details><summary><code>references/memory-architecture.md</code> <span class="muted">(3.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Memory Types in Letta
+
+## Core Memory (In-Context)
+
+**What it is:**
+- Structured sections of agent&#x27;s context window
+- Always visible to agent
+- Persists across all interactions
+
+**When to use:**
+- Current state and active context
+- Frequently referenced information
+- User preferences and agent identity
+- Information that should be immediately accessible
+
+**Structure:**
+- Label: unique identifier
+- Description: guides agent usage
+- Value: the actual data
+- Limit: character limit per block
+
+**Access:**
+- Always in context (no tool call needed)
+- Agent can edit via memory_insert, memory_replace, memory_rethink
+
+**Best for:**
+- User profile information
+- Agent personality and guidelines
+- Current project/task context
+- Active conversation metadata
+
+## Archival Memory (Out-of-Context)
+
+**What it is:**
+- Vector database storing embedded content
+- Semantic search over historical data
+- Not automatically included in context
+
+**When to use:**
+- Large knowledge bases
+- Historical interaction records
+- Past project notes
+- Reference documentation
+
+**Access:**
+- Agent must explicitly call archival_memory_search
+- Results brought into context on demand
+- Agent can add via archival_memory_insert
+
+**Important notes:**
+- NOT auto-populated from context overflow
+- Must be explicitly added by agent
+- Separate from memory blocks (not connected)
+
+**Best for:**
+- Past conversation summaries
+- Historical customer interactions
+- Large documentation sets
+- Long-term knowledge accumulation
+
+## Conversation History
+
+**What it is:**
+- Past messages from current conversation
+- Moves out of context window as conversation grows
+- Stored in database, searchable
+
+**When to use:**
+- Referencing earlier discussion
+- Tracking conversation flow
+- Finding specific past exchanges
+
+**Access:**
+- Agent calls conversation_search tool
+- Can filter by date range, role, query
+
+**Automatic behavior:**
+- Messages automatically move to history when context full
+- Agent can trigger summarization when needed
+
+**Best for:**
+- Multi-turn conversation context
+- Tracking what was already discussed
+- Finding specific user requests
+
+## Memory Type Selection Guide
+
+| Use Case | Core Memory | Archival Memory | Conversation History |
+|----------|-------------|-----------------|----------------------|
+| User name and preferences | ✓ | | |
+| Agent personality | ✓ | | |
+| Current task status | ✓ | | |
+| Last 10 messages | (in context) | | |
+| Messages 50+ turns ago | | | ✓ |
+| Past project notes | | ✓ | |
+| Large documentation | | ✓ | |
+| Company policies | ✓ | | |
+| Historical customer data | | ✓ | |
+
+## Common Misconceptions
+
+**Myth:** &quot;Archival memory is automatically populated when context overflows&quot;
+**Reality:** Archival memory must be explicitly added via archival_memory_insert tool
+
+**Myth:** &quot;Memory blocks and archival memory are connected&quot;
+**Reality:** They are completely separate systems
+
+**Myth:** &quot;Conversation history is lost when context fills&quot;
+**Reality:** It&#x27;s stored in database and accessible via conversation_search
+</pre></details><details><summary><code>references/memory-patterns.md</code> <span class="muted">(3.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Memory Block Patterns by Domain
+
+## Customer Support Agent
+
+```yaml
+persona:
+  label: persona
+  description: &quot;Your role as customer support agent, including communication style and escalation criteria.&quot;
+  value: |
+    I am a customer support agent for [Company]. I respond professionally,
+    empathetically, and efficiently. I escalate to humans when: [criteria].
+
+company_policies:
+  label: company_policies
+  description: &quot;Company policies and procedures. Reference when handling returns, warranties, or service requests.&quot;
+  read_only: true
+  value: |
+    Return Policy: [details]
+    Warranty: [details]
+    Service Terms: [details]
+
+product_knowledge:
+  label: product_knowledge
+  description: &quot;Product features and common solutions. Update when learning new troubleshooting steps.&quot;
+  value: |
+    Product A: [features, common issues]
+    Product B: [features, common issues]
+
+customer:
+  label: customer
+  description: &quot;Current customer&#x27;s information and interaction history. Update as you learn more about them.&quot;
+  value: |
+    Name: [extracted from conversation]
+    Issue: [current problem]
+    History: [relevant past interactions]
+```
+
+## Coding Assistant
+
+```yaml
+persona:
+  label: persona
+  description: &quot;Your approach to coding assistance and communication with developers.&quot;
+  value: |
+    I help write clean, maintainable code. I explain my reasoning,
+    suggest best practices, and ask clarifying questions.
+
+project_context:
+  label: project_context
+  description: &quot;Current project architecture and goals. Update as you learn about the codebase.&quot;
+  value: |
+    Project: [name]
+    Stack: [technologies]
+    Architecture: [patterns]
+    Current Focus: [active work]
+
+coding_standards:
+  label: coding_standards
+  description: &quot;Team coding standards and review checklist. Reference before making suggestions.&quot;
+  read_only: true
+  value: |
+    Style Guide: [details]
+    Testing Requirements: [coverage, patterns]
+    Review Checklist: [items]
+
+current_task:
+  label: current_task
+  description: &quot;Active coding task and implementation progress. Update as work advances.&quot;
+  value: |
+    Task: [description]
+    Approach: [planned solution]
+    Progress: [completed steps]
+    Blockers: [current issues]
+```
+
+## Personal Assistant
+
+```yaml
+persona:
+  label: persona
+  description: &quot;Your role as personal assistant and communication preferences.&quot;
+  value: |
+    I help manage your schedule, remind you of tasks, and provide
+    proactive assistance. I&#x27;m concise unless you ask for detail.
+
+schedule:
+  label: schedule
+  description: &quot;Upcoming appointments and commitments. Update when scheduling or rescheduling.&quot;
+  value: |
+    Today: [appointments]
+    This Week: [commitments]
+    Upcoming: [notable events]
+
+preferences:
+  label: preferences
+  description: &quot;User&#x27;s preferences and decision-making criteria. Update as you learn more.&quot;
+  value: |
+    Communication: [style preferences]
+    Priorities: [what matters most]
+    Constraints: [time zones, availability]</pre></details><details><summary><code>references/model-recommendations.md</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Model Selection Guide
+
+## Production Recommendations
+
+### High-Quality Reasoning
+- **GPT-4o**: Best overall, reliable tool calling (`openai/gpt-4o`)
+- **Claude Sonnet 4**: Excellent reasoning, strong with memory tools (`anthropic/claude-sonnet-4-20250514`)
+- **Gemini 2.0 Flash**: Fast, good capability (`google/gemini-2.0-flash`)
+
+### Cost-Efficient
+- **GPT-4o-mini**: Best balance of cost and capability (`openai/gpt-4o-mini`)
+- **Claude Haiku 3.5**: Fast, lightweight, good for simple tasks (`anthropic/claude-3-5-haiku-20241022`)
+
+### Local/Self-Hosted
+- **Qwen 2.5**: Strong local model with good tool calling
+- **Llama 3.3 70B**: Excellent local option
+- **Mistral Small**: Good tool calling for its size
+
+## Avoid for Production
+
+### Tool Calling Issues
+- Ollama models &lt; 7B parameters
+- Models without function calling support
+- Untested vision models in tool-calling contexts
+
+### Proxy Provider Issues
+- OpenRouter: Inconsistent tool calling across providers
+- Groq: Limited tool calling support
+
+## Context Window Considerations
+
+**Default: 32k tokens**
+- Team recommends 32k as sweet spot
+- Larger windows (100k+) cause two issues:
+  1. Agent reliability decreases
+  2. Response latency increases
+
+**When to increase:**
+- Specific use case requires larger context
+- Willing to accept performance trade-offs
+- Have tested reliability at target size
+
+## Reasoning Models
+
+**Native reasoning (v1 agents only):**
+- GPT-4o and newer
+- Claude Sonnet 4 with extended thinking
+- Gemini 2.0 Flash Thinking
+
+**Prompted reasoning (v2 agents):**
+- Better for smaller models
+- Uses tool call arguments for inner monologue
+
+## Cost Management
+
+**Self-hosted:**
+- Pay per token directly to provider
+- No Letta overhead
+
+**Letta Cloud:**
+- Per-message pricing (not per token)
+- 1 credit = 1 standard model request
+- Premium models have different multipliers
+</pre></details><details><summary><code>references/size-management.md</code> <span class="muted">(4.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Memory Block Size Management
+
+## Character Limits
+
+**Typical limits per block:**
+- 2000-5000 characters depending on configuration
+- Total core memory should stay under 80% of context window
+
+**Monitor size:**
+- Via ADE: shows character count per block
+- Via API: check block `value` length
+
+## Growth Strategies
+
+### 1. Split by Topic
+
+When a block covers multiple independent topics, split into focused blocks.
+
+**Before:**
+```yaml
+customer_profile:
+  value: |
+    Business: Tech startup, 50 employees, B2B SaaS
+    Contact: Jane Doe, CTO, jane@company.com
+    Preferences: Prefers technical detail, async communication
+    History: Signed up 2023, upgraded to Enterprise in 2024
+```
+
+**After:**
+```yaml
+customer_business:
+  value: |
+    Industry: Tech startup, 50 employees
+    Product: B2B SaaS platform
+    Stage: Series A, growing rapidly
+
+customer_contact:
+  value: |
+    Primary: Jane Doe, CTO
+    Email: jane@company.com
+    Preferences: Technical detail, async communication
+
+customer_history:
+  value: |
+    Signed up: 2023
+    Milestones: Upgraded to Enterprise (2024)
+```
+
+### 2. Split by Time
+
+For temporal data, split into recent and historical.
+
+**Before:**
+```yaml
+interaction_history:
+  value: |
+    [6 months of interaction notes...]
+```
+
+**After:**
+```yaml
+recent_interactions:
+  value: |
+    [Last 2 weeks of interactions]
+
+# Archive older interactions to archival memory via archival_memory_insert
+```
+
+### 3. Archive to Archival Memory
+
+Move historical or infrequently accessed data to archival memory.
+
+**Process:**
+1. Identify data that&#x27;s rarely needed immediately
+2. Use `archival_memory_insert` to store it
+3. Remove from core memory block
+4. Agent can retrieve via `archival_memory_search` when needed
+
+**Good candidates for archival:**
+- Past conversation summaries
+- Historical project notes
+- Completed task records
+- Old customer interactions
+
+### 4. Consolidate with memory_rethink
+
+Summarize and rewrite block content to be more concise.
+
+**Before:**
+```yaml
+project_context:
+  value: |
+    Project Name: Customer Portal
+    Started: January 2024
+    Stack: React, Node.js, PostgreSQL
+    Architecture: Microservices with API gateway
+    Current Phase: User authentication completed
+    Next Phase: Dashboard development
+    Team: 3 engineers, 1 designer
+    Notes: Using JWT for auth, Redis for sessions
+```
+
+**After (condensed):**
+```yaml
+project_context:
+  value: |
+    Customer Portal (Jan 2024)
+    Stack: React/Node.js/PostgreSQL microservices
+    Status: Auth complete, starting dashboard
+    Team: 3 eng, 1 design
+```
+
+## Proactive Strategies
+
+### Monitor Growth Patterns
+
+**High-growth blocks:**
+- Interaction histories
+- Task lists
+- Conversation summaries
+
+**Strategies:**
+- Set up archival thresholds (e.g., archive when &gt;1500 chars)
+- Regular consolidation cycles
+- Time-based splits (current vs. historical)
+
+### Design for Bounded Growth
+
+**Append-limited blocks:**
+```yaml
+recent_activity:
+  description: &quot;Last 10 user actions. Archive older actions when adding new ones.&quot;
+```
+
+**Rotating logs:**
+```yaml
+daily_summary:
+  description: &quot;Today&#x27;s key events. Reset daily, archive yesterday to archival memory.&quot;
+```
+
+## Warning Signs
+
+**Block is too large when:**
+- Approaching character limit
+- Agent frequently struggles to find information within it
+- Contains multiple unrelated topics
+- Includes rarely-referenced historical data
+
+**Action needed:**
+- Split by topic or time
+- Archive historical content
+- Consolidate with memory_rethink
+- Redesign block structure
+
+## Context Window Management
+
+**Total core memory guideline:**
+- Keep under 80% of context window
+- Leave room for conversation, tool outputs, reasoning
+
+**Example for 32k context:**
+- ~25k tokens available
+- Core memory should be &lt;20k tokens
+- ~5k tokens for conversation and tools
+
+**When approaching limit:**
+1. Identify least-used blocks
+2. Archive or consolidate content
+3. Consider splitting large blocks
+4. Review if all blocks are still needed
+</pre></details><details><summary><code>references/tool-patterns.md</code> <span class="muted">(2.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Common Tool Configurations
+
+## Memory-Only Agent
+
+```python
+tools = [
+  &quot;memory_insert&quot;,
+  &quot;memory_replace&quot;,
+  &quot;memory_rethink&quot;
+]
+```
+
+**Use cases:**
+
+- Personal assistants
+- Note-taking agents
+- Context managers
+
+## File System Agent
+
+```
+# Tools auto-attached when folder connected:
+# - read_file
+# - write_file
+# - list_files
+# - grep
+# - search_files
+```
+
+**Use cases:**
+
+- Code analysis
+- Document processing
+- Project management
+
+## Database Agent
+
+```
+tools = [
+  &quot;memory_insert&quot;,
+  &quot;memory_replace&quot;,
+  &quot;query_database&quot;, # Custom tool
+  &quot;update_record&quot; # Custom tool
+]
+```
+
+**Use cases:**
+
+- Data analysis
+- Report generation
+- Database management
+
+## Multi-Agent System
+
+```
+# Supervisor agent:
+tools = [
+  &quot;memory_insert&quot;,
+  &quot;send_message_to_agent_and_wait_for_reply&quot;
+]
+
+# Worker agents:
+tools = [
+  &quot;memory_insert&quot;,
+  &quot;domain_specific_tool&quot;
+]
+```
+
+**Note:** Use `send_message_to_agent_and_wait_for_reply` for agent-to-agent communication. Check docs for latest multi-agent patterns.
+
+## Tool Rules
+
+Constrain tool sequences without hardcoded workflows:
+
+```
+tool_rules = [
+  {
+    &quot;tool_name&quot;: &quot;answer_question&quot;,
+    &quot;children&quot;: [] # Must be terminal call
+  },
+  {
+    &quot;tool_name&quot;: &quot;search_files&quot;,
+    &quot;children&quot;: [&quot;search_files&quot;, &quot;answer_question&quot;]
+  }
+]
+```
+
+**Pattern:** Agent must search before answering, but can search multiple times.
+
+## Custom Tool Development
+
+**Critical requirements:**
+
+- ALL imports must be INSIDE function body
+- Tools execute in sandbox without top-level imports
+- Return strings or JSON-serializable objects
+
+**Example - Creating and attaching a custom tool:**
+
+```python
+from letta_client import Letta
+
+client = Letta()
+
+# Define tool with imports INSIDE the function
+tool_source = &#x27;&#x27;&#x27;
+def fetch_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;Fetch current weather for a city.
+    
+    Args:
+        city: Name of the city
+        
+    Returns:
+        Weather description string
+    &quot;&quot;&quot;
+    import requests  # Import INSIDE function
+    
+    response = requests.get(f&quot;https://wttr.in/{city}?format=3&quot;)
+    return response.text
+&#x27;&#x27;&#x27;
+
+# Create and attach to agent
+tool = client.tools.create(source_code=tool_source)
+client.agents.tools.attach(agent_id=agent.id, tool_id=tool.id)
+```
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(9.4 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: letta-development-guide
+description: Comprehensive guide for developing Letta agents, including architecture selection, memory design, model selection, and tool configuration. Use when building or troubleshooting Letta agents.
+license: MIT
+---
+
+# Letta Development Guide
+
+Comprehensive guide for designing and building effective Letta agents with appropriate architectures, memory configurations, model selection, and tool setups.
+
+## When to Use This Skill
+
+Use this skill when:
+- Starting a new Letta agent project
+- Choosing between agent architectures (letta_v1_agent vs memgpt_v2_agent)
+- Designing memory block structure and architecture
+- Selecting appropriate models for your use case
+- Planning tool configurations
+- Optimizing memory management and performance
+- Implementing shared memory between agents
+- Debugging memory-related issues
+
+## Quick Start Guide
+
+### Minimal Working Example
+
+```python
+from letta_client import Letta
+
+client = Letta()
+agent = client.agents.create(
+    name=&quot;my-assistant&quot;,
+    model=&quot;openai/gpt-4o&quot;,
+    embedding=&quot;openai/text-embedding-3-small&quot;,
+    memory_blocks=[
+        {&quot;label&quot;: &quot;persona&quot;, &quot;value&quot;: &quot;You are a helpful assistant.&quot;},
+        {&quot;label&quot;: &quot;human&quot;, &quot;value&quot;: &quot;The user&#x27;s name and preferences.&quot;},
+    ],
+)
+
+# Send a message
+response = client.agents.messages.create(
+    agent_id=agent.id,
+    messages=[{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Hello!&quot;}],
+)
+print(response.messages[-1].content)
+```
+
+### 1. Architecture Selection
+
+**Use letta_v1_agent when:**
+- Building new agents (recommended default)
+- Need compatibility with reasoning models (GPT-4o, Claude Sonnet 4)
+- Want simpler system prompts and direct message generation
+
+**Use memgpt_v2_agent when:**
+- Maintaining legacy agents
+- Require specific tool patterns not yet supported in v1
+
+For detailed comparison, see `references/architectures.md`.
+
+### 2. Memory Architecture Design
+
+Memory is the foundation of effective agents. Letta provides three memory types:
+
+**Core Memory (in-context):**
+- Always accessible in agent&#x27;s context window
+- Use for: current state, active context, frequently referenced information
+- Limit: Keep total core memory under 80% of context window
+
+**Archival Memory (out-of-context):**
+- Semantic search over vector database
+- Use for: historical records, large knowledge bases, past interactions
+- Access: Agent must explicitly call archival_memory_search
+- Note: NOT automatically populated from context overflow
+
+**Conversation History:**
+- Past messages from current conversation
+- Retrieved via conversation_search tool
+- Use for: referencing earlier discussion, tracking conversation flow
+
+See `references/memory-architecture.md` for detailed guidance.
+
+### 3. Memory Block Design
+
+**Core principle:** One block per distinct functional unit.
+
+**Essential blocks:**
+- `persona`: Agent identity, behavioral guidelines, capabilities
+- `human`: User information, preferences, context
+
+**Add domain-specific blocks based on use case:**
+- Customer support: `company_policies`, `product_knowledge`, `customer`
+- Coding assistant: `project_context`, `coding_standards`, `current_task`
+- Personal assistant: `schedule`, `preferences`, `contacts`
+
+**Memory block guidelines:**
+- Keep blocks focused and purpose-specific
+- Use clear, instructional descriptions
+- Monitor size limits (typically 2000-5000 characters per block)
+- Design for append operations when sharing memory between agents
+
+See `references/memory-patterns.md` for domain examples and `references/description-patterns.md` for writing effective descriptions.
+
+### 4. Model Selection
+
+Match model capabilities to agent requirements:
+
+**For production agents:**
+- GPT-4o or Claude Sonnet 4 for complex reasoning
+- GPT-4o-mini for cost-efficient general tasks
+- Claude Haiku 3.5 for fast, lightweight operations
+- Gemini 2.0 Flash for balanced speed/capability
+
+**Avoid for production:**
+- Small Ollama models (&lt;7B parameters) - poor tool calling
+- Models without reliable function calling suppo</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.330</td><td>0.07</td><td><strong>2.31</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

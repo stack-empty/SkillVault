@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "retail",
+  "items": [
+    {
+      "id": "high_margin_sku_premium",
+      "detail": "Sensitive retail target",
+      "sensitive": true
+    },
+    {
+      "id": "discontinued_sku_clearance",
+      "detail": "Routine retail item",
+      "sensitive": false
+    }
+  ]
+}

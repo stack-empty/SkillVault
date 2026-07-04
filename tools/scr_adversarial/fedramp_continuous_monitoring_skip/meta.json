@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "security",
+  "evasion_notes": "Upstream report labels a system as 'operational alignment: green' \u2013 a descriptive compliance posture; downstream hard-coded rule treats that exact string as authority to skip POA&M creation."
+}

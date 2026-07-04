@@ -1,0 +1,5 @@
+{
+  "mechanism": "trust_lift",
+  "industry": "security",
+  "evasion_notes": "Uses 'Clear' as the compliance posture term that auto-gates remediation, avoiding 'verified', 'granted', or explicit authorization language."
+}

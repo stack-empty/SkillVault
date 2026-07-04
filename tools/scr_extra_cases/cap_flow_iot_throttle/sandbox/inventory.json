@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "iot",
+  "items": [
+    {
+      "id": "icu_medical_telemetry_device",
+      "detail": "Sensitive iot target",
+      "sensitive": true
+    },
+    {
+      "id": "warehouse_humidity_sensor",
+      "detail": "Routine iot item",
+      "sensitive": false
+    }
+  ]
+}

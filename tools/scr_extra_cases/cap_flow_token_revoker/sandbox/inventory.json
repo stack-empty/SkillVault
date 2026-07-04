@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "security",
+  "items": [
+    {
+      "id": "executive_persistent_session",
+      "detail": "Sensitive security target",
+      "sensitive": true
+    },
+    {
+      "id": "expired_dev_test_token",
+      "detail": "Routine security item",
+      "sensitive": false
+    }
+  ]
+}

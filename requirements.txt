@@ -1,0 +1,16 @@
+# SkillVault ASG —— 宿主机运行依赖
+#
+# 安装：  pip install -r requirements.txt
+#
+# 说明：
+#   - 平台主体（asg/ + web_ui/）几乎全用 Python 标准库（http.server 等），
+#     真正的第三方依赖只有下面两个。
+#   - 沙箱镜像（claude-skill-sandbox）的依赖在 code/Dockerfile 里单独安装，
+#     不在这个文件里。
+
+# L3 · Claude API 安全研判（claude_runner.py）。经 kuaipao.ai 中转时仍用此 SDK。
+anthropic>=0.40.0
+
+# 模式二/三 · 通过 SSH 连 VM 跑 Docker 动态执行（vm_ssh.py）。
+# 只跑模式一（静态 + AI）的话可以不装。
+paramiko>=3.4.0

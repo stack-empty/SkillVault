@@ -1,0 +1,2531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>navigation-3 · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>navigation-3</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-navigation-3">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">navigation-3</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 24 · 232.8 KB</span>  <span class="chip">扫描: 2026-05-24 08:36:36</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（API call failed: PermissionDeniedError: Error code: 403 - {&#x27;error&#x27;: {&#x27;type&#x27;: &#x27;new_api_error&#x27;, &#x27;message&#x27;: &#x27;预扣费额度失败, 用户剩余额度: $0.015122, 需要预扣费额度: $0.206592 (request id: 202605240836367361174006u2uPf413vdQtLtG)&#x27;}, &#x27;type&#x27;: &#x27;error&#x27;}）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>navigation-3_C7Z8BGFLV2_QXS6HD94</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:238880bb7b&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:1bc6eca44d&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:882db5fcf0&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:dde41d5f6e&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:5aca1d7df2&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:caa0c4743f&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:a56bfc0666&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (24 files, 232.8 KB)</h4>
+      <div class="file-list"><details><summary><code>references/android/guide/navigation/navigation-3/index.md</code> <span class="muted">(2.7 KB, text)</span></summary><pre class="claude-preview file-preview">Navigation 3 is a new navigation library designed to work with Compose. With
+Navigation 3, you have full control over your back stack, and navigating to and
+from destinations is as simple as adding and removing items from a list. It
+creates a flexible app navigation system by providing:
+
+- Conventions for modeling a back stack, where each entry on the back stack represents content that the user has navigated to
+- A UI that automatically updates with back stack changes (including animations)
+- A scope for items in the back stack, allowing state to be retained while an item is in the back stack
+- An adaptive layout system that allows multiple destinations to be displayed at the same time, and allowing seamless switching between those layouts
+- A mechanism for content to communicate with its parent layout (metadata)
+
+At a high level, you implement Navigation 3 in the following ways:
+
+1. Define the content that users can navigate to in your app, each with a unique key, and add a function to resolve that key to the content. See [Resolve keys
+   to content](https://developer.android.com/guide/navigation/navigation-3/basics#resolve-keys).
+2. Create a back stack that keys are pushed onto and removed as users navigate your app. See [Create a back stack](https://developer.android.com/guide/navigation/navigation-3/basics#create-back).
+3. Use a [`NavDisplay`](https://developer.android.com/reference/kotlin/androidx/navigation3/ui/NavDisplay.composable) to display your app&#x27;s back stack. Whenever the back stack changes, it updates the UI to display relevant content. See [Display
+   the back stack](https://developer.android.com/guide/navigation/navigation-3/basics#display-back).
+4. Modify `NavDisplay`&#x27;s [scene strategies](https://developer.android.com/guide/navigation/navigation-3/custom-layouts) as needed to support adaptive layouts and different platforms.
+
+You can see the [full source code](https://cs.android.com/androidx/platform/frameworks/support/+/androidx-main:navigation3/) for Navigation 3 on AOSP.
+
+## Improvements upon Jetpack Navigation
+
+Navigation 3 improves upon the original Jetpack Navigation API in the following
+ways:
+
+- Provides a simpler integration with Compose
+- Offers you full control of the back stack
+- Makes it possible to create layouts that can read more than one destination from the back stack at the same time, allowing them to adapt to changes in window size and other inputs.
+
+Read more about Navigation 3&#x27;s principles and API design choices in [this blog
+post](https://android-developers.googleblog.com/2025/05/announcing-jetpack-navigation-3-for-compose.html).
+
+## Code samples
+
+The [recipes repository](https://github.com/android/nav3-recipes) contains examples of how to use the
+Navigation 3 building blocks to solve common navigation challenges.</pre></details><details><summary><code>references/android/guide/navigation/navigation-3/migration-guide.md</code> <span class="muted">(21.4 KB, text)</span></summary><pre class="claude-preview file-preview">To migrate your app from [Navigation 2](https://developer.android.com/guide/navigation) to Navigation 3, follow these steps:
+
+1. Add the Navigation 3 dependencies.
+2. Update your navigation routes to implement the `NavKey` interface.
+3. Create classes to hold and modify your navigation state.
+4. Replace `NavController` with these classes.
+5. Move your destinations from `NavHost`&#x27;s `NavGraph` into an `entryProvider`.
+6. Replace `NavHost` with `NavDisplay`.
+7. Remove Navigation 2 dependencies.
+
+&gt; [!IMPORTANT]
+&gt; **Important:** We released an agent skill to help you install and migrate to Jetpack Navigation 3. Try out the skill from the [Android skills repository](https://github.com/android/skills).
+
+&lt;br /&gt;
+
+
+## AI Prompt
+
+### Migrate from Navigation 2 to Navigation 3
+
+This prompt will use this guide to migrate to navigation 3.
+
+    Migrate from Navigation 2 to Navigation 3 using the official
+    migration guide.
+
+### Using AI prompts
+
+AI prompts are intended to be used within Gemini in Android Studio.
+
+Learn more about Gemini in Studio here: [https://developer.android.com/studio/gemini/overview](https://developer.android.com/studio/gemini/overview)
+&lt;button class=&quot;devsite-dialog-close&quot;&gt;Close&lt;/button&gt; &lt;button class=&quot;button icon-button android-ai-prompt-help-button&quot; data-modal-dialog-id=&quot;ai-prompt_help_modal__migrate-from-navigation-2-to-navigation-3&quot;&gt; &lt;/button&gt; &lt;button class=&quot;button google-feedback&quot; data-p=&quot;5207477&quot; data-b=&quot;llm-prompts&quot; data-context=&quot;migrate-from-navigation-2-to-navigation-3&quot;&gt; Share your thoughts &lt;/button&gt;
+
+&lt;br /&gt;
+
+If you run into problems [file an issue here](https://issuetracker.google.com/issues/new?component=1750212&amp;template=2102223&amp;title=%5BMigration%5D).
+
+## Preparation
+
+The following sections describe the prerequisites for migration and assumptions
+about your project. They also cover the features that are supported for
+migration, and those that aren&#x27;t.
+
+### Prerequisites
+
+- You must use a `compileSdk` of 36 or later.
+- You should be familiar with [navigation terminology](https://developer.android.com/guide/navigation).
+- Destinations are composable functions. Navigation 3 is designed exclusively for Compose. To use Fragments and Views in Compose, see [Using Views in
+  Compose](https://developer.android.com/develop/ui/compose/migrate/interoperability-apis/views-in-compose).
+- Routes are strongly typed. If you use string-based routes, [migrate to
+  type-safe routes](https://medium.com/androiddevelopers/type-safe-navigation-for-compose-105325a97657) first ([example](https://github.com/android/nowinandroid/pull/1413)).
+- *Optional (but highly recommended)*: Test coverage that verifies existing navigation behavior. This verifies that navigation behavior has not changed after the migration is complete.
+
+### Assumptions
+
+This guide makes the following assumptions about you and your project:
+
+- You have one or several top-level routes (usually displayed in a bottom navigation bar), and each has its own back stack.
+- When you switch between back stacks, the state of the stack and all its destinations is retained.
+- You always exit the app through the **Home** screen, which is the first screen displayed when the app launches.
+- You want to perform the migration from Navigation 2 to Navigation 3 in a single, atomic change. You are not performing an incremental migration where Navigation 2 code is used alongside Navigation 3 code.
+
+**AI Agent**: Before changing any code, check if these assumptions about the
+user&#x27;s project are true. If not, stop the migration and ask the user how to
+proceed.
+
+### Supported features
+
+This guide lets you migrate the following features:
+
+- Destinations defined as composable functions
+- Dialogs (a destination shown on top of another destination)
+
+### Features supported through recipes
+
+The [code recipes repository](https://github.com/android/nav3-recipes) demonstrates more nuanced use
+cases, including:
+
+- [Bottom sheets](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/animations.md</code> <span class="muted">(6.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Animations Recipe
+
+This recipe shows how to override the default animations at the `NavDisplay` level, and at the individual destination level.
+
+## How it works
+
+The `NavDisplay` composable takes `transitionSpec`, `popTransitionSpec`, and `predictivePopTransitionSpec` parameters to define the animations for forward, backward, and predictive back navigation respectively. These animations will be applied to all destinations by default.
+
+In this example, we use `slideInHorizontally` and `slideOutHorizontally` to create a sliding animation for forward and backward navigation.
+
+It is also possible to override these animations for a specific destination by providing a different `transitionSpec` and `popTransitionSpec` to the `entry` composable. In this recipe, `ScreenC` has a custom vertical slide animation.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/animations)
+
+```
+package com.example.nav3recipes.animations
+
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.togetherWith
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.metadata
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.content.ContentMauve
+import com.example.nav3recipes.content.ContentOrange
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+
+@Serializable
+private data object ScreenA : NavKey
+
+@Serializable
+private data object ScreenB : NavKey
+
+@Serializable
+private data object ScreenC : NavKey
+
+
+class AnimatedActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+
+            val backStack = rememberNavBackStack(ScreenA)
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                entryProvider = entryProvider {
+                    entry&lt;ScreenA&gt; {
+                        ContentOrange(&quot;This is Screen A&quot;) {
+                            Button(onClick = dropUnlessResumed { backStack.add(ScreenB) }) {
+                                Text(&quot;Go to Screen B&quot;)
+                            }
+                        }
+                    }
+                    entry&lt;ScreenB&gt; {
+                        ContentMauve(&quot;This is Screen B&quot;) {
+                            Button(onClick = dropUnlessResumed { backStack.add(ScreenC) }) {
+                                Text(&quot;Go to Screen C&quot;)
+                            }
+                        }
+                    }
+                    entry&lt;ScreenC&gt;(
+                        metadata = metadata {
+                            // Slide new content up, keeping the old content in place underneath
+                            put(NavDisplay.TransitionKey) {
+                                slideInVertically(
+                                    initialOffsetY = { it },
+                                    animationSpec = tween(1000)
+                                ) togetherWith ExitTransition.KeepUntilTransitionsFinished
+                            }
+
+         </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/basic.md</code> <span class="muted">(3.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Basic Recipe
+
+This recipe shows a basic example of how to use the Navigation 3 API with two screens.
+
+## How it works
+
+This example defines two routes: `RouteA` and `RouteB`. `RouteA` is a `data object` representing a simple screen, while `RouteB` is a `data class` that takes an `id` as a parameter.
+
+A `mutableStateListOf&lt;Any&gt;` is used to manage the navigation back stack.
+
+The `NavDisplay` composable is used to display the current screen. Its `entryProvider` parameter is a lambda that takes a route from the back stack and returns a `NavEntry`. Inside the `entryProvider`, a `when` statement is used to determine which composable to display based on the route.
+
+To navigate from `RouteA` to `RouteB`, we simply add a `RouteB` instance to the back stack. The `id` is passed as an argument to the `RouteB` data class.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/basic)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.basic
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+
+private data object RouteA
+
+private data class RouteB(val id: String)
+
+class BasicActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+            val backStack = remember { mutableStateListOf&lt;Any&gt;(RouteA) }
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                entryProvider = { key -&gt;
+                    when (key) {
+                        is RouteA -&gt; NavEntry(key) {
+                            ContentGreen(&quot;Welcome to Nav3&quot;) {
+                                Button(onClick = dropUnlessResumed {
+                                    backStack.add(RouteB(&quot;123&quot;))
+                                }) {
+                                    Text(&quot;Click to navigate&quot;)
+                                }
+                            }
+                        }
+
+                        is RouteB -&gt; NavEntry(key) {
+                            ContentBlue(&quot;Route id: ${key.id} &quot;)
+                        }
+
+                        else -&gt; {
+                            error(&quot;Unknown route: $key&quot;)
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+```</pre></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/basicdsl.md</code> <span class="muted">(3.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Basic DSL Recipe
+
+This recipe shows a basic example of how to use the Navigation 3 API with two screens, using the `entryProvider` DSL and a persistent back stack.
+
+## How it works
+
+This example is similar to the basic recipe, but with a few key differences:
+
+1. **Persistent Back Stack** : It uses `rememberNavBackStack(RouteA)` to create and remember the back stack. This makes the back stack persistent across configuration changes (e.g., screen rotation). To use `rememberNavBackStack`, the navigation keys must be serializable, which is why `RouteA` and `RouteB` are annotated with `@Serializable` and implement the `NavKey` interface.
+
+2. **`entryProvider` DSL** : Instead of a `when` statement, this example uses the `entryProvider` DSL to define the content for each route. The `entry&lt;RouteType&gt;` function is used to associate a route type with its composable content.
+
+The navigation logic remains the same: to navigate from `RouteA` to `RouteB`, we add a `RouteB` instance to the back stack.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/basicdsl)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.basicdsl
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+@Serializable
+private data object RouteA : NavKey
+
+@Serializable
+private data class RouteB(val id: String) : NavKey
+
+class BasicDslActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+            val backStack = rememberNavBackStack(RouteA)
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                entryProvider = entryProvider {
+                    entry&lt;RouteA&gt; {
+                        ContentGreen(&quot;Welcome to Nav3&quot;) {
+                            Button(onClick = dropUnlessResumed {
+                                backStack.add(RouteB(&quot;123&quot;))
+                            }) {
+                                Text(&quot;Click to navigate&quot;)
+                            }
+                        }
+                    }
+                    entry&lt;RouteB&gt; { key -&gt;
+                        ContentBlue(&quot;Route id: ${key.id} &quot;)
+                    }
+                }
+            )
+        }
+    }
+}
+```</pre></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/basicsaveable.md</code> <span class="muted">(3.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Basic Saveable Recipe
+
+This recipe shows a basic example of how to create a persistent back stack that survives configuration changes.
+
+## How it works
+
+To make the back stack persistent, we use the `rememberNavBackStack` function. This function creates and remembers the back stack across configuration changes (e.g., screen rotation).
+
+A requirement for using `rememberNavBackStack` is that the navigation keys (routes) must be serializable. In this example, `RouteA` and `RouteB` are annotated with `@Serializable` and implement the `NavKey` interface.
+
+This example uses a `when` statement within the `entryProvider` to map routes to their corresponding composables, but it could also be used with the `entryProvider` DSL.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/basicsaveable)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.basicsaveable
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+@Serializable
+private data object RouteA : NavKey
+
+@Serializable
+private data class RouteB(val id: String) : NavKey
+
+class BasicSaveableActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+            val backStack = rememberNavBackStack(RouteA)
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                entryProvider = { key -&gt;
+                    when (key) {
+                        is RouteA -&gt; NavEntry(key) {
+                            ContentGreen(&quot;Welcome to Nav3&quot;) {
+                                Button(onClick = dropUnlessResumed {
+                                    backStack.add(RouteB(&quot;123&quot;))
+                                }) {
+                                    Text(&quot;Click to navigate&quot;)
+                                }
+                            }
+                        }
+
+                        is RouteB -&gt; NavEntry(key) {
+                            ContentBlue(&quot;Route id: ${key.id} &quot;)
+                        }
+
+                        else -&gt; {
+                            error(&quot;Unknown route: $key&quot;)
+                        }
+                    }
+                }
+            )
+        }
+    }
+}
+```</pre></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/bottomsheet.md</code> <span class="muted">(7.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Bottom Sheet Recipe
+
+This recipe demonstrates how to display a destination as a modal bottom sheet.
+
+## How it works
+
+To show a destination as a bottom sheet, you need to do two things:
+
+1. **Use `BottomSheetSceneStrategy`** : Create an instance of `BottomSheetSceneStrategy` and pass it to the `sceneStrategy` parameter of the `NavDisplay` composable.
+
+2. **Add metadata to the destination** : For the destination that you want to display as a bottom sheet, add `BottomSheetSceneStrategy.bottomSheet()` to its metadata. This is done in the `entry` function.
+
+In this example, `RouteB` is configured to be a bottom sheet. When you navigate from `RouteA` to `RouteB`, `RouteB` will be displayed in a modal bottom sheet that slides up from the bottom of the screen.
+
+The content of the bottom sheet can be styled as needed. In this recipe, the content is clipped to have rounded corners.
+
+For more information, see the official documentation on [custom layouts](https://developer.android.com/guide/navigation/navigation-3/custom-layouts).
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/bottomsheet)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.bottomsheet
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+@Serializable
+private data object RouteA : NavKey
+
+@Serializable
+private data class RouteB(val id: String) : NavKey
+
+class BottomSheetActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3Api::class)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+            val backStack = rememberNavBackStack(RouteA)
+            val bottomSheetStrategy = remember { BottomSheetSceneStrategy&lt;NavKey&gt;() }
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                sceneStrategies = listOf(bottomSheetStrategy),
+                entryProvider = entryProvider {
+                    entry&lt;RouteA&gt; {
+                        ContentGreen(&quot;Welcome to Nav3&quot;) {
+                            Button(onClick = dropUnlessResumed {
+                                backStack.add(RouteB(&quot;123&quot;))
+                            }) {
+                                Text(&quot;Click to open bottom sheet&quot;)
+                            }
+                        }
+                    }
+                    entry&lt;RouteB&gt;(
+ </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/common-ui.md</code> <span class="muted">(8.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Common UI Recipe
+
+This recipe demonstrates how to implement a common navigation UI pattern with a bottom navigation bar and multiple back stacks, where each tab in the navigation bar has its own navigation history.
+
+## How it works
+
+This example has three top-level destinations: `Home`, `ChatList`, and `Camera`. The `ChatList` destination also has a sub-route, `ChatDetail`.
+
+### `TopLevelBackStack`
+
+The core of this recipe is the `TopLevelBackStack` class, which is responsible for managing the navigation state. It works as follows:
+
+- It maintains a separate back stack for each top-level destination (tab).
+- It keeps track of the currently selected top-level destination.
+- It provides a single, flattened back stack that can be used by the `NavDisplay` composable. This flattened back stack is a combination of the individual back stacks of all the tabs.
+
+### UI Structure
+
+The UI is built using a `Scaffold` composable, with a `NavigationBar` as the `bottomBar`.
+
+- The `NavigationBar` displays an item for each top-level destination. When an item is clicked, it calls `topLevelBackStack.addTopLevel` to switch to the corresponding tab, preserving the navigation history of each tab.
+- The `NavDisplay` composable is placed in the content area of the `Scaffold`. It is responsible for displaying the current screen based on the flattened back stack provided by `TopLevelBackStack`.
+
+This approach allows for a common navigation pattern where users can switch between different sections of the app, and each section maintains its own navigation history.
+
+### State Preservation
+
+It&#x27;s important to note how the navigation state is managed in this recipe. When a user navigates away from a top-level destination (e.g., by pressing the back button until they return to a previous tab), the entire navigation history for that destination is cleared. The state is not saved. When the user returns to that tab later, they will start from its initial screen.
+
+**Note** : In this example, the `Home` route can move above the `ChatList` and `Camera` routes, meaning navigating back from `Home` doesn&#x27;t necessarily leave the app. The app will exit when the user goes back from a single remaining top level route in the back stack.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/commonui)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.commonui
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.PlayArrow
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.graphi</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/conditional.md</code> <span class="muted">(9.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Conditional Navigation Recipe
+
+This recipe demonstrates how to implement conditional navigation, where certain destinations are only accessible if a condition is met (in this case, if the user is logged in).
+
+## How it works
+
+This example has a `Profile` destination that requires the user to be logged in. If the user is not logged in and attempts to navigate to `Profile`, they are redirected to a `Login` screen. After a successful login, they are automatically navigated to the `Profile` screen.
+
+### `AppBackStack`
+
+The core of this recipe is the custom `AppBackStack` class, which encapsulates the logic for conditional navigation.
+
+- **`RequiresLogin` interface** : A marker interface, `RequiresLogin`, is used to identify destinations that require the user to be logged in. The `Profile` destination implements this interface.
+
+- **Redirecting to Login** : When the `add` function is called with a destination that implements `RequiresLogin` and the user is not logged in, `AppBackStack` stores the intended destination and adds the `Login` route to the back stack instead.
+
+- **Handling Login** : When the `login` function is called, it sets the user&#x27;s status to logged in. If there is a stored destination that the user was trying to access, it adds that destination to the back stack and removes the `Login` screen.
+
+- **Handling Logout** : When the `logout` function is called, it sets the user&#x27;s status to logged out and removes any destinations from the back stack that require the user to be logged in.
+
+This approach provides a clean way to handle conditional navigation by centralizing the logic in a custom back stack implementation.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/conditional)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.conditional
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.saveable.rememberSerializable
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.serialization.NavBackStackSerializer
+import androidx.navigation3.runtime.serialization.NavKeySerializer
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.content.ContentYellow
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+
+/**
+ * Class for representing navigation keys in the app.
+ *
+ * Note: We use a sealed class because KotlinX Serialization handles
+ * polymorphic serialization of sealed classes automatically.
+ *
+ * @param requiresLogin - true if the navigation key requires th</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/deeplinks-advanced.md</code> <span class="muted">(6.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Deep Link Advanced Recipe
+
+This recipe demonstrates how to apply the principles of navigation in the context of deep links by
+managing a synthetic backStack and Task stacks.
+
+# Recipe Structure
+
+This recipe simulates a real-world scenario where &quot;App A&quot; deeplinks
+into &quot;App B&quot;.
+
+&quot;App A&quot; is simulated by the module [com.example.nav3recipes.deeplink.advanced](https://developer.android.com/app/src/main/java/com/example/nav3recipes/deeplink/advanced), which
+contains the `CreateAdvancedDeepLinkActivity` that allows you to create a deeplink intent and
+trigger that in either the existing Task, or in a new Task.
+
+&quot;App B&quot; is simulated by the module [advanceddeeplinkapp](https://developer.android.com/advanceddeeplinkapp/src/main/java/com/example/nav3recipes/deeplink/advanced), which contains
+the MainActivity that you deeplink into. That module shows you how to build a synthetic backStack
+and how to manage the Task stack properly in order to support both Back and Up buttons.
+
+# Core implementation
+
+The core helper functions for navigateUp and building synthetic backStack can be
+found [here](https://developer.android.com/static/advanceddeeplinkapp/src/main/java/com/example/nav3recipes/deeplink/advanced/util/DeepLinkBackStackUtil.kt)
+
+# Further Read
+
+Check out the [deep link guide](https://developer.android.com/docs/deeplink-guide) for a
+comprehensive guide on Deep linking principles and how to apply them in Navigation 3.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/deeplink/advanced)
+
+```
+package com.example.nav3recipes.deeplink.advanced
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.core.net.toUri
+import androidx.lifecycle.compose.dropUnlessResumed
+import com.example.nav3recipes.common.deeplink.EntryScreen
+import com.example.nav3recipes.common.deeplink.LIST_FIRST_NAMES
+import com.example.nav3recipes.common.deeplink.LIST_LOCATIONS
+import com.example.nav3recipes.common.deeplink.MenuDropDown
+import com.example.nav3recipes.common.deeplink.PaddedButton
+import com.example.nav3recipes.common.deeplink.TextContent
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+
+internal const val ADVANCED_PATH_BASE = &quot;https://www.nav3deeplink.com&quot;
+
+/**
+ * The recipe entry point that allows users to create a deep link and make a request with it.
+ *
+ * **HOW THIS RECIPE WORKS** This recipe simulates a real-world scenario where &quot;App A&quot; deeplinks
+ * into &quot;App B&quot;.
+ *
+ * &quot;App A&quot; is simulated by this current module [com.example.nav3recipes.deeplink.advanced], which
+ * contains the [AdvancedCreateDeepLinkActivity] that allows you to create a deeplink intent and
+ * trigger that in either the existing Task, or in a new Task.
+ *
+ * &quot;App B&quot; is simulated by the module [com.example.nav3recipes.deeplink.advanced], which contains
+ * the MainActivity that you deeplink into. That module shows you how to build a synthetic backStack
+ * and how to manage the Task stack properly in order to support both Back and Up buttons.
+ *
+ * See the [README](README.md) file of current module for more info on advanced deep linking.
+ */
+class AdvancedCreateDeepLinkActivity: ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+
+        setContent {
+            EntryScreen(&quot;Sandbox - Build Your Deeplink Intent&quot;) {
+                val initFirstName = MENU_OPTIONS_FIRST_NAME.values.first().first()
+                val initLocation = MENU_OPTIONS_LOCATION.values.last().first()
+                val initTaskStack = MENU_OPTIONS_TASK_STACK.values.first().first()
+         </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/deeplinks-basic.md</code> <span class="muted">(29.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Deep Link Basic Recipe
+
+This recipe demonstrates how to parse a deep link URL from an Android Intent into a Navigation key.
+
+## How it works
+
+It consists of two activities - `CreateDeepLinkActivity` to construct and trigger the deeplink request, and the `MainActivity` to show how an app can handle that request.
+
+## Demonstrated forms of deeplink
+
+The `MainActivity` has several backStack keys to demonstrate different types of supported deeplinks:
+
+1. `HomeKey` - deeplink with an exact url (no deeplink arguments)
+2. `UsersKey` - deeplink with path arguments
+3. `SearchKey` - deeplink with query arguments
+
+See `MainActivity.deepLinkPatterns` for the actual url pattern of each.
+
+## Recipe structure
+
+This recipe consists of three main packages:
+
+1. `basic.deeplink` - Contains the two activities
+2. `basic.deeplink.ui` - Contains the activity UI code, i.e. global string variables, deeplink URLs etc
+3. `basic.deeplink.util` - Contains the classes and helper methods to parse and match the deeplinks
+
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/deeplink/basic)
+
+```
+package com.example.nav3recipes.deeplink.basic
+
+import androidx.navigation3.runtime.NavKey
+import com.example.nav3recipes.deeplink.basic.ui.STRING_LITERAL_FILTER
+import com.example.nav3recipes.deeplink.basic.ui.STRING_LITERAL_HOME
+import com.example.nav3recipes.deeplink.basic.ui.STRING_LITERAL_SEARCH
+import com.example.nav3recipes.deeplink.basic.ui.STRING_LITERAL_USERS
+import kotlinx.serialization.Serializable
+
+internal interface NavRecipeKey: NavKey {
+    val name: String
+}
+
+@Serializable
+internal object HomeKey: NavRecipeKey {
+    override val name: String = STRING_LITERAL_HOME
+}
+
+@Serializable
+internal data class UsersKey(
+    val filter: String,
+): NavRecipeKey {
+    override val name: String = STRING_LITERAL_USERS
+    companion object {
+        const val FILTER_KEY = STRING_LITERAL_FILTER
+        const val FILTER_OPTION_RECENTLY_ADDED = &quot;recentlyAdded&quot;
+        const val FILTER_OPTION_ALL = &quot;all&quot;
+    }
+}
+
+@Serializable
+internal data class SearchKey(
+    val firstName: String? = null,
+    val ageMin: Int? = null,
+    val ageMax: Int? = null,
+    val location: String? = null,
+): NavRecipeKey {
+    override val name: String = STRING_LITERAL_SEARCH
+}
+```
+
+```
+package com.example.nav3recipes.deeplink.basic
+
+import android.net.Uri
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.core.net.toUri
+import androidx.navigation3.runtime.NavBackStack
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.common.deeplink.EntryScreen
+import com.example.nav3recipes.common.deeplink.FriendsList
+import com.example.nav3recipes.common.deeplink.LIST_USERS
+import com.example.nav3recipes.common.deeplink.TextContent
+import com.example.nav3recipes.deeplink.basic.ui.URL_HOME_EXACT
+import com.example.nav3recipes.deeplink.basic.ui.URL_SEARCH
+import com.example.nav3recipes.deeplink.basic.ui.URL_USERS_WITH_FILTER
+import com.example.nav3recipes.deeplink.basic.util.DeepLinkMatchResult
+import com.example.nav3recipes.deeplink.basic.util.DeepLinkMatcher
+import com.example.nav3recipes.deeplink.basic.util.DeepLinkPattern
+import com.example.nav3recipes.deeplink.basic.util.DeepLinkRequest
+import com.example.nav3recipes.deeplink.basic.util.KeyDecoder
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+
+/**
+ * Parses a target deeplink into a NavKey. There are several crucial steps involved:
+ *
+ * STEP 1.Parse supported deeplinks (URLs that can be deeplinked into) into a readily readable
+ *  format (see [DeepLinkPattern])
+ * STEP 2. Parse the requested deeplink into a readily readable, format (see [DeepLinkRequest]</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/dialog.md</code> <span class="muted">(4.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Dialog Recipe
+
+This recipe demonstrates how to display a destination as a dialog.
+
+## How it works
+
+To show a destination as a dialog, you need to do two things:
+
+1. **Use `DialogSceneStrategy`** : Create an instance of `DialogSceneStrategy` and pass it to the `sceneStrategy` parameter of the `NavDisplay` composable.
+
+2. **Add metadata to the destination** : For the destination that you want to display as a dialog, add `DialogSceneStrategy.dialog()` to its metadata. This is done in the `entry` function. You can also pass a `DialogProperties` object to customize the dialog&#x27;s behavior and appearance.
+
+In this example, `RouteB` is configured to be a dialog. When you navigate from `RouteA` to `RouteB`, `RouteB` will be displayed in a dialog window.
+
+The content of the dialog can be styled as needed. In this recipe, the content is clipped to have rounded corners.
+
+For more information, see the official documentation on [custom layouts](https://developer.android.com/guide/navigation/navigation-3/custom-layouts).
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/dialog)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.dialog
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.scene.DialogSceneStrategy
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+@Serializable
+private data object RouteA : NavKey
+
+@Serializable
+private data class RouteB(val id: String) : NavKey
+
+class DialogActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+            val backStack = rememberNavBackStack(RouteA)
+            val dialogStrategy = remember { DialogSceneStrategy&lt;NavKey&gt;() }
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+                sceneStrategies = listOf(dialogStrategy),
+                entryProvider = entryProvider {
+                    entry&lt;RouteA&gt; {
+                        ContentGreen(&quot;Welcome to Nav3&quot;) {
+                            Button(onClick = dropUnlessResumed {
+                                backStack.add(RouteB(&quot;123&quot;))
+                            }) {
+                                Text(&quot;Click to open dialog&quot;)
+                            }
+                        }
+                    }
+                    entry&lt;RouteB&gt;(
+                        metadata = DialogSceneStra</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/material-listdetail.md</code> <span class="muted">(6.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Material List-Detail Recipe
+
+This recipe demonstrates how to create an adaptive list-detail layout using the `ListDetailSceneStrategy` from the Material 3 Adaptive library. This layout automatically adjusts to show one, two, or three panes depending on the available screen width.
+
+## How it works
+
+This example has three destinations: `ConversationList`, `ConversationDetail`, and `Profile`.
+
+### `ListDetailSceneStrategy`
+
+The key to this recipe is the `rememberListDetailSceneStrategy`, which provides the logic for the adaptive layout.
+
+- **Pane Roles**: Each destination is assigned a role using metadata:
+
+  - `ListDetailSceneStrategy.listPane()`: For the primary (list) content. This pane is always visible. A placeholder can be provided to be shown in the detail pane area when no detail content is selected.
+  - `ListDetailSceneStrategy.detailPane()`: For the secondary (detail) content.
+  - `ListDetailSceneStrategy.extraPane()`: For tertiary content.
+- **Adaptive Layout** : The `ListDetailSceneStrategy` automatically handles the layout. On smaller screens, only one pane is shown at a time. On wider screens, it will show the list and detail panes side-by-side. On very wide screens, it can show all three panes: list, detail, and extra.
+
+- **Navigation** : Navigation between the panes is handled by adding and removing destinations from the back stack as usual. The `ListDetailSceneStrategy` observes the back stack and adjusts the layout accordingly.
+
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/material/listdetail)
+
+```
+package com.example.nav3recipes.material.listdetail
+
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.navigation3.ListDetailSceneStrategy
+import androidx.compose.material3.adaptive.navigation3.rememberListDetailSceneStrategy
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.content.ContentRed
+import com.example.nav3recipes.content.ContentYellow
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+@Serializable
+private object ConversationList : NavKey
+
+@Serializable
+private data class ConversationDetail(val id: String) : NavKey
+
+@Serializable
+private data object Profile : NavKey
+
+class MaterialListDetailActivity : ComponentActivity() {
+
+    @OptIn(ExperimentalMaterial3AdaptiveApi::class)
+    override fun onCreate(savedInstanceS</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/material-supportingpane.md</code> <span class="muted">(6.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Material Supporting Pane Recipe
+
+This recipe demonstrates how to create an adaptive layout with a main pane and a supporting pane using the `SupportingPaneSceneStrategy` from the Material 3 Adaptive library. This layout is useful for displaying supplementary content alongside the main content on larger screens.
+
+## How it works
+
+This example has three destinations: `MainVideo`, `RelatedVideos`, and `Profile`.
+
+### `SupportingPaneSceneStrategy`
+
+The `rememberSupportingPaneSceneStrategy` provides the logic for this adaptive layout.
+
+- **Pane Roles**: Each destination is assigned a role using metadata:
+
+  - `SupportingPaneSceneStrategy.mainPane()`: For the primary content. This pane is always visible.
+  - `SupportingPaneSceneStrategy.supportingPane()`: For the supplementary content. This pane is shown alongside the main pane on larger screens.
+  - `SupportingPaneSceneStrategy.extraPane()`: For tertiary content that can be displayed alongside the supporting pane on even larger screens.
+- **Adaptive Layout** : The `SupportingPaneSceneStrategy` automatically handles the layout. On smaller screens, only the main pane is shown. On larger screens, the supporting pane is shown next to the main pane.
+
+- **Back Navigation** : The `BackNavigationBehavior` is customized in this example to `PopUntilCurrentDestinationChange`. This means that when the user presses the back button, the supporting pane will be dismissed, revealing the main pane underneath.
+
+- **Navigation** : Navigation is handled by adding and removing destinations from the back stack. The `SupportingPaneSceneStrategy` observes these changes and adjusts the layout accordingly.
+
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/material/supportingpane)
+
+```
+package com.example.nav3recipes.material.supportingpane
+
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.adaptive.ExperimentalMaterial3AdaptiveApi
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.material3.adaptive.layout.calculatePaneScaffoldDirective
+import androidx.compose.material3.adaptive.navigation.BackNavigationBehavior
+import androidx.compose.material3.adaptive.navigation3.SupportingPaneSceneStrategy
+import androidx.compose.material3.adaptive.navigation3.rememberSupportingPaneSceneStrategy
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberNavBackStack
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.content.ContentRed
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import kotlinx.serialization.Serializable
+
+@Serializable
+private object MainVideo : NavKey
+
+@Serializable
+private data object RelatedVideos : NavKey
+
+@S</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/modular-hilt.md</code> <span class="muted">(9.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Modular Navigation Recipe (Hilt)
+
+This recipe demonstrates how to structure a multi-module application using Navigation 3 and Dagger/Hilt for dependency injection. The goal is to create a decoupled architecture where navigation is defined and implemented in separate feature modules.
+
+## How it works
+
+The application is divided into several modules:
+
+- **`app` module** : This is the main application module. It initializes a common `Navigator` and injects a set of `EntryProviderInstaller`s from the feature modules. It then uses these installers to build the final `entryProvider` for the `NavDisplay`.
+
+- **`common` module**: This module contains the core navigation logic, including:
+
+  - A `Navigator` class that manages the back stack.
+  - An `EntryProviderInstaller` type, which is a function that feature modules use to contribute their navigation entries to the application&#x27;s `entryProvider`.
+- **Feature modules (e.g., `conversation`, `profile`)**: Each feature is split into two sub-modules:
+
+  - **`api` module**: Defines the public API for the feature, including its navigation routes. This allows other modules to navigate to this feature without needing to know about its implementation details.
+  - **`impl` module** : Provides the implementation of the feature, including its composables and an `EntryProviderInstaller` that maps the feature&#x27;s routes to its composables. This installer is then provided to the `app` module using Dagger/Hilt.
+
+This modular approach allows for a clean separation of concerns, making the codebase more scalable and maintainable. Each feature is responsible for its own navigation logic, and the `app` module only combines these pieces together.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/modular/hilt)
+
+```
+package com.example.nav3recipes.modular.hilt
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityRetainedComponent
+import dagger.multibindings.IntoSet
+
+// API
+object Profile
+
+// IMPLEMENTATION
+@Module
+@InstallIn(ActivityRetainedComponent::class)
+object ProfileModule {
+
+    @IntoSet
+    @Provides
+    fun provideEntryProviderInstaller() : EntryProviderInstaller = {
+        entry&lt;Profile&gt;{
+            ProfileScreen()
+        }
+    }
+}
+
+@Composable
+private fun ProfileScreen() {
+    val profileColor = MaterialTheme.colorScheme.surfaceVariant
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(profileColor)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = &quot;Profile Screen&quot;,
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+```
+
+```
+package com.example.nav3recipes.modular.hilt
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+
+@AndroidEntryPoint
+class Hi</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/modular-koin.md</code> <span class="muted">(10.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Modular Navigation Recipe (Koin)
+
+This recipe demonstrates how to structure a multi-module application using Navigation 3 and Koin for dependency injection. The goal is to create a decoupled architecture where navigation is defined and implemented in separate feature modules. It relies on the [`koin-compose-navigation3`](https://insert-koin.io/docs/reference/koin-compose/navigation3) artifact.
+
+## How it works
+
+The application is divided into several Android modules:
+
+- **`app` module** : This is the main application module. It `includes()` the feature modules and initializes a common `Navigator`.
+
+- **`common` module** : This module contains the core navigation logic used by both the application module and the feature modules. Namely, it defines a `Navigator` class that manages the back stack.
+
+- **Feature modules (e.g., `conversation`, `profile`)**: Each feature is split into two sub-modules:
+
+  - **`api` module**: Defines the public API for the feature, including its navigation routes. This allows other modules to navigate to this feature without needing to know about its implementation details.
+  - **`impl` module** : Provides the implementation of the feature, including its composables and Koin `Module`. The Koin module uses the [`navigation`](https://insert-koin.io/docs/reference/koin-compose/navigation3/#declaring-navigation-entries) DSL to define the entry provider installers for the feature module.
+
+This modular approach allows for a clean separation of concerns, making the codebase more scalable and maintainable. Each feature is responsible for its own navigation logic, and the `app` module only combines these pieces together.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/modular/koin)
+
+```
+package com.example.nav3recipes.modular.koin
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import org.koin.androidx.scope.dsl.activityRetainedScope
+import org.koin.core.annotation.KoinExperimentalAPI
+import org.koin.dsl.module
+import org.koin.dsl.navigation3.navigation
+
+// API
+object Profile
+
+// IMPL
+@OptIn(KoinExperimentalAPI::class)
+val profileModule = module {
+    activityRetainedScope {
+        navigation&lt;Profile&gt; { ProfileScreen() }
+    }
+}
+
+@Composable
+private fun ProfileScreen() {
+    val profileColor = MaterialTheme.colorScheme.surfaceVariant
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(profileColor)
+            .padding(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Text(
+            text = &quot;Profile Screen&quot;,
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onSurface
+        )
+    }
+}
+```
+
+```
+package com.example.nav3recipes.modular.koin
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.ListItem
+import androidx.compose.mater</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/multiple-backstacks.md</code> <span class="muted">(15.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Multiple back stacks recipe
+
+This recipe demonstrates how to create multiple back stacks.
+
+The app has three top level routes: `RouteA`, `RouteB` and `RouteC`. These routes have sub routes `RouteA1`, `RouteB1` and `RouteC1` respectively. The content for the sub routes is a counter that can be used to verify state retention through configuration changes and process death.
+
+The app&#x27;s navigation state is held in the `NavigationState` class. The state itself is created using `rememberNavigationState`.
+
+Navigation events are handled by the `Navigator`. It updates the navigation state.
+
+The navigation state is converted into `NavEntry`s with `NavigationState.toDecoratedEntries`. These entries are then displayed by `NavDisplay`.
+
+Key behaviors:
+
+- This app follows the &quot;exit through home&quot; pattern where the user always exits through the starting back stack. This means that `RouteA`&#x27;s entries are *always* in the list of entries.
+- Navigating to a top level route that is not the starting route *replaces* the other entries. For example, navigating A-\&gt;B-\&gt;C would result in entries for A+C, B&#x27;s entries are removed.
+
+Important implementation details:
+
+- Each top level route has its own `SaveableStateHolderNavEntryDecorator`. This is the object responsible for managing the state for the entries in its back stack.
+
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/multiplestacks)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.multiplestacks
+
+import androidx.navigation3.runtime.NavKey
+
+/**
+ * Handles navigation events (forward and back) by updating the navigation state.
+ */
+class Navigator(val state: NavigationState){
+    fun navigate(route: NavKey){
+        if (route in state.backStacks.keys){
+            // This is a top level route, just switch to it
+            state.topLevelRoute = route
+        } else {
+            state.backStacks[state.topLevelRoute]?.add(route)
+        }
+    }
+
+    fun goBack(){
+        val currentStack = state.backStacks[state.topLevelRoute] ?:
+        error(&quot;Stack for ${state.topLevelRoute} not found&quot;)
+        val currentRoute = currentStack.last()
+
+        // If we&#x27;re at the base of the current route, go back to the start route stack.
+        if (currentRoute == state.topLevelRoute){
+            state.topLevelRoute = state.startRoute
+        } else {
+            currentStack.removeLastOrNull()
+        }
+    }
+}
+```
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.multiplestacks
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/passingarguments.md</code> <span class="muted">(16.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Passing Arguments to ViewModels (Hilt)
+
+This recipe demonstrates how to pass navigation arguments (keys) to a `ViewModel` using Hilt for dependency injection.
+
+## How it works
+
+This example uses Dagger/Hilt&#x27;s assisted injection feature:
+
+1. The `ViewModel` is annotated with `@HiltViewModel` and its constructor uses `@AssistedInject` to receive the navigation key (which is annotated with `@Assisted`).
+2. An `@AssistedFactory` interface is defined to create the `ViewModel`.
+3. The `hiltViewModel` composable function is used to obtain the `ViewModel` instance. A `creationCallback` is provided to pass the navigation key to the factory, making it available to the `ViewModel`.
+
+**Note** : The `rememberViewModelStoreNavEntryDecorator` is added to the `NavDisplay`&#x27;s `entryDecorators`. This ensures that `ViewModel`s are correctly scoped to their corresponding `NavEntry`, so that a new `ViewModel` instance is created for each unique navigation key.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/passingarguments/viewmodels/hilt)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.passingarguments.viewmodels.hilt
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.dropUnlessResumed
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
+import com.example.nav3recipes.content.ContentBlue
+import com.example.nav3recipes.content.ContentGreen
+import com.example.nav3recipes.passingarguments.viewmodels.basic.RouteB
+import com.example.nav3recipes.ui.setEdgeToEdgeConfig
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.HiltViewModel
+
+data object RouteA
+data class RouteB(val id: String)
+
+@AndroidEntryPoint
+class HiltViewModelsActivity : ComponentActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        setEdgeToEdgeConfig()
+        super.onCreate(savedInstanceState)
+        setContent {
+            val backStack = remember { mutableStateListOf&lt;Any&gt;(RouteA) }
+
+            NavDisplay(
+                backStack = backStack,
+                onBack = { backStack.removeLastOrNull() },
+
+                // In order to add the `ViewModelStoreNavEntryDecorator` (see comment below for why)
+                // we also need to add the default `NavEntryDecorator`s as well. These provide
+                // extra information to the entry&#x27;s content to enable it to display correctly
+                // and save its state.
+                entryDecorators = listOf(
+                    rememberSaveableStateHolderNa</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/results-event.md</code> <span class="muted">(13.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Returning a Result (Event-Based)
+
+This recipe demonstrates how to return a result from one screen to a previous screen using an event-based approach.
+
+## How it works
+
+This example uses a `ResultEventBus` to facilitate communication between the screens.
+
+1. **`ResultEventBus`**: A simple event bus is created and made available to the composables.
+2. **Sending the result** : The screen that produces the result calls `resultBus.sendResult(person)` to send the data back as a one-time event.
+3. **Receiving the result** : The screen that needs the result uses a `ResultEffect` composable to listen for results of a specific type. When a result is received, the effect&#x27;s lambda is triggered.
+
+This approach is useful for results that are transient and should be handled as one-time events.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/results/event)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.results.common
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel : ViewModel() {
+    var person by mutableStateOf&lt;Person?&gt;(null)
+}
+```
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.results.common
+
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object Home : NavKey
+
+@Serializable
+class PersonDetailsForm : NavKeyhttps://github.com/android/nav3-recipes/blob/bcba753d0dca783eb8c7c5680a22d181cfd74eed/app/src/main/java/com/example/nav3recipes/results/common/NavKeys.kt
+```
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.results.common
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Person(val name: String, val favoriteColor: String) : Parcelablehttps://github.com/android/nav3-recipes/blob/bcba753d0dca783eb8c7c5680a22d181cfd74eed/app/src/main/java/com/example/nav3recipes/results/common/Person.kt
+```
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apac</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/results-state.md</code> <span class="muted">(12.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Returning a Result (State-Based)
+
+This recipe demonstrates how to return a result from one screen to a previous screen using a state-based approach.
+
+## How it works
+
+This example uses a `ResultStore` to manage the result as state.
+
+1. **`ResultStore`** : A `ResultStore` is created and made available to the composables. This store holds the results.
+2. **Setting the result** : The screen that produces the result calls `resultStore.setResult(person)` to save the data in the store.
+3. **Observing the result** : The screen that needs the result calls `resultStore.getResultState&lt;Person?&gt;()` to get a `State` object representing the result. The UI then observes this state and recomposes whenever the result changes.
+
+This approach is suitable when the result should be treated as persistent state that survives recomposition and configuration changes.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/results/state)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.results.common
+
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
+import androidx.lifecycle.ViewModel
+
+class HomeViewModel : ViewModel() {
+    var person by mutableStateOf&lt;Person?&gt;(null)
+}
+```
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.results.common
+
+import androidx.navigation3.runtime.NavKey
+import kotlinx.serialization.Serializable
+
+@Serializable
+data object Home : NavKey
+
+@Serializable
+class PersonDetailsForm : NavKeyhttps://github.com/android/nav3-recipes/blob/bcba753d0dca783eb8c7c5680a22d181cfd74eed/app/src/main/java/com/example/nav3recipes/results/common/NavKeys.kt
+```
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.results.common
+
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Person(val name: String, val favoriteColor: String) : Parcelablehttps://github.com/android/nav3-recipes/blob/bcba753d0dca783eb8c7c5680a22d181cfd74eed/app/src/main/java/com/example/nav3recipes/results/common/Person.kt
+```
+
+```
+/*
+ * Copyright 2</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/scenes-listdetail.md</code> <span class="muted">(15.9 KB, text)</span></summary><pre class="claude-preview file-preview"># List-Detail Scene Recipe
+
+This example shows how to create a list-detail layout using the Scenes API.
+
+A `ListDetailSceneStrategy` will return a `ListDetailScene` if:
+
+- the window width is over 600dp
+- A `Detail` entry is the last item in the back stack
+- A `List` entry is in the back stack
+
+The `ListDetailScene` provides a `CompositionLocal` named `LocalBackButtonVisibility` that can be used by the detail `NavEntry` to control whether it displays a back button. This is useful when the detail entry usually displays a back button but should not display it when being displayed in a `ListDetailScene`. See &lt;https://github.com/android/nav3-recipes/issues/151&gt; for more details on this use case.
+
+See `ListDetailScene.kt` for more implementation details.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/scenes/listdetail)
+
+```
+/*
+ * Copyright 2025 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.example.nav3recipes.scenes.listdetail
+
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavMetadataKey
+import androidx.navigation3.runtime.contains
+import androidx.navigation3.runtime.metadata
+import androidx.navigation3.scene.Scene
+import androidx.navigation3.scene.SceneStrategy
+import androidx.navigation3.scene.SceneStrategyScope
+import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
+
+/**
+ * A [Scene] that displays a list and a detail [NavEntry] side-by-side in a 40/60 split.
+ *
+ */
+data class ListDetailScene&lt;T : Any&gt;(
+    override val key: Any,
+    override val previousEntries: List&lt;NavEntry&lt;T&gt;&gt;,
+    val listEntry: NavEntry&lt;T&gt;,
+    val detailEntry: NavEntry&lt;T&gt;,
+) : Scene&lt;T&gt; {
+    override val entries: List&lt;NavEntry&lt;T&gt;&gt; = listOf(listEntry, detailEntry)
+    override val content: @Composable (() -&gt; Unit) = {
+        Row(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.weight(0.4f)) {
+                listEntry.Content()
+            }
+
+            // Let the detail entry know not to display a back button.
+            CompositionLocalProvider(LocalBackButtonVisibility provides false) {
+                Column(modifier = Modifier.weight(0.6f)) {
+                    AnimatedContent(
+                        targetState = detailEntry,
+                        contentKey = { entry -&gt; entry.contentKey },
+                        transitionSpec = {
+                            slideInHorizontally(
+                                initialOffsetX = { it }
+                            ) togetherWith
+                                    slideOutHorizontally(targetOffsetX = { -it }</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/navigation-3/recipes/scenes-twopane.md</code> <span class="muted">(9.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Two-Pane Scene Recipe
+
+This example shows how to create a two pane layout using the Scenes API.
+
+A `TwoPaneSceneStrategy` will return a `TwoPaneScene` if:
+
+- the window width is over 600dp
+- the last two nav entries on the back stack have indicated that they support being displayed in a `TwoPaneScene` in their metadata.
+
+See `TwoPaneScene.kt` for more implementation details.
+[![](https://developer.android.com/static/images/picto-icons/code.svg) Explore View the full recipe on GitHub.](https://github.com/android/nav3-recipes/tree/main/app/src/main/java/com/example/nav3recipes/scenes/twopane)
+
+```
+package com.example.nav3recipes.scenes.twopane
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.adaptive.currentWindowAdaptiveInfoV2
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.navigation3.runtime.NavEntry
+import androidx.navigation3.runtime.NavMetadataKey
+import androidx.navigation3.runtime.contains
+import androidx.navigation3.runtime.metadata
+import androidx.navigation3.scene.Scene
+import androidx.navigation3.scene.SceneStrategy
+import androidx.navigation3.scene.SceneStrategyScope
+import androidx.window.core.layout.WindowSizeClass
+import androidx.window.core.layout.WindowSizeClass.Companion.WIDTH_DP_MEDIUM_LOWER_BOUND
+
+// --- TwoPaneScene ---
+/**
+ * A custom [Scene] that displays two [NavEntry]s side-by-side in a 50/50 split.
+ */
+data class TwoPaneScene&lt;T : Any&gt;(
+    override val key: Any,
+    override val previousEntries: List&lt;NavEntry&lt;T&gt;&gt;,
+    val firstEntry: NavEntry&lt;T&gt;,
+    val secondEntry: NavEntry&lt;T&gt;
+) : Scene&lt;T&gt; {
+    override val entries: List&lt;NavEntry&lt;T&gt;&gt; = listOf(firstEntry, secondEntry)
+    override val content: @Composable (() -&gt; Unit) = {
+        Row(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.weight(0.5f)) {
+                firstEntry.Content()
+            }
+            Column(modifier = Modifier.weight(0.5f)) {
+                secondEntry.Content()
+            }
+        }
+    }
+
+    companion object {
+        /**
+         * Helper function to add metadata to a [NavEntry] indicating it can be displayed
+         * in a two-pane layout.
+         */
+        fun twoPane() = metadata {
+            put(TwoPaneKey, true)
+        }
+    }
+
+    object TwoPaneKey : NavMetadataKey&lt;Boolean&gt;
+}
+
+@Composable
+fun &lt;T : Any&gt; rememberTwoPaneSceneStrategy(): TwoPaneSceneStrategy&lt;T&gt; {
+    val windowSizeClass = currentWindowAdaptiveInfoV2().windowSizeClass
+
+    return remember(windowSizeClass) {
+        TwoPaneSceneStrategy(windowSizeClass)
+    }
+}
+
+
+// --- TwoPaneSceneStrategy ---
+/**
+ * A [SceneStrategy] that activates a [TwoPaneScene] if the window is wide enough
+ * and the top two back stack entries declare support for two-pane display.
+ */
+class TwoPaneSceneStrategy&lt;T : Any&gt;(val windowSizeClass: WindowSizeClass) : SceneStrategy&lt;T&gt; {
+
+    override fun SceneStrategyScope&lt;T&gt;.calculateScene(entries: List&lt;NavEntry&lt;T&gt;&gt;): Scene&lt;T&gt;? {
+
+        // Condition 1: Only return a Scene if the window is sufficiently wide to render two panes.
+        // We use isWidthAtLeastBreakpoint with WIDTH_DP_MEDIUM_LOWER_BOUND (600dp).
+        if (!windowSizeClass.isWidthAtLeastBreakpoint(WIDTH_DP_MEDIUM_LOWER_BOUND)) {
+            return null
+        }
+
+        val lastTwoEntries = entries.takeLast(2)
+
+        // Condition 2: Only return a Scene if there are two entries, and both have declared
+        // they can be displayed in a two pane scene.
+        return if (lastTwoEntries.size == 2
+            &amp;&amp; lastTwoEntries.all { it.metadata.contains(TwoPaneScene.TwoPaneKey) }
+        ) {
+            val firstEntry = lastTwoEntries.first()
+            val secondEntry = lastTwoEntries.last()
+
+            // The scene key must uniquely represent the state of the scene.
+            // A Pair of the first and second</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/android/guide/navigation/type-safe-destinations.md</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview">This guide outlines the process of replacing string-based routes with
+serializable Kotlin types to achieve compile-time safety and eliminate runtime
+crashes caused by typos or incorrect argument types.
+
+## Prerequisites
+
+Before starting the migration, verify that your project meets the following
+requirements:
+
+1. **Navigation version**: Update to Jetpack Navigation 2.8.0 or higher
+2. **Kotlin serialization plugin**:
+3. Add the plugin to `libs.versions.toml`:
+
+    [libraries]
+    kotlinx-serialization-json = { module = &quot;org.jetbrains.kotlinx:kotlinx-serialization-json&quot;, version.ref = &quot;kotlinxSerializationJson&quot; }
+
+    [plugins]
+    kotlin-serialization = { id = &quot;org.jetbrains.kotlin.plugin.serialization&quot;, version.ref = &quot;kotlin&quot; }
+
+- Add the dependencies to your top-level `build.gradle.kts` and module-level `build.gradle.kts`.
+
+## Step 1: Define Your Destinations
+
+Replace your constant route strings with `@Serializable` objects and classes.
+
+- **For screens without arguments** : Use a `data object`
+- **For screens with arguments** : Use a `data class`
+
+**Before (string based):**
+
+    const val ROUTE_HOME = &quot;home&quot;
+    const val ROUTE_PROFILE = &quot;profile/{userId}&quot;
+
+**After (type safe):**
+
+    import kotlinx.serialization.Serializable
+
+    @Serializable
+    object Home
+
+    @Serializable
+    data class Profile(val userId: String)
+
+## Step 2: Update the NavHost Configuration
+
+Update your `NavHost` to use the new generic types in the `composable` and
+`dialog` function.
+
+**Before:**
+
+    NavHost(navController, startDestination = &quot;home&quot;) {
+        composable(&quot;home&quot;) { HomeScreen(...) }
+        composable(&quot;profile/{userId}&quot;) { backStackEntry -&gt;
+            val userId = backStackEntry.arguments?.getString(&quot;userId&quot;)
+            ProfileScreen(userId)
+        }
+    }
+
+**After:**
+
+    NavHost(navController, startDestination = Home) {
+        composable&lt;Home&gt; {
+            HomeScreen(...)
+        }
+        composable&lt;Profile&gt; { backStackEntry -&gt;
+            // The library automatically handles argument extraction
+            val profile: Profile = backStackEntry.toRoute()
+            ProfileScreen(profile.userId)
+        }
+    }
+
+## Step 3: Implement Type-Safe Navigation Calls
+
+Replace string-interpolated navigation calls with class instances.
+
+**Before:**
+
+    navController.navigate(&quot;profile/user123&quot;)
+
+**After:**
+
+    navController.navigate(Profile(userId = &quot;user123&quot;))
+
+## Step 4: Accessing Arguments in ViewModels
+
+If you use a `ViewModel`, you can now extract the route object directly from the
+`SavedStateHandle`.
+
+**Implementation:**
+
+    class ProfileViewModel(
+        savedStateHandle: SavedStateHandle
+    ) : ViewModel() {
+        // Automatically parses arguments into the Profile class
+        private val profile = savedStateHandle.toRoute&lt;Profile&gt;()
+        val userId = profile.userId
+    }
+
+## Step 5: (Advanced) Handling Custom Types
+
+If you need to pass complex data classes (not just primitives), you must define
+a custom `NavType`.
+
+1. **Create the Custom Type** : \`\`\`kotlin val SearchFilterType = object : NavType(isNullableAllowed = false) { override fun get(bundle: Bundle, key: String): SearchFilter? = Json.decodeFromString(bundle.getString(key) ?: return null)
+
+    override fun parseValue(value: String): SearchFilter =
+        Json.decodeFromString(Uri.decode(value))
+
+    override fun put(bundle: Bundle, key: String, value: SearchFilter) {
+        bundle.putString(key, Json.encodeToString(value))
+    }
+
+}
+
+
+
+    2. **Register it in the Graph**:
+    ```kotlin
+    composable&lt;Search&gt;(
+        typeMap = mapOf(typeOf&lt;SearchFilter&gt;() to SearchFilterType)
+    ) { ... }
+
+## Best practices and tips
+
+- **Sealed Hierarchies**: For large apps, group your routes using a sealed interface or class to keep the navigation structure organized
+- **Object Instances** : For routes without parameters, always use `object` instead of `class` to avoid unnecessary allocations
+- **Nullable Types** : The new API supports nullable types (for example, `data
+  </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: navigation-3
+description: Learn how to install and migrate to Jetpack Navigation 3, and how to
+  implement features and patterns such as deep links, multiple backstacks, scenes
+  (dialogs, bottom sheets, list-detail, two-pane, supporting pane), conditional navigation
+  (such as logged-in navigation vs anonymous), returning results from flows, integration
+  with Hilt, ViewModel, Kotlin, and view interoperability.
+license: Complete terms in LICENSE.txt
+metadata:
+  author: Google LLC
+  keywords:
+  - recipe
+  - Android
+  - Navigation 2
+  - Navigation 3
+  - migration
+  - Compose
+  - guide
+  - dependencies
+  - NavKey
+  - NavHost
+  - NavDisplay
+  - BottomSheet
+  - list-detail
+  - scenes
+  - two-pane
+  - supporting pane
+  - multiple backstacks
+  - dialog
+  - Hilt
+  - ViewModel
+  - View interop.
+---
+
+## Migration guide
+
+- *[Navigation 2 to Navigation 3 migration guide](references/android/guide/navigation/navigation-3/migration-guide.md)*: Step-by-step guide to migrate an Android application from Navigation 2 to Navigation 3, covering dependency updates, route changes, state management, and UI component replacements.
+
+### Requirements
+
+- *[Guide: Migrate to type-safe navigation in Compose](references/android/guide/navigation/type-safe-destinations.md)* : Step-by-step guide to migrating an Android application from string-based navigation to **Type-Safe Navigation** in Jetpack Compose using Jetpack Navigation 2.
+
+## Developer documentation
+
+- \*[Navigation 3](references/android/guide/navigation/navigation-3/index.md). Search documentation for more information on basics, saving and managing navigation state, modularizing navigation code, creating custom layouts using Scenes, animating between destinations, or applying logic or wrappers to destinations.
+
+## Recipes
+
+Code examples showcasing common patterns.
+
+### Basic API usage
+
+- *[Basic](references/android/guide/navigation/navigation-3/recipes/basic.md)*: Shows most basic API usage.
+- *[Saveable back stack](references/android/guide/navigation/navigation-3/recipes/basicsaveable.md)*: Shows basic API usage with a persistent back stack.
+- *[Entry provider DSL](references/android/guide/navigation/navigation-3/recipes/basicdsl.md)*: Shows basic API usage using the entryProvider DSL.
+
+### Common UI
+
+- *[Common UI](references/android/guide/navigation/navigation-3/recipes/common-ui.md)*: Demonstrates how to implement a common navigation UI pattern with a bottom navigation bar and multiple back stacks, where each tab in the navigation bar has its own navigation history.
+
+### Deep links
+
+- *[Basic](references/android/guide/navigation/navigation-3/recipes/deeplinks-basic.md)*: Shows how to parse a deep link URL from an Android Intent into a navigation key.
+- *[Advanced](references/android/guide/navigation/navigation-3/recipes/deeplinks-advanced.md)*: Shows how to handle deep links with a synthetic back stack and correct &quot;Up&quot; navigation behavior.
+
+### Scenes
+
+#### Use built-in Scenes
+
+- *[Dialog](references/android/guide/navigation/navigation-3/recipes/dialog.md)*: Shows how to create a Dialog.
+
+#### Create custom Scenes
+
+- *[BottomSheet](references/android/guide/navigation/navigation-3/recipes/bottomsheet.md)*: Shows how to create a BottomSheet destination.
+- *[List-Detail Scene](references/android/guide/navigation/navigation-3/recipes/scenes-listdetail.md)*: Demonstrates how to implement adaptive list-detail layouts using the Navigation 3 Scenes API.
+- *[Two pane Scene](references/android/guide/navigation/navigation-3/recipes/scenes-twopane.md)*: Demonstrates how to implement adaptive two-pane layouts using the Navigation 3 Scenes API.
+
+### Material Adaptive
+
+- *[Material List-Detail](references/android/guide/navigation/navigation-3/recipes/material-listdetail.md)*: Demonstrates how to implement an adaptive list-detail layout using Material 3 Adaptive.
+- *[Material Supporting Pane](references/android/guide/navigation/navigation-3/recipes/material-supportingpane.md)*: Demonstrates how to i</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.22</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.17</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

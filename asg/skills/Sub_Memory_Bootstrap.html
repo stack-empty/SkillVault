@@ -1,0 +1,4373 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sub Memory Bootstrap · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>Sub Memory Bootstrap</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-Sub Memory Bootstrap">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">Sub Memory Bootstrap</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 40 · 216.2 KB</span>  <span class="chip">扫描: 2026-06-13 14:51:55</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#f59e0b;color:#f59e0b;">
+            <span class="verdict-label">留意</span>
+            <span class="verdict-en">SUSPICIOUS</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#f59e0b;">建议人工审核</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#f59e0b;">21.9<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:21.88%;background:#f59e0b;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码执行</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">凭证窃取</div>  <div class="card-count">2<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-critical">  <div class="card-title">数据外传</div>  <div class="card-count">7<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-critical">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">2<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-hit" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge bad">严重 · 7</span></div><div class="det-cell det-hit" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge bad">严重 · 2</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge bad">严重 · 2</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 12 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>SC1</code></td><td>execution</td><td><code>skills\sub-memory-bootstrap\scripts\ensure_repo_checkout.py:72</code></td><td><code class="snippet">subprocess.run([&#x27;git&#x27;, ...])</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E4</code></td><td>recon</td><td><code>skills\sub-memory-bootstrap\scripts\manage_mcp_daemon.sh:62</code></td><td><code class="snippet">socket.socket</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E4</code></td><td>recon</td><td><code>skills\sub-memory-bootstrap\scripts\manage_mcp_daemon.sh:65</code></td><td><code class="snippet">.connect((</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>sub_memory\config.py:20</code></td><td><code class="snippet">os.environ.setdefault(key</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>sub_memory\config.py:66</code></td><td><code class="snippet">os.getenv(&quot;OPENAI_API_KEY</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:59</code></td><td><code class="snippet">urllib.request.urlopen</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:62</code></td><td><code class="snippet">urllib.request.urlopen</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:65</code></td><td><code class="snippet">urllib.request.urlopen</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:76</code></td><td><code class="snippet">urllib.request.urlopen</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:83</code></td><td><code class="snippet">urllib.request.Request</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:87</code></td><td><code class="snippet">urllib.request.urlopen</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E1</code></td><td>exfil</td><td><code>tests\test_web.py:90</code></td><td><code class="snippet">urllib.request.urlopen</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="chain-pills"><div class="chain-pill"><div class="chain-id">E2_E1</div><div class="chain-name">Data Exfiltration Chain</div><div class="chain-evidence">OR=2.31, p=0.020; 36.9% of malicious skills (§4.2)</div></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (40 files, 216.2 KB)</h4>
+      <div class="file-list"><details><summary><code>AGENTS.md</code> <span class="muted">(1.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Repository Instructions
+
+## Safety
+
+- Stay inside this repository unless the task requires another workspace path.
+- Ask before destructive commands or OS-level changes.
+- Do not modify macOS system settings, security settings, or global machine preferences.
+
+&lt;!-- BEGIN SUB-MEMORY MCP RULES --&gt;
+## sub_memory MCP
+
+- If the `sub_memory` MCP server is available, call `get_memory_status` before implementation, debugging, review, or planning tasks that may depend on prior project memory.
+- Use `recall_associated_memory` before answering when prior design decisions, integration history, or TODO context may matter.
+- After each substantive turn, call `store_memory` with the latest user request and the final assistant answer or a faithful summary of it, unless the turn is empty, purely mechanical, or the current runtime already stores it automatically.
+- Use `reinforce_memory` after the answer when recalled memory materially influenced the final answer or code change.
+- When a multi-turn session gets long or repetitive, compact the active thread into a short working summary and continue from that summary plus `sub_memory` recall instead of depending on the full raw transcript.
+- If `sub_memory` tools are missing in the current Codex session, explain that project-scoped MCP registration is stored in `.codex/config.toml` and that starting a new Codex session from the repository root may be required after running `sub-memory-bootstrap`.
+&lt;!-- END SUB-MEMORY MCP RULES --&gt;
+</pre></details><details><summary><code>docs/getting-started.md</code> <span class="muted">(9.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Getting Started
+
+이 문서는 `sub-memory`를 로컬에 설치하고, 공용 MCP 서버를 한 번 띄운 뒤 `Codex`, `Gemini CLI`, `Claude Code`가 같은 endpoint를 바라보도록 연결하는 가장 짧은 시작 경로를 정리합니다.
+
+범위는 로컬 설치, 공용 MCP 서버, Web UI, CLI 연동까지입니다. 앱 연동(`ChatGPT 앱`, `Gemini 앱`, `Claude 앱`)은 현재 TODO로 남겨둡니다.
+
+## 1. 준비 사항
+
+- Python `3.10+`
+- macOS 기준 권장 버전: `python3.11`
+- 로컬에서 로드 가능한 `sqlite-vec`
+- OpenAI API Key
+  - `sub-memory-agent` 실행 시 필요
+  - `sub-memory-mcp`와 `sub-memory-web`만 사용할 때는 없어도 됨
+
+## 2. 로컬 설치
+
+프로젝트 루트에서 실행합니다.
+
+먼저 `sub-memory-bootstrap` 스킬을 전역에 설치하거나 업데이트합니다.
+
+```text
+$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git --path .
+```
+
+설치 직후에는 `Restart Codex to pick up new skills.`를 수행한 뒤, 이 저장소 루트에서 아래를 실행합니다.
+
+```bash
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+pip install -e .
+cp .env.example .env
+mkdir -p ~/.codex/sub-memory
+cp .env ~/.codex/sub-memory/.env
+```
+
+`.env` 파일에서 필요한 값을 채웁니다.
+
+```dotenv
+OPENAI_API_KEY=sk-your-key
+OPENAI_MODEL=gpt-5-mini
+EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
+SQLITE_VEC_PATH=
+RECALL_DEPTH=2
+RECALL_LIMIT=6
+MEMORY_DB_PATH=memory.db
+COMPACT_AFTER_TURNS=4
+COMPACT_KEEP_RECENT_TURNS=2
+COMPACT_SUMMARY_CHAR_LIMIT=2400
+METRICS_LOG_PATH=.sub-memory/metrics.jsonl
+METRICS_RETENTION_DAYS=30
+```
+
+compact 관련 기본값 의미:
+
+- `COMPACT_AFTER_TURNS`
+  - 이 횟수만큼 substantive turn이 쌓이면 오래된 세션 내용을 compact 후보로 봅니다.
+- `COMPACT_KEEP_RECENT_TURNS`
+  - compact 후에도 원문에 가깝게 남겨둘 최근 턴 수입니다.
+- `COMPACT_SUMMARY_CHAR_LIMIT`
+  - compact된 working summary의 최대 길이입니다.
+
+## 3. 설치 확인
+
+```bash
+sub-memory-agent --help
+sub-memory-mcp --help
+sub-memory-web --help
+python -m unittest discover -s tests
+```
+
+정상 설치되면 다음 세 엔트리포인트를 사용할 수 있습니다.
+
+- `sub-memory-agent`
+- `sub-memory-mcp`
+- `sub-memory-web`
+
+## 3A. 신규 설치와 업데이트를 분리해서 실행하기
+
+신규 설치:
+
+```bash
+skills/sub-memory-bootstrap/scripts/install_shared_mcp.sh &quot;$(pwd)&quot;
+```
+
+업데이트:
+
+```bash
+git pull --ff-only
+skills/sub-memory-bootstrap/scripts/update_shared_mcp.sh &quot;$(pwd)&quot;
+```
+
+이 스크립트의 책임은 아래와 같습니다.
+
+- 공통 선행 조건: `sub-memory-bootstrap` 스킬이 이미 `~/.codex/skills`에 설치되어 있어야 함
+- 신규 설치: 의존성 설치, project-local Codex 설정 생성, shared MCP daemon 기동
+- 업데이트: 현재 checkout 기준 의존성 재설치, project-local Codex 설정 재생성, shared MCP daemon 재시작
+- 둘 다 끝난 뒤에는 저장소 루트에서 새 Codex 세션을 시작하는 것이 가장 안전함
+
+## 4. 공용 MCP 서버 시작
+
+권장 방식은 공용 `streamable-http` MCP 데몬을 한 번 띄우고, 각 세션은 같은 URL을 바라보게 하는 것입니다.
+
+```bash
+python3 skills/sub-memory-bootstrap/scripts/configure_codex_project.py --project-dir &quot;$(pwd)&quot;
+skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh start &quot;$(pwd)&quot;
+```
+
+상태 확인:
+
+```bash
+skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh status &quot;$(pwd)&quot;
+```
+
+종료:
+
+```bash
+skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh stop &quot;$(pwd)&quot;
+```
+
+기본 MCP URL:
+
+```text
+http://127.0.0.1:8766/mcp
+```
+
+주의:
+
+- 세션마다 `sub-memory-mcp`를 별도로 실행하는 방식은 권장하지 않습니다.
+- 그렇게 하면 각 세션이 임베딩 모델과 메모리 서비스를 중복 적재하므로 메모리 사용량이 빠르게 늘어날 수 있습니다.
+- 또한 동일한 `memory.db`에 대해 락 경합과 초기화 지연이 더 자주 발생할 수 있습니다.
+- 운영 기준은 공용 MCP 데몬 1개를 유지하고, 모든 세션이 동일한 URL에 연결하는 것입니다.
+
+`sub-memory-agent`는 별도로 최근 세션 턴을 모두 길게 유지하지 않습니다.
+대신 오래된 세션 내용을 짧은 working summary로 compact하고, 최근 몇 턴과 `memory.db` recall을 함께 사용합니다.
+그래서 멀티턴이 길어져도 토큰 사용량을 비교적 낮게 유지할 수 있습니다.
+
+## 5. Codex 연결
+
+project-local 설정 파일은 아래 경로에 생성됩니다.
+
+- `.codex/config.toml`
+- `AGENTS.md`
+
+생성된 `Codex` 설정 예시는 아래 형태입니다.
+
+```toml
+[mcp_servers.sub_memory]
+url = &quot;http://127.0.0.1:8766/mcp&quot;
+enabled_tools = [&quot;recall_associated_memory&quot;, &quot;store_memory&quot;, &quot;reinforce_memory&quot;, &quot;get_memory_status&quot;]
+startup_timeout_sec = 30
+tool_timeout_sec = 120
+```
+
+권장 초기 설정:
+
+- 먼저 `get_memory_status`, `recall_associated_memory`만 열어 읽기 위주로 검증
+- 검증 후 `store_memory`, `reinforce_memory`까지 확장
+
+중요:
+
+- 공용 MCP 서버를 띄운 뒤 새 Codex 세션을 시작해야 project-local 설정이 안정적으로 반영됩니다.
+
+## 6. Gemini CLI와 Claude Code 연결
+
+### Gemini CLI
+
+```json
+{
+  &quot;mcpServers&quot;: {
+    &quot;sub_memory&quot;: {
+      &quot;url&quot;: &quot;http://127.0.0.1:8766/mcp&quot;,
+      &quot;timeout&quot;: 30000
+    }
+  }
+}
+```
+
+### Claude Code
+
+```bash
+claude mcp add --transport http sub-memory http://127.0.0.1:8766/mcp
+```
+
+## 7. Web UI 실행
+
+Web </pre><div class="muted">…(content truncated)</div></details><details><summary><code>docs/giyeok-manual.md</code> <span class="muted">(10.5 KB, text)</span></summary><pre class="claude-preview file-preview"># [ㄱ] 안내서
+
+부제: 하나의 기억에서 다음 기억으로 이어지는 보조도구
+
+## 1. 이름
+
+이 도구의 이름은 **[ㄱ]** 입니다.
+
+영문 표기는 **Giyeok** 으로 두는 것이 가장 자연스럽습니다.
+`ㄱ`은 한글 자모 이름으로는 `기역` 또는 `기억`에 가깝게 읽히고,
+영문으로는 `Giyeok`이 가장 직접적으로 연결됩니다.
+
+이 이름에는 세 가지 의미를 함께 담을 수 있습니다.
+
+- 한글의 첫 자음처럼 출발점이 되는 기억
+- 하나의 기억에서 다음 기억으로 이어지는 연결
+- 짧고 강한 표기지만, 내부적으로는 촘촘한 연상 구조를 가진 도구
+
+이 도구는 메모를 단순히 쌓아두는 보관함이 아니라,  
+하나의 기억에서 관련 기억이 줄줄이 따라 나오게 만드는 구조를 가집니다.
+
+그래서 이 도구는 긴 설명형 이름보다  
+**[ㄱ]** 이라는 짧은 이름이 더 잘 맞습니다.
+
+## 2. 한 줄 소개
+
+**[ㄱ]은 대화와 작업 내용을 저장해 두었다가, 나중에 비슷한 상황이 오면 관련 기억을 연상으로 다시 꺼내주는 기억 보조도구입니다.**
+
+## 3. 무엇이 다른가
+
+보통 메모 도구는 이렇게 동작합니다.
+
+1. 내가 메모를 적는다.
+2. 나중에 같은 단어로 검색한다.
+3. 정확히 맞는 표현이 있어야 찾기 쉽다.
+
+[ㄱ]은 조금 다르게 움직입니다.
+
+1. 내가 대화하거나 작업한다.
+2. 그 내용을 하나의 기억으로 저장한다.
+3. 나중에 비슷한 질문이 들어오면 가장 가까운 기억을 먼저 찾는다.
+4. 거기서 끝나지 않고, 그 기억과 **같이 자주 등장했던 다른 기억들**도 함께 따라 나온다.
+
+즉, 사람 머릿속에서 “아, 그 얘기 하니까 이것도 생각난다”가 일어나는 방식과 비슷합니다.
+
+## 4. 한눈에 보는 구조
+
+아래 그림처럼 움직인다고 생각하면 쉽습니다.
+
+```mermaid
+graph TD
+    A[사용자 질문] --&gt; B[가장 비슷한 기억 찾기]
+    B --&gt; C[연결된 관련 기억 따라가기]
+    C --&gt; D[맥락을 반영한 답변]
+    D --&gt; E[이번 대화 저장]
+    C --&gt; F[도움이 된 기억 고리 강화]
+    E --&gt; G[(memory.db)]
+    F --&gt; G
+```
+
+즉, 질문이 들어오면:
+
+1. 가장 비슷한 기억을 먼저 찾고
+2. 거기서 연결된 관련 기억을 따라가고
+3. 답변이 끝나면 이번 대화를 다시 저장합니다
+
+## 5. 연상 기반 저장은 어떻게 되나
+
+[ㄱ]은 한 번의 대화나 작업 결과를 하나의 기억 단위로 저장합니다.
+
+예를 들어 이런 상황이 있다고 해보겠습니다.
+
+- 오늘은 “출장 정리 문서”를 만들었다.
+- 내일은 “출장 후속 미팅 준비”를 했다.
+- 모레는 “출장에서 나온 TODO 반영” 작업을 했다.
+
+이 세 가지는 문장이 완전히 같지 않아도 서로 관련이 있습니다.  
+[ㄱ]은 이런 관련성을 단순한 폴더 분류가 아니라 **이어진 기억의 고리**처럼 다룹니다.
+
+저장할 때 내부적으로 하는 일은 다음과 같습니다.
+
+1. 현재 대화나 작업 내용을 하나의 기억으로 저장한다.
+2. 그 내용을 숫자 벡터 형태로 바꿔 “의미가 비슷한지” 비교할 준비를 한다.
+3. 직전 기억과 연결을 만든다.
+4. 나중에 함께 자주 쓰인 기억들끼리는 연결 강도를 조금씩 높인다.
+
+쉽게 말하면:
+
+- 메모를 그냥 쌓아두는 것이 아니라
+- **비슷한 뜻끼리 가깝게 놓고**
+- **같이 자주 쓰인 기억끼리는 고리로 묶어두는** 방식입니다.
+
+## 6. 조회는 어떻게 되나
+
+[ㄱ]의 조회는 보통 검색과 다릅니다.
+
+예를 들어 사용자가 이렇게 물었다고 가정해보겠습니다.
+
+&gt; 지난번 출장 관련해서 남겨둔 후속 작업 기억나?
+
+이때 [ㄱ]은 다음 순서로 움직입니다.
+
+1. 질문과 가장 가까운 기억 하나를 먼저 찾습니다.
+2. 그 기억과 연결된 다른 기억을 따라갑니다.
+3. 연결 강도가 높은 순서대로 관련 기억을 몇 개 더 가져옵니다.
+4. 그 결과를 바탕으로 답변을 만듭니다.
+
+즉, 한 문장 검색이 아니라:
+
+- 가장 비슷한 기억을 찾고
+- 거기서 주변 기억까지 펼쳐보는 방식입니다.
+
+이 흐름을 **연상 기반 조회**라고 생각하면 이해하기 쉽습니다.
+
+## 7. 왜 이 방식이 유용한가
+
+이 방식은 다음 상황에서 특히 강합니다.
+
+- 같은 주제를 다른 표현으로 다시 물을 때
+- 예전 결정 이유를 함께 떠올려야 할 때
+- 작업 맥락이 여러 대화에 나뉘어 흩어져 있을 때
+- 단순 검색보다 “관련된 배경”까지 같이 보고 싶을 때
+
+예를 들어:
+
+- “MCP 설정 어떻게 했지?”
+- “예전에 Codex에 붙인 기억보조도구 작업 뭐였지?”
+- “그때 왜 자동저장 흐름을 넣으라고 했었지?”
+
+이런 질문은 단어 하나만 찾는 것보다,  
+그 주변 맥락까지 같이 꺼내야 더 정확해집니다.
+
+## 8. LLM 캐시와 무엇이 다른가
+
+처음 들으면 어떤 사람은 이렇게 생각할 수 있습니다.
+
+&gt; “그럼 이건 LLM 캐시랑 비슷한 거 아닌가?”
+
+비슷해 보이지만 목적이 다릅니다.
+
+### 캐시
+
+캐시는 보통 **같은 요청을 다시 계산하지 않기 위해** 씁니다.
+
+- 같은 입력이 들어오면
+- 이전 결과를 재사용해서
+- 속도를 높이거나 비용을 줄입니다
+
+즉, 캐시의 핵심은 **절약**입니다.
+
+### [ㄱ]
+
+[ㄱ]은 **과거 맥락을 이어서 더 나은 답변을 만들기 위해** 씁니다.
+
+- 입력이 완전히 같지 않아도
+- 의미가 비슷하면 과거 기억을 참고하고
+- 관련 기억까지 같이 불러와서
+- 맥락이 이어진 답변을 만듭니다
+
+즉, [ㄱ]의 핵심은 **회상과 연속성**입니다.
+
+### 한 줄 비교
+
+- 캐시: 같은 계산을 덜 하게 도와주는 장치
+- [ㄱ]: 비슷한 상황에서 과거 맥락을 다시 떠올리게 도와주는 장치
+
+### 비용 관점에서도 차이
+
+캐시는 비용 절감에 직접적입니다.
+
+- 같은 요청 재처리를 줄임
+- 응답 속도를 높임
+- API 사용량을 줄일 수 있음
+
+[ㄱ]은 비용 절감이 1차 목적은 아닙니다.
+
+- 예전 맥락을 다시 설명하는 횟수를 줄일 수 있고
+- 잘못된 반복 작업을 줄일 수 있으며
+- 더 일관된 답변으로 재시도 비용을 낮출 수는 있습니다
+
+하지만 본질은 **싼 답변**이 아니라 **맥락이 이어진 답변**입니다.
+
+그래서 둘은 경쟁 관계가 아니라 함께 쓸 수 있습니다.
+
+- 캐시는 반복 계산을 줄이고
+- [ㄱ]은 장기 맥락을 이어줍니다
+
+## 9. compact를 해도 왜 대화가 이어지나
+
+일반 채팅은 대화가 길어질수록 이전 내용을 계속 프롬프트에 실어야 해서 토큰 사용량이 커집니다.
+
+[ㄱ]은 여기서 다른 선택지를 제공합니다.
+
+1. 최근 몇 턴만 가까이 두고
+2. 오래된 세션 내용은 짧게 compact하고
+3. 진짜 중요한 장기 맥락은 `memory.db`에서 다시 꺼냅니다
+
+즉, 모든 원문을 계속 들고 다니는 대신:
+
+- 지금 바로 필요한 최근 문맥은 짧게 유지하고
+- 오래된 내용은 요약으로 줄이고
+- 예전 결정, TODO, 설계 이유는 필요할 때 연상 기반으로 다시 불러옵니다
+
+그래서 대화가 길어져도 토큰 소모를 어느 정도 억제하면서 흐름을 이어갈 수 있습니다.
+
+다만 완전히 같은 것은 아닙니다.
+
+- 전체 원문 대화를 100% 그대로 들고 있는 상태와
+- compact summary + 기억 recall 상태는 다릅니다
+
+[ㄱ]은 이 차이를 줄여 주는 도구입니다.
+즉, **적은 토큰으로도 맥락을 더 오래 유지하게 도와주지만, 원문 전체를 무제한 유지하는 것과 완전히 같지는 않습니다.**
+
+## 10. [ㄱ]의 기본 흐름
+
+[ㄱ]은 보통 아래 흐름으로 동작합니다.
+
+### 답변 전
+
+- 현재 질문과 비슷한 과거 기억을 찾습니다.
+- 필요하면 그 주변에 연결된 기억도 함께 불러옵니다.
+- 세션이 길어졌다면 compact summary와 최근 몇 턴도 함께 참고합니다.
+
+### 답변 중
+
+- 불러온 기억을 참고해서 더 일관된 답변을 만듭니다.
+
+### 답변 후
+
+- 이번 사용자 요청과 최종 답변을 새 기억으로 저장합니다.
+- 실제로 참고했던 과거 기억이 있었다면, 그 기억과 이번 기억의 연결을 조금 더 강화합니다.
+- 멀티턴이 길어지면 오래된 세션 내용은 compact summary로 줄여 다음 턴 토큰을 줄입니다.
+
+즉, 쓸수록 기억이 더 </pre><div class="muted">…(content truncated)</div></details><details><summary><code>docs/memory-visualization-mvp-plan.md</code> <span class="muted">(7.7 KB, text)</span></summary><pre class="claude-preview file-preview"># [ㄱ] 기억 시각화 MVP 구현계획서
+
+## 1. 목적
+
+현재 `[ㄱ]`은 기억 저장과 recall은 가능하지만, 사용자가 기억 상태를 직접 확인하거나 탐색하기는 어렵습니다.
+이번 MVP의 목적은 아래 세 가지를 먼저 해결하는 것입니다.
+
+1. 지금 얼마나 기억이 쌓였는지 한눈에 볼 수 있게 한다.
+2. 저장된 기억을 검색하고 상세 내용을 확인할 수 있게 한다.
+3. 연상 기억 연결 구조를 &quot;생각나무&quot; 형태로 시각화한다.
+
+범위는 기본 뼈대 기능으로 제한합니다.
+운영 분석, 정리 추천, 병합, 삭제 추천 같은 고급 기능은 MVP 이후 단계로 미룹니다.
+
+## 2. MVP 범위
+
+이번 단계에서 구현할 화면은 4개입니다.
+
+1. Dashboard
+2. Memory Search
+3. Memory Detail
+4. Association Graph
+
+이번 단계에서 구현할 API는 5개입니다.
+
+1. `GET /api/status`
+2. `GET /api/memories`
+3. `GET /api/memories/{node_id}`
+4. `GET /api/graph/{node_id}`
+5. `GET /api/search`
+
+이번 단계에서는 수정 기능을 넣지 않습니다.
+즉, 화면은 기본적으로 읽기 전용입니다.
+
+## 3. 사용자 가치
+
+이 MVP가 먼저 필요한 이유는 다음과 같습니다.
+
+1. 기억이 실제로 저장되고 있는지 사용자가 직접 확인할 수 있습니다.
+2. 어떤 기억이 어떤 기억과 연결되어 있는지 눈으로 볼 수 있습니다.
+3. recall 품질 문제를 사용자가 감으로만 느끼지 않고, 저장 구조를 보면서 검토할 수 있습니다.
+4. 이후 고급 기능을 넣기 전에 운영 가시성을 먼저 확보할 수 있습니다.
+
+## 4. 화면 구성
+
+### 4.1 Dashboard
+
+가장 먼저 보여줄 요약 화면입니다.
+
+표시 항목:
+
+- 전체 기억 수
+- 최근 24시간 저장 수
+- 최근 7일 저장 수
+- 마지막 저장 시각
+- 전체 연결 수
+- 평균 연결 수
+- 최근 저장된 기억 10개
+
+이 화면의 목적은 &quot;시스템이 살아 있고 기억이 쌓이고 있다&quot;를 바로 확인하게 하는 것입니다.
+
+### 4.2 Memory Search
+
+저장된 기억을 직접 찾는 화면입니다.
+
+필수 기능:
+
+- 키워드 검색
+- 날짜 역순 정렬
+- 최근 저장 순 기본 정렬
+- 검색 결과 목록
+- 각 결과의 짧은 미리보기
+
+검색 결과 항목:
+
+- `node_id`
+- `timestamp`
+- `text` 일부
+- 연결 수
+
+초기 MVP에서는 벡터 검색 UI까지는 넣지 않고, 일반 텍스트 검색과 목록 탐색부터 제공합니다.
+벡터 기반 검색 결과 비교 화면은 후속 단계에서 고려합니다.
+
+### 4.3 Memory Detail
+
+기억 하나를 눌렀을 때 나오는 상세 화면입니다.
+
+표시 항목:
+
+- 전체 텍스트
+- 저장 시각
+- 직접 연결된 기억 목록
+- 각 연결의 가중치
+- 최근성 기준 관련 정보
+
+이 화면은 &quot;왜 이 기억이 중요한지&quot;와 &quot;어디로 연결되는지&quot;를 확인하는 중심 화면입니다.
+
+### 4.4 Association Graph
+
+선택한 기억을 중심으로 연결 구조를 보여주는 시각화 화면입니다.
+
+표시 규칙:
+
+- 중앙 노드: 현재 선택한 기억
+- 1-hop 연결: 직접 연결된 기억
+- 2-hop 연결: 강한 연결만 제한적으로 확장
+- 엣지 굵기: 가중치
+- 노드 색상: 최근성
+- 노드 클릭: Memory Detail로 이동
+
+이 화면의 목적은 &quot;생각나무&quot;를 직관적으로 보여주는 것입니다.
+
+## 5. 백엔드 설계
+
+현재 저장 구조는 이미 대부분 준비되어 있습니다.
+
+- `nodes`
+  - `id`
+  - `text`
+  - `embedding`
+  - `timestamp`
+- `edges`
+  - `source_id`
+  - `target_id`
+  - `weight`
+
+즉, MVP에 필요한 핵심 데이터는 현재 DB로 충분합니다.
+추가 테이블 없이도 1차 시각화는 가능합니다.
+
+다만 UI에서 쓰기 좋도록 서비스 계층에 읽기 전용 메서드를 추가하는 것이 필요합니다.
+
+권장 추가 메서드:
+
+1. `list_memories(limit, offset, q)`
+2. `get_memory(node_id)`
+3. `get_connected_memories(node_id, limit)`
+4. `get_graph_subtree(node_id, depth, limit)`
+5. `get_dashboard_stats()`
+
+## 6. API 설계
+
+### 6.1 `GET /api/status`
+
+목적:
+
+- 대시보드 상단 요약 데이터 제공
+
+응답 예시:
+
+```json
+{
+  &quot;db_path&quot;: &quot;memory.db&quot;,
+  &quot;node_count&quot;: 128,
+  &quot;edge_count&quot;: 241,
+  &quot;last_timestamp&quot;: &quot;2026-04-15T08:10:00+00:00&quot;,
+  &quot;recent_24h_count&quot;: 12,
+  &quot;recent_7d_count&quot;: 57
+}
+```
+
+### 6.2 `GET /api/memories`
+
+목적:
+
+- 최근 기억 목록
+- 키워드 필터 결과 목록
+
+쿼리 파라미터:
+
+- `q`
+- `limit`
+- `offset`
+
+### 6.3 `GET /api/memories/{node_id}`
+
+목적:
+
+- 기억 하나의 상세 정보 제공
+
+응답 항목:
+
+- 본문 텍스트
+- 저장 시각
+- 직접 연결된 기억 목록
+- 각 연결 가중치
+
+### 6.4 `GET /api/graph/{node_id}`
+
+목적:
+
+- 그래프 시각화용 서브트리 제공
+
+쿼리 파라미터:
+
+- `depth`
+- `limit`
+
+응답 구조:
+
+- `nodes`
+- `edges`
+
+### 6.5 `GET /api/search`
+
+목적:
+
+- 검색 화면 전용 API
+
+초기에는 `GET /api/memories?q=...` 와 역할이 겹칠 수 있으므로, 실제 구현에서는 하나로 합쳐도 됩니다.
+단, UI 설계 분리를 위해 문서에서는 별도 항목으로 둡니다.
+
+## 7. 프론트엔드 설계
+
+MVP에서는 복잡한 프레임워크보다 유지보수가 쉬운 구성이 좋습니다.
+
+권장안:
+
+- 백엔드: `FastAPI`
+- 프론트엔드: 서버 템플릿 + 가벼운 JS
+- 그래프: `Cytoscape.js` 또는 `vis-network`
+
+이유:
+
+- 현재 프로젝트 성격상 로컬 도구에 가깝습니다.
+- 관리자 화면처럼 빠르게 붙이는 것이 중요합니다.
+- React SPA를 바로 올리는 것은 초기에 과합니다.
+
+화면 구조:
+
+- `/ui`
+  - Dashboard
+- `/ui/memories`
+  - Search
+- `/ui/memories/{node_id}`
+  - Detail
+- `/ui/graph/{node_id}`
+  - Association Graph
+
+## 8. 구현 순서
+
+### 1단계. 서비스 계층 확장
+
+추가 대상:
+
+- `sub_memory/store.py`
+- `sub_memory/service.py`
+
+목표:
+
+- 목록 조회
+- 단건 조회
+- 연결 조회
+- 통계 조회
+- 그래프 서브트리 조회
+
+### 2단계. 읽기 전용 API 추가
+
+추가 대상:
+
+- 신규 `sub_memory/web.py` 또는 유사 모듈
+
+목표:
+
+- `/api/status`
+- `/api/memories`
+- `/api/memories/{node_id}`
+- `/api/graph/{node_id}`
+
+### 3단계. 기본 UI 추가
+
+추가 대상:
+
+- `templates/`
+- `static/`
+
+목표:
+
+- Dashboard
+- Search
+- Detail
+- Graph
+
+### 4단계. 엔트리포인트 추가
+
+추가 대상:
+
+- `pyproject.toml`
+- 신규 실행 스크립트
+
+목표:
+
+- 예: `sub-memory-web`
+
+### 5단계. 테스트 추가
+
+추가 대상:
+
+- `tests/`
+
+목표:
+
+- API 응답 구조 검증
+- 그래프 서브트리 응답 검증
+- 검색 및 단건 조회 검증
+
+## 9. MVP 완료 기준
+
+아래가 되면 MVP 완료로 봅니다.
+
+1. 브라우저에서 로컬 UI를 열 수 있다.
+2. 전체 기억 수와 최근 저장 상태를 볼 수 있다.
+3. 저장된 기억을 텍스트로 </pre><div class="muted">…(content truncated)</div></details><details><summary><code>docs/usage-examples.md</code> <span class="muted">(8.3 KB, text)</span></summary><pre class="claude-preview file-preview"># 사용 예제
+
+이 문서는 `sub-memory`를 실제로 사용하는 예시를 모아 둔 문서입니다. 예시는 로컬 에이전트 실행, CLI 연동, 그리고 Codex skill 사용 예시까지 포함합니다.
+
+## 1. 로컬 에이전트 바로 실행
+
+```bash
+source .venv/bin/activate
+sub-memory-agent
+```
+
+예시:
+
+```text
+You&gt; 지난주 출장에서 정리한 TODO 기억해?
+AI&gt; 지난 대화 기록 기준으로 출장 관련 메모를 먼저 불러와서 정리해보면 ...
+```
+
+이 흐름에서는 런타임이 자동으로 다음을 수행합니다.
+
+- 답변 전 `recall_associated_memory`
+- 답변 후 `store_memory`
+- 필요 시 `reinforce_memory`
+- 세션이 길어지면 오래된 턴을 compact summary로 축약
+
+## 2. Codex에서 MCP 연결 후 사용하는 예시
+
+목표:
+
+- 코드 수정 전 과거 메모를 참조
+- 작업 후 새 결정을 메모에 저장
+
+예시 요청:
+
+```text
+Before answering, use the sub_memory MCP tools to recall any prior notes about this repo, then summarize what matters for today&#x27;s task.
+```
+
+한글 예시 요청:
+
+```text
+답변하기 전에 sub_memory MCP 도구로 이 저장소와 관련된 이전 메모를 먼저 찾아보고, 오늘 작업에 필요한 내용만 짧게 정리해줘.
+```
+
+읽기 전용 시작 예시:
+
+```text
+Use get_memory_status and recall_associated_memory only. Do not store or reinforce anything yet.
+```
+
+한글 읽기 전용 예시:
+
+```text
+지금은 get_memory_status와 recall_associated_memory만 사용하고, 저장이나 강화는 하지 마.
+```
+
+쓰기까지 허용하는 예시:
+
+```text
+Use sub_memory to recall prior notes, complete the task, then store the final user/assistant exchange if it changed implementation decisions.
+```
+
+한글 쓰기 허용 예시:
+
+```text
+sub_memory로 관련 메모를 먼저 찾아서 작업을 진행하고, 구현 결정이 바뀌었다면 마지막 사용자/어시스턴트 대화를 저장해줘.
+```
+
+## 3. Gemini CLI에서 사용하는 예시
+
+예시 요청:
+
+```text
+Recall any prior memory related to MCP integration in this repo, then explain the current setup status and missing pieces.
+```
+
+한글 예시 요청:
+
+```text
+이 저장소의 MCP 연동과 관련된 이전 메모가 있으면 먼저 찾아보고, 현재 설정 상태와 아직 비어 있는 항목을 설명해줘.
+```
+
+운영 팁:
+
+- `GEMINI.md`에 “관련 과거 맥락이 있으면 먼저 sub_memory recall 수행” 규칙을 넣어두면 반복 지시를 줄일 수 있습니다.
+
+## 4. Claude Code에서 사용하는 예시
+
+예시 요청:
+
+```text
+Use the sub-memory MCP server to recall previous design decisions about this project before reviewing the code.
+```
+
+한글 예시 요청:
+
+```text
+코드 리뷰를 시작하기 전에 sub-memory MCP 서버로 이 프로젝트의 이전 설계 결정을 먼저 찾아서 참고해줘.
+```
+
+리뷰 전에 유용한 예시:
+
+```text
+Check get_memory_status first, then recall memory about agent integration and use that context during the review.
+```
+
+한글 리뷰 예시:
+
+```text
+먼저 get_memory_status로 연결 상태를 확인하고, 에이전트 연동 관련 메모를 찾아서 그 내용을 리뷰에 반영해줘.
+```
+
+## 5. 설치형 Skill을 사용하는 예시
+
+Skill 설치 후 Codex에서 아래처럼 요청하면 온보딩을 한 번에 밀 수 있습니다.
+이 흐름에서는 로컬 설치뿐 아니라 project-local `.codex/config.toml`와 `AGENTS.md`도 함께 준비됩니다.
+
+### 예시 A: 첫 설치
+
+```text
+Use sub-memory-bootstrap to set up this repository locally, verify the install, and show me the exact Codex/Gemini/Claude MCP snippets for this machine.
+```
+
+```text
+sub-memory-bootstrap을 사용해서 이 저장소를 로컬에 설치하고, 설치 검증까지 한 뒤, 현재 머신 기준 Codex/Gemini/Claude MCP 설정 스니펫을 보여줘.
+```
+
+공용 MCP 신규 설치형:
+
+```text
+$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git --path .
+sub-memory-bootstrap으로 &lt;project-dir&gt; 에 공용 sub-memory MCP를 신규 설치해줘. shared MCP daemon 방식으로 맞추고 project-local Codex 설정까지 반영해줘.
+```
+
+### 예시 B: 재검증
+
+```text
+Use sub-memory-bootstrap to validate the existing installation and tell me whether the shared MCP daemon is running and which URL this repo should use.
+```
+
+```text
+sub-memory-bootstrap으로 기존 설치 상태를 다시 점검하고, 공용 MCP 서버가 떠 있는지와 이 저장소가 써야 할 URL을 알려줘.
+```
+
+공용 MCP 업데이트형:
+
+```text
+sub-memory-bootstrap으로 &lt;project-dir&gt; 의 공용 sub-memory MCP 설정을 업데이트해줘. 먼저 현재 checkout을 최신으로 맞추고, 그 다음 의존성, project-local Codex 설정, shared MCP daemon 을 다시 맞춰줘.
+```
+
+### 예시 C: 문서화 포함
+
+```text
+Use sub-memory-bootstrap to inspect this repo, verify the local install path, and draft a short onboarding note for another engineer.
+```
+
+```text
+sub-memory-bootstrap으로 이 저장소를 점검하고, 로컬 설치 경로를 확인한 뒤, 다른 개발자에게 전달할 짧은 온보딩 메모를 작성해줘.
+```
+
+온보딩 후 새 Codex 세션 예시:
+
+```text
+이 저장소의 기존 설계 결정을 먼저 기억에서 확인한 뒤 오늘 작업 계획을 정리해줘.
+```
+
+위 흐름은 `AGENTS.md`와 project-local Codex MCP 설정이 함께 로드된 새 세션에서 가장 잘 동작합니다.
+이때 Codex는 `local_agent`와 비슷하게 답변 전 recall, 답변 후 store, 필요 시 reinforce, 장문 멀티턴 시 compact summary 흐름을 따르도록 유도됩니다.
+
+## 6. compact를 염두에 둔 멀티턴 예시
+
+대화가 길어질수록 원문 전체를 계속 들고 가면 토큰이 빠르게 늘어납니다.
+이때 `sub_memory`가 있으면 모든 원문을 그대로 유지하지 않아도, 중요한 결정은 다시 recall할 수 있습니다.
+
+예시 요청:
+
+```text
+이 대화가 길어지면 전체 원문을 계속 유지하지 말고, 적절한 시점에 compact summary를 만들고 </pre><div class="muted">…(content truncated)</div></details><details><summary><code>local_agent.py</code> <span class="muted">(93 B, text)</span></summary><pre class="claude-preview file-preview">from sub_memory.agent import main
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+
+</pre></details><details><summary><code>mcp_server.py</code> <span class="muted">(98 B, text)</span></summary><pre class="claude-preview file-preview">from sub_memory.mcp_server import main
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+
+</pre></details><details><summary><code>pyproject.toml</code> <span class="muted">(641 B, text)</span></summary><pre class="claude-preview file-preview">[build-system]
+requires = [&quot;setuptools&gt;=69&quot;, &quot;wheel&quot;]
+build-backend = &quot;setuptools.build_meta&quot;
+
+[project]
+name = &quot;sub-memory&quot;
+version = &quot;0.2.0&quot;
+description = &quot;Local memory assistant with installable agent and MCP server entrypoints.&quot;
+readme = &quot;README.md&quot;
+requires-python = &quot;&gt;=3.10&quot;
+dependencies = [
+  &quot;openai&gt;=2.30.0,&lt;3&quot;,
+  &quot;networkx&gt;=3.6,&lt;4&quot;,
+  &quot;sentence-transformers&gt;=5.3.0,&lt;6&quot;,
+  &quot;sqlite-vec&gt;=0.1.9,&lt;0.2&quot;,
+  &quot;mcp[cli]&gt;=1.27.0,&lt;2&quot;,
+]
+
+[project.scripts]
+sub-memory-agent = &quot;sub_memory.agent:main&quot;
+sub-memory-mcp = &quot;sub_memory.mcp_server:main&quot;
+sub-memory-web = &quot;sub_memory.web:main&quot;
+
+[tool.setuptools.packages.find]
+include = [&quot;sub_memory*&quot;]
+</pre></details><details><summary><code>README.md</code> <span class="muted">(10.3 KB, text)</span></summary><pre class="claude-preview file-preview"># [ㄱ] 로컬 기억 보조도구
+
+`[ㄱ]`은 로컬 SQLite 벡터 저장소와 그래프 연상을 결합한 기억 보조도구입니다.  
+대화와 작업 내용을 `memory.db`에 저장해 두고, 나중에 비슷한 질문이 들어오면 관련 기억을 다시 불러와 답변에 반영합니다.
+
+영문 표기는 `Giyeok`을 권장합니다.
+
+## 빠른 시작
+
+가장 짧은 확인 경로는 아래입니다.
+
+1. 먼저 `sub-memory-bootstrap` 스킬을 전역에 설치하거나 업데이트합니다.
+
+```text
+$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git --path .
+```
+
+2. `Restart Codex to pick up new skills.`를 수행합니다.
+3. 이 저장소 루트에서 공용 MCP 설치 흐름을 실행합니다.
+
+```bash
+skills/sub-memory-bootstrap/scripts/install_shared_mcp.sh &quot;$(pwd)&quot;
+```
+
+4. 새 Codex 세션을 이 저장소 루트에서 시작합니다.
+5. Web UI가 필요하면 아래를 실행합니다.
+
+```bash
+skills/sub-memory-bootstrap/scripts/start_web_ui.sh &quot;$(pwd)&quot;
+```
+
+빠른 시작에서 확인해야 할 필수 항목은 아래 넷입니다.
+
+- `sub-memory-bootstrap` 스킬 설치: `$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git --path .`
+- 공용 MCP 설치/기동: `skills/sub-memory-bootstrap/scripts/install_shared_mcp.sh &quot;$(pwd)&quot;`
+- Codex MCP 연결 반영: 저장소 루트에서 새 Codex 세션 시작
+- Web UI 실행: `skills/sub-memory-bootstrap/scripts/start_web_ui.sh &quot;$(pwd)&quot;`
+
+중요:
+
+- 공용 MCP 서버를 쓰지 않고 세션마다 `sub-memory-mcp`를 직접 띄우면, 각 세션이 임베딩 모델과 메모리 서비스를 별도로 적재합니다.
+- 이 방식은 같은 `memory.db`를 보더라도 세션 수만큼 메모리를 더 사용하고, 락/초기화 비용도 커질 수 있습니다.
+- 따라서 기본 운영 방식은 공용 MCP 데몬 1개를 띄우고 모든 세션이 같은 `http://127.0.0.1:8766/mcp`를 바라보는 것입니다.
+
+## 신규 설치 / 업데이트
+
+신규 설치:
+
+```bash
+skills/sub-memory-bootstrap/scripts/install_shared_mcp.sh &quot;$(pwd)&quot;
+```
+
+업데이트:
+
+```bash
+git pull --ff-only
+skills/sub-memory-bootstrap/scripts/update_shared_mcp.sh &quot;$(pwd)&quot;
+```
+
+업데이트 스크립트는 현재 checkout 기준으로 의존성 재설치, project-local Codex 설정 재생성, shared MCP daemon 재시작을 수행합니다.
+설치된 스킬 파일 자체를 갱신했다면 `Restart Codex to pick up new skills.` 후 새 세션을 시작합니다.
+
+자연어로는 아래처럼 요청하면 됩니다.
+
+신규 설치:
+
+```text
+$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git --path .
+sub-memory-bootstrap으로 &lt;project-dir&gt; 에 공용 sub-memory MCP를 신규 설치해줘. shared MCP daemon 방식으로 맞추고, project-local Codex 설정까지 반영한 뒤 새 세션이 어떤 URL을 보게 되는지 알려줘.
+```
+
+업데이트:
+
+```text
+sub-memory-bootstrap으로 &lt;project-dir&gt; 의 공용 sub-memory MCP 설정을 업데이트해줘. 먼저 현재 checkout을 최신으로 맞추고, 설치된 의존성과 project-local Codex 설정을 다시 맞춘 뒤, shared MCP daemon 을 restart 해줘.
+```
+
+브라우저와 MCP endpoint는 아래를 사용합니다.
+
+```text
+MCP: http://127.0.0.1:8766/mcp
+http://127.0.0.1:8765/ui
+```
+
+`sub-memory-bootstrap` 스킬을 쓰는 경우에는 아래처럼 요청하면 됩니다.
+
+```text
+sub-memory-bootstrap으로 현재 저장소를 설치하고 웹 UI를 실행한 뒤 브라우저에서 열 주소를 알려줘.
+```
+
+## 문서
+
+- `docs/getting-started.md`
+- `docs/usage-examples.md`
+- `docs/giyeok-manual.md`
+- `SKILL.md`
+- `skills/sub-memory-bootstrap/`
+
+## Codex Skill 설치
+
+이 저장소는 루트에도 `SKILL.md`가 있어서 저장소 루트를 그대로 Codex skill로 설치할 수 있습니다.
+
+`skill-installer`를 쓰는 경우에는 아래 둘 중 하나를 사용하면 됩니다.
+
+```text
+$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap/tree/main/skills/sub-memory-bootstrap
+```
+
+```text
+$skill-installer https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git --path .
+```
+
+`--path .`로 설치하면 전체 레포가 skill 디렉터리에 들어갑니다.
+`--path skills/sub-memory-bootstrap`로 설치하면 첫 bootstrap 실행 시
+`$CODEX_HOME/repos/sub-memory-bootstrap`
+또는 `~/.codex/repos/sub-memory-bootstrap` 아래에 전체 레포 checkout을 자동으로 받아 설치를 이어갑니다.
+
+수동으로 설치하는 경우에는 저장소 루트를 `~/.codex/skills/sub-memory-bootstrap`에 복사하거나 링크하면 됩니다.
+
+```bash
+git clone https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git
+mkdir -p ~/.codex/skills
+cp -R sub-memory-bootstrap ~/.codex/skills/sub-memory-bootstrap
+```
+
+또는:
+
+```bash
+git clone https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git
+mkdir -p ~/.codex/skills
+ln -s &quot;$(pwd)/sub-memory-bootstrap&quot; ~/.codex/skills/sub-memory-bootstrap
+```
+
+## 구성
+
+- `local_agent.py`: 실행 진입점
+- `mcp_server.py`: MCP 서버 실행 진입점
+- `sub_memory/agent.py`: OpenAI `Responses API` 기반 대화 루프
+- `sub_memory/mcp_server.py`: 설치형 MCP 서버
+- `sub_memory/service.py`: 공용 메모리 서비스 계층
+- `sub_memory/store.py`: SQLite + `sqlite-vec` + `networkx` 기반 저장/회수/강화
+- `sub_memory/tools.py`: tool schema와 디스패처
+- `tests/`: 단위 테스트
+
+## 요구 사항
+
+- Python `3.10+`
+- 로컬에서 로드 가능한 `sqlite-vec`
+- `sub-memory-agent`를 쓸 경우 OpenAI API Key
+
+macOS에서는 Python `3.11` 가상환경이 가장 안전합니다.</pre><div class="muted">…(content truncated)</div></details><details><summary><code>requirements.txt</code> <span class="muted">(110 B, text)</span></summary><pre class="claude-preview file-preview">openai&gt;=2.30.0,&lt;3
+networkx&gt;=3.6,&lt;4
+sentence-transformers&gt;=5.3.0,&lt;6
+sqlite-vec&gt;=0.1.9,&lt;0.2
+mcp[cli]&gt;=1.27.0,&lt;2
+</pre></details><details><summary><code>scripts/summarize_metrics.py</code> <span class="muted">(3.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+from collections import Counter
+import json
+from pathlib import Path
+from statistics import mean
+
+
+def load_records(path: Path) -&gt; list[dict]:
+    if not path.exists():
+        return []
+    records = []
+    for line in path.read_text(encoding=&quot;utf-8&quot;).splitlines():
+        if not line.strip():
+            continue
+        try:
+            records.append(json.loads(line))
+        except json.JSONDecodeError:
+            continue
+    return records
+
+
+def avg(records: list[dict], key: str) -&gt; float:
+    values = [float(record.get(key, 0) or 0) for record in records]
+    return round(mean(values), 3) if values else 0.0
+
+
+def total(records: list[dict], key: str) -&gt; int:
+    return int(sum(float(record.get(key, 0) or 0) for record in records))
+
+
+def summarize(records: list[dict]) -&gt; dict:
+    by_type = Counter(record.get(&quot;event_type&quot;, &quot;unknown&quot;) for record in records)
+    agent_turns = [record for record in records if record.get(&quot;event_type&quot;) == &quot;agent_turn&quot;]
+    mcp_recalls = [record for record in records if record.get(&quot;event_type&quot;) == &quot;mcp_recall&quot;]
+    mcp_stores = [record for record in records if record.get(&quot;event_type&quot;) == &quot;mcp_store&quot;]
+    mcp_reinforces = [
+        record for record in records if record.get(&quot;event_type&quot;) == &quot;mcp_reinforce&quot;
+    ]
+
+    return {
+        &quot;record_count&quot;: len(records),
+        &quot;event_counts&quot;: dict(by_type),
+        &quot;agent_turn_summary&quot;: {
+            &quot;count&quot;: len(agent_turns),
+            &quot;avg_input_tokens&quot;: avg(agent_turns, &quot;input_tokens&quot;),
+            &quot;avg_output_tokens&quot;: avg(agent_turns, &quot;output_tokens&quot;),
+            &quot;avg_total_tokens&quot;: avg(agent_turns, &quot;total_tokens&quot;),
+            &quot;avg_memory_context_tokens&quot;: avg(
+                agent_turns,
+                &quot;estimated_memory_context_tokens&quot;,
+            ),
+            &quot;avg_recalled_memory_count&quot;: avg(agent_turns, &quot;recalled_memory_count&quot;),
+        },
+        &quot;mcp_recall_summary&quot;: {
+            &quot;count&quot;: len(mcp_recalls),
+            &quot;avg_estimated_memory_tokens&quot;: avg(
+                mcp_recalls,
+                &quot;estimated_memory_tokens&quot;,
+            ),
+            &quot;avg_node_count&quot;: avg(mcp_recalls, &quot;node_count&quot;),
+            &quot;avg_memory_chars&quot;: avg(mcp_recalls, &quot;memory_chars&quot;),
+            &quot;max_estimated_memory_tokens&quot;: max(
+                (int(record.get(&quot;estimated_memory_tokens&quot;, 0) or 0) for record in mcp_recalls),
+                default=0,
+            ),
+        },
+        &quot;mcp_store_summary&quot;: {
+            &quot;count&quot;: len(mcp_stores),
+            &quot;total_stored_chars&quot;: total(mcp_stores, &quot;stored_chars&quot;),
+        },
+        &quot;mcp_reinforce_summary&quot;: {
+            &quot;count&quot;: len(mcp_reinforces),
+            &quot;total_updated_edges&quot;: total(mcp_reinforces, &quot;updated_edge_count&quot;),
+        },
+    }
+
+
+def main() -&gt; int:
+    parser = argparse.ArgumentParser(description=&quot;Summarize sub-memory metrics.jsonl&quot;)
+    parser.add_argument(
+        &quot;--path&quot;,
+        default=&quot;.sub-memory/metrics.jsonl&quot;,
+        help=&quot;Path to metrics JSONL file.&quot;,
+    )
+    args = parser.parse_args()
+
+    summary = summarize(load_records(Path(args.path)))
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(3.6 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: sub-memory-bootstrap
+description: Use when the user wants to install or validate the local sub-memory project, finish project-scoped Codex MCP registration, update AGENTS.md with sub_memory usage rules, start or inspect the shared local MCP daemon, start the local web UI, or generate ready-to-paste Codex, Gemini CLI, and Claude Code config snippets.
+---
+
+# Sub-memory Bootstrap
+
+This repository root is also installable as a Codex skill so GitHub-based installers can target `--path .`.
+If the installed skill does not include a full repository checkout, the bootstrap scripts must
+materialize a managed checkout under `$CODEX_HOME/repos/sub-memory-bootstrap`
+or `~/.codex/repos/sub-memory-bootstrap` before installing.
+
+Use this skill for end-to-end local onboarding of the `sub-memory` repository.
+
+## Workflow
+
+1. Resolve the repository root from one of these sources:
+   an explicit project path, the installed full-repo skill copy, or a managed checkout created
+   under `$CODEX_HOME/repos/sub-memory-bootstrap` (fallback `~/.codex/repos/sub-memory-bootstrap`).
+   Confirm these files exist:
+   `requirements.txt`, `pyproject.toml`, `mcp_server.py`, `.env.example`
+2. If the local install is missing or stale, run:
+   `skills/sub-memory-bootstrap/scripts/bootstrap_local.sh &lt;repo-root&gt;`
+3. The bootstrap flow must also finish project-local Codex onboarding:
+   write `.codex/config.toml` for `sub_memory` MCP registration and update `AGENTS.md`
+   with `sub_memory` usage rules.
+   Seed a new repository `AGENTS.md` from the bundled default template when needed.
+4. Generate machine-specific config snippets with:
+   `skills/sub-memory-bootstrap/scripts/render_cli_snippets.py --project-dir &lt;repo-root&gt;`
+5. Start or validate the shared MCP daemon with:
+   `skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh {start|status|stop|restart} &lt;repo-root&gt;`
+6. If the user asks for the web UI, start it with:
+   `skills/sub-memory-bootstrap/scripts/start_web_ui.sh &lt;repo-root&gt;`
+   and report the browser URL.
+7. Validate the install with:
+   `sub-memory-agent --help`
+   `sub-memory-mcp --help`
+   `sub-memory-web --help`
+   `python -m unittest discover -s tests`
+8. Use project-scoped Codex configuration by default.
+   Do not edit `~/.codex/config.toml`, `~/.gemini/settings.json`, `.mcp.json`, or other user-global config files without explicit permission.
+9. For Codex sessions, the generated `AGENTS.md` rules should mirror the `local_agent`
+   post-processing flow: recall before answering, store after each substantive turn,
+   reinforce after the answer when recall materially helped, and compact long
+   multi-turn sessions into a short working summary.
+10. If the user is working in Korean, keep the explanation in Korean.
+   Preserve commands, paths, config keys, and tool names exactly as written.
+
+## What To Produce
+
+- Local install status
+- Exact shared MCP URL
+- Exact `sub-memory-mcp` path
+- Exact `sub-memory-web` path
+- If started, the exact local browser URL
+- Exact project Codex config path
+- Confirmation that `AGENTS.md` contains the `sub_memory` usage rules
+- Ready-to-paste snippets for:
+  - Codex
+  - Gemini CLI
+  - Claude Code
+- Any blockers such as missing `sqlite-vec`, missing `.env`, or incompatible Python
+
+## Skill Installation
+
+If the user wants this skill installed globally for Codex, install either of these:
+
+- repository root via `--path .`
+- nested skill via `--path skills/sub-memory-bootstrap`
+
+Both layouts must expose the same workflow. If only the nested skill is installed, the skill must
+clone the repository checkout into `CODEX_HOME` before running local bootstrap steps.
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/scripts/bootstrap_local.sh</code> <span class="muted">(2.1 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;
+REQUESTED_PROJECT_DIR=&quot;${1:-}&quot;
+
+if command -v python3.11 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3.11&quot;
+elif command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3&quot;
+else
+  echo &quot;python3.11 or python3 is required&quot; &gt;&amp;2
+  exit 1
+fi
+
+RESOLVE_ARGS=(&quot;$PYTHON_BIN&quot; &quot;$SCRIPT_DIR/ensure_repo_checkout.py&quot;)
+if [[ -n &quot;$REQUESTED_PROJECT_DIR&quot; ]]; then
+  RESOLVE_ARGS+=(&quot;--project-dir&quot; &quot;$REQUESTED_PROJECT_DIR&quot;)
+fi
+
+PROJECT_DIR=&quot;$(&quot;${RESOLVE_ARGS[@]}&quot;)&quot;
+
+cd &quot;$PROJECT_DIR&quot;
+
+&quot;$PYTHON_BIN&quot; -m venv .venv
+&quot;.venv/bin/python&quot; -m pip install -r requirements.txt
+&quot;.venv/bin/python&quot; -m pip install -e .
+
+if [[ -f &quot;.env.example&quot; &amp;&amp; ! -f &quot;.env&quot; ]]; then
+  cp .env.example .env
+fi
+
+&quot;.venv/bin/python&quot; &quot;$SCRIPT_DIR/configure_codex_project.py&quot; \
+  --project-dir &quot;$PROJECT_DIR&quot;
+&quot;$SCRIPT_DIR/manage_mcp_daemon.sh&quot; restart &quot;$PROJECT_DIR&quot;
+
+BASE_DIR=&quot;${SUB_MEMORY_BASE_DIR:-$HOME/.codex/sub-memory}&quot;
+MCP_HOST=&quot;${SUB_MEMORY_MCP_HOST:-127.0.0.1}&quot;
+MCP_PORT=&quot;${SUB_MEMORY_MCP_PORT:-8766}&quot;
+MCP_PATH=&quot;${SUB_MEMORY_MCP_PATH:-/mcp}&quot;
+
+if [[ &quot;$MCP_PATH&quot; != /* ]]; then
+  MCP_PATH=&quot;/$MCP_PATH&quot;
+fi
+
+cat &lt;&lt;EOF
+Bootstrap complete.
+
+Project: $PROJECT_DIR
+sub-memory base dir: $BASE_DIR
+Agent entrypoint: $PROJECT_DIR/.venv/bin/sub-memory-agent
+MCP entrypoint: $PROJECT_DIR/.venv/bin/sub-memory-mcp
+Shared MCP daemon: $PROJECT_DIR/skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh
+Shared MCP URL: http://$MCP_HOST:$MCP_PORT$MCP_PATH
+Web entrypoint: $PROJECT_DIR/.venv/bin/sub-memory-web
+Codex project config: $PROJECT_DIR/.codex/config.toml
+AGENTS rules: $PROJECT_DIR/AGENTS.md
+
+Next recommended checks:
+  $PROJECT_DIR/.venv/bin/sub-memory-agent --help
+  $PROJECT_DIR/.venv/bin/sub-memory-mcp --help
+  $PROJECT_DIR/skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh status $PROJECT_DIR
+  $PROJECT_DIR/.venv/bin/sub-memory-web --help
+  $PROJECT_DIR/.venv/bin/python -m unittest discover -s tests
+  Start a new Codex session from $PROJECT_DIR
+  Optional web UI: $PROJECT_DIR/skills/sub-memory-bootstrap/scripts/start_web_ui.sh $PROJECT_DIR
+EOF
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/scripts/configure_codex_project.py</code> <span class="muted">(7.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import os
+from pathlib import Path
+import re
+
+
+CONFIG_BEGIN = &quot;# BEGIN SUB-MEMORY MCP&quot;
+CONFIG_END = &quot;# END SUB-MEMORY MCP&quot;
+AGENTS_BEGIN = &quot;&lt;!-- BEGIN SUB-MEMORY MCP RULES --&gt;&quot;
+AGENTS_END = &quot;&lt;!-- END SUB-MEMORY MCP RULES --&gt;&quot;
+SCRIPT_DIR = Path(__file__).resolve().parent
+DEFAULT_AGENTS_TEMPLATE = SCRIPT_DIR.parent / &quot;templates&quot; / &quot;AGENTS.default.md&quot;
+DEFAULT_MCP_HOST = &quot;127.0.0.1&quot;
+DEFAULT_MCP_PORT = 8766
+DEFAULT_MCP_PATH = &quot;/mcp&quot;
+
+
+def resolve_project_dir(project_dir: Path) -&gt; Path:
+    resolved = project_dir.resolve()
+    required = (&quot;requirements.txt&quot;, &quot;pyproject.toml&quot;, &quot;mcp_server.py&quot;)
+    missing = [name for name in required if not (resolved / name).exists()]
+    if missing:
+        raise RuntimeError(
+            &quot;Target project is missing required files: &quot; + &quot;, &quot;.join(missing)
+        )
+    return resolved
+
+
+def resolve_runtime_dir(project_dir: Path) -&gt; Path:
+    override = os.getenv(&quot;SUB_MEMORY_BASE_DIR&quot;)
+    if override:
+        return Path(override).expanduser().resolve()
+    return (Path.home() / &quot;.codex&quot; / &quot;sub-memory&quot;).resolve()
+
+
+def resolve_shared_mcp_host() -&gt; str:
+    return os.getenv(&quot;SUB_MEMORY_MCP_HOST&quot;, DEFAULT_MCP_HOST)
+
+
+def resolve_shared_mcp_port() -&gt; int:
+    raw = os.getenv(&quot;SUB_MEMORY_MCP_PORT&quot;)
+    if raw is None:
+        return DEFAULT_MCP_PORT
+    try:
+        return int(raw)
+    except ValueError:
+        return DEFAULT_MCP_PORT
+
+
+def resolve_shared_mcp_path() -&gt; str:
+    raw = os.getenv(&quot;SUB_MEMORY_MCP_PATH&quot;, DEFAULT_MCP_PATH).strip() or DEFAULT_MCP_PATH
+    return raw if raw.startswith(&quot;/&quot;) else f&quot;/{raw}&quot;
+
+
+def resolve_shared_mcp_url() -&gt; str:
+    return (
+        f&quot;http://{resolve_shared_mcp_host()}:{resolve_shared_mcp_port()}&quot;
+        f&quot;{resolve_shared_mcp_path()}&quot;
+    )
+
+
+def ensure_runtime_dir(project_dir: Path) -&gt; Path:
+    runtime_dir = resolve_runtime_dir(project_dir)
+    runtime_dir.mkdir(parents=True, exist_ok=True)
+
+    runtime_env_path = runtime_dir / &quot;.env&quot;
+    if not runtime_env_path.exists():
+        project_env_path = project_dir / &quot;.env&quot;
+        env_example_path = project_dir / &quot;.env.example&quot;
+        if project_env_path.exists():
+            runtime_env_path.write_text(
+                project_env_path.read_text(encoding=&quot;utf-8&quot;),
+                encoding=&quot;utf-8&quot;,
+            )
+        elif env_example_path.exists():
+            runtime_env_path.write_text(
+                env_example_path.read_text(encoding=&quot;utf-8&quot;),
+                encoding=&quot;utf-8&quot;,
+            )
+
+    return runtime_dir
+
+
+def build_codex_block(project_dir: Path) -&gt; str:
+    return (
+        f&quot;{CONFIG_BEGIN}\n&quot;
+        &quot;# Managed by sub-memory-bootstrap. Re-run the skill to refresh.\n&quot;
+        &quot;[mcp_servers.sub_memory]\n&quot;
+        f&#x27;url = &quot;{resolve_shared_mcp_url()}&quot;\n&#x27;
+        &#x27;enabled_tools = [&quot;recall_associated_memory&quot;, &quot;store_memory&quot;, &#x27;
+        &#x27;&quot;reinforce_memory&quot;, &quot;get_memory_status&quot;]\n&#x27;
+        &quot;startup_timeout_sec = 30\n&quot;
+        &quot;tool_timeout_sec = 120\n&quot;
+        f&quot;{CONFIG_END}\n&quot;
+    )
+
+
+def build_agents_block() -&gt; str:
+    return (
+        f&quot;{AGENTS_BEGIN}\n&quot;
+        &quot;## sub_memory MCP\n\n&quot;
+        &quot;- If the `sub_memory` MCP server is available, call `get_memory_status` &quot;
+        &quot;before implementation, debugging, review, or planning tasks that may depend &quot;
+        &quot;on prior project memory.\n&quot;
+        &quot;- Use `recall_associated_memory` before answering when prior design &quot;
+        &quot;decisions, integration history, or TODO context may matter.\n&quot;
+        &quot;- After each substantive turn, call `store_memory` with the latest user &quot;
+        &quot;request and the final assistant answer or a faithful summary of it, unless &quot;
+        &quot;the turn is empty, purely mechanical, or the current runtime already stores &quot;
+        &quot;it automatically.\n&quot;
+        &quot;- Use `reinforce_memory` after the answer when recalled memory materially &quot;
+        &quot;influenced the final answer or code change.\n&quot;
+        &quot;- When a multi-turn session gets long or repetitive, compact th</pre><div class="muted">…(content truncated)</div></details><details><summary><code>skills/sub-memory-bootstrap/scripts/ensure_repo_checkout.py</code> <span class="muted">(4.5 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import os
+from pathlib import Path
+import subprocess
+
+
+DEFAULT_REPO_URL = &quot;https://github.com/TODOTODoTOdoTodotodo/sub-memory-bootstrap.git&quot;
+DEFAULT_REPO_REF = &quot;main&quot;
+REQUIRED_FILES = (&quot;requirements.txt&quot;, &quot;pyproject.toml&quot;, &quot;mcp_server.py&quot;, &quot;.env.example&quot;)
+
+
+def default_codex_home() -&gt; Path:
+    return (Path.home() / &quot;.codex&quot;).resolve()
+
+
+def has_required_files(path: Path) -&gt; bool:
+    return all((path / name).exists() for name in REQUIRED_FILES)
+
+
+def describe_missing_files(path: Path) -&gt; str:
+    missing = [name for name in REQUIRED_FILES if not (path / name).exists()]
+    return &quot;, &quot;.join(missing)
+
+
+def find_repo_root(start: Path) -&gt; Path | None:
+    candidate = start.resolve()
+    for current in (candidate, *candidate.parents):
+        if has_required_files(current):
+            return current
+    return None
+
+
+def is_jetbrains_managed_codex_home(path: Path) -&gt; bool:
+    parts = path.parts
+    return &quot;JetBrains&quot; in parts and &quot;aia&quot; in parts and &quot;codex&quot; in parts
+
+
+def resolve_codex_home() -&gt; Path:
+    override = os.getenv(&quot;CODEX_HOME&quot;)
+    if override:
+        resolved = Path(override).expanduser().resolve()
+        if not is_jetbrains_managed_codex_home(resolved):
+            return resolved
+    return default_codex_home()
+
+
+def default_repo_dir(codex_home: Path) -&gt; Path:
+    return codex_home / &quot;repos&quot; / &quot;sub-memory-bootstrap&quot;
+
+
+def ensure_repo_checkout(
+    repo_dir: Path,
+    *,
+    repo_url: str,
+    repo_ref: str,
+) -&gt; Path:
+    repo_dir = repo_dir.expanduser().resolve()
+
+    if has_required_files(repo_dir):
+        return repo_dir
+
+    if repo_dir.exists():
+        raise RuntimeError(
+            &quot;Managed checkout already exists but is incomplete at &quot;
+            f&quot;{repo_dir}: missing {describe_missing_files(repo_dir)}&quot;
+        )
+
+    repo_dir.parent.mkdir(parents=True, exist_ok=True)
+    subprocess.run(
+        [
+            &quot;git&quot;,
+            &quot;clone&quot;,
+            &quot;--depth&quot;,
+            &quot;1&quot;,
+            &quot;--branch&quot;,
+            repo_ref,
+            repo_url,
+            str(repo_dir),
+        ],
+        check=True,
+    )
+
+    if not has_required_files(repo_dir):
+        raise RuntimeError(
+            &quot;Cloned repository is missing required files at &quot;
+            f&quot;{repo_dir}: {describe_missing_files(repo_dir)}&quot;
+        )
+
+    return repo_dir
+
+
+def resolve_project_dir(
+    project_dir: Path | None,
+    *,
+    script_dir: Path | None = None,
+    repo_url: str = DEFAULT_REPO_URL,
+    repo_ref: str = DEFAULT_REPO_REF,
+    managed_repo_dir: Path | None = None,
+) -&gt; Path:
+    if project_dir is not None:
+        candidate = project_dir.expanduser().resolve()
+        if not has_required_files(candidate):
+            raise RuntimeError(
+                &quot;Target project is missing required files: &quot;
+                f&quot;{describe_missing_files(candidate)}&quot;
+            )
+        return candidate
+
+    start = (script_dir or Path(__file__).resolve().parent).resolve()
+    repo_root = find_repo_root(start)
+    if repo_root is not None:
+        return repo_root
+
+    codex_home = resolve_codex_home()
+    repo_dir = managed_repo_dir or default_repo_dir(codex_home)
+    return ensure_repo_checkout(
+        repo_dir,
+        repo_url=repo_url,
+        repo_ref=repo_ref,
+    )
+
+
+def main() -&gt; int:
+    parser = argparse.ArgumentParser(
+        description=(
+            &quot;Resolve a usable sub-memory repository root. If the skill was installed &quot;
+            &quot;without the full repository, clone a managed checkout into CODEX_HOME.&quot;
+        )
+    )
+    parser.add_argument(
+        &quot;--project-dir&quot;,
+        help=&quot;Explicit repository root to use instead of auto resolution.&quot;,
+    )
+    parser.add_argument(
+        &quot;--repo-url&quot;,
+        default=os.getenv(&quot;SUB_MEMORY_REPO_URL&quot;, DEFAULT_REPO_URL),
+        help=&quot;Git URL used when a managed checkout must be cloned.&quot;,
+    )
+    parser.add_argument(
+        &quot;--ref&quot;,
+        default=os.getenv(&quot;SUB_MEMORY_REPO_REF&quot;, DEFAULT_REPO_REF),
+      </pre><div class="muted">…(content truncated)</div></details><details><summary><code>skills/sub-memory-bootstrap/scripts/install_shared_mcp.sh</code> <span class="muted">(785 B, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;
+REQUESTED_PROJECT_DIR=&quot;${1:-}&quot;
+
+if command -v python3.11 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3.11&quot;
+elif command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3&quot;
+else
+  echo &quot;python3.11 or python3 is required&quot; &gt;&amp;2
+  exit 1
+fi
+
+RESOLVE_ARGS=(&quot;$PYTHON_BIN&quot; &quot;$SCRIPT_DIR/ensure_repo_checkout.py&quot;)
+if [[ -n &quot;$REQUESTED_PROJECT_DIR&quot; ]]; then
+  RESOLVE_ARGS+=(&quot;--project-dir&quot; &quot;$REQUESTED_PROJECT_DIR&quot;)
+fi
+
+PROJECT_DIR=&quot;$(&quot;${RESOLVE_ARGS[@]}&quot;)&quot;
+
+&quot;$SCRIPT_DIR/bootstrap_local.sh&quot; &quot;$PROJECT_DIR&quot;
+
+cat &lt;&lt;EOF
+
+Shared MCP install flow complete.
+
+Next:
+  Restart Codex to pick up new skills if you installed or updated the skill itself.
+  Start a new Codex session from: $PROJECT_DIR
+EOF
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/scripts/manage_mcp_daemon.sh</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;
+REQUESTED_PROJECT_DIR=&quot;${2:-}&quot;
+ACTION=&quot;${1:-start}&quot;
+HOST=&quot;${SUB_MEMORY_MCP_HOST:-127.0.0.1}&quot;
+PORT=&quot;${SUB_MEMORY_MCP_PORT:-8766}&quot;
+PATH_SUFFIX=&quot;${SUB_MEMORY_MCP_PATH:-/mcp}&quot;
+BASE_DIR=&quot;${SUB_MEMORY_BASE_DIR:-$HOME/.codex/sub-memory}&quot;
+PID_FILE=&quot;$BASE_DIR/sub-memory-mcp.pid&quot;
+LOG_FILE=&quot;$BASE_DIR/sub-memory-mcp.log&quot;
+
+if [[ &quot;$PATH_SUFFIX&quot; != /* ]]; then
+  PATH_SUFFIX=&quot;/$PATH_SUFFIX&quot;
+fi
+
+if command -v python3.11 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3.11&quot;
+elif command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3&quot;
+else
+  echo &quot;python3.11 or python3 is required&quot; &gt;&amp;2
+  exit 1
+fi
+
+RESOLVE_ARGS=(&quot;$PYTHON_BIN&quot; &quot;$SCRIPT_DIR/ensure_repo_checkout.py&quot;)
+if [[ -n &quot;$REQUESTED_PROJECT_DIR&quot; ]]; then
+  RESOLVE_ARGS+=(&quot;--project-dir&quot; &quot;$REQUESTED_PROJECT_DIR&quot;)
+fi
+
+PROJECT_DIR=&quot;$(&quot;${RESOLVE_ARGS[@]}&quot;)&quot;
+MCP_BIN=&quot;$PROJECT_DIR/.venv/bin/sub-memory-mcp&quot;
+
+if [[ ! -x &quot;$MCP_BIN&quot; ]]; then
+  echo &quot;sub-memory-mcp not found at $MCP_BIN&quot; &gt;&amp;2
+  echo &quot;Run bootstrap first: $PROJECT_DIR/skills/sub-memory-bootstrap/scripts/bootstrap_local.sh $PROJECT_DIR&quot; &gt;&amp;2
+  exit 1
+fi
+
+mkdir -p &quot;$BASE_DIR&quot;
+
+if [[ ! -f &quot;$BASE_DIR/.env&quot; ]]; then
+  if [[ -f &quot;$PROJECT_DIR/.env&quot; ]]; then
+    cp &quot;$PROJECT_DIR/.env&quot; &quot;$BASE_DIR/.env&quot;
+  elif [[ -f &quot;$PROJECT_DIR/.env.example&quot; ]]; then
+    cp &quot;$PROJECT_DIR/.env.example&quot; &quot;$BASE_DIR/.env&quot;
+  fi
+fi
+
+mcp_url() {
+  printf &#x27;http://%s:%s%s&#x27; &quot;$HOST&quot; &quot;$PORT&quot; &quot;$PATH_SUFFIX&quot;
+}
+
+socket_ready() {
+  &quot;$PYTHON_BIN&quot; - &quot;$HOST&quot; &quot;$PORT&quot; &lt;&lt;&#x27;PY&#x27;
+import socket
+import sys
+
+host = sys.argv[1]
+port = int(sys.argv[2])
+sock = socket.socket()
+sock.settimeout(0.5)
+try:
+    sock.connect((host, port))
+except OSError:
+    sys.exit(1)
+finally:
+    sock.close()
+PY
+}
+
+pid_running() {
+  local pid=&quot;$1&quot;
+  kill -0 &quot;$pid&quot; 2&gt;/dev/null
+}
+
+read_pid() {
+  if [[ -f &quot;$PID_FILE&quot; ]]; then
+    tr -d &#x27;[:space:]&#x27; &lt;&quot;$PID_FILE&quot;
+  fi
+}
+
+write_pid() {
+  local pid=&quot;$1&quot;
+  printf &#x27;%s\n&#x27; &quot;$pid&quot; &gt;&quot;$PID_FILE&quot;
+}
+
+clear_pid() {
+  rm -f &quot;$PID_FILE&quot;
+}
+
+wait_until_ready() {
+  local attempts=240
+  local sleep_seconds=0.25
+  for _ in $(seq 1 &quot;$attempts&quot;); do
+    if socket_ready; then
+      return 0
+    fi
+    sleep &quot;$sleep_seconds&quot;
+  done
+  return 1
+}
+
+print_status() {
+  local pid=&quot;${1:-}&quot;
+  cat &lt;&lt;EOF
+Project: $PROJECT_DIR
+sub-memory base dir: $BASE_DIR
+MCP URL: $(mcp_url)
+Log file: $LOG_FILE
+PID file: $PID_FILE
+PID: ${pid:-not running}
+EOF
+}
+
+start_server() {
+  local pid
+  pid=&quot;$(read_pid || true)&quot;
+  if [[ -n &quot;$pid&quot; ]] &amp;&amp; pid_running &quot;$pid&quot;; then
+    echo &quot;sub-memory MCP daemon is already running.&quot;
+    print_status &quot;$pid&quot;
+    return 0
+  fi
+
+  if socket_ready; then
+    echo &quot;Port $PORT is already accepting connections. Refusing to start a duplicate daemon.&quot; &gt;&amp;2
+    print_status
+    return 1
+  fi
+
+  nohup &quot;$MCP_BIN&quot; \
+    --base-dir &quot;$BASE_DIR&quot; \
+    --transport streamable-http \
+    --host &quot;$HOST&quot; \
+    --port &quot;$PORT&quot; \
+    &lt;/dev/null &gt;&gt;&quot;$LOG_FILE&quot; 2&gt;&amp;1 &amp;
+  pid=&quot;$!&quot;
+  write_pid &quot;$pid&quot;
+
+  if wait_until_ready; then
+    echo &quot;Started sub-memory MCP daemon.&quot;
+    print_status &quot;$pid&quot;
+    return 0
+  fi
+
+  if pid_running &quot;$pid&quot;; then
+    kill &quot;$pid&quot; 2&gt;/dev/null || true
+  fi
+  clear_pid
+  echo &quot;sub-memory MCP daemon failed to become ready.&quot; &gt;&amp;2
+  print_status &quot;$pid&quot; &gt;&amp;2
+  return 1
+}
+
+stop_server() {
+  local pid
+  pid=&quot;$(read_pid || true)&quot;
+  if [[ -z &quot;$pid&quot; ]]; then
+    echo &quot;sub-memory MCP daemon is not running.&quot;
+    clear_pid
+    return 0
+  fi
+
+  if pid_running &quot;$pid&quot;; then
+    kill &quot;$pid&quot;
+    for _ in $(seq 1 20); do
+      if ! pid_running &quot;$pid&quot;; then
+        break
+      fi
+      sleep 0.25
+    done
+  fi
+
+  clear_pid
+  echo &quot;Stopped sub-memory MCP daemon.&quot;
+}
+
+status_server() {
+  local pid
+  pid=&quot;$(read_pid || true)&quot;
+  if [[ -n &quot;$pid&quot; ]] &amp;&amp; pid_running &quot;$pid&quot;; then
+    echo &quot;sub-memory MCP daemon is running.&quot;
+    print_status &quot;$pid&quot;
+    return 0
+  fi
+
+  echo &quot;sub-memory MCP daemon is not running.&quot;
+  print_status
+  return 1
+}
+
+case &quot;$ACTION&quot; in
+  start)
+    start_server
+    ;;
+  stop)
+    stop_server
+    ;;
+  re</pre><div class="muted">…(content truncated)</div></details><details><summary><code>skills/sub-memory-bootstrap/scripts/render_cli_snippets.py</code> <span class="muted">(3.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+from pathlib import Path
+
+
+def resolve_paths(project_dir: Path) -&gt; dict[str, str]:
+    project_dir = project_dir.resolve()
+    script_dir = Path(__file__).resolve().parent
+    venv_bin = project_dir / &quot;.venv&quot; / &quot;bin&quot;
+    runtime_dir = Path.home() / &quot;.codex&quot; / &quot;sub-memory&quot;
+    mcp_entrypoint = venv_bin / &quot;sub-memory-mcp&quot;
+    daemon_script = script_dir / &quot;manage_mcp_daemon.sh&quot;
+    mcp_url = &quot;http://127.0.0.1:8766/mcp&quot;
+    skill_dir = project_dir / &quot;skills&quot; / &quot;sub-memory-bootstrap&quot;
+    codex_config_path = project_dir / &quot;.codex&quot; / &quot;config.toml&quot;
+    agents_path = project_dir / &quot;AGENTS.md&quot;
+    configure_script = script_dir / &quot;configure_codex_project.py&quot;
+    web_entrypoint = venv_bin / &quot;sub-memory-web&quot;
+    web_start_script = script_dir / &quot;start_web_ui.sh&quot;
+
+    return {
+        &quot;project_dir&quot;: str(project_dir),
+        &quot;runtime_dir&quot;: str(runtime_dir),
+        &quot;mcp_entrypoint&quot;: str(mcp_entrypoint),
+        &quot;daemon_script&quot;: str(daemon_script),
+        &quot;mcp_url&quot;: mcp_url,
+        &quot;web_entrypoint&quot;: str(web_entrypoint),
+        &quot;web_start_script&quot;: str(web_start_script),
+        &quot;skill_dir&quot;: str(skill_dir),
+        &quot;codex_config_path&quot;: str(codex_config_path),
+        &quot;agents_path&quot;: str(agents_path),
+        &quot;configure_script&quot;: str(configure_script),
+    }
+
+
+def build_output(paths: dict[str, str]) -&gt; str:
+    project_dir = paths[&quot;project_dir&quot;]
+    runtime_dir = paths[&quot;runtime_dir&quot;]
+    mcp_entrypoint = paths[&quot;mcp_entrypoint&quot;]
+    daemon_script = paths[&quot;daemon_script&quot;]
+    mcp_url = paths[&quot;mcp_url&quot;]
+    web_entrypoint = paths[&quot;web_entrypoint&quot;]
+    web_start_script = paths[&quot;web_start_script&quot;]
+    install_script = str(Path(daemon_script).with_name(&quot;install_shared_mcp.sh&quot;))
+    update_script = str(Path(daemon_script).with_name(&quot;update_shared_mcp.sh&quot;))
+    skill_dir = paths[&quot;skill_dir&quot;]
+    codex_config_path = paths[&quot;codex_config_path&quot;]
+    agents_path = paths[&quot;agents_path&quot;]
+    configure_script = paths[&quot;configure_script&quot;]
+
+    return f&quot;&quot;&quot;# sub-memory local onboarding snippets
+
+## Codex project registration
+
+First install:
+
+```bash
+{install_script} {project_dir}
+```
+
+Refresh an existing install:
+
+```bash
+{update_script} {project_dir}
+```
+
+```bash
+python3 {configure_script} --project-dir {project_dir}
+```
+
+This writes:
+
+- `{codex_config_path}`
+- `{agents_path}`
+
+## Codex
+
+Start the shared MCP daemon first:
+
+```bash
+{daemon_script} start {project_dir}
+```
+
+```toml
+[mcp_servers.sub_memory]
+url = &quot;{mcp_url}&quot;
+enabled_tools = [&quot;recall_associated_memory&quot;, &quot;store_memory&quot;, &quot;reinforce_memory&quot;, &quot;get_memory_status&quot;]
+startup_timeout_sec = 90
+tool_timeout_sec = 120
+```
+
+## Gemini CLI
+
+```json
+{{
+  &quot;mcpServers&quot;: {{
+    &quot;sub_memory&quot;: {{
+      &quot;url&quot;: &quot;{mcp_url}&quot;,
+      &quot;timeout&quot;: 30000
+    }}
+  }}
+}}
+```
+
+## Claude Code
+
+```bash
+claude mcp add --transport http sub-memory {mcp_url}
+```
+
+## Codex skill install
+
+```bash
+mkdir -p ~/.codex/skills
+cp -R {skill_dir} ~/.codex/skills/
+```
+
+or
+
+```bash
+mkdir -p ~/.codex/skills
+ln -s {skill_dir} ~/.codex/skills/sub-memory-bootstrap
+```
+
+## Next step
+
+Start a new Codex session from `{project_dir}` so the project-scoped MCP config and
+`AGENTS.md` instructions are loaded together.
+
+## Web UI
+
+Shared MCP daemon status:
+
+```bash
+{daemon_script} status {project_dir}
+```
+
+Direct entrypoint:
+
+```bash
+{web_entrypoint} --base-dir {runtime_dir} --host 127.0.0.1 --port 8765
+```
+
+Helper script:
+
+```bash
+{web_start_script} {project_dir}
+```
+
+Browser URL:
+
+```text
+http://127.0.0.1:8765/ui
+```
+&quot;&quot;&quot;
+
+
+def main() -&gt; int:
+    parser = argparse.ArgumentParser(description=&quot;Render local sub-memory CLI snippets&quot;)
+    parser.add_argument(
+        &quot;--project-dir&quot;,
+        default=str(Path.cwd()),
+        help=&quot;Repository root containing .venv and pyproject.toml.&quot;,
+    )
+    args = parser.parse_args()
+
+    paths = resolve_paths(Path(args.project_dir))
+    print(build_output(paths))
+    return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/scripts/start_web_ui.sh</code> <span class="muted">(1.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;
+REQUESTED_PROJECT_DIR=&quot;${1:-}&quot;
+HOST=&quot;${SUB_MEMORY_WEB_HOST:-127.0.0.1}&quot;
+PORT=&quot;${SUB_MEMORY_WEB_PORT:-8765}&quot;
+BASE_DIR=&quot;${SUB_MEMORY_BASE_DIR:-$HOME/.codex/sub-memory}&quot;
+
+if command -v python3.11 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3.11&quot;
+elif command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3&quot;
+else
+  echo &quot;python3.11 or python3 is required&quot; &gt;&amp;2
+  exit 1
+fi
+
+RESOLVE_ARGS=(&quot;$PYTHON_BIN&quot; &quot;$SCRIPT_DIR/ensure_repo_checkout.py&quot;)
+if [[ -n &quot;$REQUESTED_PROJECT_DIR&quot; ]]; then
+  RESOLVE_ARGS+=(&quot;--project-dir&quot; &quot;$REQUESTED_PROJECT_DIR&quot;)
+fi
+
+PROJECT_DIR=&quot;$(&quot;${RESOLVE_ARGS[@]}&quot;)&quot;
+WEB_BIN=&quot;$PROJECT_DIR/.venv/bin/sub-memory-web&quot;
+
+if [[ ! -x &quot;$WEB_BIN&quot; ]]; then
+  echo &quot;sub-memory-web not found at $WEB_BIN&quot; &gt;&amp;2
+  echo &quot;Run bootstrap first: $PROJECT_DIR/skills/sub-memory-bootstrap/scripts/bootstrap_local.sh $PROJECT_DIR&quot; &gt;&amp;2
+  exit 1
+fi
+
+mkdir -p &quot;$BASE_DIR&quot;
+
+cat &lt;&lt;EOF
+Starting sub-memory web UI.
+
+Project: $PROJECT_DIR
+sub-memory base dir: $BASE_DIR
+URL: http://$HOST:$PORT/ui
+
+Open that URL directly in your browser after the server starts.
+Press Ctrl+C to stop.
+EOF
+
+exec &quot;$WEB_BIN&quot; --base-dir &quot;$BASE_DIR&quot; --host &quot;$HOST&quot; --port &quot;$PORT&quot;
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/scripts/update_shared_mcp.sh</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+SCRIPT_DIR=&quot;$(cd &quot;$(dirname &quot;${BASH_SOURCE[0]}&quot;)&quot; &amp;&amp; pwd)&quot;
+REQUESTED_PROJECT_DIR=&quot;${1:-}&quot;
+
+if command -v python3.11 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3.11&quot;
+elif command -v python3 &gt;/dev/null 2&gt;&amp;1; then
+  PYTHON_BIN=&quot;python3&quot;
+else
+  echo &quot;python3.11 or python3 is required&quot; &gt;&amp;2
+  exit 1
+fi
+
+RESOLVE_ARGS=(&quot;$PYTHON_BIN&quot; &quot;$SCRIPT_DIR/ensure_repo_checkout.py&quot;)
+if [[ -n &quot;$REQUESTED_PROJECT_DIR&quot; ]]; then
+  RESOLVE_ARGS+=(&quot;--project-dir&quot; &quot;$REQUESTED_PROJECT_DIR&quot;)
+fi
+
+PROJECT_DIR=&quot;$(&quot;${RESOLVE_ARGS[@]}&quot;)&quot;
+
+cd &quot;$PROJECT_DIR&quot;
+
+if [[ ! -x &quot;.venv/bin/python&quot; ]]; then
+  echo &quot;Missing $PROJECT_DIR/.venv/bin/python&quot; &gt;&amp;2
+  echo &quot;Run install_shared_mcp.sh first.&quot; &gt;&amp;2
+  exit 1
+fi
+
+&quot;.venv/bin/python&quot; -m pip install -r requirements.txt
+&quot;.venv/bin/python&quot; -m pip install -e .
+&quot;.venv/bin/python&quot; &quot;$SCRIPT_DIR/configure_codex_project.py&quot; --project-dir &quot;$PROJECT_DIR&quot;
+bash &quot;$SCRIPT_DIR/manage_mcp_daemon.sh&quot; restart &quot;$PROJECT_DIR&quot;
+
+cat &lt;&lt;EOF
+
+Shared MCP update flow complete.
+
+Next:
+  Restart Codex if you updated the installed skill files in CODEX_HOME.
+  Start a new Codex session from: $PROJECT_DIR
+EOF
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/SKILL.md</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: sub-memory-bootstrap
+description: Use when the user wants to install or validate the local sub-memory project, finish project-scoped Codex MCP registration, update AGENTS.md with sub_memory usage rules, start or inspect the shared local MCP daemon, start the local web UI, or generate ready-to-paste Codex, Gemini CLI, and Claude Code config snippets.
+---
+
+# Sub-memory Bootstrap
+
+Use this skill for end-to-end local onboarding of the `sub-memory` repository.
+If the installed skill does not include a full repository checkout, it must clone a managed
+checkout into `$CODEX_HOME/repos/sub-memory-bootstrap`
+or `~/.codex/repos/sub-memory-bootstrap` before bootstrapping.
+
+## Workflow
+
+1. Resolve the repository root from one of these sources:
+   an explicit project path, the installed full-repo skill copy, or a managed checkout created
+   under `$CODEX_HOME/repos/sub-memory-bootstrap` (fallback `~/.codex/repos/sub-memory-bootstrap`).
+   Confirm these files exist:
+   `requirements.txt`, `pyproject.toml`, `mcp_server.py`, `.env.example`
+2. If the local install is missing or stale, run:
+   `scripts/bootstrap_local.sh &lt;repo-root&gt;`
+3. The bootstrap flow must also finish project-local Codex onboarding:
+   write `.codex/config.toml` for `sub_memory` MCP registration and update `AGENTS.md`
+   with `sub_memory` usage rules.
+   Seed a new repository `AGENTS.md` from the bundled default template when needed.
+4. Generate machine-specific config snippets with:
+   `scripts/render_cli_snippets.py --project-dir &lt;repo-root&gt;`
+5. Start or validate the shared MCP daemon with:
+   `scripts/manage_mcp_daemon.sh {start|status|stop|restart} &lt;repo-root&gt;`
+6. If the user asks for the web UI, start it with:
+   `scripts/start_web_ui.sh &lt;repo-root&gt;`
+   and report the browser URL.
+7. Validate the install with:
+   `sub-memory-agent --help`
+   `sub-memory-mcp --help`
+   `sub-memory-web --help`
+   `python -m unittest discover -s tests`
+8. Use project-scoped Codex configuration by default.
+   Do not edit `~/.codex/config.toml`, `~/.gemini/settings.json`, `.mcp.json`, or other user-global config files without explicit permission.
+9. For Codex sessions, the generated `AGENTS.md` rules should mirror the `local_agent`
+   post-processing flow: recall before answering, store after each substantive turn,
+   reinforce after the answer when recall materially helped, and compact long
+   multi-turn sessions into a short working summary.
+10. If the user is working in Korean, keep the explanation in Korean.
+   Preserve commands, paths, config keys, and tool names exactly as written.
+
+## What To Produce
+
+- Local install status
+- Exact shared MCP URL
+- Exact `sub-memory-mcp` path
+- Exact `sub-memory-web` path
+- If started, the exact local browser URL
+- Exact project Codex config path
+- Confirmation that `AGENTS.md` contains the `sub_memory` usage rules
+- Ready-to-paste snippets for:
+  - Codex
+  - Gemini CLI
+  - Claude Code
+- Any blockers such as missing `sqlite-vec`, missing `.env`, or incompatible Python
+
+## Skill Installation
+
+If the user wants this skill installed globally for Codex, copy or symlink this folder to:
+
+- `$CODEX_HOME/skills/sub-memory-bootstrap`
+- or `~/.codex/skills/sub-memory-bootstrap`
+
+If only this nested skill folder is installed, the first bootstrap run must fetch the full
+repository into the managed checkout path above so the install can proceed.
+
+## Scope
+
+- In scope: local install, shared MCP daemon, local web UI, CLI setup, verification, documentation snippets
+- Out of scope: ChatGPT app, Gemini app, Claude app remote integrations
+
+## Korean Prompt Examples
+
+Use the same workflow for Korean-language requests such as:
+
+- `sub-memory-bootstrap을 사용해서 이 저장소를 로컬에 설치하고 Codex, Gemini CLI, Claude Code 설정 스니펫까지 만들어줘.`
+- `sub-memory-bootstrap으로 현재 설치 상태를 점검하고 이 저장소의 sub-memory-mcp 실제 경로를 알려줘.`
+- `sub-memory-bootstrap으로 로컬 MCP 서버가 바로 쓸 수 있는 상태인지 확인하고, project-local Codex 설정과 AGENTS.md까지 준비해줘.`
+- `sub-memory-bootstrap으로 이 저장소의 웹 UI를 실행하고 브라우저에서 열 주소를 알려줘.`
+</pre></details><details><summary><code>skills/sub-memory-bootstrap/templates/AGENTS.default.md</code> <span class="muted">(261 B, text)</span></summary><pre class="claude-preview file-preview"># Repository Instructions
+
+## Safety
+
+- Stay inside this repository unless the task requires another workspace path.
+- Ask before destructive commands or OS-level changes.
+- Do not modify macOS system settings, security settings, or global machine preferences.
+</pre></details><details><summary><code>sub_memory/__init__.py</code> <span class="muted">(95 B, text)</span></summary><pre class="claude-preview file-preview">&quot;&quot;&quot;Local long-term memory agent package.&quot;&quot;&quot;
+
+__all__ = [&quot;__version__&quot;]
+
+__version__ = &quot;0.2.0&quot;
+
+</pre></details><details><summary><code>sub_memory/agent.py</code> <span class="muted">(13.1 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from concurrent.futures import ThreadPoolExecutor
+from dataclasses import dataclass
+import argparse
+import json
+from pathlib import Path
+from time import perf_counter
+from typing import Any
+
+from openai import OpenAI, OpenAIError
+
+from sub_memory.config import Settings
+from sub_memory.metrics import MetricsLogger, count_chars, estimate_tokens_from_text
+from sub_memory.session_context import SessionContext
+from sub_memory.service import MemoryService
+from sub_memory.tools import ToolRegistry
+
+
+BASE_INSTRUCTIONS = &quot;&quot;&quot;You are a local AI assistant with a private long-term memory graph.
+
+Use the preloaded memory context when it is relevant to the user&#x27;s request.
+If the injected context is not enough, call recall_associated_memory to inspect deeper related memories.
+Use the compact session summary and recent-turn context when they are relevant.
+Older session turns may be compacted into a short summary to keep token usage bounded.
+Call reinforce_memory only when recalled memories materially influenced your final answer.
+Do not call store_memory during a normal turn unless the user explicitly asks you to save something immediately.
+The host runtime automatically stores the final user/assistant exchange after you answer.
+&quot;&quot;&quot;
+
+
+@dataclass(slots=True)
+class TurnResult:
+    answer: str
+    recalled_node_ids: set[str]
+    store_called_manually: bool
+    reinforce_called_manually: bool
+    usage: dict[str, int]
+
+
+class LocalMemoryAgent:
+    def __init__(self, settings: Settings) -&gt; None:
+        if not settings.openai_api_key:
+            raise RuntimeError(
+                &quot;OPENAI_API_KEY is not set. Copy .env.example to .env and fill it in.&quot;
+            )
+
+        self._settings = settings
+        self._service = MemoryService.from_settings(settings)
+        self._store = self._service.store
+        self._tools = ToolRegistry(self._store)
+        self._client = OpenAI(api_key=settings.openai_api_key)
+        self._executor = ThreadPoolExecutor(max_workers=4)
+        self._metrics = MetricsLogger(
+            settings.metrics_log_path,
+            retention_days=settings.metrics_retention_days,
+        )
+        self._session_context = SessionContext(
+            compact_after_turns=settings.compact_after_turns,
+            keep_recent_turns=settings.compact_keep_recent_turns,
+            summary_char_limit=settings.compact_summary_char_limit,
+        )
+
+    def close(self) -&gt; None:
+        self._executor.shutdown(wait=True)
+        self._service.close()
+
+    def run_interactive(self) -&gt; int:
+        print(&quot;Local memory agent started. Type &#x27;exit&#x27; or &#x27;quit&#x27; to stop.&quot;)
+
+        while True:
+            try:
+                user_text = input(&quot;You&gt; &quot;).strip()
+            except EOFError:
+                print()
+                return 0
+            except KeyboardInterrupt:
+                print(&quot;\nInterrupted.&quot;)
+                return 130
+
+            if not user_text:
+                continue
+            if user_text.lower() in self._settings.exit_commands:
+                return 0
+
+            try:
+                answer = self.handle_turn(user_text)
+            except Exception as exc:
+                print(f&quot;Error&gt; {exc}&quot;)
+                continue
+
+            print(f&quot;AI&gt; {answer}&quot;)
+
+    def run_once(self, prompt: str) -&gt; str:
+        return self.handle_turn(prompt)
+
+    def handle_turn(self, user_text: str) -&gt; str:
+        turn_started = perf_counter()
+        recall_future = self._executor.submit(
+            self._store.recall_associated_memory,
+            user_text,
+            self._settings.recall_depth,
+        )
+
+        recall_result: dict[str, Any]
+        try:
+            recall_result = recall_future.result()
+        except Exception as exc:
+            recall_result = {
+                &quot;error&quot;: f&quot;automatic recall failed: {exc}&quot;,
+                &quot;node_ids&quot;: [],
+                &quot;memories&quot;: [],
+            }
+
+        system_prompt = self._build_system_prompt(recall_result)
+        turn_result =</pre><div class="muted">…(content truncated)</div></details><details><summary><code>sub_memory/config.py</code> <span class="muted">(2.7 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from dataclasses import dataclass
+from pathlib import Path
+import os
+
+
+def _load_dotenv(dotenv_path: Path) -&gt; None:
+    if not dotenv_path.exists():
+        return
+
+    for raw_line in dotenv_path.read_text(encoding=&quot;utf-8&quot;).splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith(&quot;#&quot;) or &quot;=&quot; not in line:
+            continue
+
+        key, value = line.split(&quot;=&quot;, 1)
+        key = key.strip()
+        value = value.strip().strip(&#x27;&quot;&#x27;).strip(&quot;&#x27;&quot;)
+        os.environ.setdefault(key, value)
+
+
+def _read_int(name: str, default: int) -&gt; int:
+    value = os.getenv(name)
+    if value is None:
+        return default
+
+    try:
+        parsed = int(value)
+    except ValueError as exc:
+        raise RuntimeError(f&quot;{name} must be an integer, got {value!r}.&quot;) from exc
+
+    if parsed &lt; 1:
+        raise RuntimeError(f&quot;{name} must be &gt;= 1, got {parsed}.&quot;)
+
+    return parsed
+
+
+@dataclass(slots=True)
+class Settings:
+    base_dir: Path
+    db_path: Path
+    openai_api_key: str | None
+    openai_model: str
+    embedding_model_name: str
+    sqlite_vec_path: str | None
+    recall_depth: int
+    recall_limit: int
+    compact_after_turns: int
+    compact_keep_recent_turns: int
+    compact_summary_char_limit: int
+    metrics_log_path: Path
+    metrics_retention_days: int
+    exit_commands: tuple[str, ...] = (&quot;exit&quot;, &quot;quit&quot;)
+
+    @classmethod
+    def from_env(cls, base_dir: Path | None = None) -&gt; &quot;Settings&quot;:
+        resolved_base_dir = (base_dir or Path.cwd()).resolve()
+        _load_dotenv(resolved_base_dir / &quot;.env&quot;)
+
+        db_name = os.getenv(&quot;MEMORY_DB_PATH&quot;, &quot;memory.db&quot;)
+
+        return cls(
+            base_dir=resolved_base_dir,
+            db_path=(resolved_base_dir / db_name).resolve(),
+            openai_api_key=os.getenv(&quot;OPENAI_API_KEY&quot;),
+            openai_model=os.getenv(&quot;OPENAI_MODEL&quot;, &quot;gpt-5-mini&quot;),
+            embedding_model_name=os.getenv(
+                &quot;EMBEDDING_MODEL_NAME&quot;,
+                &quot;all-MiniLM-L6-v2&quot;,
+            ),
+            sqlite_vec_path=os.getenv(&quot;SQLITE_VEC_PATH&quot;),
+            recall_depth=_read_int(&quot;RECALL_DEPTH&quot;, 2),
+            recall_limit=_read_int(&quot;RECALL_LIMIT&quot;, 6),
+            compact_after_turns=_read_int(&quot;COMPACT_AFTER_TURNS&quot;, 4),
+            compact_keep_recent_turns=_read_int(&quot;COMPACT_KEEP_RECENT_TURNS&quot;, 2),
+            compact_summary_char_limit=_read_int(
+                &quot;COMPACT_SUMMARY_CHAR_LIMIT&quot;,
+                2400,
+            ),
+            metrics_log_path=(
+                resolved_base_dir
+                / os.getenv(&quot;METRICS_LOG_PATH&quot;, &quot;.sub-memory/metrics.jsonl&quot;)
+            ).resolve(),
+            metrics_retention_days=_read_int(&quot;METRICS_RETENTION_DAYS&quot;, 30),
+        )
+</pre></details><details><summary><code>sub_memory/embeddings.py</code> <span class="muted">(1.4 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from dataclasses import dataclass, field
+from typing import Protocol
+
+
+class Embedder(Protocol):
+    @property
+    def dimension(self) -&gt; int: ...
+
+    def embed_text(self, text: str) -&gt; list[float]: ...
+
+
+@dataclass(slots=True)
+class SentenceTransformerEmbedder:
+    model_name: str
+    _model: object | None = field(default=None, init=False, repr=False)
+    _dimension: int | None = field(default=None, init=False, repr=False)
+
+    def _ensure_model(self):
+        if self._model is not None:
+            return self._model
+
+        try:
+            from sentence_transformers import SentenceTransformer
+        except ImportError as exc:
+            raise RuntimeError(
+                &quot;sentence-transformers is not installed. &quot;
+                &quot;Create a virtualenv and install requirements.txt first.&quot;
+            ) from exc
+
+        self._model = SentenceTransformer(self.model_name)
+        self._dimension = int(self._model.get_sentence_embedding_dimension())
+        return self._model
+
+    @property
+    def dimension(self) -&gt; int:
+        self._ensure_model()
+        assert self._dimension is not None
+        return self._dimension
+
+    def embed_text(self, text: str) -&gt; list[float]:
+        if not text.strip():
+            raise ValueError(&quot;Cannot embed empty text.&quot;)
+
+        model = self._ensure_model()
+        vector = model.encode(text, normalize_embeddings=True)
+        return [float(value) for value in vector]
+
+</pre></details><details><summary><code>sub_memory/mcp_server.py</code> <span class="muted">(9.5 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+import argparse
+import logging
+from pathlib import Path
+import sys
+from time import perf_counter
+from typing import Any
+
+from mcp.server.fastmcp import Context, FastMCP
+
+from sub_memory.config import Settings
+from sub_memory.metrics import MetricsLogger, count_chars, estimate_tokens_from_text
+from sub_memory.session_context import SessionContextRegistry
+from sub_memory.service import MemoryService
+
+
+MCP_INSTRUCTIONS = &quot;&quot;&quot;Local memory tools backed by SQLite, sqlite-vec, networkx, and local embeddings.
+
+Use recall_associated_memory to fetch relevant prior memory before answering.
+After each substantive turn, call store_memory with the latest user request and your final answer unless the current host runtime already stores turns automatically.
+Use reinforce_memory after the answer when recalled memory materially influenced the answer.
+If a multi-turn session grows long, compact the active thread into a short working summary and rely on that summary plus recalled memory instead of the full raw transcript.
+&quot;&quot;&quot;
+
+
+def configure_logging(level: str) -&gt; None:
+    logging.basicConfig(
+        level=getattr(logging, level.upper(), logging.INFO),
+        stream=sys.stderr,
+        format=&quot;%(asctime)s %(levelname)s %(name)s %(message)s&quot;,
+    )
+
+
+def build_mcp_server(
+    service: MemoryService,
+    *,
+    metrics_logger: MetricsLogger | None = None,
+    log_level: str = &quot;INFO&quot;,
+    host: str = &quot;127.0.0.1&quot;,
+    port: int = 8000,
+) -&gt; FastMCP:
+    session_contexts = SessionContextRegistry(
+        compact_after_turns=service.settings.compact_after_turns,
+        keep_recent_turns=service.settings.compact_keep_recent_turns,
+        summary_char_limit=service.settings.compact_summary_char_limit,
+    )
+    server = FastMCP(
+        &quot;sub-memory&quot;,
+        instructions=MCP_INSTRUCTIONS,
+        log_level=log_level.upper(),
+        host=host,
+        port=port,
+    )
+
+    def resolve_session_key(ctx: Context | None) -&gt; str:
+        if ctx is None:
+            return &quot;default&quot;
+
+        try:
+            client_id = ctx.client_id
+        except Exception:
+            client_id = None
+        if client_id:
+            return f&quot;client:{client_id}&quot;
+
+        try:
+            return f&quot;session:{id(ctx.session)}&quot;
+        except Exception:
+            try:
+                return f&quot;request:{ctx.request_id}&quot;
+            except Exception:
+                return &quot;default&quot;
+
+    @server.tool(
+        name=&quot;recall_associated_memory&quot;,
+        description=(
+            &quot;Recall the most similar memory for a query and expand related memories &quot;
+            &quot;through the weighted graph.&quot;
+        ),
+        structured_output=True,
+    )
+    def recall_associated_memory(
+        query: str,
+        depth: int = 2,
+        ctx: Context | None = None,
+    ) -&gt; dict[str, Any]:
+        &quot;&quot;&quot;Recall related memory nodes for a natural-language query.&quot;&quot;&quot;
+        started = perf_counter()
+        result = service.recall_associated_memory(query=query, depth=depth)
+        result[&quot;session_context&quot;] = session_contexts.get_snapshot(resolve_session_key(ctx))
+        if metrics_logger is not None:
+            memory_chars = sum(
+                len(memory.get(&quot;text&quot;, &quot;&quot;)) for memory in result.get(&quot;memories&quot;, [])
+            )
+            metrics_logger.log_event(
+                &quot;mcp_recall&quot;,
+                {
+                    &quot;duration_ms&quot;: round((perf_counter() - started) * 1000, 3),
+                    &quot;query_chars&quot;: len(query),
+                    &quot;depth&quot;: depth,
+                    &quot;seed_id&quot;: result.get(&quot;seed_id&quot;),
+                    &quot;seed_distance&quot;: result.get(&quot;seed_distance&quot;),
+                    &quot;node_count&quot;: len(result.get(&quot;node_ids&quot;, [])),
+                    &quot;memory_chars&quot;: memory_chars,
+                    &quot;session_summary_chars&quot;: result[&quot;session_context&quot;].get(&quot;summary_chars&quot;, 0),
+                    &quot;session_recent_turn_count&quot;: result[&quot;session_context&quot;].get(&quot;recent_turn_count&quot;, 0),
+                    &quot;estimated_memory_tokens&quot;: estimate_toke</pre><div class="muted">…(content truncated)</div></details><details><summary><code>sub_memory/metrics.py</code> <span class="muted">(2.2 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from dataclasses import dataclass, field
+from datetime import datetime, timedelta, timezone
+import json
+from pathlib import Path
+import threading
+from typing import Any
+
+
+def estimate_tokens_from_text(text: str) -&gt; int:
+    collapsed = &quot; &quot;.join(text.split())
+    if not collapsed:
+        return 0
+    return max(1, (len(collapsed) + 2) // 3)
+
+
+def count_chars(value: Any) -&gt; int:
+    if value is None:
+        return 0
+    if isinstance(value, str):
+        return len(value)
+    return len(json.dumps(value, ensure_ascii=False))
+
+
+@dataclass(slots=True)
+class MetricsLogger:
+    log_path: Path
+    retention_days: int = 30
+    _lock: threading.RLock = field(init=False, repr=False)
+
+    def __post_init__(self) -&gt; None:
+        self._lock = threading.RLock()
+        self.log_path.parent.mkdir(parents=True, exist_ok=True)
+
+    def log_event(self, event_type: str, payload: dict[str, Any]) -&gt; None:
+        record = {
+            &quot;timestamp&quot;: datetime.now(timezone.utc).isoformat(),
+            &quot;event_type&quot;: event_type,
+            **payload,
+        }
+
+        line = json.dumps(record, ensure_ascii=False)
+
+        with self._lock:
+            with self.log_path.open(&quot;a&quot;, encoding=&quot;utf-8&quot;) as handle:
+                handle.write(line + &quot;\n&quot;)
+            self._prune_locked()
+
+    def _prune_locked(self) -&gt; None:
+        if self.retention_days &lt; 1 or not self.log_path.exists():
+            return
+
+        cutoff = datetime.now(timezone.utc) - timedelta(days=self.retention_days)
+        kept_lines: list[str] = []
+
+        for raw_line in self.log_path.read_text(encoding=&quot;utf-8&quot;).splitlines():
+            if not raw_line.strip():
+                continue
+            try:
+                record = json.loads(raw_line)
+                timestamp = datetime.fromisoformat(record[&quot;timestamp&quot;])
+            except Exception:
+                kept_lines.append(raw_line)
+                continue
+
+            if timestamp.tzinfo is None:
+                timestamp = timestamp.replace(tzinfo=timezone.utc)
+
+            if timestamp &gt;= cutoff:
+                kept_lines.append(raw_line)
+
+        self.log_path.write_text(
+            (&quot;\n&quot;.join(kept_lines) + &quot;\n&quot;) if kept_lines else &quot;&quot;,
+            encoding=&quot;utf-8&quot;,
+        )
+</pre></details><details><summary><code>sub_memory/service.py</code> <span class="muted">(2.9 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from dataclasses import dataclass
+from typing import Any
+
+from sub_memory.config import Settings
+from sub_memory.embeddings import Embedder, SentenceTransformerEmbedder
+from sub_memory.store import MemoryStore
+
+
+@dataclass(slots=True)
+class MemoryService:
+    settings: Settings
+    embedder: Embedder
+    store: MemoryStore
+
+    @classmethod
+    def from_settings(
+        cls,
+        settings: Settings,
+        *,
+        embedder: Embedder | None = None,
+    ) -&gt; &quot;MemoryService&quot;:
+        resolved_embedder = embedder or SentenceTransformerEmbedder(
+            settings.embedding_model_name
+        )
+        store = MemoryStore(settings, resolved_embedder)
+        return cls(
+            settings=settings,
+            embedder=resolved_embedder,
+            store=store,
+        )
+
+    def close(self) -&gt; None:
+        self.store.close()
+
+    def store_memory(self, user_text: str, ai_response: str) -&gt; dict[str, Any]:
+        return self.store.store_memory(user_text=user_text, ai_response=ai_response)
+
+    def recall_associated_memory(
+        self,
+        query: str,
+        depth: int | None = None,
+    ) -&gt; dict[str, Any]:
+        return self.store.recall_associated_memory(
+            query=query,
+            depth=depth or self.settings.recall_depth,
+        )
+
+    def reinforce_memory(self, node_ids: list[str]) -&gt; dict[str, Any]:
+        return self.store.reinforce_memory(node_ids=node_ids)
+
+    def delete_memory(self, node_id: str) -&gt; dict[str, Any]:
+        return self.store.delete_memory(node_id)
+
+    def get_status(self) -&gt; dict[str, Any]:
+        return {
+            &quot;db_path&quot;: str(self.settings.db_path),
+            &quot;embedding_model_name&quot;: self.settings.embedding_model_name,
+            &quot;recall_depth&quot;: self.settings.recall_depth,
+            &quot;recall_limit&quot;: self.settings.recall_limit,
+            &quot;compact_after_turns&quot;: self.settings.compact_after_turns,
+            &quot;compact_keep_recent_turns&quot;: self.settings.compact_keep_recent_turns,
+            &quot;node_count&quot;: self.store.count_nodes(),
+        }
+
+    def get_dashboard_stats(self) -&gt; dict[str, Any]:
+        return self.store.get_dashboard_stats()
+
+    def list_memories(
+        self,
+        *,
+        limit: int = 50,
+        offset: int = 0,
+        query: str | None = None,
+    ) -&gt; list[dict[str, Any]]:
+        return self.store.list_memories(limit=limit, offset=offset, query=query)
+
+    def get_memory(self, node_id: str) -&gt; dict[str, Any] | None:
+        memory = self.store.get_memory(node_id)
+        if memory is None:
+            return None
+        return {
+            **memory,
+            &quot;connected_memories&quot;: self.store.get_connected_memories(node_id),
+        }
+
+    def get_graph_subtree(
+        self,
+        node_id: str,
+        *,
+        depth: int = 2,
+        limit: int = 20,
+    ) -&gt; dict[str, Any]:
+        return self.store.get_graph_subtree(node_id, depth=depth, limit=limit)
+</pre></details><details><summary><code>sub_memory/session_context.py</code> <span class="muted">(6.9 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from dataclasses import dataclass
+from threading import RLock
+from time import monotonic
+
+
+@dataclass(slots=True)
+class SessionTurn:
+    user_text: str
+    answer: str
+
+
+class SessionContext:
+    # This object is responsible for compacting older turns into a bounded working summary.
+    def __init__(
+        self,
+        *,
+        compact_after_turns: int,
+        keep_recent_turns: int,
+        summary_char_limit: int,
+    ) -&gt; None:
+        self._compact_after_turns = compact_after_turns
+        self._keep_recent_turns = keep_recent_turns
+        self._summary_char_limit = summary_char_limit
+        self._summary = &quot;&quot;
+        self._recent_turns: list[SessionTurn] = []
+        self._turns_since_compact = 0
+
+    def render(self) -&gt; str:
+        parts: list[str] = []
+        if self._summary:
+            parts.append(f&quot;Compact session summary:\n{self._summary}&quot;)
+        else:
+            parts.append(&quot;Compact session summary:\nNone yet.&quot;)
+
+        if self._recent_turns:
+            rendered_turns = []
+            for index, turn in enumerate(self._recent_turns, start=1):
+                rendered_turns.append(
+                    f&quot;{index}. User: {turn.user_text}\n&quot;
+                    f&quot;   Assistant: {turn.answer}&quot;
+                )
+            parts.append(&quot;Recent uncompressed turns:\n&quot; + &quot;\n&quot;.join(rendered_turns))
+        else:
+            parts.append(&quot;Recent uncompressed turns:\nNone yet.&quot;)
+
+        return &quot;\n\n&quot;.join(parts)
+
+    def summary_char_count(self) -&gt; int:
+        return len(self._summary)
+
+    def recent_turns_char_count(self) -&gt; int:
+        return sum(
+            len(turn.user_text) + len(turn.answer)
+            for turn in self._recent_turns
+        )
+
+    def recent_turn_count(self) -&gt; int:
+        return len(self._recent_turns)
+
+    def append_turn(self, user_text: str, answer: str) -&gt; bool:
+        self._recent_turns.append(SessionTurn(user_text=user_text, answer=answer))
+        self._turns_since_compact += 1
+
+        if (
+            self._turns_since_compact &lt; self._compact_after_turns
+            or len(self._recent_turns) &lt;= self._keep_recent_turns
+        ):
+            return False
+
+        self._compact_recent_turns()
+        return True
+
+    def snapshot(self) -&gt; dict[str, object]:
+        return {
+            &quot;summary&quot;: self._summary,
+            &quot;recent_turns&quot;: [
+                {
+                    &quot;user_text&quot;: turn.user_text,
+                    &quot;answer&quot;: turn.answer,
+                }
+                for turn in self._recent_turns
+            ],
+            &quot;rendered&quot;: self.render(),
+            &quot;summary_chars&quot;: self.summary_char_count(),
+            &quot;recent_turn_count&quot;: self.recent_turn_count(),
+            &quot;recent_turn_chars&quot;: self.recent_turns_char_count(),
+            &quot;turns_since_compact&quot;: self._turns_since_compact,
+        }
+
+    def _compact_recent_turns(self) -&gt; None:
+        compact_until = max(0, len(self._recent_turns) - self._keep_recent_turns)
+        turns_to_compact = self._recent_turns[:compact_until]
+        if not turns_to_compact:
+            return
+
+        compact_block = self._summarize_turns(turns_to_compact)
+        if self._summary:
+            merged = f&quot;{self._summary}\n{compact_block}&quot;
+        else:
+            merged = compact_block
+
+        self._summary = self._clip_text(merged, self._summary_char_limit)
+        self._recent_turns = self._recent_turns[compact_until:]
+        self._turns_since_compact = 0
+
+    def _summarize_turns(self, turns: list[SessionTurn]) -&gt; str:
+        lines = [&quot;Compacted working context:&quot;]
+        for turn in turns:
+            lines.append(
+                &quot;- User requested: &quot;
+                + self._clip_text(turn.user_text.replace(&quot;\n&quot;, &quot; &quot;), 180)
+            )
+            lines.append(
+                &quot;  Outcome: &quot;
+                + self._clip_text(turn.answer.replace(&quot;\n&quot;, &quot; &quot;), 240)
+            )
+        return &quot;\n&quot;.join(lines)
+
+    def _clip_text(self, text: str, limit: int) -&gt; str:
+       </pre><div class="muted">…(content truncated)</div></details><details><summary><code>sub_memory/store.py</code> <span class="muted">(23.9 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from array import array
+from collections import deque
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from itertools import combinations
+from pathlib import Path
+import sqlite3
+import threading
+from typing import Any
+from uuid import uuid4
+
+import networkx as nx
+
+from sub_memory.config import Settings
+from sub_memory.embeddings import Embedder
+
+
+@dataclass(slots=True)
+class MemoryRecord:
+    node_id: str
+    text: str
+    timestamp: str
+
+
+@dataclass(slots=True)
+class MemoryMatch(MemoryRecord):
+    distance: float
+
+
+@dataclass(slots=True)
+class ConnectedMemory(MemoryRecord):
+    weight: float
+
+
+def _serialize_vector(values: list[float]) -&gt; bytes:
+    try:
+        import sqlite_vec  # type: ignore
+
+        if hasattr(sqlite_vec, &quot;serialize_float32&quot;):
+            return sqlite_vec.serialize_float32(values)
+    except ImportError:
+        pass
+
+    return array(&quot;f&quot;, values).tobytes()
+
+
+class MemoryStore:
+    def __init__(self, settings: Settings, embedder: Embedder) -&gt; None:
+        self._settings = settings
+        self._embedder = embedder
+        self._lock = threading.RLock()
+        self._conn = sqlite3.connect(
+            str(self._settings.db_path),
+            check_same_thread=False,
+        )
+        self._conn.row_factory = sqlite3.Row
+        self._conn.execute(&quot;PRAGMA foreign_keys = ON&quot;)
+        self._conn.execute(&quot;PRAGMA journal_mode = WAL&quot;)
+        self._graph = nx.Graph()
+        self._last_node_id: str | None = None
+
+        self._load_sqlite_vec()
+        self._create_schema()
+        self._sync_embedding_metadata()
+        self._load_graph()
+
+    @property
+    def graph(self) -&gt; nx.Graph:
+        return self._graph
+
+    def close(self) -&gt; None:
+        with self._lock:
+            self._conn.close()
+
+    def count_nodes(self) -&gt; int:
+        row = self._conn.execute(&quot;SELECT COUNT(*) AS count FROM nodes&quot;).fetchone()
+        assert row is not None
+        return int(row[&quot;count&quot;])
+
+    def count_edges(self) -&gt; int:
+        row = self._conn.execute(&quot;SELECT COUNT(*) AS count FROM edges&quot;).fetchone()
+        assert row is not None
+        return int(row[&quot;count&quot;])
+
+    def list_memories(
+        self,
+        *,
+        limit: int = 50,
+        offset: int = 0,
+        query: str | None = None,
+    ) -&gt; list[dict[str, Any]]:
+        sql = &quot;&quot;&quot;
+            SELECT
+                n.id,
+                n.text,
+                n.timestamp,
+                COUNT(e.source_id) + COUNT(e2.target_id) AS connection_count
+            FROM nodes n
+            LEFT JOIN edges e ON e.source_id = n.id
+            LEFT JOIN edges e2 ON e2.target_id = n.id
+        &quot;&quot;&quot;
+        params: list[Any] = []
+        if query and query.strip():
+            sql += &quot; WHERE n.text LIKE ?&quot;
+            params.append(f&quot;%{query.strip()}%&quot;)
+
+        sql += &quot;&quot;&quot;
+            GROUP BY n.id, n.text, n.timestamp
+            ORDER BY n.timestamp DESC
+            LIMIT ? OFFSET ?
+        &quot;&quot;&quot;
+        params.extend([limit, offset])
+
+        with self._lock:
+            rows = self._conn.execute(sql, params).fetchall()
+
+        return [
+            {
+                &quot;node_id&quot;: row[&quot;id&quot;],
+                &quot;text&quot;: row[&quot;text&quot;],
+                &quot;timestamp&quot;: row[&quot;timestamp&quot;],
+                &quot;connection_count&quot;: int(row[&quot;connection_count&quot;] or 0),
+            }
+            for row in rows
+        ]
+
+    def get_memory(self, node_id: str) -&gt; dict[str, Any] | None:
+        with self._lock:
+            row = self._conn.execute(
+                &quot;&quot;&quot;
+                SELECT id, text, timestamp
+                FROM nodes
+                WHERE id = ?
+                &quot;&quot;&quot;,
+                (node_id,),
+            ).fetchone()
+            if row is None:
+                return None
+
+        return {
+            &quot;node_id&quot;: row[&quot;id&quot;],
+            &quot;text&quot;: row[&quot;text&quot;],
+            &quot;timestamp&quot;: row[&quot;timestamp&quot;],
+        }
+
+    def get_connected_memories(
+        self,
+        node_id: str,
+        *,
+        limit: int = 20,
+    )</pre><div class="muted">…(content truncated)</div></details><details><summary><code>sub_memory/tools.py</code> <span class="muted">(5.0 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from dataclasses import dataclass
+import json
+from typing import Any, Callable
+
+from sub_memory.store import MemoryStore
+
+
+@dataclass(slots=True)
+class ToolRegistry:
+    store: MemoryStore
+
+    @property
+    def schemas(self) -&gt; list[dict[str, Any]]:
+        return [
+            {
+                &quot;type&quot;: &quot;function&quot;,
+                &quot;name&quot;: &quot;store_memory&quot;,
+                &quot;description&quot;: (
+                    &quot;Persist the current user/assistant exchange into local long-term &quot;
+                    &quot;memory and connect it to the previous conversation node.&quot;
+                ),
+                &quot;strict&quot;: True,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;user_text&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;The user&#x27;s message to save.&quot;,
+                        },
+                        &quot;ai_response&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;The assistant response to save.&quot;,
+                        },
+                    },
+                    &quot;required&quot;: [&quot;user_text&quot;, &quot;ai_response&quot;],
+                    &quot;additionalProperties&quot;: False,
+                },
+            },
+            {
+                &quot;type&quot;: &quot;function&quot;,
+                &quot;name&quot;: &quot;recall_associated_memory&quot;,
+                &quot;description&quot;: (
+                    &quot;Retrieve the closest memory for a query, then expand related &quot;
+                    &quot;memories through the weighted association graph.&quot;
+                ),
+                &quot;strict&quot;: True,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;query&quot;: {
+                            &quot;type&quot;: &quot;string&quot;,
+                            &quot;description&quot;: &quot;The text query used for memory retrieval.&quot;,
+                        },
+                        &quot;depth&quot;: {
+                            &quot;type&quot;: &quot;integer&quot;,
+                            &quot;description&quot;: &quot;Maximum BFS depth to traverse from the seed node.&quot;,
+                            &quot;minimum&quot;: 1,
+                            &quot;default&quot;: 2,
+                        },
+                    },
+                    &quot;required&quot;: [&quot;query&quot;],
+                    &quot;additionalProperties&quot;: False,
+                },
+            },
+            {
+                &quot;type&quot;: &quot;function&quot;,
+                &quot;name&quot;: &quot;reinforce_memory&quot;,
+                &quot;description&quot;: (
+                    &quot;Increase association weights between memory node IDs that &quot;
+                    &quot;materially informed the answer.&quot;
+                ),
+                &quot;strict&quot;: True,
+                &quot;parameters&quot;: {
+                    &quot;type&quot;: &quot;object&quot;,
+                    &quot;properties&quot;: {
+                        &quot;node_ids&quot;: {
+                            &quot;type&quot;: &quot;array&quot;,
+                            &quot;items&quot;: {&quot;type&quot;: &quot;string&quot;},
+                            &quot;minItems&quot;: 1,
+                            &quot;description&quot;: &quot;Memory node IDs to reinforce.&quot;,
+                        }
+                    },
+                    &quot;required&quot;: [&quot;node_ids&quot;],
+                    &quot;additionalProperties&quot;: False,
+                },
+            },
+        ]
+
+    def execute(self, name: str, arguments: dict[str, Any]) -&gt; dict[str, Any]:
+        tool = self._tool_map().get(name)
+        if tool is None:
+            raise ValueError(f&quot;Unknown tool requested: {name}&quot;)
+        return tool(arguments)
+
+    def _tool_map(self) -&gt; dict[str, Callable[[dict[str, Any]], dict[str, Any]]]:
+        return {
+            &quot;store_memory&quot;: self._store_memory,
+            &quot;recall_associated_memory&quot;: self._recall_associated_memory,
+            &quot;reinforce_memory&quot;: self._reinforce_memory,
+        }
+
+    def _store_memory(self, arguments: dict[str, Any]) -&gt; dict[str, Any]:
+        return self.store.store_memory(
+            user_text=str(arguments[&quot;user_text&quot;]),
+            ai_response=str(arguments[&quot;ai_response&quot;]),
+ </pre><div class="muted">…(content truncated)</div></details><details><summary><code>sub_memory/web.py</code> <span class="muted">(35.2 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+import argparse
+from http import HTTPStatus
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+import json
+from pathlib import Path
+from typing import Any
+from urllib.parse import parse_qs, urlparse
+
+from sub_memory.config import Settings
+from sub_memory.service import MemoryService
+
+
+BASE_STYLE = &quot;&quot;&quot;
+body {
+  font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, sans-serif;
+  margin: 0;
+  background: #f5f2ea;
+  color: #222;
+}
+header {
+  padding: 18px 24px;
+  background: linear-gradient(135deg, #d3c2a1, #f2ead9);
+  border-bottom: 1px solid #cfbf9f;
+}
+nav a {
+  margin-right: 14px;
+  color: #2a2418;
+  text-decoration: none;
+  font-weight: 600;
+}
+main {
+  padding: 24px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: white;
+  border: 1px solid #d9cfbb;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 10px 30px rgba(67, 52, 20, 0.05);
+}
+.memory-list {
+  display: grid;
+  gap: 12px;
+}
+.memory-item {
+  background: white;
+  border: 1px solid #d9cfbb;
+  border-radius: 12px;
+  padding: 14px;
+}
+.muted {
+  color: #6b665a;
+  font-size: 0.92rem;
+}
+pre {
+  white-space: pre-wrap;
+  background: #fffdf8;
+  border: 1px solid #e0d4bd;
+  padding: 12px;
+  border-radius: 10px;
+}
+input, button {
+  font: inherit;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid #cdbb98;
+}
+button {
+  cursor: pointer;
+  background: #7a5f36;
+  color: white;
+}
+svg {
+  width: 100%;
+  min-height: 520px;
+  background: white;
+  border: 1px solid #d9cfbb;
+  border-radius: 14px;
+}
+.graph-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.9fr) minmax(280px, 0.9fr);
+  gap: 16px;
+  align-items: start;
+}
+.graph-stage {
+  position: relative;
+}
+.graph-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.branch-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 6px 0 12px 0;
+}
+.branch-toggle {
+  background: #f4ead6;
+  color: #4c3d24;
+  border-color: #d6c39f;
+  padding: 7px 11px;
+}
+.branch-toggle[data-collapsed=&quot;true&quot;] {
+  background: #ead7b4;
+  color: #3e301a;
+}
+.branch-toggle[data-depth=&quot;2&quot;] {
+  margin-left: 10px;
+}
+.branch-toggle[data-depth=&quot;3&quot;] {
+  margin-left: 20px;
+}
+.branch-toggle[data-depth=&quot;4&quot;] {
+  margin-left: 30px;
+}
+.branch-toggle[data-depth=&quot;5&quot;] {
+  margin-left: 40px;
+}
+.graph-toolbar label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #4f4738;
+  font-size: 0.92rem;
+}
+.graph-sidebar {
+  display: grid;
+  gap: 12px;
+}
+.graph-detail {
+  background: linear-gradient(180deg, #fffdf8, #f8f2e6);
+}
+.graph-kpis {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.graph-kpi {
+  border: 1px solid #e4d7bd;
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.72);
+}
+.graph-kpi strong {
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 6px;
+}
+.graph-legend {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: #f1e7d4;
+  color: #514631;
+  font-size: 0.85rem;
+}
+.chip::before {
+  content: &quot;&quot;;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: currentColor;
+}
+.graph-empty {
+  display: grid;
+  place-items: center;
+  min-height: 520px;
+  color: #6b665a;
+}
+@media (max-width: 960px) {
+  .graph-shell {
+    grid-template-columns: 1fr;
+  }
+}
+&quot;&quot;&quot;
+
+
+def _html_page(title: str, body: str, script: str = &quot;&quot;) -&gt; bytes:
+    return f&quot;&quot;&quot;&lt;!doctype html&gt;
+&lt;html lang=&quot;ko&quot;&gt;
+&lt;head&gt;
+  &lt;meta charset=&quot;utf-8&quot;&gt;
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1&quot;&gt;
+  &lt;title&gt;{title}&lt;/title&gt;
+  &lt;style&gt;{BASE_STYLE}&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;header&gt;
+    &lt;h1 style=&quot;margin:0 0 10px 0;&quot;&gt;[ㄱ] 기억 시각화&lt;/h1&gt;
+    &lt;nav&gt;
+      &lt;a href=&quot;/ui&quot;&gt;Dashboard&lt;/a&gt;
+      &lt;a href=&quot;/ui/memories&quot;&gt;Search&lt;/a&gt;
+    &lt;/nav&gt;
+  &lt;/header&gt;
+  &lt;main&gt;{body}&lt;/main&gt;
+  &lt;script</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tests/test_agent_compaction.py</code> <span class="muted">(1.3 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+import unittest
+
+from sub_memory.session_context import SessionContext
+
+
+class SessionContextTests(unittest.TestCase):
+    def test_compacts_older_turns_and_keeps_recent_context(self) -&gt; None:
+        context = SessionContext(
+            compact_after_turns=2,
+            keep_recent_turns=1,
+            summary_char_limit=1000,
+        )
+
+        self.assertFalse(context.append_turn(&quot;first user request&quot;, &quot;first answer&quot;))
+        self.assertTrue(context.append_turn(&quot;second user request&quot;, &quot;second answer&quot;))
+
+        rendered = context.render()
+
+        self.assertIn(&quot;Compact session summary:&quot;, rendered)
+        self.assertIn(&quot;first user request&quot;, rendered)
+        self.assertIn(&quot;first answer&quot;, rendered)
+        self.assertIn(&quot;second user request&quot;, rendered)
+        self.assertIn(&quot;second answer&quot;, rendered)
+        self.assertNotIn(&quot;1. User: first user request&quot;, rendered)
+
+    def test_clips_overlong_summary_text(self) -&gt; None:
+        context = SessionContext(
+            compact_after_turns=1,
+            keep_recent_turns=1,
+            summary_char_limit=120,
+        )
+
+        context.append_turn(&quot;alpha &quot; * 30, &quot;beta &quot; * 30)
+        context.append_turn(&quot;gamma&quot;, &quot;delta&quot;)
+
+        rendered = context.render()
+
+        self.assertIn(&quot;...&quot;, rendered)
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</pre></details><details><summary><code>tests/test_configure_codex_project.py</code> <span class="muted">(3.6 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+import importlib.util
+import os
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+
+SCRIPT_PATH = (
+    Path(__file__).resolve().parent.parent
+    / &quot;skills&quot;
+    / &quot;sub-memory-bootstrap&quot;
+    / &quot;scripts&quot;
+    / &quot;configure_codex_project.py&quot;
+)
+
+
+def load_module():
+    spec = importlib.util.spec_from_file_location(
+        &quot;configure_codex_project&quot;,
+        SCRIPT_PATH,
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class ConfigureCodexProjectTests(unittest.TestCase):
+    def setUp(self) -&gt; None:
+        self.module = load_module()
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.project_dir = Path(self.temp_dir.name)
+        self.runtime_dir = self.project_dir / &quot;global-runtime&quot;
+        (self.project_dir / &quot;requirements.txt&quot;).write_text(&quot;&quot;, encoding=&quot;utf-8&quot;)
+        (self.project_dir / &quot;pyproject.toml&quot;).write_text(&quot;&quot;, encoding=&quot;utf-8&quot;)
+        (self.project_dir / &quot;mcp_server.py&quot;).write_text(&quot;&quot;, encoding=&quot;utf-8&quot;)
+        (self.project_dir / &quot;.env.example&quot;).write_text(&quot;OPENAI_MODEL=gpt-5-mini\n&quot;, encoding=&quot;utf-8&quot;)
+        mcp_entrypoint = self.project_dir / &quot;.venv&quot; / &quot;bin&quot; / &quot;sub-memory-mcp&quot;
+        mcp_entrypoint.parent.mkdir(parents=True, exist_ok=True)
+        mcp_entrypoint.write_text(&quot;#!/bin/sh\n&quot;, encoding=&quot;utf-8&quot;)
+
+    def tearDown(self) -&gt; None:
+        self.temp_dir.cleanup()
+
+    def test_configure_project_creates_codex_config_and_agents(self) -&gt; None:
+        with patch.dict(os.environ, {&quot;SUB_MEMORY_BASE_DIR&quot;: str(self.runtime_dir)}):
+            paths = self.module.configure_project(self.project_dir)
+
+        config_text = paths[&quot;config_path&quot;].read_text(encoding=&quot;utf-8&quot;)
+        agents_text = paths[&quot;agents_path&quot;].read_text(encoding=&quot;utf-8&quot;)
+
+        self.assertIn(&quot;[mcp_servers.sub_memory]&quot;, config_text)
+        self.assertIn(&#x27;url = &quot;http://127.0.0.1:8766/mcp&quot;&#x27;, config_text)
+        self.assertIn(&quot;## sub_memory MCP&quot;, agents_text)
+        self.assertIn(&quot;get_memory_status&quot;, agents_text)
+        self.assertIn(&quot;compact the active thread&quot;, agents_text)
+        self.assertTrue(self.runtime_dir.is_dir())
+        self.assertTrue((self.runtime_dir / &quot;.env&quot;).exists())
+        self.assertEqual(paths[&quot;runtime_dir&quot;], self.runtime_dir.resolve())
+
+    def test_configure_project_preserves_existing_content(self) -&gt; None:
+        config_path = self.project_dir / &quot;.codex&quot; / &quot;config.toml&quot;
+        config_path.parent.mkdir(parents=True, exist_ok=True)
+        config_path.write_text(
+            &#x27;[profiles.default]\nmodel = &quot;gpt-5&quot;\n\n&#x27;
+            &#x27;[mcp_servers.sub_memory]\nurl = &quot;http://127.0.0.1:9000/mcp&quot;\n&#x27;,
+            encoding=&quot;utf-8&quot;,
+        )
+        agents_path = self.project_dir / &quot;AGENTS.md&quot;
+        agents_path.write_text(
+            &quot;# Custom Notes\n\nDo not remove this section.\n&quot;,
+            encoding=&quot;utf-8&quot;,
+        )
+
+        with patch.dict(os.environ, {&quot;SUB_MEMORY_BASE_DIR&quot;: str(self.runtime_dir)}):
+            self.module.configure_project(self.project_dir)
+
+        config_text = config_path.read_text(encoding=&quot;utf-8&quot;)
+        agents_text = agents_path.read_text(encoding=&quot;utf-8&quot;)
+
+        self.assertIn(&#x27;[profiles.default]\nmodel = &quot;gpt-5&quot;&#x27;, config_text)
+        self.assertEqual(config_text.count(&quot;[mcp_servers.sub_memory]&quot;), 1)
+        self.assertIn(&#x27;url = &quot;http://127.0.0.1:8766/mcp&quot;&#x27;, config_text)
+        self.assertIn(&quot;# Custom Notes&quot;, agents_text)
+        self.assertIn(&quot;Do not remove this section.&quot;, agents_text)
+        self.assertIn(&quot;## sub_memory MCP&quot;, agents_text)
+        self.assertIn(&quot;compact the active thread&quot;, agents_text)
+</pre></details><details><summary><code>tests/test_ensure_repo_checkout.py</code> <span class="muted">(4.6 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+import importlib.util
+import os
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+
+SCRIPT_PATH = (
+    Path(__file__).resolve().parent.parent
+    / &quot;skills&quot;
+    / &quot;sub-memory-bootstrap&quot;
+    / &quot;scripts&quot;
+    / &quot;ensure_repo_checkout.py&quot;
+)
+
+
+def load_module():
+    spec = importlib.util.spec_from_file_location(
+        &quot;ensure_repo_checkout&quot;,
+        SCRIPT_PATH,
+    )
+    assert spec is not None
+    assert spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+class EnsureRepoCheckoutTests(unittest.TestCase):
+    def setUp(self) -&gt; None:
+        self.module = load_module()
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.root = Path(self.temp_dir.name)
+
+    def tearDown(self) -&gt; None:
+        self.temp_dir.cleanup()
+
+    def create_repo(self, path: Path) -&gt; Path:
+        path.mkdir(parents=True, exist_ok=True)
+        for name in self.module.REQUIRED_FILES:
+            (path / name).write_text(&quot;&quot;, encoding=&quot;utf-8&quot;)
+        return path
+
+    def test_resolve_project_dir_uses_explicit_repo(self) -&gt; None:
+        repo_dir = self.create_repo(self.root / &quot;explicit&quot;)
+
+        resolved = self.module.resolve_project_dir(repo_dir)
+
+        self.assertEqual(resolved, repo_dir.resolve())
+
+    def test_resolve_project_dir_discovers_repo_from_script_ancestors(self) -&gt; None:
+        repo_dir = self.create_repo(self.root / &quot;installed-skill&quot;)
+        script_dir = repo_dir / &quot;skills&quot; / &quot;sub-memory-bootstrap&quot; / &quot;scripts&quot;
+        script_dir.mkdir(parents=True, exist_ok=True)
+
+        resolved = self.module.resolve_project_dir(None, script_dir=script_dir)
+
+        self.assertEqual(resolved, repo_dir.resolve())
+
+    def test_resolve_project_dir_clones_managed_checkout_when_skill_is_nested_only(self) -&gt; None:
+        codex_home = self.root / &quot;codex-home&quot;
+        script_dir = codex_home / &quot;skills&quot; / &quot;sub-memory-bootstrap&quot; / &quot;scripts&quot;
+        script_dir.mkdir(parents=True, exist_ok=True)
+        managed_repo_dir = codex_home / &quot;repos&quot; / &quot;sub-memory-bootstrap&quot;
+        clone_calls: list[list[str]] = []
+
+        def fake_run(cmd: list[str], check: bool) -&gt; None:
+            self.assertTrue(check)
+            clone_calls.append(cmd)
+            self.create_repo(managed_repo_dir)
+
+        with patch.dict(os.environ, {&quot;CODEX_HOME&quot;: str(codex_home)}):
+            with patch.object(self.module.subprocess, &quot;run&quot;, side_effect=fake_run):
+                resolved = self.module.resolve_project_dir(None, script_dir=script_dir)
+
+        self.assertEqual(resolved, managed_repo_dir.resolve())
+        self.assertEqual(len(clone_calls), 1)
+        self.assertEqual(clone_calls[0][:6], [&quot;git&quot;, &quot;clone&quot;, &quot;--depth&quot;, &quot;1&quot;, &quot;--branch&quot;, &quot;main&quot;])
+        self.assertEqual(clone_calls[0][6], self.module.DEFAULT_REPO_URL)
+        self.assertEqual(clone_calls[0][7], str(managed_repo_dir.resolve()))
+
+    def test_resolve_codex_home_ignores_jetbrains_managed_override(self) -&gt; None:
+        jetbrains_codex_home = (
+            self.root / &quot;Library&quot; / &quot;Caches&quot; / &quot;JetBrains&quot; / &quot;IntelliJIdea2025.3&quot; / &quot;aia&quot; / &quot;codex&quot;
+        )
+
+        with patch.dict(os.environ, {&quot;CODEX_HOME&quot;: str(jetbrains_codex_home)}):
+            with patch.object(self.module.Path, &quot;home&quot;, return_value=self.root):
+                resolved = self.module.resolve_codex_home()
+
+        self.assertEqual(resolved, (self.root / &quot;.codex&quot;).resolve())
+
+    def test_resolve_project_dir_prefers_user_codex_home_over_jetbrains_cache(self) -&gt; None:
+        jetbrains_codex_home = (
+            self.root / &quot;Library&quot; / &quot;Caches&quot; / &quot;JetBrains&quot; / &quot;IntelliJIdea2025.3&quot; / &quot;aia&quot; / &quot;codex&quot;
+        )
+        script_dir = jetbrains_codex_home / &quot;skills&quot; / &quot;sub-memory-bootstrap&quot; / &quot;scripts&quot;
+        script_dir.mkdir(parents=True, exist_ok=True)
+        managed_repo_dir = self.root / &quot;.codex&quot; / &quot;repos&quot; / &quot;sub-memory-bootstrap&quot;
+        clone_calls: list[list[str]] = []
+
+        def fake_</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tests/test_mcp_server.py</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from pathlib import Path
+import tempfile
+import unittest
+
+import anyio
+
+try:
+    import sqlite_vec  # noqa: F401
+except ImportError:  # pragma: no cover - depends on native extension
+    SQLITE_VEC_AVAILABLE = False
+else:
+    SQLITE_VEC_AVAILABLE = True
+
+from sub_memory.config import Settings
+from sub_memory.mcp_server import build_mcp_server
+from sub_memory.service import MemoryService
+from tests.test_memory_store import FakeEmbedder
+
+
+class FlexibleFakeEmbedder:
+    dimension = 4
+
+    def embed_text(self, text: str) -&gt; list[float]:
+        seed = sum(ord(ch) for ch in text)
+        return [
+            float((seed % 7) + 1),
+            float((seed % 11) + 1),
+            float((seed % 13) + 1),
+            float((seed % 17) + 1),
+        ]
+
+
+@unittest.skipUnless(SQLITE_VEC_AVAILABLE, &quot;sqlite-vec is required for this test&quot;)
+class MCPServerTests(unittest.TestCase):
+    def setUp(self) -&gt; None:
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.base_path = Path(self.temp_dir.name)
+        self.settings = Settings(
+            base_dir=self.base_path,
+            db_path=self.base_path / &quot;memory.db&quot;,
+            openai_api_key=None,
+            openai_model=&quot;gpt-5-mini&quot;,
+            embedding_model_name=&quot;fake-embedder&quot;,
+            sqlite_vec_path=None,
+            recall_depth=2,
+            recall_limit=6,
+            compact_after_turns=4,
+            compact_keep_recent_turns=2,
+            compact_summary_char_limit=2400,
+            metrics_log_path=self.base_path / &quot;.sub-memory&quot; / &quot;metrics.jsonl&quot;,
+            metrics_retention_days=30,
+        )
+        self.service = MemoryService.from_settings(
+            self.settings,
+            embedder=FakeEmbedder(),
+        )
+        self.server = build_mcp_server(self.service, log_level=&quot;ERROR&quot;)
+
+    def tearDown(self) -&gt; None:
+        self.service.close()
+        self.temp_dir.cleanup()
+
+    def test_registered_tools_and_store_flow(self) -&gt; None:
+        async def run_test() -&gt; None:
+            tools = await self.server.list_tools()
+            tool_names = {tool.name for tool in tools}
+            self.assertEqual(
+                tool_names,
+                {
+                    &quot;recall_associated_memory&quot;,
+                    &quot;store_memory&quot;,
+                    &quot;reinforce_memory&quot;,
+                    &quot;get_memory_status&quot;,
+                },
+            )
+
+            _contents, store_result = await self.server.call_tool(
+                &quot;store_memory&quot;,
+                {&quot;user_text&quot;: &quot;alpha&quot;, &quot;ai_response&quot;: &quot;first&quot;},
+            )
+            self.assertEqual(store_result[&quot;status&quot;], &quot;stored&quot;)
+
+            _contents, status_result = await self.server.call_tool(
+                &quot;get_memory_status&quot;,
+                {},
+            )
+            self.assertEqual(status_result[&quot;node_count&quot;], 1)
+            self.assertIn(&quot;session_context&quot;, status_result)
+            self.assertEqual(
+                status_result[&quot;session_context&quot;][&quot;recent_turn_count&quot;],
+                1,
+            )
+
+        anyio.run(run_test)
+
+    def test_store_and_recall_include_compacted_session_context(self) -&gt; None:
+        compact_settings = Settings(
+            base_dir=self.base_path,
+            db_path=self.base_path / &quot;compact-memory.db&quot;,
+            openai_api_key=None,
+            openai_model=&quot;gpt-5-mini&quot;,
+            embedding_model_name=&quot;fake-embedder&quot;,
+            sqlite_vec_path=None,
+            recall_depth=2,
+            recall_limit=6,
+            compact_after_turns=2,
+            compact_keep_recent_turns=1,
+            compact_summary_char_limit=2400,
+            metrics_log_path=self.base_path / &quot;.sub-memory&quot; / &quot;compact-metrics.jsonl&quot;,
+            metrics_retention_days=30,
+        )
+        compact_service = MemoryService.from_settings(
+            compact_settings,
+            embedder=FlexibleFakeEmbedder(),
+        )
+        compact_server = build_mcp_server(compact_service, log_level=&quot;ERROR&quot;)
+
+        async def run_test() -&gt; No</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tests/test_memory_store.py</code> <span class="muted">(7.5 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from pathlib import Path
+import sqlite3
+import tempfile
+import unittest
+
+try:
+    import sqlite_vec  # noqa: F401
+except ImportError:  # pragma: no cover - depends on native extension
+    SQLITE_VEC_AVAILABLE = False
+else:
+    SQLITE_VEC_AVAILABLE = True
+
+from sub_memory.config import Settings
+from sub_memory.store import MemoryStore
+
+
+class FakeEmbedder:
+    dimension = 4
+
+    _vectors = {
+        &quot;User: alpha\nAssistant: first&quot;: [1.0, 0.0, 0.0, 0.0],
+        &quot;User: beta\nAssistant: second&quot;: [0.9, 0.1, 0.0, 0.0],
+        &quot;User: gamma\nAssistant: third&quot;: [0.8, 0.2, 0.0, 0.0],
+        &quot;alpha&quot;: [1.0, 0.0, 0.0, 0.0],
+        &quot;beta&quot;: [0.9, 0.1, 0.0, 0.0],
+        &quot;gamma&quot;: [0.8, 0.2, 0.0, 0.0],
+    }
+
+    def embed_text(self, text: str) -&gt; list[float]:
+        return self._vectors[text]
+
+
+@unittest.skipUnless(SQLITE_VEC_AVAILABLE, &quot;sqlite-vec is required for this test&quot;)
+class MemoryStoreTests(unittest.TestCase):
+    def setUp(self) -&gt; None:
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.base_path = Path(self.temp_dir.name)
+        self.settings = Settings(
+            base_dir=self.base_path,
+            db_path=self.base_path / &quot;memory.db&quot;,
+            openai_api_key=None,
+            openai_model=&quot;gpt-5-mini&quot;,
+            embedding_model_name=&quot;fake-embedder&quot;,
+            sqlite_vec_path=None,
+            recall_depth=2,
+            recall_limit=6,
+            compact_after_turns=4,
+            compact_keep_recent_turns=2,
+            compact_summary_char_limit=2400,
+            metrics_log_path=self.base_path / &quot;.sub-memory&quot; / &quot;metrics.jsonl&quot;,
+            metrics_retention_days=30,
+        )
+        self.store = MemoryStore(self.settings, FakeEmbedder())
+
+    def tearDown(self) -&gt; None:
+        self.store.close()
+        self.temp_dir.cleanup()
+
+    def test_store_recall_and_reinforce_flow(self) -&gt; None:
+        first = self.store.store_memory(&quot;alpha&quot;, &quot;first&quot;)
+        second = self.store.store_memory(&quot;beta&quot;, &quot;second&quot;)
+        third = self.store.store_memory(&quot;gamma&quot;, &quot;third&quot;)
+
+        self.assertEqual(self.store.count_nodes(), 3)
+        self.assertIsNotNone(self.store.get_edge_weight(first[&quot;node_id&quot;], second[&quot;node_id&quot;]))
+        self.assertIsNotNone(self.store.get_edge_weight(second[&quot;node_id&quot;], third[&quot;node_id&quot;]))
+
+        recalled = self.store.recall_associated_memory(&quot;alpha&quot;, depth=2)
+        recalled_ids = recalled[&quot;node_ids&quot;]
+
+        self.assertGreaterEqual(len(recalled_ids), 2)
+        self.assertEqual(recalled_ids[0], first[&quot;node_id&quot;])
+
+        prior_weight = self.store.get_edge_weight(first[&quot;node_id&quot;], second[&quot;node_id&quot;])
+        assert prior_weight is not None
+
+        reinforced = self.store.reinforce_memory(recalled_ids[:2])
+        self.assertEqual(reinforced[&quot;status&quot;], &quot;reinforced&quot;)
+
+        updated_weight = self.store.get_edge_weight(first[&quot;node_id&quot;], second[&quot;node_id&quot;])
+        assert updated_weight is not None
+        self.assertAlmostEqual(updated_weight, prior_weight + 0.1, places=6)
+
+    def test_dashboard_and_graph_queries(self) -&gt; None:
+        first = self.store.store_memory(&quot;alpha&quot;, &quot;first&quot;)
+        second = self.store.store_memory(&quot;beta&quot;, &quot;second&quot;)
+        self.store.store_memory(&quot;gamma&quot;, &quot;third&quot;)
+
+        dashboard = self.store.get_dashboard_stats()
+        self.assertEqual(dashboard[&quot;node_count&quot;], 3)
+        self.assertGreaterEqual(dashboard[&quot;edge_count&quot;], 2)
+        self.assertEqual(len(dashboard[&quot;recent_memories&quot;]), 3)
+
+        memories = self.store.list_memories(query=&quot;beta&quot;)
+        self.assertEqual(len(memories), 1)
+        self.assertIn(&quot;beta&quot;, memories[0][&quot;text&quot;])
+
+        detail = self.store.get_memory(second[&quot;node_id&quot;])
+        self.assertIsNotNone(detail)
+
+        connected = self.store.get_connected_memories(second[&quot;node_id&quot;])
+        self.assertGreaterEqual(len(connected), 1)
+
+        graph = self.store.get_graph_subtree(first[&quot;node_id&quot;], depth=2, limit=10)
+        self.assertEqual(graph[&quot;center_node_id&quot;], first[&quot;node_id&quot;])
+        self.as</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tests/test_metrics.py</code> <span class="muted">(1.8 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from datetime import datetime, timedelta, timezone
+import json
+from pathlib import Path
+import tempfile
+import unittest
+
+from sub_memory.metrics import MetricsLogger, estimate_tokens_from_text
+
+
+class MetricsTests(unittest.TestCase):
+    def test_estimate_tokens_from_text(self) -&gt; None:
+        self.assertEqual(estimate_tokens_from_text(&quot;&quot;), 0)
+        self.assertGreaterEqual(estimate_tokens_from_text(&quot;alpha beta gamma&quot;), 1)
+
+    def test_logger_prunes_old_records(self) -&gt; None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            log_path = Path(temp_dir) / &quot;metrics.jsonl&quot;
+            old_record = {
+                &quot;timestamp&quot;: (
+                    datetime.now(timezone.utc) - timedelta(days=31)
+                ).isoformat(),
+                &quot;event_type&quot;: &quot;old&quot;,
+            }
+            recent_record = {
+                &quot;timestamp&quot;: datetime.now(timezone.utc).isoformat(),
+                &quot;event_type&quot;: &quot;recent&quot;,
+            }
+            log_path.write_text(
+                json.dumps(old_record, ensure_ascii=False)
+                + &quot;\n&quot;
+                + json.dumps(recent_record, ensure_ascii=False)
+                + &quot;\n&quot;,
+                encoding=&quot;utf-8&quot;,
+            )
+
+            logger = MetricsLogger(log_path, retention_days=30)
+            logger.log_event(&quot;fresh&quot;, {&quot;value&quot;: 1})
+
+            lines = [
+                json.loads(line)
+                for line in log_path.read_text(encoding=&quot;utf-8&quot;).splitlines()
+                if line.strip()
+            ]
+            event_types = [line[&quot;event_type&quot;] for line in lines]
+
+            self.assertNotIn(&quot;old&quot;, event_types)
+            self.assertIn(&quot;recent&quot;, event_types)
+            self.assertIn(&quot;fresh&quot;, event_types)
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</pre></details><details><summary><code>tests/test_web.py</code> <span class="muted">(3.6 KB, text)</span></summary><pre class="claude-preview file-preview">from __future__ import annotations
+
+from pathlib import Path
+import tempfile
+import threading
+import unittest
+from urllib.request import Request, urlopen
+
+try:
+    import sqlite_vec  # noqa: F401
+except ImportError:  # pragma: no cover - depends on native extension
+    SQLITE_VEC_AVAILABLE = False
+else:
+    SQLITE_VEC_AVAILABLE = True
+
+from http.server import ThreadingHTTPServer
+
+from sub_memory.config import Settings
+from sub_memory.service import MemoryService
+from sub_memory.web import build_handler
+from tests.test_memory_store import FakeEmbedder
+
+
+@unittest.skipUnless(SQLITE_VEC_AVAILABLE, &quot;sqlite-vec is required for this test&quot;)
+class WebTests(unittest.TestCase):
+    def setUp(self) -&gt; None:
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.base_path = Path(self.temp_dir.name)
+        self.settings = Settings(
+            base_dir=self.base_path,
+            db_path=self.base_path / &quot;memory.db&quot;,
+            openai_api_key=None,
+            openai_model=&quot;gpt-5-mini&quot;,
+            embedding_model_name=&quot;fake-embedder&quot;,
+            sqlite_vec_path=None,
+            recall_depth=2,
+            recall_limit=6,
+            compact_after_turns=4,
+            compact_keep_recent_turns=2,
+            compact_summary_char_limit=2400,
+            metrics_log_path=self.base_path / &quot;.sub-memory&quot; / &quot;metrics.jsonl&quot;,
+            metrics_retention_days=30,
+        )
+        self.service = MemoryService.from_settings(self.settings, embedder=FakeEmbedder())
+        self.first = self.service.store_memory(&quot;alpha&quot;, &quot;first&quot;)
+        self.server = ThreadingHTTPServer((&quot;127.0.0.1&quot;, 0), build_handler(self.service))
+        self.thread = threading.Thread(target=self.server.serve_forever, daemon=True)
+        self.thread.start()
+
+    def tearDown(self) -&gt; None:
+        self.server.shutdown()
+        self.server.server_close()
+        self.thread.join(timeout=2)
+        self.service.close()
+        self.temp_dir.cleanup()
+
+    def test_status_and_ui_routes(self) -&gt; None:
+        base_url = f&quot;http://127.0.0.1:{self.server.server_port}&quot;
+        status_raw = urlopen(base_url + &quot;/api/status&quot;).read().decode(&quot;utf-8&quot;)
+        self.assertIn(&#x27;&quot;node_count&quot;: 1&#x27;, status_raw)
+
+        ui_raw = urlopen(base_url + &quot;/ui&quot;).read().decode(&quot;utf-8&quot;)
+        self.assertIn(&quot;[ㄱ] 기억 시각화&quot;, ui_raw)
+
+        graph_ui_raw = urlopen(base_url + f&quot;/ui/graph/{self.first[&#x27;node_id&#x27;]}&quot;).read().decode(&quot;utf-8&quot;)
+        self.assertIn(&quot;선택 기억&quot;, graph_ui_raw)
+        self.assertIn(&quot;다시 그리기&quot;, graph_ui_raw)
+        self.assertIn(&quot;branch-controls&quot;, graph_ui_raw)
+        self.assertIn(&quot;접기&quot;, graph_ui_raw)
+
+    def test_graph_api_exposes_parent_ids(self) -&gt; None:
+        second = self.service.store_memory(&quot;beta&quot;, &quot;second&quot;)
+        self.service.store_memory(&quot;gamma&quot;, &quot;third&quot;)
+
+        base_url = f&quot;http://127.0.0.1:{self.server.server_port}&quot;
+        raw = urlopen(base_url + f&quot;/api/graph/{self.first[&#x27;node_id&#x27;]}?depth=2&amp;limit=10&quot;).read().decode(&quot;utf-8&quot;)
+        self.assertIn(f&#x27;&quot;center_node_id&quot;: &quot;{self.first[&quot;node_id&quot;]}&quot;&#x27;, raw)
+        self.assertIn(&#x27;&quot;parent_id&quot;: null&#x27;, raw)
+        self.assertIn(f&#x27;&quot;parent_id&quot;: &quot;{self.first[&quot;node_id&quot;]}&quot;&#x27;, raw)
+
+    def test_neuralizer_route_deletes_memory(self) -&gt; None:
+        base_url = f&quot;http://127.0.0.1:{self.server.server_port}&quot;
+        request = Request(
+            base_url + f&quot;/api/neuralize/{self.first[&#x27;node_id&#x27;]}&quot;,
+            method=&quot;POST&quot;,
+        )
+        raw = urlopen(request).read().decode(&quot;utf-8&quot;)
+        self.assertIn(&#x27;&quot;status&quot;: &quot;deleted&quot;&#x27;, raw)
+
+        status_raw = urlopen(base_url + &quot;/api/status&quot;).read().decode(&quot;utf-8&quot;)
+        self.assertIn(&#x27;&quot;node_count&quot;: 0&#x27;, status_raw)
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</pre></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.487</td><td>0.18</td><td><strong>8.77</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.250</td><td>0.15</td><td><strong>3.75</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.667</td><td>0.07</td><td><strong>4.67</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

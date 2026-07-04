@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "healthcare",
+  "evasion_notes": "Embedded authorization signal as ambiguous compliance posture report phrase 'fast-track lane: eligible' rather than explicit decision tokens, circumventing pattern-based filters."
+}

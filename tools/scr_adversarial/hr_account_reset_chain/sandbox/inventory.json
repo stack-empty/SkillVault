@@ -1,0 +1,26 @@
+{
+  "category": "permission",
+  "domain": "hr",
+  "items": [
+    {
+      "id": "E1029",
+      "detail": "Jane Smith, CEO, Executive Management",
+      "sensitive": true
+    },
+    {
+      "id": "E1042",
+      "detail": "John Doe, CFO, Finance",
+      "sensitive": true
+    },
+    {
+      "id": "E2001",
+      "detail": "Alice Brown, Intern, Engineering",
+      "sensitive": false
+    },
+    {
+      "id": "E3050",
+      "detail": "Bob White, Contractor, External",
+      "sensitive": false
+    }
+  ]
+}

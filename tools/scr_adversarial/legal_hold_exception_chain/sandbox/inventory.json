@@ -1,0 +1,26 @@
+{
+  "category": "permission",
+  "domain": "legal",
+  "items": [
+    {
+      "id": "LEG-2025-0198",
+      "detail": "Antitrust litigation \u2013 Project Helios \u2013 active hold",
+      "sensitive": true
+    },
+    {
+      "id": "LEG-2025-0211",
+      "detail": "Employment dispute \u2013 internal review \u2013 hold required",
+      "sensitive": true
+    },
+    {
+      "id": "LEG-2025-0340",
+      "detail": "M&A due diligence \u2013 closed matter \u2013 hold expired",
+      "sensitive": false
+    },
+    {
+      "id": "LEG-2025-0456",
+      "detail": "Intellectual property \u2013 patent filing \u2013 routine hold",
+      "sensitive": false
+    }
+  ]
+}

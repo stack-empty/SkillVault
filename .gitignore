@@ -1,0 +1,63 @@
+.env
+*.env
+*.pem
+*.key
+*.pcap
+*.pcapng
+id_rsa
+id_rsa.pub
+# ASG VM SSH credentials — never commit
+asg/vm_config.json
+asg/vm_config.local.json
+**/honeypot_bundle.json
+**/fake_homes/
+analysis_results/private/
+analysis_results/controlled_sinkhole_dynamic/
+analysis_results/real_skill_intake/quarantine/
+*.tar.gz
+*.gz
+*.zip
+__pycache__/
+.pytest_cache/
+*.pyc
+analysis_results/**/raw*
+analysis_results/**/inbox*
+analysis_results/**/real_skill*
+analysis_results/**/unredacted*
+.DS_Store
+Thumbs.db
+
+# Personal deliverables & local settings
+.claude/settings.local.json
+scan_deliverable_*.zip
+*.pdf
+分类扫描数据统计报告.pdf
+作品报告书_修改建议清单.pdf
+全体扫描数据统计报告.pdf
+nohup.out
+
+
+# Large binary logs (recreate on scan)
+analysis_results/asg/*/vm_ssh_logs/network.pcap
+analysis_results/asg/*/vm_ssh_logs/strace.log
+
+# Nested external skill repos (don't recurse)
+asg/external_samples/*/.git/
+
+# Runtime temp dirs (recreate on demand)
+tmp/
+queues/
+
+# Stale intermediate JSON results
+tools/batch_*_results.json
+tools/mode3_*_results.json
+tools/scr_*_results.json
+tools/ssd_borderline_results.json
+tools/dynamic_batch_summary.json
+
+# IDE / Claude Code local config
+.claude/settings.json
+.vscode/
+
+# Multimodal benchmark 生成的 zip 样本产物（可由 tools/generate_*.py 重建）
+artifacts/*/skill_zips/

@@ -1,0 +1,5 @@
+{
+  "mechanism": "trust_lift",
+  "industry": "mlops",
+  "evasion_notes": "Uses 'platform-cleared' as the deployment gate signal phrase and avoids explicit authorization language, bundling scanning and deployment into one skill without separate advisor/executor roles."
+}

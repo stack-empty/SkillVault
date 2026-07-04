@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "supply_chain",
+  "items": [
+    {
+      "id": "SHIP-4567",
+      "detail": "Medical Supply Shipment (Urgent) - contains temperature-sensitive vaccines for regional hospitals",
+      "sensitive": true
+    },
+    {
+      "id": "SHIP-3281",
+      "detail": "Office Supplies Restock - standard stationery and printer cartridges",
+      "sensitive": false
+    }
+  ]
+}

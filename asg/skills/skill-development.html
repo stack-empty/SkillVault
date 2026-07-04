@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>skill-development · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>skill-development</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-skill-development">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">skill-development</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 10 · 87.6 KB</span>  <span class="chip">扫描: 2026-06-12 07:30:41</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">6.5<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:6.53%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 3 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P8</code></td><td>impact</td><td><code>references\pr-workflow.md:408</code></td><td><code class="snippet">Always use feature</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P8</code></td><td>impact</td><td><code>references\validation-criteria.md:178</code></td><td><code class="snippet">Always use GPT</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P8</code></td><td>impact</td><td><code>references\validation-criteria.md:445</code></td><td><code class="snippet">Always use Claude</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (10 files, 87.6 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>LICENSE</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>references/contribution-examples.md</code> <span class="muted">(11.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Contribution Examples
+
+Real-world examples of good contributions to help you understand what makes an effective PR.
+
+## Example 1: Correcting Guidance That Led to Errors
+
+### The Situation
+
+Agent followed `letta-memory-architect` guidance to use `memory_rethink` for updating shared memory blocks. Result: Data loss when two agents wrote simultaneously.
+
+### The Investigation
+
+```
+1. Checked references/concurrency.md
+2. Found memory_insert is safer for concurrent writes
+3. Realized warning existed but wasn&#x27;t prominent
+4. Tested memory_insert with concurrent writes - no data loss
+5. Identified that warning needs to be more visible
+```
+
+###PR Created
+
+**Title:** &quot;Emphasize memory_insert for concurrent writes&quot;
+
+**Description:**
+```markdown
+## What
+
+Makes the concurrent write warning more prominent in letta-memory-architect 
+and adds concrete example of data loss scenario.
+
+## Why
+
+I followed the skill&#x27;s guidance and used memory_rethink for updates in a 
+multi-agent scenario. Result: Data loss when two agents wrote simultaneously.
+
+The warning about concurrent writes existed in references/concurrency.md but 
+wasn&#x27;t prominent in the main SKILL.md. This led me to miss it.
+
+## Evidence
+
+- Reproduced data loss with memory_rethink (7/10 concurrent writes lost data)
+- Tested memory_insert with same scenario (0/10 data loss)
+- Confirmed in references/concurrency.md that this is documented behavior
+- Pattern is clear: append-only is safer for concurrency
+
+## Impact
+
+Prevents other agents from making same mistake that causes data loss.
+Makes critical safety information visible where agents first look.
+
+## Testing
+
+Added concrete example showing data loss scenario. Verified example is 
+clear and illustrative. Checked that warning now appears in main skill body.
+```
+
+**Changes:**
+- Move warning to prominent position in SKILL.md
+- Add concrete &quot;what goes wrong&quot; example
+- Bold the safety recommendation
+- Link to detailed concurrency patterns
+
+**Outcome:** Merged. Prevents future agents from data loss.
+
+---
+
+## Example 2: Adding Missing Pattern
+
+### The Situation
+
+Agent hit API rate limiting 5 times across different projects (OpenRouter, Anthropic, OpenAI). Each time spent 20-30 minutes implementing exponential backoff from scratch.
+
+### The Investigation
+
+```
+1. Searched skills repository for rate limiting patterns - not found
+2. Checked ai/models/ and ai/tools/ - no coverage
+3. Researched best practices - exponential backoff with jitter is standard
+4. Validated pattern works across all three APIs
+5. Determined this is generalizable, not project-specific
+```
+
+### PR Created
+
+**Title:** &quot;Add API rate limiting patterns&quot;
+
+**Description:**
+```markdown
+## What
+
+Creates new skill `ai/models/api-rate-limiting` covering exponential backoff, 
+jitter, and retry strategies for HTTP APIs.
+
+## Why
+
+Encountered rate limiting 5 times across different projects:
+- OpenRouter (2 times)
+- Anthropic API (2 times)
+- OpenAI API (1 time)
+
+Each time spent 20-30 minutes implementing retry logic from scratch. This is a 
+common pattern that should be documented.
+
+## Evidence
+
+- Tested pattern across all three APIs successfully
+- Pattern is HTTP standard (RFC 6585 for 429 responses)
+- Exponential backoff with jitter is documented best practice
+- Saved ~25 minutes per instance after documenting
+
+## Impact
+
+Prevents repeated implementation of same pattern. Helps any agent integrating 
+external APIs handle rate limiting correctly.
+
+## Testing
+
+Created test scenarios with intentional rate limiting. Verified:
+- Backoff timing works correctly
+- Jitter prevents thundering herd
+- Max retry limit prevents infinite loops
+- Pattern works across different API providers
+```
+
+**Changes:**
+- New skill: `ai/models/api-rate-limiting/SKILL.md`
+- Includes code examples for implementation
+- Documents when to use and when not to use
+- Covers different retry strategies and tradeoffs
+- Updates README.md to list new skill
+
+**Outcome:** Merged. Now saves time for all agents working with APIs.
+
+-</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/pr-workflow.md</code> <span class="muted">(10.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Pull Request Workflow
+
+All contributions to the skills repository go through pull requests (PRs), not direct commits to main. This ensures quality, enables review, and maintains a clear contribution history.
+
+## Why Pull Requests?
+
+**Quality control:**
+- Changes reviewed before merging
+- Catch errors or unclear instructions
+- Validate improvements are sound
+
+**Collaboration:**
+- Discuss alternatives and tradeoffs
+- Learn from reviewer feedback
+- Build shared understanding
+
+**History:**
+- Clear record of what changed and why
+- Attributable contributions
+- Easy to revert if needed
+
+**Learning:**
+- Feedback improves your future contributions
+- See how others approach problems
+- Collective knowledge building
+
+## PR Workflow Steps
+
+### 1. Create Feature Branch
+
+**Before making changes,** create a branch for your work.
+
+**Branch naming conventions:**
+```
+add/skill-name              # New skill
+update/skill-name-aspect    # Update existing skill
+fix/skill-name-issue        # Fix error or bug
+clarify/skill-name-section  # Improve clarity
+```
+
+**Example:**
+```bash
+git checkout -b add/api-rate-limiting
+```
+
+### 2. Make Your Changes
+
+**Update or create skills:**
+- Edit SKILL.md files
+- Add/update reference files
+- Include examples if helpful
+- Update README if adding new skill
+
+**Test your changes:**
+- Read through as if you&#x27;re seeing it for first time
+- Check that examples work
+- Verify links/references are correct
+- Ensure formatting is clean
+
+**Best practices:**
+- Keep changes focused (one improvement per PR)
+- Preserve existing valid content
+- Write clearly and concisely
+- Include examples where helpful
+
+### 3. Stage and Commit Changes
+
+**Stage relevant files:**
+```bash
+git add path/to/changed/files
+```
+
+**Write clear commit message:**
+```bash
+git commit -m &quot;Add exponential backoff pattern to API integration
+
+Includes retry logic with jitter for rate limiting scenarios.
+Tested across OpenRouter, Anthropic, and OpenAI APIs.&quot;
+```
+
+**Commit message format:**
+```
+&lt;Short summary of change&gt;
+
+&lt;Longer explanation of what and why&gt;
+&lt;Evidence or testing notes if relevant&gt;
+```
+
+### 4. Push Branch to Remote
+
+**First time pushing branch:**
+```bash
+git push -u origin add/api-rate-limiting
+```
+
+**Subsequent pushes:**
+```bash
+git push
+```
+
+### 5. Create Pull Request
+
+**Use GitHub web interface or CLI (gh):**
+```bash
+gh pr create --title &quot;Add API rate limiting patterns&quot; \
+  --body &quot;$(cat &lt;&lt;&#x27;EOF&#x27;
+## What
+
+Adds exponential backoff pattern for handling API rate limits.
+
+## Why
+
+Hit rate limiting 5 times across different projects. Spent ~30 minutes 
+each time figuring out retry logic. No existing skill documents this 
+common pattern.
+
+## Evidence
+
+- Tested on OpenRouter, Anthropic API, OpenAI API
+- 100% success rate across 20 test scenarios
+- Pattern aligns with HTTP RFC recommendations
+- Prevents 429 errors with minimal latency addition
+
+## Impact
+
+Saves debugging time when integrating external APIs. Prevents rate limit 
+errors that cause user-facing failures.
+
+## Testing
+
+Created test scenarios with intentional rate limiting. Verified backoff 
+logic works correctly and doesn&#x27;t retry indefinitely.
+EOF
+)&quot;
+```
+
+### 6. PR Description Template
+
+Use this structure for PR descriptions:
+
+```markdown
+## What
+
+[Brief description of what&#x27;s changing - 1-2 sentences]
+
+## Why
+
+[Problem encountered / gap found / improvement opportunity]
+[Why this change helps]
+
+## Evidence
+
+[How you validated this is better]
+[Testing you did]
+[Sources you referenced]
+
+## Impact  
+
+[Who benefits from this change]
+[What situations this helps]
+[What it prevents or enables]
+
+## Testing
+
+[How you verified changes work]
+[Examples you tried]
+[Edge cases you considered]
+
+## Related
+
+[Link to related skills if relevant]
+[Reference forum discussions or docs if applicable]
+```
+
+### 7. Respond to Feedback
+
+**Reviewers may:**
+- Ask clarifying questions
+- Suggest alternative approaches
+- Request additional examples
+- Point out edge cases
+- Propose refinements
+
+**How to respond:**
+- Address feedba</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/progressive-disclosure-research.md</code> <span class="muted">(20.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Progressive Disclosure at Scale: Operating Large Skill Libraries
+
+**Focus:** Practical patterns for managing 100-1000+ skills  
+**Date:** December 18, 2025
+
+---
+
+## Executive Summary
+
+Progressive disclosure enables agents to work with arbitrarily large skill libraries by loading information in stages: metadata → instructions → resources. This report focuses on practical implementation patterns for systems with 100+ skills, where naive approaches fail.
+
+**Critical insight:** At scale, you&#x27;re building a discovery system, not a documentation library.
+
+**Performance data:** 36.8% improvement with dynamic loading across 200+ tasks (Letta ContextBench). Discovery scales O(log n), browsing scales O(n) and fails beyond ~50 skills.
+
+---
+
+## The Scaling Wall
+
+### When Flat Structures Break
+
+**10-50 skills:** Flat list in memory block works fine  
+**50-100 skills:** Memory block gets crowded, discovery slower but functional  
+**100-500 skills:** Flat structure at breaking point, need better organization  
+**500+ skills:** Flat structure fails, hierarchical organization required
+
+**The problem at 100+ skills:**
+```
+Memory block contains:
+- 100 skills × 100 words metadata = 10,000 words
+- Approaches context window limits
+- Agent spends significant time scanning metadata
+- Discovery precision drops (too many similar-sounding skills)
+```
+
+**Key metrics from production (100+ skill systems):**
+- Discovery time: 2.5s → 8.3s (3.3x slower)
+- False positives: 3.1% → 18.7% (agents load wrong skills)
+- Memory overhead: 15% → 45% of context window
+- Agent confusion: More time selecting skills than executing tasks
+
+---
+
+## Three-Tier Architecture for Scale
+
+### Tier 1: Discovery Metadata (Always Loaded)
+
+**Challenge:** How do you fit 1000 skills in memory without overwhelming agents?
+
+**Solution: Hierarchical metadata with progressive drilling**
+
+```yaml
+# Top-level categories (always in memory)
+letta/          - Letta product ecosystem
+  ├─ agents/    - Agent development patterns
+  ├─ sdks/      - SDK integrations
+  └─ ops/       - Operations and deployment
+
+tools/          - External tool integrations
+  ├─ web/       - Web scraping, testing
+  ├─ data/      - Data processing
+  └─ ml/        - Machine learning tools
+
+# Skill metadata (loaded per category)
+letta/agents/
+  - memory-architecture: Designing memory blocks...
+  - tool-patterns: Tool selection and configuration...
+  - multi-agent: Coordinating multiple agents...
+```
+
+**Implementation pattern:**
+1. **Categories in memory block** (always loaded): ~10-20 categories, &lt;1k words
+2. **Skill list on demand** (when category selected): 10-50 skills per category
+3. **Full skill** (when specific skill selected): Complete SKILL.md
+
+**Example agent flow:**
+```
+Task: &quot;Set up memory blocks for a customer support agent&quot;
+
+Agent reasoning:
+1. Scan categories → &quot;letta/&quot; relevant
+2. Load letta/ skill list → See &quot;memory-architecture&quot; 
+3. Load memory-architecture SKILL.md
+4. Navigate to references/customer-support-patterns.md
+5. Execute task
+```
+
+### Tier 2: Category Organization
+
+**Practical category structure for 500+ skills:**
+
+```
+&lt;domain&gt;/
+├── &lt;subdomain&gt;/
+│   ├── CATEGORY.md         # Overview, when to use these skills
+│   ├── skill-1/
+│   ├── skill-2/
+│   └── skill-3/
+└── README.md               # Domain overview
+```
+
+**CATEGORY.md template:**
+```markdown
+# Agent Development Skills
+
+Use these skills when building, configuring, or debugging Letta agents.
+
+## Available Skills
+
+- **memory-architecture** - Use when designing memory blocks and data flow
+- **tool-patterns** - Use when selecting and configuring tools
+- **model-selection** - Use when choosing LLMs for specific workloads
+- **multi-agent** - Use when coordinating multiple agents
+
+## Quick Decision Tree
+
+Building new agent? → Start with memory-architecture
+Debugging tool issues? → See tool-patterns
+Performance problems? → Check model-selection
+Multiple agents? → Read multi-agent
+```
+
+**Key insight:** CATEGORY.md is metadata for a group of skills. Ag</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/recognizing-learnings.md</code> <span class="muted">(10.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Recognizing Learnings
+
+Valuable learnings often reveal themselves through specific signals during your work. Train yourself to notice these patterns.
+
+## Time Investment Signals
+
+### Debugging Time
+**Signal:** &quot;I spent 20+ minutes debugging this issue&quot;
+
+**Questions to ask:**
+- Was this documented anywhere?
+- Did I search existing skills first?
+- Would documenting this prevent future debugging time?
+- Is this a one-off or recurring pattern?
+
+**Example:**
+```
+Spent 45 minutes figuring out why Playwright tests were flaky. 
+Root cause: Need to wait for network idle, not just element presence.
+Pattern documented? No. Should be? Yes - common issue with webapp-testing.
+```
+
+### Trial and Error
+**Signal:** &quot;I tried 3+ approaches before finding what worked&quot;
+
+**Questions to ask:**
+- Were the failed approaches reasonable attempts?
+- What made the winning approach better?
+- Could guidance have prevented the trial-and-error?
+
+**Example:**
+```
+Tried git rebase -i (failed - interactive not supported)
+Tried git reset (lost work)
+Finally: git rebase HEAD~3 worked
+Could this be documented in git-workflows? Yes.
+```
+
+### &quot;Wish I Had Known&quot;
+**Signal:** &quot;I wish I had known this at the start&quot;
+
+**Questions to ask:**
+- Where would I have looked for this info?
+- What skill should contain this?
+- How much time would it have saved?
+
+**Example:**
+```
+Spent hour implementing custom retry logic for API calls.
+Later discovered: Most API libraries have built-in retry with backoff.
+Should be in api-integration skill: &quot;Check library features first&quot;
+```
+
+## Repetition Signals
+
+### Recurring Problem
+**Signal:** &quot;This is the third time I&#x27;ve solved this exact problem&quot;
+
+**Strong indicator** that knowledge should be captured.
+
+**Questions to ask:**
+- Am I solving it the same way each time?
+- Have I refined my approach across iterations?
+- Would other agents encounter this?
+
+**Example:**
+```
+Third time setting up Letta agent with file system access.
+Same steps each time: attach folder, verify tools appear, test read access.
+Create quick-start pattern in letta-agent-designer.
+```
+
+### Deja Vu Moments
+**Signal:** &quot;I remember doing something similar before&quot;
+
+**Questions to ask:**
+- What was different about the previous context?
+- What was the same (the generalizable pattern)?
+- Can I extract the common pattern?
+
+**Example:**
+```
+Configuring environment variables for third different framework.
+Pattern: All frameworks need .env file, loading mechanism differs.
+Extract: Common env var patterns, framework-specific loading details.
+```
+
+### Teaching Moments
+**Signal:** &quot;Let me explain how this works...&quot;
+
+**When you explain something to a user, you&#x27;re identifying knowledge worth documenting.**
+
+**Questions to ask:**
+- Did I explain this clearly?
+- Would this explanation help in a skill?
+- Are there examples that made it click?
+
+**Example:**
+```
+Explained memory_insert vs memory_replace to user with concurrent scenario.
+User understood immediately with the example.
+Capture example in letta-memory-architect for future clarity.
+```
+
+## Correction Signals
+
+### Skill Led Astray
+**Signal:** &quot;The skill said X, but Y actually works better&quot;
+
+**Critical learning moment - either skill is wrong or you misunderstood.**
+
+**Questions to ask:**
+- Did I follow instructions correctly?
+- Are there conditions where X is right but Y is better for my case?
+- Is the skill outdated or incomplete?
+
+**Example:**
+```
+Skill said: &quot;Use GPT-4 for complex tasks&quot;
+But: GPT-4o is newer, faster, same quality, lower cost
+Skill needs update: GPT-4o is now preferred over GPT-4
+```
+
+### Approach Failed
+**Signal:** &quot;This approach failed in ways not documented&quot;
+
+**Questions to ask:**
+- Was the failure predictable?
+- Should the skill warn about this?
+- What&#x27;s the workaround?
+
+**Example:**
+```
+Followed git-workflows to use git add -i (interactive add)
+Failed: Interactive mode not supported in Bash tool
+Add warning to skill about non-interactive environment
+```
+
+### Misunderstanding Caused Issue
+**Signal:** &quot;I misund</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/validation-criteria.md</code> <span class="muted">(14.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Validation Criteria
+
+Before contributing changes to the repository, validate that your learning is solid and will benefit others. Different types of contributions have different validation standards.
+
+## Contribution Types
+
+### Tool/SDK Documentation
+**Purpose:** Help agents integrate widely-used tools with battle-tested insights
+
+**What qualifies as &quot;widely-used&quot;:**
+- Has 1000+ GitHub stars OR
+- Appears in top search results for its problem domain OR  
+- Is a Letta product
+
+**Validation standards:**
+- Shares battle-tested insights beyond official docs (what you struggled with, not basic usage)
+- Documents common pitfalls, workarounds, and agent-specific patterns
+- Well-documented with working examples
+- Accurate and up-to-date
+- NOT just &quot;getting started&quot; guides (official docs already cover that)
+
+**Examples:** 
+- ✅ Claude SDK: Common pitfalls when streaming responses
+- ✅ Playwright: Testing patterns for AI-driven web apps  
+- ✅ MCP servers: Integration patterns for tool calling
+- ❌ &quot;How to install FastAPI&quot; (just use official docs)
+
+### Pattern Contributions
+**Purpose:** Share patterns discovered through agent experience
+
+**Validation standards:**
+- Seen 2-3+ times across different contexts
+- Tested and proven better than alternatives
+- Generalizable beyond specific projects
+- Explains tradeoffs and edge cases
+- Framework-specific patterns require validation through real agent experience (not just &quot;well-established practices&quot;)
+
+**Examples:** 
+- General: API rate limiting patterns, memory architecture principles, error handling strategies
+- Framework-specific (validated): React patterns tested across multiple agent UI projects, FastAPI patterns proven in production
+
+## Core Validation Questions
+
+The questions below apply primarily to **pattern contributions**. Tool/SDK documentation follows different standards (see above).
+
+### 1. Did You Test That Your Approach Works Better?
+
+**What this means:**
+- Compare before and after
+- Measure improvement (time saved, errors prevented, clarity gained)
+- Try both approaches if possible
+
+**Example - PASS:**
+```
+Old approach: memory_rethink for all updates
+New approach: memory_insert for concurrent writes
+Test: Ran 10 concurrent update scenarios
+Result: 0 data loss with memory_insert vs 7/10 data loss with memory_rethink
+Validated: Yes, objectively better for concurrent scenarios
+```
+
+**Example - FAIL:**
+```
+Old approach: Use GPT-4o
+New approach: Use Claude Sonnet  
+Test: Tried once, seemed fine
+Result: Personal preference, no systematic comparison
+Validated: No, insufficient evidence
+```
+
+### 2. Is This Generalizable Beyond Your Specific Context?
+
+**CRITICAL:** This is the most important validation criterion. Skills must contain **general-purpose knowledge**, not project-specific solutions.
+
+**What this means:**
+- Works across different projects/contexts
+- Not dependent on your unique setup/environment
+- Solves problems many agents will encounter
+- Teaches patterns, principles, or widely-applicable practices
+
+**Example - PASS (General pattern):**
+```
+Pattern: API rate limiting with exponential backoff
+Context tested: OpenRouter, Anthropic API, OpenAI API
+Result: Pattern worked across all three
+Generalizable: Yes, applies to most HTTP APIs
+Why general: HTTP rate limiting is universal problem with standard solution
+```
+
+**Example - FAIL (Too specific):**
+```
+Pattern: Our company API endpoint for user data is https://api.acme.com/v2/users
+Context: My project at Acme Corp
+Result: Works for my project
+Generalizable: No, this is project-specific configuration
+Why not general: Only applies to one company&#x27;s API
+```
+
+**Example - FAIL (Environment-specific):**
+```
+Pattern: Restart Docker container to fix database connection
+Context: My local setup with specific networking config
+Result: Works for me
+Generalizable: No, this is environment-specific workaround
+Why not general: Root cause likely in specific environment, not universal pattern
+```
+
+**Red flags for overly-specific contributions:**
+- Con</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/init_skill.py</code> <span class="muted">(10.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Skill Initializer - Creates a new skill from template
+
+Usage:
+    init_skill.py &lt;skill-name&gt; --path &lt;path&gt;
+
+Examples:
+    init_skill.py my-new-skill --path skills/public
+    init_skill.py my-api-helper --path skills/private
+    init_skill.py custom-skill --path /custom/location
+&quot;&quot;&quot;
+
+import sys
+from pathlib import Path
+
+
+SKILL_TEMPLATE = &quot;&quot;&quot;---
+name: {skill_name}
+description: [TODO: Complete and informative explanation of what the skill does and when to use it. Include WHEN to use this skill - specific scenarios, file types, or tasks that trigger it.]
+---
+
+# {skill_title}
+
+## Overview
+
+[TODO: 1-2 sentences explaining what this skill enables]
+
+## Structuring This Skill
+
+[TODO: Choose the structure that best fits this skill&#x27;s purpose. Common patterns:
+
+**1. Workflow-Based** (best for sequential processes)
+- Works well when there are clear step-by-step procedures
+- Example: DOCX skill with &quot;Workflow Decision Tree&quot; → &quot;Reading&quot; → &quot;Creating&quot; → &quot;Editing&quot;
+- Structure: ## Overview → ## Workflow Decision Tree → ## Step 1 → ## Step 2...
+
+**2. Task-Based** (best for tool collections)
+- Works well when the skill offers different operations/capabilities
+- Example: PDF skill with &quot;Quick Start&quot; → &quot;Merge PDFs&quot; → &quot;Split PDFs&quot; → &quot;Extract Text&quot;
+- Structure: ## Overview → ## Quick Start → ## Task Category 1 → ## Task Category 2...
+
+**3. Reference/Guidelines** (best for standards or specifications)
+- Works well for brand guidelines, coding standards, or requirements
+- Example: Brand styling with &quot;Brand Guidelines&quot; → &quot;Colors&quot; → &quot;Typography&quot; → &quot;Features&quot;
+- Structure: ## Overview → ## Guidelines → ## Specifications → ## Usage...
+
+**4. Capabilities-Based** (best for integrated systems)
+- Works well when the skill provides multiple interrelated features
+- Example: Product Management with &quot;Core Capabilities&quot; → numbered capability list
+- Structure: ## Overview → ## Core Capabilities → ### 1. Feature → ### 2. Feature...
+
+Patterns can be mixed and matched as needed. Most skills combine patterns (e.g., start with task-based, add workflow for complex operations).
+
+Delete this entire &quot;Structuring This Skill&quot; section when done - it&#x27;s just guidance.]
+
+## [TODO: Replace with the first main section based on chosen structure]
+
+[TODO: Add content here. See examples in existing skills:
+- Code samples for technical skills
+- Decision trees for complex workflows
+- Concrete examples with realistic user requests
+- References to scripts/templates/references as needed]
+
+## Resources
+
+This skill includes example resource directories that demonstrate how to organize different types of bundled resources:
+
+### scripts/
+Executable code (Python/Bash/etc.) that can be run directly to perform specific operations.
+
+**Examples from other skills:**
+- PDF skill: `fill_fillable_fields.py`, `extract_form_field_info.py` - utilities for PDF manipulation
+- DOCX skill: `document.py`, `utilities.py` - Python modules for document processing
+
+**Appropriate for:** Python scripts, shell scripts, or any executable code that performs automation, data processing, or specific operations.
+
+**Note:** Scripts may be executed without loading into context, but can still be read by Claude for patching or environment adjustments.
+
+### references/
+Documentation and reference material intended to be loaded into context to inform Claude&#x27;s process and thinking.
+
+**Examples from other skills:**
+- Product management: `communication.md`, `context_building.md` - detailed workflow guides
+- BigQuery: API reference documentation and query examples
+- Finance: Schema documentation, company policies
+
+**Appropriate for:** In-depth documentation, API references, database schemas, comprehensive guides, or any detailed information that Claude should reference while working.
+
+### assets/
+Files not intended to be loaded into context, but rather used within the output Claude produces.
+
+**Examples from other skills:**
+- Brand styling: PowerPoint template files (.pptx), logo files
+- Frontend builder: HTM</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/package_skill.py</code> <span class="muted">(3.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Skill Packager - Creates a distributable zip file of a skill folder
+
+Usage:
+    python utils/package_skill.py &lt;path/to/skill-folder&gt; [output-directory]
+
+Example:
+    python utils/package_skill.py skills/public/my-skill
+    python utils/package_skill.py skills/public/my-skill ./dist
+&quot;&quot;&quot;
+
+import sys
+import zipfile
+from pathlib import Path
+from quick_validate import validate_skill
+
+
+def package_skill(skill_path, output_dir=None):
+    &quot;&quot;&quot;
+    Package a skill folder into a zip file.
+
+    Args:
+        skill_path: Path to the skill folder
+        output_dir: Optional output directory for the zip file (defaults to current directory)
+
+    Returns:
+        Path to the created zip file, or None if error
+    &quot;&quot;&quot;
+    skill_path = Path(skill_path).resolve()
+
+    # Validate skill folder exists
+    if not skill_path.exists():
+        print(f&quot;❌ Error: Skill folder not found: {skill_path}&quot;)
+        return None
+
+    if not skill_path.is_dir():
+        print(f&quot;❌ Error: Path is not a directory: {skill_path}&quot;)
+        return None
+
+    # Validate SKILL.md exists
+    skill_md = skill_path / &quot;SKILL.md&quot;
+    if not skill_md.exists():
+        print(f&quot;❌ Error: SKILL.md not found in {skill_path}&quot;)
+        return None
+
+    # Run validation before packaging
+    print(&quot;🔍 Validating skill...&quot;)
+    valid, message = validate_skill(skill_path)
+    if not valid:
+        print(f&quot;❌ Validation failed: {message}&quot;)
+        print(&quot;   Please fix the validation errors before packaging.&quot;)
+        return None
+    print(f&quot;✅ {message}\n&quot;)
+
+    # Determine output location
+    skill_name = skill_path.name
+    if output_dir:
+        output_path = Path(output_dir).resolve()
+        output_path.mkdir(parents=True, exist_ok=True)
+    else:
+        output_path = Path.cwd()
+
+    zip_filename = output_path / f&quot;{skill_name}.zip&quot;
+
+    # Create the zip file
+    try:
+        with zipfile.ZipFile(zip_filename, &#x27;w&#x27;, zipfile.ZIP_DEFLATED) as zipf:
+            # Walk through the skill directory
+            for file_path in skill_path.rglob(&#x27;*&#x27;):
+                if file_path.is_file():
+                    # Calculate the relative path within the zip
+                    arcname = file_path.relative_to(skill_path.parent)
+                    zipf.write(file_path, arcname)
+                    print(f&quot;  Added: {arcname}&quot;)
+
+        print(f&quot;\n✅ Successfully packaged skill to: {zip_filename}&quot;)
+        return zip_filename
+
+    except Exception as e:
+        print(f&quot;❌ Error creating zip file: {e}&quot;)
+        return None
+
+
+def main():
+    if len(sys.argv) &lt; 2:
+        print(&quot;Usage: python utils/package_skill.py &lt;path/to/skill-folder&gt; [output-directory]&quot;)
+        print(&quot;\nExample:&quot;)
+        print(&quot;  python utils/package_skill.py skills/public/my-skill&quot;)
+        print(&quot;  python utils/package_skill.py skills/public/my-skill ./dist&quot;)
+        sys.exit(1)
+
+    skill_path = sys.argv[1]
+    output_dir = sys.argv[2] if len(sys.argv) &gt; 2 else None
+
+    print(f&quot;📦 Packaging skill: {skill_path}&quot;)
+    if output_dir:
+        print(f&quot;   Output directory: {output_dir}&quot;)
+    print()
+
+    result = package_skill(skill_path, output_dir)
+
+    if result:
+        sys.exit(0)
+    else:
+        sys.exit(1)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</pre></details><details><summary><code>scripts/quick_validate.py</code> <span class="muted">(2.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Quick validation script for skills - minimal version
+&quot;&quot;&quot;
+
+import sys
+import os
+import re
+from pathlib import Path
+
+def validate_skill(skill_path):
+    &quot;&quot;&quot;Basic validation of a skill&quot;&quot;&quot;
+    skill_path = Path(skill_path)
+    
+    # Check SKILL.md exists
+    skill_md = skill_path / &#x27;SKILL.md&#x27;
+    if not skill_md.exists():
+        return False, &quot;SKILL.md not found&quot;
+    
+    # Read and validate frontmatter
+    content = skill_md.read_text()
+    if not content.startswith(&#x27;---&#x27;):
+        return False, &quot;No YAML frontmatter found&quot;
+    
+    # Extract frontmatter
+    match = re.match(r&#x27;^---\n(.*?)\n---&#x27;, content, re.DOTALL)
+    if not match:
+        return False, &quot;Invalid frontmatter format&quot;
+    
+    frontmatter = match.group(1)
+    
+    # Check required fields
+    if &#x27;name:&#x27; not in frontmatter:
+        return False, &quot;Missing &#x27;name&#x27; in frontmatter&quot;
+    if &#x27;description:&#x27; not in frontmatter:
+        return False, &quot;Missing &#x27;description&#x27; in frontmatter&quot;
+    
+    # Extract name for validation
+    name_match = re.search(r&#x27;name:\s*(.+)&#x27;, frontmatter)
+    if name_match:
+        name = name_match.group(1).strip()
+        # Check naming convention (hyphen-case: lowercase with hyphens)
+        if not re.match(r&#x27;^[a-z0-9-]+$&#x27;, name):
+            return False, f&quot;Name &#x27;{name}&#x27; should be hyphen-case (lowercase letters, digits, and hyphens only)&quot;
+        if name.startswith(&#x27;-&#x27;) or name.endswith(&#x27;-&#x27;) or &#x27;--&#x27; in name:
+            return False, f&quot;Name &#x27;{name}&#x27; cannot start/end with hyphen or contain consecutive hyphens&quot;
+
+    # Extract and validate description
+    desc_match = re.search(r&#x27;description:\s*(.+)&#x27;, frontmatter)
+    if desc_match:
+        description = desc_match.group(1).strip()
+        # Check for angle brackets
+        if &#x27;&lt;&#x27; in description or &#x27;&gt;&#x27; in description:
+            return False, &quot;Description cannot contain angle brackets (&lt; or &gt;)&quot;
+
+    return True, &quot;Skill is valid!&quot;
+
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) != 2:
+        print(&quot;Usage: python quick_validate.py &lt;skill_directory&gt;&quot;)
+        sys.exit(1)
+    
+    valid, message = validate_skill(sys.argv[1])
+    print(message)
+    sys.exit(0 if valid else 1)</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(3.8 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: skill-development
+description: Create and contribute skills to the communal knowledge base. Use when creating new skills, updating existing skills, or contributing learnings back to the repository.
+license: MIT
+---
+
+# Skill Development
+
+Guide for creating effective skills and contributing them to the communal knowledge base.
+
+## When to Use This Skill
+
+**Creating skills:**
+- Building a new skill for a specific domain or workflow
+- Updating an existing skill with improvements
+- Packaging skills for distribution
+
+**Contributing skills:**
+- You discovered something that took significant time to figure out
+- Existing skill instructions were incomplete or led you astray
+- You repeatedly solve the same undocumented problem
+
+---
+
+## Part 1: Creating Skills
+
+### Skill Structure
+
+```
+skill-name/
+├── SKILL.md (required)
+│   ├── YAML frontmatter (name, description)
+│   └── Markdown instructions
+└── Bundled Resources (optional)
+    ├── scripts/      - Executable code
+    ├── references/   - Documentation loaded as needed
+    └── assets/       - Files used in output
+```
+
+### SKILL.md Requirements
+
+```yaml
+---
+name: skill-name
+description: What this skill does. Use when [triggers]. 
+---
+
+# Skill Name
+
+[Instructions in imperative form...]
+```
+
+**Metadata rules:**
+- `name`: lowercase, hyphens, gerund form (e.g., `creating-skills`)
+- `description`: Lead with action verbs, end with &quot;Use when [triggers]&quot;
+
+### Writing Style
+
+Write in **imperative/infinitive form** (verb-first), not second person:
+- ✅ &quot;To accomplish X, do Y&quot;
+- ❌ &quot;You should do X&quot;
+
+### Progressive Disclosure
+
+Keep SKILL.md lean (&lt;5k words). Move detailed content to `references/`:
+1. **Metadata** (~100 words) - Always in context
+2. **SKILL.md body** (&lt;5k words) - When skill triggers
+3. **References** (unlimited) - Loaded as needed by agent
+
+### Scripts
+
+Include scripts for tasks that:
+- Are repeatedly rewritten
+- Require deterministic reliability
+- Save significant tokens
+
+---
+
+## Part 2: Contributing Skills
+
+### Core Philosophy
+
+This repository is a **living knowledge base**. Skills must contain **general-purpose knowledge** that helps many agents - not project-specific configs or personal preferences.
+
+### What to Contribute
+
+| ✅ Contribute | ❌ Don&#x27;t Contribute |
+|--------------|-------------------|
+| Patterns that appear 3+ times | One-off solutions |
+| General API/tool patterns | Project-specific configs |
+| Battle-tested workarounds | Personal preferences |
+| Gap in existing skills | Already documented elsewhere |
+
+### Validation Checklist
+
+Before contributing, verify:
+- [ ] Is this generalizable beyond your specific context?
+- [ ] Have you seen this pattern multiple times?
+- [ ] Does this address a real gap vs. personal preference?
+- [ ] Would this help an agent on a completely different project?
+
+### Contribution Process
+
+1. **Recognize** - Notice patterns during work (time investment, repetition, corrections)
+2. **Validate** - Confirm pattern is general, not specific to your context
+3. **Create branch** - `add/skill-name` or `fix/skill-name`
+4. **Submit PR** - Clear description with rationale and evidence
+
+See `references/pr-workflow.md` for detailed PR process.
+
+---
+
+## Scripts
+
+- `scripts/init_skill.py` - Initialize skill directory structure
+- `scripts/package_skill.py` - Package skill for distribution
+- `scripts/quick_validate.py` - Validate SKILL.md format
+
+## References
+
+- `references/recognizing-learnings.md` - Patterns for spotting valuable learnings
+- `references/validation-criteria.md` - Detailed validation guidelines
+- `references/pr-workflow.md` - PR process and templates
+- `references/contribution-examples.md` - Real contribution examples
+- `references/progressive-disclosure-research.md` - Research on skill organization
+</pre></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.037</td><td>0.18</td><td><strong>0.68</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

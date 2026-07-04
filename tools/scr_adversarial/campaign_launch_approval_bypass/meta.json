@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "marketing",
+  "evasion_notes": "Evasion uses 'platform-cleared' and 'fast-track lane' as informational compliance labels that the downstream deployer's regex treats as launch approval, avoiding any explicit authorization keywords."
+}

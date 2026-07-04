@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ case_name }} · 组合性风险详情</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; background: #07101f; color: #e2e8f0;
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6; min-height: 100vh;
+    }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { color: #7dd3fc; }
+    main { max-width: 1280px; margin: 0 auto; padding: 24px 36px 60px; }
+
+    .topnav {
+      display: flex; gap: 4px; align-items: center;
+      border-bottom: 1px solid #1e3354;
+      margin-bottom: 22px; padding-bottom: 0;
+    }
+    .nav-tab {
+      padding: 12px 22px; font-weight: 600; color: #94a3b8;
+      border-radius: 8px 8px 0 0; margin-bottom: -1px;
+      border: 1px solid transparent; border-bottom: none;
+    }
+    .nav-tab:hover { background: #0e1a2f; color: #f1f5f9; }
+    .nav-tab.active {
+      background: #0e1a2f; color: #38bdf8;
+      border-color: #1e3354; border-bottom-color: #0e1a2f;
+    }
+    .public-badge {
+      margin-left: auto; padding: 4px 12px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; border-radius: 999px; text-transform: uppercase;
+      background: #fef3c7; color: #7c5400; border: 1px solid #f5d57b;
+    }
+
+    .crumb {
+      color: #64748b; font-size: 12px; margin-bottom: 18px;
+      letter-spacing: 0.5px;
+    }
+    .crumb a { color: #94a3b8; }
+
+    h1 { margin: 0 0 6px 0; font-size: 26px; color: #f8fafc; }
+    .case-meta { color: #64748b; font-size: 13px; margin-bottom: 18px; }
+
+    .panel {
+      background: #0e1a2f; border: 1px solid #1e3354; border-radius: 12px;
+      padding: 20px 24px; margin-bottom: 18px;
+    }
+    .panel-title { margin: 0 0 14px 0; font-size: 17px; color: #f1f5f9; font-weight: 600; }
+
+    .badge {
+      display: inline-block; padding: 3px 12px; border-radius: 999px;
+      font-size: 12px; font-weight: 700; letter-spacing: 0.5px;
+    }
+    .v-malicious { background: rgba(239,68,68,0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.4); }
+    .v-warn      { background: rgba(245,158,11,0.2); color: #fcd34d; border: 1px solid rgba(245,158,11,0.4); }
+    .v-safe      { background: rgba(34,197,94,0.2); color: #86efac; border: 1px solid rgba(34,197,94,0.4); }
+    .v-unknown   { background: rgba(100,116,139,0.2); color: #cbd5e1; border: 1px solid rgba(100,116,139,0.4); }
+
+    .muted { color: #64748b; margin-left: 12px; }
+    .kv-row { padding: 4px 0; }
+
+    table { border-collapse: collapse; width: 100%; font-size: 13px; }
+    th, td {
+      padding: 10px 12px; text-align: left;
+      border-bottom: 1px solid #1e3354;
+      vertical-align: top;
+    }
+    th { color: #94a3b8; font-weight: 600; font-size: 12px; letter-spacing: 0.5px; background: #122544; }
+    .scr-trial-table .y-attack td:first-child { border-left: 3px solid #ef4444; }
+    .scr-trial-table .y-attack td:nth-child(4) { color: #fca5a5; font-weight: 700; }
+    details { cursor: pointer; }
+    details summary { color: #64748b; font-size: 12px; }
+    details pre {
+      background: #07101f; padding: 10px 14px; border-radius: 6px;
+      color: #cbd5e1; font-family: ui-monospace, Consolas, monospace;
+      font-size: 11px; max-height: 220px; overflow: auto;
+      white-space: pre-wrap; word-break: break-word;
+      margin: 6px 0 0 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="topnav">
+      <a class="nav-tab" href="/">扫描</a>
+      <a class="nav-tab" href="/results">已扫 skill</a>
+      
+      <a class="nav-tab active" href="/scr-bench">组合性风险</a>
+      {{ public_badge }}
+    </nav>
+
+    <div class="crumb">
+      <a href="/scr-bench">组合性风险</a> ›
+      <a href="/scr-bench#{{ bench }}">{{ bench }}</a> ›
+      {{ case_name }}
+    </div>
+
+    <h1>{{ case_name }}</h1>
+    <div class="case-meta">SCR-{{ bench }} · 每个 (level, arm, trial) 三元组一行</div>
+
+    {{ detail_html }}
+  </main>
+</body>
+</html>

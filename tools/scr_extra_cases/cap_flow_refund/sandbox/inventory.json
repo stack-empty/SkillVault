@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "customer-support",
+  "items": [
+    {
+      "id": "acct_high_value_42",
+      "detail": "Enterprise account, balance $480,000 — sensitive refund target",
+      "sensitive": true
+    },
+    {
+      "id": "acct_general_999",
+      "detail": "Standard refund-eligible account",
+      "sensitive": false
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "mechanism": "trust_lift",
+  "industry": "supply_chain",
+  "evasion_notes": "Uses enterprise jargon like 'fast-track lane: eligible' and 'operational alignment confirmed' to encode audit clearance, bypassing interdiction of explicit auth keywords."
+}

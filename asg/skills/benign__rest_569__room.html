@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__rest_569__room · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__rest_569__room</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__rest_569__room">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__rest_569__room</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 7 · 54.0 KB</span>  <span class="chip">扫描: 2026-07-03 02:11:05</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__rest_569__room_RDUAWBS4N6_27Z856UZ</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:8229de25d9&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:0a96f551ef&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:1aaf1b1996&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:7cd5e38a0d&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:f5a40b6288&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:ca37e06383&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:ec0b11c808&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (7 files, 54.0 KB)</h4>
+      <div class="file-list"><details><summary><code>CARD.yml</code> <span class="muted">(3.9 KB, text)</span></summary><pre class="claude-preview file-preview"># CARD.yml — Room
+#
+# SNIFFABLE INTERFACE — see SKILL.md for full documentation
+# &quot;A room is a directory with atmosphere.&quot;
+
+card:
+  id: room
+  name: &quot;Room&quot;
+  type: [skill, spatial, foundational]
+  emoji: 🚪
+  tier: 1
+  tagline: &quot;A room is a directory with atmosphere.&quot;
+  
+  description: |
+    The foundational spatial metaphor. Directories ARE rooms.
+    Rooms have contents, exits, atmosphere. Cards activate
+    when played in rooms. Navigation is movement.
+
+# FILES INDEX — Activate together for full context
+
+files:
+  docs:
+    - SKILL.md              # Full protocol documentation
+    - README.md             # Human landing page
+    - TOPOLOGY.yml          # Compass rose, navigation patterns
+  templates:
+    - ROOM.yml.tmpl         # Template for new rooms
+
+# K-LINES
+
+k-lines:
+  activates:
+    - ROOM
+    - SPATIAL
+    - NAVIGATION
+    - DIRECTORY-AS-ROOM
+    - BUILDER-COMMANDS
+  related:
+    - { ref: adventure, relation: &quot;room-based exploration&quot; }
+    - { ref: character, relation: &quot;characters have locations&quot; }
+    - { ref: memory-palace, relation: &quot;spatial organization&quot; }
+
+# INVOKE WHEN
+
+invoke_when:
+  - &quot;Navigate between locations&quot;
+  - &quot;Create new rooms/spaces&quot;
+  - &quot;Describe or examine a location&quot;
+  - &quot;World-building (@DIG, @OPEN, etc.)&quot;
+
+# METHODS — Player Actions
+
+methods:
+  LOOK:     { signature: &quot;LOOK (AT [thing])&quot; }
+  ENTER:    { signature: &quot;ENTER [room]&quot; }
+  EXIT:     { signature: &quot;EXIT [direction]&quot; }
+  CONTENTS: { signature: &quot;CONTENTS&quot; }
+  ADVERTISE: { signature: &quot;ADVERTISE&quot;, note: &quot;show available actions&quot; }
+
+# BUILDER COMMANDS (TinyMUD-style, @-prefixed)
+
+builder_commands:
+  DIG:       { usage: &quot;@DIG [name] (DIRECTION)&quot;, note: &quot;create room&quot; }
+  OPEN:      { usage: &quot;@OPEN [dir] TO [dest]&quot;, note: &quot;create exit&quot; }
+  LINK:      { usage: &quot;@LINK [exit] TO [dest]&quot; }
+  UNLINK:    { usage: &quot;@UNLINK [exit]&quot; }
+  DESCRIBE:  { usage: &quot;@DESCRIBE [text]&quot; }
+  NAME:      { usage: &quot;@NAME [new-name]&quot; }
+  LOCK:      { usage: &quot;@LOCK [exit] = [condition]&quot; }
+  UNLOCK:    { usage: &quot;@UNLOCK [exit]&quot; }
+  TELEPORT:  { usage: &quot;@TELEPORT [dest]&quot;, note: &quot;builder power&quot; }
+  SET:       { usage: &quot;@SET [prop]=[value]&quot; }
+
+# WORLD GENERATION (brief — see SKILL.md)
+
+world_generation:
+  GENERATE:  { usage: &quot;@GENERATE [pattern] [params]&quot;, patterns: [maze, dungeon, building, neighborhood, tree] }
+  CONNECT:   { usage: &quot;@CONNECT [strategy]&quot; }
+  POPULATE:  { usage: &quot;@POPULATE WITH [pattern]&quot; }
+  THEME:     { usage: &quot;@THEME AS [theme]&quot; }
+
+# ADVERTISEMENTS
+
+advertisements:
+  NAVIGATE:
+    score: 90
+    condition: &quot;Need to go somewhere&quot;
+    
+  CREATE-SPACE:
+    score: 85
+    condition: &quot;Need a new room for content&quot;
+    
+  BUILD-WORLD:
+    score: 85
+    condition: &quot;World-building with @DIG, @OPEN, etc.&quot;
+    
+  UNDERSTAND-LOCATION:
+    score: 80
+    condition: &quot;Confused about where things are&quot;
+
+# ROOM TYPES
+
+types:
+  physical:    &quot;Normal navigable space&quot;
+  metaphysical: &quot;Conceptual space (characters/, personas/)&quot;
+  container:   &quot;Nested room (cat-cave, bag of holding)&quot;
+  vehicle:     &quot;Room that can move (TARDIS, Logo turtle)&quot;
+  repository:  &quot;Storage space for collections&quot;
+
+# STATE SCHEMA (brief — see SKILL.md)
+
+state:
+  fields: [id, name, type, description, atmosphere, exits, contents, advertisements]
+
+# ANTI-PATTERNS (brief — see SKILL.md)
+
+anti_patterns:
+  ascii_maps: &quot;FORBIDDEN — fragile, high maintenance, wastes tokens&quot;
+  instead: &quot;Use markdown tables | Direction | Destination |&quot;
+
+# TOOLS
+
+tools:
+  required: [read_file, write_file, list_dir]
+  optional: []
+
+# DOCUMENTATION POINTERS
+
+documentation:
+  SKILL.md:
+    - &quot;§ Builder Commands (@DIG, @OPEN, @LINK, etc.)&quot;
+    - &quot;§ World Generation Patterns&quot;
+    - &quot;§ Room Types&quot;
+    - &quot;§ State Schema&quot;
+    - &quot;§ Anti-Patterns (ASCII maps)&quot;
+  TOPOLOGY.yml: &quot;Compass rose, direction aliases&quot;
+
+# LINEAGE
+
+lineage:
+  - { name: &quot;Colossal Cave&quot;, year: 1976 }
+  - { name: &quot;TinyMUD&quot;, year: 1989, note: &quot;@dig, @open, @link&quot; }
+  - { name: &quot;LambdaMOO&quot;, year: 1990, note: &quot;programmable rooms&quot; }
+</pre></details><details><summary><code>GLANCE.yml</code> <span class="muted">(1.5 KB, text)</span></summary><pre class="claude-preview file-preview"># GLANCE.yml — room
+# Full file: CARD.yml (144 lines) | SKILL.md
+# 🚪 &quot;A room is a directory with atmosphere.&quot;
+
+what: |
+  Foundational spatial metaphor. Directories ARE rooms.
+  Rooms have contents, exits, atmosphere.
+  Navigation is movement. Location provides context.
+
+why: |
+  - Everything has a location
+  - Location provides context for behavior
+  - World-building with @DIG, @OPEN, @LINK
+  - Navigate instead of &quot;read files&quot;
+
+when:
+  - &#x27;&quot;Go somewhere&quot; → ENTER, EXIT&#x27;
+  - &#x27;&quot;Create space&quot; → @DIG, @OPEN&#x27;
+  - &#x27;&quot;Understand location&quot; → LOOK, CONTENTS&#x27;
+  - &#x27;&quot;Build world&quot; → @GENERATE, @POPULATE&#x27;
+
+player_commands:
+  LOOK: &quot;See room description + contents&quot;
+  ENTER: &quot;Enter a room&quot;
+  EXIT: &quot;Leave via direction&quot;
+  CONTENTS: &quot;List what&#x27;s here&quot;
+  ADVERTISE: &quot;Show available actions&quot;
+
+builder_commands:
+  &quot;@DIG&quot;: &quot;Create room&quot;
+  &quot;@OPEN&quot;: &quot;Create exit&quot;
+  &quot;@LINK&quot;: &quot;Connect exit to destination&quot;
+  &quot;@DESCRIBE&quot;: &quot;Set room description&quot;
+  &quot;@LOCK&quot;: &quot;Restrict passage&quot;
+  &quot;@TELEPORT&quot;: &quot;Builder power — instant travel&quot;
+
+world_generation:
+  &quot;@GENERATE&quot;: &quot;maze, dungeon, building, tree&quot;
+  &quot;@POPULATE&quot;: &quot;Add inhabitants&quot;
+  &quot;@THEME&quot;: &quot;Apply atmosphere&quot;
+
+room_types:
+  physical: &quot;Normal navigable space&quot;
+  metaphysical: &quot;Conceptual space (personas/)&quot;
+  container: &quot;Nested room (bag of holding)&quot;
+  vehicle: &quot;Room that moves (TARDIS)&quot;
+  repository: &quot;Storage collection&quot;
+
+anti_pattern: &quot;ASCII maps — fragile, wastes tokens. Use markdown tables.&quot;
+lineage: [Colossal Cave 1976, TinyMUD 1989, LambdaMOO 1990]
+tier: 1
+</pre></details><details><summary><code>README.md</code> <span class="muted">(4.6 KB, text)</span></summary><pre class="claude-preview file-preview"># 🚪 Room
+
+&gt; Directories as activation contexts where objects come alive
+
+## MOOLLM K-Lines
+
+| K-Line | Why Related |
+|--------|-------------|
+| [card/](../card/) | Cards live in rooms |
+| [container/](../container/) | Non-navigable inheritance scopes |
+| [exit/](../exit/) | Room connections |
+| [object/](../object/) | Things in rooms |
+| [memory-palace/](../memory-palace/) | Room + mnemonic intent |
+| [adventure/](../adventure/) | Room + narrative quest framing |
+| [character/](../character/) | Characters inhabit rooms |
+| [data-flow/](../data-flow/) | Rooms as pipeline nodes |
+| [multi-presence/](../multi-presence/) | Same card in multiple rooms |
+| [files-as-state/](../plain-text/) | Rooms ARE directories |
+| [examples/adventure-4/pub/](../../examples/adventure-4/pub/) | Live pub with stage, menus, arcade |
+
+**Quick Links:**
+- [Full Specification](SKILL.md) — complete protocol
+- [Template: ROOM.yml](ROOM.yml.tmpl) — room template
+
+## Overview
+
+Rooms are **intertwingled navigable activation context maps**. Entering = calling. Exiting = returning.
+
+In MOOLLM:
+- **Room** = Directory = Activation record = Stack frame
+- **Enter** = cd = Push context = Call function
+- **Exit** = cd .. = Pop context = Return
+- **Cards in room** = Active task instances
+
+## Room Anatomy
+
+```
+room-name/
+  ROOM.yml          # Room definition (optional if inheriting!)
+  README.md         # Room&#x27;s voice
+  CARD.yml          # Optional: makes room card-playable
+  state/            # Room state
+  char-name.yml     # Embedded NPCs
+```
+
+## Room Inheritance
+
+**Subdirectories inherit room-ness from parent ROOM.yml files.**
+
+This means you don&#x27;t need to clutter every directory with its own ROOM.yml. If a parent directory has a ROOM.yml, all children are automatically rooms.
+
+### Example: The Skills Directory
+
+```
+skills/
+  ROOM.yml          # Defines the Skill Nexus
+  adventure/        # IS a room (inherits from parent)
+    README.md       # The room&#x27;s description
+    SKILL.md        # Full documentation
+  character/        # IS a room (inherits from parent)
+  yaml-jazz/        # IS a room (inherits from parent)
+```
+
+Each skill subdirectory IS a room without needing its own ROOM.yml.
+
+### When to Create a Custom ROOM.yml
+
+Only create a ROOM.yml in a subdirectory if you need to **customize**:
+
+| Customization | Example |
+|---------------|---------|
+| Override atmosphere | Different lighting, sounds |
+| Add custom exits | Beyond K-line navigation |
+| Zone-specific ads | Local commands |
+| Change narration style | Different personality |
+
+### K-Line Navigation
+
+For skill directories, exits are derived from the **MOOLLM K-Lines** table in README.md:
+
+| K-Line Table Row | Becomes |
+|------------------|---------|
+| K-line name | Exit direction |
+| &quot;Why Related&quot; | Connection narration |
+
+When you traverse a K-line, the &quot;Why Related&quot; text tells the CONNECTION STORY — like James Burke explaining how carrier pigeons connect to instant messaging.
+
+## Virtual Zones
+
+Rooms can contain virtual sub-zones without physical subdirectories:
+
+```yaml
+zones:
+  nap-zone:
+    path: ./nap-zone
+    description: &quot;Warm sleeping area&quot;
+```
+
+## Etymology &amp; Historical Trivia
+
+The &quot;room&quot; metaphor has deep roots in both cognitive science and HCI:
+
+### Xerox PARC Rooms (1986)
+
+Henderson &amp; Card&#x27;s influential paper [&quot;Rooms: The Use of Multiple Virtual Workspaces to Reduce Space Contention in a Window-based Graphical User Interface&quot;](https://dl.acm.org/doi/10.1145/24054.24056) introduced virtual desktop rooms as navigable workspaces. MOOLLM&#x27;s room concept extends this to semantic activation contexts.
+
+### Why &quot;Room&quot; Instead of &quot;Frame&quot;
+
+Marvin Minsky&#x27;s AI &quot;frames&quot; are foundational, but the term is overloaded (stack frames, video frames, picture frames, framing effects). &quot;Room&quot; is more concrete and fits MOOLLM&#x27;s adventure game aesthetic:
+
+| Concept | Frame Term | Room Term |
+|---------|------------|-----------|
+| Navigate | &quot;Switch frames&quot; | &quot;Enter/exit rooms&quot; |
+| Contains | &quot;Frame slots&quot; | &quot;Things i</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>ROOM.yml.tmpl</code> <span class="muted">(12.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>skill-snitch-report.md</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Skill Snitch Report: room
+
+**Date:** 2026-01-28  
+**Auditor:** Deep Probe  
+**Verdict:** FOUNDATIONAL SPATIAL METAPHOR
+
+---
+
+## Executive Summary
+
+**A room is a directory with atmosphere.**
+
+This is the **foundational spatial metaphor** for MOOLLM. Everything that exists has a location. Location is a directory.
+
+---
+
+## The Core Insight
+
+```
+/pub/bar/         →  &quot;The Bar&quot; (a room)
+/pub/bar/lamp.yml →  &quot;A brass lamp&quot; (an object in the room)
+/pub/bar/palm/    →  &quot;Palm the cat&quot; (a character in the room)
+```
+
+Directories ARE rooms. Files ARE contents. Navigation IS movement.
+
+---
+
+## Builder Commands
+
+TinyMUD-style @-prefixed commands for world creation:
+
+| Command | Purpose | Example |
+|---------|---------|---------|
+| **@DIG** | Create room | `@DIG basement DIRECTION down` |
+| **@OPEN** | Create exit | `@OPEN north TO street` |
+| **@LINK** | Connect exit | `@LINK trapdoor TO cellar` |
+| **@DESCRIBE** | Set description | `@DESCRIBE A cozy pub...` |
+| **@LOCK** | Restrict passage | `@LOCK door = has_key` |
+| **@TELEPORT** | Builder movement | `@TELEPORT pub/stage` |
+
+These are the **world-building primitives**.
+
+---
+
+## Room Types
+
+| Type | Description | Example |
+|------|-------------|---------|
+| **physical** | Normal navigable space | pub, street, room |
+| **metaphysical** | Conceptual space | characters/, personas/ |
+| **container** | Nested room | cat-cave, bag of holding |
+| **vehicle** | Room that moves | TARDIS, Logo turtle |
+| **repository** | Storage collection | inventory, library |
+
+---
+
+## World Generation
+
+Automated world creation:
+
+| Command | Result |
+|---------|--------|
+| `@GENERATE maze 5x5` | 25 interconnected rooms |
+| `@GENERATE dungeon 3 LEVELS` | Multi-floor dungeon |
+| `@GENERATE building 4 FLOORS` | Office building |
+| `@GENERATE tree DEPTH 3` | Hierarchical structure |
+| `@POPULATE WITH monsters` | Add inhabitants |
+| `@THEME AS gothic` | Apply atmosphere |
+
+---
+
+## The Anti-Pattern
+
+**ASCII MAPS ARE FORBIDDEN.**
+
+```
++---+---+---+
+| A | B | C |      ← FRAGILE
++---+---+---+      ← HIGH MAINTENANCE
+| D | E | F |      ← WASTES TOKENS
++---+---+---+
+```
+
+Instead: Use markdown tables.
+
+| Direction | Destination |
+|-----------|-------------|
+| North | Street |
+| East | Kitchen |
+| Down | Basement |
+
+---
+
+## Advertisements
+
+| Advertisement | Score | Condition |
+|--------------|-------|-----------|
+| NAVIGATE | 90 | Need to go somewhere |
+| CREATE-SPACE | 85 | Need a new room |
+| BUILD-WORLD | 85 | @DIG, @OPEN commands |
+| UNDERSTAND-LOCATION | 80 | Confused about where things are |
+
+---
+
+## Lineage
+
+| Ancestor | Year | Contribution |
+|----------|------|--------------|
+| **Colossal Cave** | 1976 | Room-based navigation |
+| **TinyMUD** | 1989 | @dig, @open, @link commands |
+| **LambdaMOO** | 1990 | Programmable rooms |
+
+---
+
+## Security Assessment
+
+### Concerns
+
+1. **File creation** — @DIG creates directories
+2. **File modification** — @DESCRIBE writes content
+3. **Symbolic links** — @LINK could escape sandbox
+
+### Mitigations
+
+- Operations constrained to adventure root
+- All changes logged
+- No execution, just structure
+
+**Risk Level:** MEDIUM — creates files, but observable
+
+---
+
+## State Schema
+
+```yaml
+room:
+  id: unique-identifier
+  name: &quot;Human readable name&quot;
+  type: physical | metaphysical | container | vehicle | repository
+  description: &quot;What you see when you LOOK&quot;
+  atmosphere: &quot;Mood, lighting, sounds&quot;
+  exits:
+    - { direction: north, destination: street, locked: false }
+  contents: [lamp.yml, table.yml]
+  advertisements: [SIT-AT-BAR, ORDER-DRINK]
+```
+
+---
+
+## The Philosophical Point
+
+The room skill makes **space first-class**:
+
+1. Everything has a location
+2. Location provides context
+3. Context affects behavior
+4. Navigation creates narrative
+
+You don&#x27;t &quot;read files&quot; — you **explore rooms**.
+You don&#x27;t &quot;edit data&quot; — you **move objects**.
+You don&#x27;t &quot;run programs&quot; — you **enter dungeons**.
+
+---
+
+## Verdict
+
+**FOUNDATIONAL. APPROVE.**
+
+Without the room skill, MOOLLM is just files.
+WITH the room skill, </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(20.1 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: room
+description: &quot;Rooms are intertwingled navigable activation context maps. Entering = calling. Exiting = returning.&quot;
+license: MIT
+tier: 1
+allowed-tools:
+  - read_file
+  - write_file
+related: [card, container, exit, object, memory-palace, adventure, character, data-flow, multi-presence, plain-text]
+tags: [moollm, navigation, space, directory, moo, adventure]
+---
+
+# Room
+
+&gt; **Rooms are intertwingled navigable activation context maps. Entering = calling. Exiting = returning.**
+
+Directories as cognitive spaces where [cards](../card/) come to life.
+
+## The Metaphor
+
+| Filesystem | Simulation | Programming |
+|------------|------------|-------------|
+| Directory | Room | Stack frame |
+| `cd room/` | Enter | Function call |
+| `cd ..` | Exit | Return |
+| Files in dir | Active entities | Local variables |
+| Links | Exits/doors | Calls to other functions |
+
+## Room Anatomy
+
+```
+room-name/
+├── ROOM.yml        # Room definition (REQUIRED!)
+├── README.md       # Room&#x27;s voice (optional)
+├── CARD.yml        # Card sidecar (optional)
+├── character-*.yml # NPCs embedded in room
+├── object-*.yml    # Objects in room
+├── inbox/          # Objects thrown INTO this room
+├── outbox/         # Objects staged to throw OUT
+├── region/         # Sub-region of this room
+│   └── ROOM.yml    # Region must also declare itself!
+└── nested-room/    # Full sub-room (different location)
+    └── ROOM.yml
+```
+
+---
+
+## Regions vs Sub-Rooms
+
+### What&#x27;s a Region?
+
+A **region** is a sub-directory that represents a **portion of the same room** — like the stage area of the pub, or the back corner of a library.
+
+```yaml
+# pub/ROOM.yml
+room:
+  name: &quot;The Gezelligheid Grotto Pub&quot;
+  
+  # Regions are PARTS of this room
+  regions:
+    stage:
+      path: &quot;stage/&quot;
+      description: &quot;The performance stage&quot;
+      visibility: public
+      
+    back-room:
+      path: &quot;back-room/&quot;
+      description: &quot;Private back room&quot;
+      visibility: private
+      requires: &quot;bartender approval&quot;
+      
+    bar:
+      path: &quot;bar/&quot;
+      description: &quot;The bar counter area&quot;
+```
+
+### Regions Have Rules
+
+Each region can have its own:
+
+```yaml
+# pub/back-room/ROOM.yml
+room:
+  name: &quot;Back Room&quot;
+  type: region                    # Marks as region, not full room
+  parent: &quot;../&quot;                   # Part of parent room
+  
+  # Access control
+  access:
+    visibility: private           # Not visible to everyone
+    requires: &quot;bartender approval OR staff badge&quot;
+    who_allowed:
+      - &quot;characters/staff/*&quot;
+      - &quot;player if has_flag(&#x27;vip_access&#x27;)&quot;
+    who_denied:
+      - &quot;characters/troublemakers/*&quot;
+      
+  # Ethics &amp; behavior
+  rules:
+    - &quot;No recording&quot;
+    - &quot;Confidential conversations&quot;
+    - &quot;Staff only by default&quot;
+    
+  # Privacy
+  privacy:
+    eavesdropping: false          # Can&#x27;t hear from outside
+    visible_from_parent: false    # Can&#x27;t see inside from pub
+    
+  # What happens in the back room...
+  narrative:
+    on_enter: &quot;The door closes behind you with a soft click.&quot;
+    on_exit: &quot;You return to the bustling pub.&quot;
+```
+
+### Visibility Types
+
+| Type | Description |
+|------|-------------|
+| `public` | Anyone can see and enter |
+| `visible` | Can see but may need permission to enter |
+| `private` | Hidden unless you know about it |
+| `secret` | Hidden AND requires discovery |
+
+### Region vs Full Sub-Room
+
+| Feature | Region | Sub-Room |
+|---------|--------|----------|
+| Part of parent? | Yes | No |
+| Own identity? | Partial | Full |
+| Exit returns to? | Parent | Varies |
+| Shares parent context? | Yes | No |
+| Type field | `type: region` | `type: room` |
+
+---
+
+## Directory Type Declaration
+
+### The Rule
+
+**Every directory in an adventure MUST declare what it is.**
+
+| Directory Type | Declaration File |
+|----------------|------------------|
+| Room | `ROOM.yml` |
+| Region | `ROOM.yml` (with `type: region`) |
+| Character | `CHARACTER.yml` |
+| Adventure root | `ADVENTURE.yml` |
+| Personas | `ROOM.yml` (with `type: personas`) |
+| Storage | `ROOM.yml` (with `type: storage`) |
+
+### Lint Erro</pre><div class="muted">…(content truncated)</div></details><details><summary><code>TOPOLOGY.yml</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Room Topology — Grid Layout and Navigation Patterns
+# Extracted from SKILL.md for separate reference
+# See: exit skill for PIE-MENU-TOPOLOGY protocol
+
+topology:
+  name: &quot;Pie Menu Room Topology&quot;
+  protocol: PIE-MENU-TOPOLOGY
+  see_also: [skills/exit/, skills/room/SKILL.md]
+  
+  description: |
+    The eight-direction compass maps to TWO types of connections:
+    - Cardinals (N/S/E/W): Major room links, spiderweb navigation
+    - Diagonals (NW/NE/SW/SE): Grid quadrant storage
+
+# COMPASS DIAGRAM
+
+compass:
+  diagram: |
+           N (navigate)
+           ↑
+    NW ←───●───→ NE
+   (grid)  ↑   (grid)
+           │
+    W ←────┼────→ E
+  (navigate)│  (navigate)
+           │
+    SW ←───●───→ SE
+   (grid)  ↓   (grid)
+           S (navigate)
+           
+  metaphor: |
+    N/S/E/W = STREETS (travel between intersections)
+    Intersection = Current room (where streets cross)
+    Diagonal quadrants = BUILDINGS you ENTER
+    Grid interior = Building floors/rooms
+    
+    The whole grid is a CITY:
+    - Cardinals = Travel along streets
+    - Diagonals = Enter buildings at corners
+    - City blocks fill the four quadrants
+
+# CARDINAL DIRECTIONS
+
+cardinal:
+  description: &quot;Spiderweb navigation — major room links&quot;
+  directions: [n, s, e, w]
+  function: &quot;Navigate to other major rooms&quot;
+  metaphor: &quot;Outside / Highways&quot;
+  
+  example:
+    exits:
+      n: &quot;../great-hall/&quot;
+      s: &quot;../cellar/&quot;
+      e: &quot;../garden/&quot;
+      w: &quot;../kitchen/&quot;
+
+# DIAGONAL DIRECTIONS
+
+diagonal:
+  description: &quot;Grid quadrant storage — expandable sub-rooms&quot;
+  directions: [nw, ne, sw, se]
+  function: &quot;Expand into storage grids&quot;
+  metaphor: &quot;Inside / Frontage roads&quot;
+  
+  example:
+    exits:
+      ne: &quot;ne/ne-1-1/&quot;
+      nw: &quot;nw/nw-1-1/&quot;
+      se: &quot;se/se-1-1/&quot;
+      sw: &quot;sw/sw-1-1/&quot;
+
+# GRID LAYOUT
+
+grid:
+  naming: &quot;{quadrant}-{x}-{y}&quot;
+  examples:
+    - &quot;ne-1-1: closest northeast (grid corner)&quot;
+    - &quot;ne-3-4: 3 east, 4 north in NE quadrant&quot;
+    - &quot;sw-2-2: 2 west, 2 south in SW quadrant&quot;
+    
+  directory_structure: |
+    wizard-study/
+    ├── ROOM.yml              # Main room (pie menu center)
+    ├── nw/                   # Northwest quadrant
+    │   ├── nw-1-1/ROOM.yml   # Grid corner (connects to main)
+    │   ├── nw-2-1/ROOM.yml   # One east
+    │   └── nw-1-2/ROOM.yml   # One north
+    ├── ne/                   # Northeast quadrant
+    ├── sw/                   # Southwest quadrant
+    └── se/                   # Southeast quadrant
+    
+  auto_linking:
+    description: &quot;Grid rooms have 8-direction exits to adjacent cells&quot;
+    example:
+      file: &quot;ne/ne-2-3/ROOM.yml&quot;
+      room:
+        name: &quot;Storage NE-2-3&quot;
+        grid_position: { quadrant: ne, x: 2, y: 3 }
+        exits:
+          n: &quot;../ne-2-4/&quot;    # y+1
+          s: &quot;../ne-2-2/&quot;    # y-1
+          e: &quot;../ne-3-3/&quot;    # x+1
+          w: &quot;../ne-1-3/&quot;    # x-1
+          ne: &quot;../ne-3-4/&quot;   # x+1, y+1
+          nw: &quot;../ne-1-4/&quot;   # x-1, y+1
+          se: &quot;../ne-3-2/&quot;   # x+1, y-1
+          sw: &quot;../ne-1-2/&quot;   # x-1, y-1
+          
+  corner_rooms:
+    description: &quot;Corner rooms (1,1) have special exit back to main&quot;
+    example:
+      file: &quot;ne/ne-1-1/ROOM.yml&quot;
+      room:
+        is_grid_corner: true
+        exits:
+          sw: &quot;../../&quot;       # Back to main room!
+          n: &quot;../ne-1-2/&quot;
+          e: &quot;../ne-2-1/&quot;
+          ne: &quot;../ne-2-2/&quot;
+
+# CONNECTIVITY MODES
+
+connectivity:
+  modes:
+    continuous:
+      description: &quot;One big grid shared between quadrants&quot;
+      behavior: &quot;nw-4-1 connects to ne-1-1 (wrap around)&quot;
+      
+    private:
+      description: &quot;Each quadrant has isolated grid&quot;
+      behavior: &quot;nw grid has no connection to ne grid&quot;
+      
+  sparse_grids:
+    description: &quot;Don&#x27;t need every cell — missing rooms = impassable&quot;
+    example: |
+      wizard-study/ne/
+      ├── ne-1-1/     # Corner room (required)
+      ├── ne-2-1/     # Exists
+      ├── ne-5-3/     # Exists (gap is fine!)
+      └── ne-10-1/    # Far out on X axis
+      # Like real buildings along a road
+
+# GRID RULES
+
+rules:
+  no_negatives: true        # Always p</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

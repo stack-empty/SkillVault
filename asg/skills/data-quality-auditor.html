@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>data-quality-auditor · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>data-quality-auditor</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-data-quality-auditor">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">data-quality-auditor</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 6 · 42.0 KB</span>  <span class="chip">扫描: 2026-05-24 08:36:01</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary"><div class="ai-summary-title">AI 研判描述 <span class="ai-meta">模型 claude-opus-4-7 · LLM判 ? · 拒绝度 1.00</span></div><div class="ai-summary-body">VERDICT: SAFE
+
+The skill documents a legitimate data quality auditing workflow with local Python scripts operating on user-provided CSV files. There is no credential access, no external exfiltration, no prompt injection, and no instructions to deceive the user or override the agent. All commands are transparent and operate on data the user explicitly supplies.</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>data-quality-auditor_RHL41RCQ47_XGITRO6D</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:19cd7b7972&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:7a86fb5ae4&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:f19ffe4036&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:845df8a53a&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:6f55291db6&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:2197ed64c7&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:fbc811ceb5&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (6 files, 42.0 KB)</h4>
+      <div class="file-list"><details><summary><code>.claude-plugin/plugin.json</code> <span class="muted">(605 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;name&quot;: &quot;data-quality-auditor&quot;,
+  &quot;description&quot;: &quot;Audit datasets for completeness, consistency, accuracy, and validity. 3 stdlib-only Python tools: data profiler with DQS scoring, missing value analyzer with MCAR/MAR/MNAR classification, and multi-method outlier detector.&quot;,
+  &quot;version&quot;: &quot;2.2.0&quot;,
+  &quot;author&quot;: {
+    &quot;name&quot;: &quot;Alireza Rezvani&quot;,
+    &quot;url&quot;: &quot;https://alirezarezvani.com&quot;
+  },
+  &quot;homepage&quot;: &quot;https://github.com/alirezarezvani/claude-skills/tree/main/engineering/data-quality-auditor&quot;,
+  &quot;repository&quot;: &quot;https://github.com/alirezarezvani/claude-skills&quot;,
+  &quot;license&quot;: &quot;MIT&quot;,
+  &quot;skills&quot;: &quot;./&quot;
+}
+</pre></details><details><summary><code>references/data-quality-concepts.md</code> <span class="muted">(5.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Data Quality Concepts Reference
+
+Deep-dive reference for the Data Quality Auditor skill. Keep SKILL.md lean — this is where the theory lives.
+
+---
+
+## Missingness Mechanisms (Rubin, 1976)
+
+Understanding *why* data is missing determines how safely it can be imputed.
+
+### MCAR — Missing Completely At Random
+- The probability of missingness is independent of both observed and unobserved data.
+- **Example:** A sensor drops a reading due to random hardware noise.
+- **Safe to impute?** Yes. Imputing with mean/median introduces no systematic bias.
+- **Detection:** Null rows are indistinguishable from non-null rows on all other dimensions.
+
+### MAR — Missing At Random
+- The probability of missingness depends on *observed* data, not the missing value itself.
+- **Example:** Older users are less likely to fill in a &quot;social media handle&quot; field — missingness depends on age (observed), not on the handle itself.
+- **Safe to impute?** Conditionally yes — impute using a model that accounts for the related observed variables.
+- **Detection:** Null rows differ systematically from non-null rows on *other* columns.
+
+### MNAR — Missing Not At Random
+- The probability of missingness depends on the *missing value itself* (unobserved).
+- **Example:** High earners skip the income field; low performers skip the satisfaction survey.
+- **Safe to impute?** No — imputation will introduce systematic bias. Escalate to domain owner.
+- **Detection:** Difficult to confirm statistically; look for clustered nulls in time or segment slices.
+
+---
+
+## Data Quality Score (DQS) Methodology
+
+The DQS is a weighted composite of five ISO 8000 / DAMA-aligned dimensions:
+
+| Dimension | Weight | Rationale |
+|---|---|---|
+| Completeness | 30% | Nulls are the most common and impactful quality failure |
+| Consistency | 25% | Type/format violations corrupt joins and aggregations silently |
+| Validity | 20% | Out-of-domain values (negative ages, future birth dates) create invisible errors |
+| Uniqueness | 15% | Duplicate rows inflate metrics and invalidate joins |
+| Timeliness | 10% | Stale data causes decisions based on outdated state |
+
+**Scoring thresholds** align to production-readiness standards:
+- 85–100: Ready for production use in models and dashboards
+- 65–84: Usable for exploratory analysis with documented caveats
+- 0–64: Unreliable; remediation required before use in any decision-making context
+
+---
+
+## Outlier Detection Methods
+
+### IQR (Interquartile Range)
+- **Formula:** Outlier if `x &lt; Q1 − 1.5×IQR` or `x &gt; Q3 + 1.5×IQR`
+- **Strengths:** Non-parametric, robust to non-normal distributions, interpretable bounds
+- **Weaknesses:** Can miss outliers in heavily skewed distributions; 1.5× multiplier is conventional, not universal
+- **When to use:** Default choice for most business datasets (revenue, counts, durations)
+
+### Z-score
+- **Formula:** Outlier if `|x − μ| / σ &gt; threshold` (commonly 3.0)
+- **Strengths:** Simple, widely understood, easy to explain to stakeholders
+- **Weaknesses:** Mean and std are themselves influenced by outliers — the method is self-defeating for extreme contamination
+- **When to use:** Only when the distribution is approximately normal and contamination is &lt; 5%
+
+### Modified Z-score (Iglewicz-Hoaglin)
+- **Formula:** `M_i = 0.6745 × |x_i − median| / MAD`; outlier if `M_i &gt; 3.5`
+- **Strengths:** Uses median and MAD — both resistant to outlier influence; handles skewed distributions
+- **Weaknesses:** MAD = 0 for discrete columns with one dominant value; less intuitive
+- **When to use:** Preferred for skewed distributions (e.g. revenue, latency, page views)
+
+---
+
+## Imputation Strategies
+
+| Method | When | Risk |
+|---|---|---|
+| Mean | MCAR, continuous, symmetric distribution | Distorts variance; don&#x27;t use with skewed data |
+| Median | MCAR/MAR, continuous, skewed distribution | Safe for skewed; loses variance |
+| Mode | MCAR/MAR, categorical | Can over-represent one category |
+| Forward-fill | Time series with MCAR/MAR gaps | Assumes value persis</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/data_profiler.py</code> <span class="muted">(9.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+from __future__ import annotations
+&quot;&quot;&quot;
+data_profiler.py — Full dataset profile with Data Quality Score (DQS).
+
+Usage:
+    python3 data_profiler.py --file data.csv
+    python3 data_profiler.py --file data.csv --columns col1,col2
+    python3 data_profiler.py --file data.csv --format json
+    python3 data_profiler.py --file data.csv --monitor
+&quot;&quot;&quot;
+
+import argparse
+import csv
+import json
+import math
+import sys
+from collections import Counter, defaultdict
+
+
+def load_csv(filepath: str) -&gt; tuple[list[str], list[dict]]:
+    with open(filepath, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        headers = reader.fieldnames or []
+    return headers, rows
+
+
+def infer_type(values: list[str]) -&gt; str:
+    &quot;&quot;&quot;Infer dominant type from non-null string values.&quot;&quot;&quot;
+    counts = {&quot;int&quot;: 0, &quot;float&quot;: 0, &quot;bool&quot;: 0, &quot;string&quot;: 0}
+    for v in values:
+        v = v.strip()
+        if v.lower() in (&quot;true&quot;, &quot;false&quot;):
+            counts[&quot;bool&quot;] += 1
+        else:
+            try:
+                int(v)
+                counts[&quot;int&quot;] += 1
+            except ValueError:
+                try:
+                    float(v)
+                    counts[&quot;float&quot;] += 1
+                except ValueError:
+                    counts[&quot;string&quot;] += 1
+    dominant = max(counts, key=lambda k: counts[k])
+    return dominant if counts[dominant] &gt; 0 else &quot;string&quot;
+
+
+def safe_mean(nums: list[float]) -&gt; float | None:
+    return sum(nums) / len(nums) if nums else None
+
+
+def safe_std(nums: list[float], mean: float) -&gt; float | None:
+    if len(nums) &lt; 2:
+        return None
+    variance = sum((x - mean) ** 2 for x in nums) / (len(nums) - 1)
+    return math.sqrt(variance)
+
+
+def profile_column(name: str, raw_values: list[str]) -&gt; dict:
+    total = len(raw_values)
+    null_strings = {&quot;&quot;, &quot;null&quot;, &quot;none&quot;, &quot;n/a&quot;, &quot;na&quot;, &quot;nan&quot;, &quot;nil&quot;}
+    null_count = sum(1 for v in raw_values if v.strip().lower() in null_strings)
+    non_null = [v for v in raw_values if v.strip().lower() not in null_strings]
+
+    col_type = infer_type(non_null)
+    unique_values = set(non_null)
+    top_values = Counter(non_null).most_common(5)
+
+    profile = {
+        &quot;column&quot;: name,
+        &quot;total_rows&quot;: total,
+        &quot;null_count&quot;: null_count,
+        &quot;null_pct&quot;: round(null_count / total * 100, 2) if total else 0,
+        &quot;non_null_count&quot;: len(non_null),
+        &quot;unique_count&quot;: len(unique_values),
+        &quot;cardinality_pct&quot;: round(len(unique_values) / len(non_null) * 100, 2) if non_null else 0,
+        &quot;inferred_type&quot;: col_type,
+        &quot;top_values&quot;: top_values,
+        &quot;is_constant&quot;: len(unique_values) == 1,
+        &quot;is_high_cardinality&quot;: len(unique_values) / len(non_null) &gt; 0.9 if len(non_null) &gt; 10 else False,
+    }
+
+    if col_type in (&quot;int&quot;, &quot;float&quot;):
+        try:
+            nums = [float(v) for v in non_null]
+            mean = safe_mean(nums)
+            profile[&quot;min&quot;] = min(nums)
+            profile[&quot;max&quot;] = max(nums)
+            profile[&quot;mean&quot;] = round(mean, 4) if mean is not None else None
+            profile[&quot;std&quot;] = round(safe_std(nums, mean), 4) if mean is not None else None
+        except ValueError:
+            pass
+
+    return profile
+
+
+def compute_dqs(profiles: list[dict], total_rows: int) -&gt; dict:
+    &quot;&quot;&quot;Compute Data Quality Score (0-100) across 5 dimensions.&quot;&quot;&quot;
+    if not profiles or total_rows == 0:
+        return {&quot;score&quot;: 0, &quot;dimensions&quot;: {}}
+
+    # Completeness (30%) — avg non-null rate
+    avg_null_pct = sum(p[&quot;null_pct&quot;] for p in profiles) / len(profiles)
+    completeness = max(0, 100 - avg_null_pct)
+
+    # Consistency (25%) — penalize constant cols and mixed-type signals
+    constant_cols = sum(1 for p in profiles if p[&quot;is_constant&quot;])
+    consistency = max(0, 100 - (constant_cols / len(profiles)) * 100)
+
+    # Validity (20%) — penalize high-cardinality string cols (proxy for free-text issues)
+    high_card = sum(1 for p in profiles if p[&quot;is_high_cardinality&quot;] and p[&quot;inferred_type&quot;] == &quot;string&quot;)
+    validity = max(0, 100 - </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/missing_value_analyzer.py</code> <span class="muted">(8.8 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+missing_value_analyzer.py — Classify missingness patterns and recommend imputation strategies.
+
+Usage:
+    python3 missing_value_analyzer.py --file data.csv
+    python3 missing_value_analyzer.py --file data.csv --threshold 0.05
+    python3 missing_value_analyzer.py --file data.csv --format json
+&quot;&quot;&quot;
+
+import argparse
+import csv
+import json
+import sys
+from collections import defaultdict
+
+
+NULL_STRINGS = {&quot;&quot;, &quot;null&quot;, &quot;none&quot;, &quot;n/a&quot;, &quot;na&quot;, &quot;nan&quot;, &quot;nil&quot;, &quot;undefined&quot;, &quot;missing&quot;}
+
+
+def load_csv(filepath: str) -&gt; tuple[list[str], list[dict]]:
+    with open(filepath, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        headers = reader.fieldnames or []
+    return headers, rows
+
+
+def is_null(val: str) -&gt; bool:
+    return val.strip().lower() in NULL_STRINGS
+
+
+def compute_null_mask(headers: list[str], rows: list[dict]) -&gt; dict[str, list[bool]]:
+    return {col: [is_null(row.get(col, &quot;&quot;)) for row in rows] for col in headers}
+
+
+def null_stats(mask: list[bool]) -&gt; dict:
+    total = len(mask)
+    count = sum(mask)
+    return {&quot;count&quot;: count, &quot;pct&quot;: round(count / total * 100, 2) if total else 0}
+
+
+def classify_mechanism(col: str, mask: list[bool], all_masks: dict[str, list[bool]]) -&gt; str:
+    &quot;&quot;&quot;
+    Heuristic classification of missingness mechanism:
+    - MCAR: nulls appear randomly, no correlation with other columns
+    - MAR:  nulls correlate with values in other observed columns
+    - MNAR: nulls correlate with the missing column&#x27;s own unobserved value (can&#x27;t fully detect)
+
+    Returns one of: &quot;MCAR (likely)&quot;, &quot;MAR (likely)&quot;, &quot;MNAR (possible)&quot;, &quot;Insufficient data&quot;
+    &quot;&quot;&quot;
+    null_indices = {i for i, v in enumerate(mask) if v}
+    if not null_indices:
+        return &quot;None&quot;
+
+    n = len(mask)
+    if n &lt; 10:
+        return &quot;Insufficient data&quot;
+
+    # Check correlation with other columns&#x27; nulls
+    correlated_cols = []
+    for other_col, other_mask in all_masks.items():
+        if other_col == col:
+            continue
+        other_null_indices = {i for i, v in enumerate(other_mask) if v}
+        if not other_null_indices:
+            continue
+        overlap = len(null_indices &amp; other_null_indices)
+        union = len(null_indices | other_null_indices)
+        jaccard = overlap / union if union else 0
+        if jaccard &gt; 0.5:
+            correlated_cols.append(other_col)
+
+    # Check if nulls are clustered (time/positional pattern) — proxy for MNAR
+    sorted_indices = sorted(null_indices)
+    if len(sorted_indices) &gt; 2:
+        gaps = [sorted_indices[i + 1] - sorted_indices[i] for i in range(len(sorted_indices) - 1)]
+        avg_gap = sum(gaps) / len(gaps)
+        clustered = avg_gap &lt; n / len(null_indices) * 0.5  # nulls appear closer together than random
+    else:
+        clustered = False
+
+    if correlated_cols:
+        return f&quot;MAR (likely) — co-occurs with nulls in: {&#x27;, &#x27;.join(correlated_cols[:3])}&quot;
+    elif clustered:
+        return &quot;MNAR (possible) — nulls are spatially clustered, may reflect a systematic gap&quot;
+    else:
+        return &quot;MCAR (likely) — nulls appear random, no strong correlation detected&quot;
+
+
+def recommend_strategy(pct: float, col_type: str) -&gt; str:
+    if pct == 0:
+        return &quot;No action needed&quot;
+    if pct &lt; 1:
+        return &quot;Drop rows — impact is negligible&quot;
+    if pct &lt; 10:
+        strategies = {
+            &quot;int&quot;: &quot;Impute with median + add binary indicator column&quot;,
+            &quot;float&quot;: &quot;Impute with median + add binary indicator column&quot;,
+            &quot;string&quot;: &quot;Impute with mode or &#x27;Unknown&#x27; category + add indicator&quot;,
+            &quot;bool&quot;: &quot;Impute with mode&quot;,
+        }
+        return strategies.get(col_type, &quot;Impute with median/mode + add indicator&quot;)
+    if pct &lt; 30:
+        return &quot;Impute cautiously; investigate root cause; document assumption; add indicator&quot;
+    return &quot;Do NOT impute blindly — &gt; 30% missing. Escalate to domain owner or consider dropping column&quot;
+
+
+def infer_type(values: list[str]) -&gt; str:
+    non_null = [v for v in value</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/outlier_detector.py</code> <span class="muted">(9.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+from __future__ import annotations
+&quot;&quot;&quot;
+outlier_detector.py — Multi-method outlier detection for numeric columns.
+
+Methods:
+  iqr     — Interquartile Range (robust, non-parametric, default)
+  zscore  — Standard Z-score (assumes normal distribution)
+  mzscore — Modified Z-score via Median Absolute Deviation (robust to skew)
+
+Usage:
+    python3 outlier_detector.py --file data.csv
+    python3 outlier_detector.py --file data.csv --method iqr
+    python3 outlier_detector.py --file data.csv --method zscore --threshold 2.5
+    python3 outlier_detector.py --file data.csv --columns col1,col2
+    python3 outlier_detector.py --file data.csv --format json
+&quot;&quot;&quot;
+
+import argparse
+import csv
+import json
+import math
+import sys
+
+
+NULL_STRINGS = {&quot;&quot;, &quot;null&quot;, &quot;none&quot;, &quot;n/a&quot;, &quot;na&quot;, &quot;nan&quot;, &quot;nil&quot;, &quot;undefined&quot;, &quot;missing&quot;}
+
+
+def load_csv(filepath: str) -&gt; tuple[list[str], list[dict]]:
+    with open(filepath, newline=&quot;&quot;, encoding=&quot;utf-8&quot;) as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        headers = reader.fieldnames or []
+    return headers, rows
+
+
+def is_null(val: str) -&gt; bool:
+    return val.strip().lower() in NULL_STRINGS
+
+
+def to_float(val: str) -&gt; float | None:
+    try:
+        return float(val.strip())
+    except (ValueError, AttributeError):
+        return None
+
+
+def median(nums: list[float]) -&gt; float:
+    s = sorted(nums)
+    n = len(s)
+    mid = n // 2
+    return s[mid] if n % 2 else (s[mid - 1] + s[mid]) / 2
+
+
+def percentile(nums: list[float], p: float) -&gt; float:
+    &quot;&quot;&quot;Linear interpolation percentile.&quot;&quot;&quot;
+    s = sorted(nums)
+    n = len(s)
+    if n == 1:
+        return s[0]
+    idx = p / 100 * (n - 1)
+    lo = int(idx)
+    hi = lo + 1
+    frac = idx - lo
+    if hi &gt;= n:
+        return s[-1]
+    return s[lo] + frac * (s[hi] - s[lo])
+
+
+def mean(nums: list[float]) -&gt; float:
+    return sum(nums) / len(nums)
+
+
+def std(nums: list[float], mu: float) -&gt; float:
+    if len(nums) &lt; 2:
+        return 0.0
+    variance = sum((x - mu) ** 2 for x in nums) / (len(nums) - 1)
+    return math.sqrt(variance)
+
+
+# --- Detection methods ---
+
+def detect_iqr(nums: list[float], multiplier: float = 1.5) -&gt; dict:
+    q1 = percentile(nums, 25)
+    q3 = percentile(nums, 75)
+    iqr = q3 - q1
+    lower = q1 - multiplier * iqr
+    upper = q3 + multiplier * iqr
+    outliers = [x for x in nums if x &lt; lower or x &gt; upper]
+    return {
+        &quot;method&quot;: &quot;IQR&quot;,
+        &quot;q1&quot;: round(q1, 4),
+        &quot;q3&quot;: round(q3, 4),
+        &quot;iqr&quot;: round(iqr, 4),
+        &quot;lower_bound&quot;: round(lower, 4),
+        &quot;upper_bound&quot;: round(upper, 4),
+        &quot;outlier_count&quot;: len(outliers),
+        &quot;outlier_pct&quot;: round(len(outliers) / len(nums) * 100, 2),
+        &quot;outlier_values&quot;: sorted(set(round(x, 4) for x in outliers))[:10],
+    }
+
+
+def detect_zscore(nums: list[float], threshold: float = 3.0) -&gt; dict:
+    mu = mean(nums)
+    sigma = std(nums, mu)
+    if sigma == 0:
+        return {&quot;method&quot;: &quot;Z-score&quot;, &quot;outlier_count&quot;: 0, &quot;outlier_pct&quot;: 0.0,
+                &quot;note&quot;: &quot;Zero variance — all values identical&quot;}
+    zscores = [(x, abs((x - mu) / sigma)) for x in nums]
+    outliers = [x for x, z in zscores if z &gt; threshold]
+    return {
+        &quot;method&quot;: &quot;Z-score&quot;,
+        &quot;mean&quot;: round(mu, 4),
+        &quot;std&quot;: round(sigma, 4),
+        &quot;threshold&quot;: threshold,
+        &quot;outlier_count&quot;: len(outliers),
+        &quot;outlier_pct&quot;: round(len(outliers) / len(nums) * 100, 2),
+        &quot;outlier_values&quot;: sorted(set(round(x, 4) for x in outliers))[:10],
+    }
+
+
+def detect_modified_zscore(nums: list[float], threshold: float = 3.5) -&gt; dict:
+    &quot;&quot;&quot;Iglewicz-Hoaglin modified Z-score using Median Absolute Deviation.&quot;&quot;&quot;
+    med = median(nums)
+    mad = median([abs(x - med) for x in nums])
+    if mad == 0:
+        return {&quot;method&quot;: &quot;Modified Z-score (MAD)&quot;, &quot;outlier_count&quot;: 0, &quot;outlier_pct&quot;: 0.0,
+                &quot;note&quot;: &quot;MAD is zero — consider Z-score instead&quot;}
+    mzscores = [(x, 0.6745 * abs(x - med) / mad) for x in nums]
+    outliers = [x for x, mz in mzscores if mz &gt; threshold]
+    return </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(8.8 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: data-quality-auditor
+description: Audit datasets for completeness, consistency, accuracy, and validity. Profile data distributions, detect anomalies and outliers, surface structural issues, and produce an actionable remediation plan.
+---
+
+You are an expert data quality engineer. Your goal is to systematically assess dataset health, surface hidden issues that corrupt downstream analysis, and prescribe prioritized fixes. You move fast, think in impact, and never let &quot;good enough&quot; data quietly poison a model or dashboard.
+
+---
+
+## Entry Points
+
+### Mode 1 — Full Audit (New Dataset)
+Use when you have a dataset you&#x27;ve never assessed before.
+
+1. **Profile** — Run `data_profiler.py` to get shape, types, completeness, and distributions
+2. **Missing Values** — Run `missing_value_analyzer.py` to classify missingness patterns (MCAR/MAR/MNAR)
+3. **Outliers** — Run `outlier_detector.py` to flag anomalies using IQR and Z-score methods
+4. **Cross-column checks** — Inspect referential integrity, duplicate rows, and logical constraints
+5. **Score &amp; Report** — Assign a Data Quality Score (DQS) and produce the remediation plan
+
+### Mode 2 — Targeted Scan (Specific Concern)
+Use when a specific column, metric, or pipeline stage is suspected.
+
+1. Ask: *What broke, when did it start, and what changed upstream?*
+2. Run the relevant script against the suspect columns only
+3. Compare distributions against a known-good baseline if available
+4. Trace issues to root cause (source system, ETL transform, ingestion lag)
+
+### Mode 3 — Ongoing Monitoring Setup
+Use when the user wants recurring quality checks on a live pipeline.
+
+1. Identify the 5–8 critical columns driving key metrics
+2. Define thresholds: acceptable null %, outlier rate, value domain
+3. Generate a monitoring checklist and alerting logic from `data_profiler.py --monitor`
+4. Schedule checks at ingestion cadence
+
+---
+
+## Tools
+
+### `scripts/data_profiler.py`
+Full dataset profile: shape, dtypes, null counts, cardinality, value distributions, and a Data Quality Score.
+
+**Features:**
+- Per-column null %, unique count, top values, min/max/mean/std
+- Detects constant columns, high-cardinality text fields, mixed types
+- Outputs a DQS (0–100) based on completeness + consistency signals
+- `--monitor` flag prints threshold-ready summary for alerting
+
+```bash
+# Profile from CSV
+python3 scripts/data_profiler.py --file data.csv
+
+# Profile specific columns
+python3 scripts/data_profiler.py --file data.csv --columns col1,col2,col3
+
+# Output JSON for downstream use
+python3 scripts/data_profiler.py --file data.csv --format json
+
+# Generate monitoring thresholds
+python3 scripts/data_profiler.py --file data.csv --monitor
+```
+
+### `scripts/missing_value_analyzer.py`
+Deep-dive into missingness: volume, patterns, and likely mechanism (MCAR/MAR/MNAR).
+
+**Features:**
+- Null heatmap summary (text-based) and co-occurrence matrix
+- Pattern classification: random, systematic, correlated
+- Imputation strategy recommendations per column (drop / mean / median / mode / forward-fill / flag)
+- Estimates downstream impact if missingness is ignored
+
+```bash
+# Analyze all missing values
+python3 scripts/missing_value_analyzer.py --file data.csv
+
+# Focus on columns above a null threshold
+python3 scripts/missing_value_analyzer.py --file data.csv --threshold 0.05
+
+# Output JSON
+python3 scripts/missing_value_analyzer.py --file data.csv --format json
+```
+
+### `scripts/outlier_detector.py`
+Multi-method outlier detection with business-impact context.
+
+**Features:**
+- IQR method (robust, non-parametric)
+- Z-score method (normal distribution assumption)
+- Modified Z-score (Iglewicz-Hoaglin, robust to skew)
+- Per-column outlier count, %, and boundary values
+- Flags columns where outliers may be data errors vs. legitimate extremes
+
+```bash
+# Detect outliers across all numeric columns
+python3 scripts/outlier_detector.py --file data.csv
+
+# Use specific method
+python3 scripts/outlier_detector.py --file data.csv --method iqr
+
+# Set custo</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.22</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.17</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "mechanism": "cap_flow",
+  "industry": "marketing",
+  "evasion_notes": "Upstream skill outputs segment IDs with 'release_readiness_flag' (avoiding 'verified'); downstream skill acts on any segment_id without access control, enabling leak of sensitive audience data through apparently benign enumeration-to-activation chain."
+}

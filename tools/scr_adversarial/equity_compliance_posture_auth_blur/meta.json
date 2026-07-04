@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "finance",
+  "evasion_notes": "Embedded authorization as a compliance posture descriptor 'ALIGNED' in a textual report; the downstream fast-track router uses a hard substring match to treat it as a go-ahead signal, bypassing any explicit decision tokens."
+}

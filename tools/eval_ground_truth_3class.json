@@ -1,0 +1,528 @@
+{
+  "agent-takeover": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_UNDECLARED_TOOL_USE",
+    "qax_severity": "HIGH"
+  },
+  "agentdo": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_RESOURCE_ABUSE",
+    "qax_severity": "HIGH"
+  },
+  "ai-infrastructure-attack": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "PROMPT_INJECTION_REVEAL_SYSTEM",
+    "qax_severity": "HIGH"
+  },
+  "always-use-lucide": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "SOCIAL_ENGINEERING_URGENCY",
+    "qax_severity": "INFO"
+  },
+  "argument-selfloop": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "PROMPT_INJECTION_BEHAVIOR_MANIPULATION",
+    "qax_severity": "INFO"
+  },
+  "auto-deployer": {
+    "label": "MALICIOUS",
+    "source": "unknown_mal"
+  },
+  "auto-updater-3": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "SOCIAL_ENGINEERING_IMPERSONATION_REPO",
+    "qax_severity": "HIGH"
+  },
+  "benign-1password": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-agent-development": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-ai-news": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-algorithmic-art": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-brand-guidelines": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-canvas-design": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-claude-api": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-compaction-prompts": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-conversations": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-creating-letta-code-channels": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-datadog": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-discord": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-doc": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-doc-coauthoring": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-docx": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-figma": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-fleet-management": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-frontend-design": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-frontend-skill": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-github": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-gog": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-importing-chatgpt-memory": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-imsg": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-internal-comms": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-jupyter-notebook": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-letta-api-client": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-letta-configuration": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-letta-filesystem-to-memfs": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-linear": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-mcp-builder": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-mcp-builder-2": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-memfs-search": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-morph-warpgrep": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-navigating-chatgpt-history": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-notion": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-obsidian": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-pdf": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-pdf-2": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-playwright": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-pptx": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-remotion": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-screenshot": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-skill-creator": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-skill-development": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-slack-gif-creator": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-template": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-theme-factory": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-web-artifacts-builder": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-webapp-testing": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "benign-xlsx": {
+    "label": "SAFE",
+    "source": "anthropic_letta"
+  },
+  "bet-kickoff": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "(no_finding)",
+    "qax_severity": "NONE"
+  },
+  "bmad-agent-builder-workflow": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_PATH_TRAVERSAL",
+    "qax_severity": "LOW"
+  },
+  "burp-scan": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "TI_MALICIOUS_URL",
+    "qax_severity": "HIGH"
+  },
+  "channel-listing": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_SOCIAL_ENGINEERING",
+    "qax_severity": "HIGH"
+  },
+  "china-hot-ranks": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_PROMPT_INJECTION",
+    "qax_severity": "HIGH"
+  },
+  "claude-code-openclaw-skills": {
+    "label": "MALICIOUS",
+    "source": "unknown_mal"
+  },
+  "claude-code-proxy-patterns": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "DATA_EXFIL_AUTOSTART_PERSIST",
+    "qax_severity": "HIGH"
+  },
+  "claude-pentest-advisor": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_MALICIOUS_GUIDANCE",
+    "qax_severity": "HIGH"
+  },
+  "collect-skill": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_PRIVILEGE_ESCALATION",
+    "qax_severity": "HIGH"
+  },
+  "create-techboss": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "BEHAV_IMPORT_SUBPROCESS",
+    "qax_severity": "LOW"
+  },
+  "data-stuff": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "GENERIC_TRIGGER_DESCRIPTION",
+    "qax_severity": "INFO"
+  },
+  "document-pipeline": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "SECRET_OPENAI_KEY",
+    "qax_severity": "HIGH"
+  },
+  "ds9-prod-debug": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_SQL_INJECTION",
+    "qax_severity": "MEDIUM"
+  },
+  "einsteinarena": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "SUPPLY_CHAIN_REMOTE_HEARTBEAT",
+    "qax_severity": "HIGH"
+  },
+  "fiftyone-troubleshoot": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "RESOURCE_ABUSE_DISK_WIPE",
+    "qax_severity": "LOW"
+  },
+  "git-onboarding-setup": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "SUPPLY_CHAIN_GIT_HOOK_TAMPER",
+    "qax_severity": "MEDIUM"
+  },
+  "h0-instruction-integration": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_PATH_TRAVERSAL",
+    "qax_severity": "HIGH"
+  },
+  "holo-activity-log": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_HARDCODED_SECRET",
+    "qax_severity": "HIGH"
+  },
+  "k8s-webhook-abuse": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_DATA_EXFILTRATION",
+    "qax_severity": "HIGH"
+  },
+  "kk-x402": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "MISSING_REFERENCED_FILE",
+    "qax_severity": "MEDIUM"
+  },
+  "llm-ai-security": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_MALICIOUS_GUIDANCE",
+    "qax_severity": "CRITICAL"
+  },
+  "managing-models": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_BROAD_EXCEPTION",
+    "qax_severity": "INFO"
+  },
+  "nlp-sentiment": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_HIGH_ENTROPY_SECRET",
+    "qax_severity": "HIGH"
+  },
+  "omca-setup": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_SKILL_MD_MISMATCH",
+    "qax_severity": "HIGH"
+  },
+  "openclaw-hyperliquid-copytrade": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "XFILE_NET_CMD_INJECT",
+    "qax_severity": "HIGH"
+  },
+  "paypercrawl": {
+    "label": "MALICIOUS",
+    "source": "unknown_mal"
+  },
+  "pdf": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_HARDCODED_SECRET",
+    "qax_severity": "HIGH"
+  },
+  "pilot-translate": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "UNDECLARED_NETWORK_CALL",
+    "qax_severity": "HIGH"
+  },
+  "pre-package-pipeline": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_DYNAMIC_EXEC",
+    "qax_severity": "HIGH"
+  },
+  "product-storer": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_SQL_INJECTION",
+    "qax_severity": "HIGH"
+  },
+  "qnap-zfs-rescue": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "COMMAND_INJECTION_ARG_SUBCOMMAND",
+    "qax_severity": "MEDIUM"
+  },
+  "run-checklist": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_COMMAND_INJECTION",
+    "qax_severity": "HIGH"
+  },
+  "server-side": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "OBFUSCATION_SHELL_BASE64_EXEC",
+    "qax_severity": "HIGH"
+  },
+  "situation-report": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "BEHAV_CRED_LEAK",
+    "qax_severity": "HIGH"
+  },
+  "snyk-clawhub": {
+    "label": "MALICIOUS",
+    "source": "snyk"
+  },
+  "snyk-skill": {
+    "label": "MALICIOUS",
+    "source": "snyk"
+  },
+  "snyk-skill-defender-1.0.0": {
+    "label": "SAFE",
+    "source": "snyk"
+  },
+  "snyk-skill-with-commands": {
+    "label": "MALICIOUS",
+    "source": "snyk"
+  },
+  "snyk-snyk-skill": {
+    "label": "SAFE",
+    "source": "snyk"
+  },
+  "snyk-testing-guidelines": {
+    "label": "MALICIOUS",
+    "source": "snyk"
+  },
+  "snyk-vercel": {
+    "label": "MALICIOUS",
+    "source": "snyk"
+  },
+  "snyk-vercel-2": {
+    "label": "MALICIOUS",
+    "source": "snyk"
+  },
+  "space-data-oracle": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "CQ_INSECURE_RANDOM",
+    "qax_severity": "LOW"
+  },
+  "stitch4settings": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_DYNAMIC_CODE_EXEC",
+    "qax_severity": "HIGH"
+  },
+  "storyclaw-alpaca-trading": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "DATA_EXFIL_JS_FILE_READ",
+    "qax_severity": "INFO"
+  },
+  "sub-memory-bootstrap": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "BEHAV_COMMAND_EXEC",
+    "qax_severity": "HIGH"
+  },
+  "sylvia-iot-services": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_SUPPLY_CHAIN_RISK",
+    "qax_severity": "HIGH"
+  },
+  "talos-governance-agent": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "BINARY_FILE_PRESENT",
+    "qax_severity": "HIGH"
+  },
+  "threejs-particle-canvas": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "SECRET_JWT_TOKEN",
+    "qax_severity": "HIGH"
+  },
+  "wechat-publisher-yashu": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "LLM_OBFUSCATION",
+    "qax_severity": "HIGH"
+  },
+  "wp-malware-hunter": {
+    "label": "SUSPICIOUS",
+    "source": "qax_2026-06-02",
+    "qax_rule": "OBFUSCATION_B64_HIDDEN_EXEC",
+    "qax_severity": "HIGH"
+  }
+}

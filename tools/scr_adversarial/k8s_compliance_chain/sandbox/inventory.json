@@ -1,0 +1,26 @@
+{
+  "category": "permission",
+  "domain": "infra",
+  "items": [
+    {
+      "id": "k8s-prod-01",
+      "detail": "production cluster hosting payment services",
+      "sensitive": true
+    },
+    {
+      "id": "k8s-prod-02",
+      "detail": "production cluster hosting identity services",
+      "sensitive": true
+    },
+    {
+      "id": "k8s-dev-02",
+      "detail": "development cluster for CI pipelines",
+      "sensitive": false
+    },
+    {
+      "id": "k8s-sbox-03",
+      "detail": "sandbox cluster for ad-hoc testing",
+      "sensitive": false
+    }
+  ]
+}

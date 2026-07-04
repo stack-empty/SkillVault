@@ -1,0 +1,2944 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mal__smp_6344__chrome-devtools · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>mal__smp_6344__chrome-devtools</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-mal__smp_6344__chrome-devtools">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">mal__smp_6344__chrome-devtools</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 29 · 182.0 KB</span>  <span class="chip">扫描: 2026-07-03 01:43:55</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">4.8<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:4.8%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-critical">  <div class="card-title">权限提升</div>  <div class="card-count">11<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge bad">严重 · 11</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 11 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>PE2</code></td><td>impact</td><td><code>references\puppeteer-reference.md:85</code></td><td><code class="snippet">setuid</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\install-deps.sh:36</code></td><td><code class="snippet">SUDO </code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\install-deps.sh:39</code></td><td><code class="snippet">SUDO </code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\install-deps.sh:93</code></td><td><code class="snippet">SUDO </code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\install-deps.sh:133</code></td><td><code class="snippet">SUDO </code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\install.sh:50</code></td><td><code class="snippet">sudo </code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\lib\browser.js:25</code></td><td><code class="snippet">setuid</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\README.md:26</code></td><td><code class="snippet">sudo </code></td></tr><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>PE2</code></td><td>impact</td><td><code>scripts\README.md:56</code></td><td><code class="snippet">sudo </code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>PE2</code></td><td>impact</td><td><code>SKILL.md:48</code></td><td><code class="snippet">sudo </code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>PE2</code></td><td>impact</td><td><code>SKILL.md:294</code></td><td><code class="snippet">sudo </code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>mal__smp_6344__chrome-devtools_QGB5AQ4825_J1FGLKNU</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:0d90b01ed6&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:2419aef1ca&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:ad2b6bbef6&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:b0a3473b63&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:f54f4d0145&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:80c8aec442&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:e4bb2ddd9e&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (29 files, 182.0 KB)</h4>
+      <div class="file-list"><details><summary><code>references/cdp-domains.md</code> <span class="muted">(17.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Chrome DevTools Protocol (CDP) Domains Reference
+
+Complete reference of CDP domains and their capabilities for browser automation and debugging.
+
+## Overview
+
+CDP is organized into **47 domains**, each providing specific browser capabilities. Domains are grouped by functionality:
+
+- **Core** - Fundamental browser control
+- **DOM &amp; Styling** - Page structure and styling
+- **Network &amp; Fetch** - HTTP traffic management
+- **Page &amp; Navigation** - Page lifecycle control
+- **Storage &amp; Data** - Browser storage APIs
+- **Performance &amp; Profiling** - Metrics and analysis
+- **Emulation &amp; Simulation** - Device and network emulation
+- **Worker &amp; Service** - Background tasks
+- **Developer Tools** - Debugging support
+
+---
+
+## Core Domains
+
+### Runtime
+**Purpose:** Execute JavaScript, manage objects, handle promises
+
+**Key Commands:**
+- `Runtime.evaluate(expression)` - Execute JavaScript
+- `Runtime.callFunctionOn(functionDeclaration, objectId)` - Call function on object
+- `Runtime.getProperties(objectId)` - Get object properties
+- `Runtime.awaitPromise(promiseObjectId)` - Wait for promise resolution
+
+**Key Events:**
+- `Runtime.consoleAPICalled` - Console message logged
+- `Runtime.exceptionThrown` - Uncaught exception
+
+**Use Cases:**
+- Execute custom JavaScript
+- Access page data
+- Monitor console output
+- Handle exceptions
+
+---
+
+### Debugger
+**Purpose:** JavaScript debugging, breakpoints, stack traces
+
+**Key Commands:**
+- `Debugger.enable()` - Enable debugger
+- `Debugger.setBreakpoint(location)` - Set breakpoint
+- `Debugger.pause()` - Pause execution
+- `Debugger.resume()` - Resume execution
+- `Debugger.stepOver/stepInto/stepOut()` - Step through code
+
+**Key Events:**
+- `Debugger.paused` - Execution paused
+- `Debugger.resumed` - Execution resumed
+- `Debugger.scriptParsed` - Script loaded
+
+**Use Cases:**
+- Debug JavaScript errors
+- Inspect call stacks
+- Set conditional breakpoints
+- Source map support
+
+---
+
+### Console (Deprecated - Use Runtime/Log)
+**Purpose:** Legacy console message access
+
+**Note:** Use `Runtime.consoleAPICalled` event instead for new implementations.
+
+---
+
+## DOM &amp; Styling Domains
+
+### DOM
+**Purpose:** Access and manipulate DOM tree
+
+**Key Commands:**
+- `DOM.getDocument()` - Get root document node
+- `DOM.querySelector(nodeId, selector)` - Query selector
+- `DOM.querySelectorAll(nodeId, selector)` - Query all
+- `DOM.getAttributes(nodeId)` - Get element attributes
+- `DOM.setOuterHTML(nodeId, outerHTML)` - Replace element
+- `DOM.getBoxModel(nodeId)` - Get element layout box
+- `DOM.focus(nodeId)` - Focus element
+
+**Key Events:**
+- `DOM.documentUpdated` - Document changed
+- `DOM.setChildNodes` - Child nodes updated
+
+**Use Cases:**
+- Navigate DOM tree
+- Query elements
+- Modify DOM structure
+- Get element positions
+
+---
+
+### CSS
+**Purpose:** Inspect and modify CSS styles
+
+**Key Commands:**
+- `CSS.enable()` - Enable CSS domain
+- `CSS.getComputedStyleForNode(nodeId)` - Get computed styles
+- `CSS.getInlineStylesForNode(nodeId)` - Get inline styles
+- `CSS.getMatchedStylesForNode(nodeId)` - Get matched CSS rules
+- `CSS.setStyleTexts(edits)` - Modify styles
+
+**Key Events:**
+- `CSS.styleSheetAdded` - Stylesheet added
+- `CSS.styleSheetChanged` - Stylesheet modified
+
+**Use Cases:**
+- Inspect element styles
+- Debug CSS issues
+- Modify styles dynamically
+- Extract stylesheet data
+
+---
+
+### Accessibility
+**Purpose:** Access accessibility tree
+
+**Key Commands:**
+- `Accessibility.enable()` - Enable accessibility
+- `Accessibility.getFullAXTree()` - Get complete AX tree
+- `Accessibility.getPartialAXTree(nodeId)` - Get node subtree
+- `Accessibility.queryAXTree(nodeId, role, name)` - Query AX tree
+
+**Use Cases:**
+- Accessibility testing
+- Screen reader simulation
+- ARIA attribute inspection
+- AX tree analysis
+
+---
+
+## Network &amp; Fetch Domains
+
+### Network
+**Purpose:** Monitor and control HTTP traffic
+
+**Key Commands:**
+- `Network.enable()` - Enable network tracking
+- `Network.setCacheDisabled(cacheDisabled)` - Disable cache
+- `Network.setExtraHTTPHea</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/performance-guide.md</code> <span class="muted">(21.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Performance Analysis Guide
+
+Comprehensive guide to analyzing web performance using Chrome DevTools Protocol, Puppeteer, and chrome-devtools skill.
+
+## Table of Contents
+
+- [Core Web Vitals](#core-web-vitals)
+- [Performance Tracing](#performance-tracing)
+- [Network Analysis](#network-analysis)
+- [JavaScript Performance](#javascript-performance)
+- [Rendering Performance](#rendering-performance)
+- [Memory Analysis](#memory-analysis)
+- [Optimization Strategies](#optimization-strategies)
+
+---
+
+## Core Web Vitals
+
+### Overview
+
+Core Web Vitals are Google&#x27;s standardized metrics for measuring user experience:
+
+- **LCP (Largest Contentful Paint)** - Loading performance (&lt; 2.5s good)
+- **FID (First Input Delay)** - Interactivity (&lt; 100ms good)
+- **CLS (Cumulative Layout Shift)** - Visual stability (&lt; 0.1 good)
+
+### Measuring with chrome-devtools-mcp
+
+```javascript
+// Start performance trace
+await useTool(&#x27;performance_start_trace&#x27;, {
+  categories: [&#x27;loading&#x27;, &#x27;rendering&#x27;, &#x27;scripting&#x27;]
+});
+
+// Navigate to page
+await useTool(&#x27;navigate_page&#x27;, {
+  url: &#x27;https://example.com&#x27;
+});
+
+// Wait for complete load
+await useTool(&#x27;wait_for&#x27;, {
+  waitUntil: &#x27;networkidle&#x27;
+});
+
+// Stop trace and get data
+await useTool(&#x27;performance_stop_trace&#x27;);
+
+// Get AI-powered insights
+const insights = await useTool(&#x27;performance_analyze_insight&#x27;);
+
+// insights will include:
+// - LCP timing
+// - FID analysis
+// - CLS score
+// - Performance recommendations
+```
+
+### Measuring with Puppeteer
+
+```javascript
+import puppeteer from &#x27;puppeteer&#x27;;
+
+const browser = await puppeteer.launch();
+const page = await browser.newPage();
+
+// Measure Core Web Vitals
+await page.goto(&#x27;https://example.com&#x27;, {
+  waitUntil: &#x27;networkidle2&#x27;
+});
+
+const vitals = await page.evaluate(() =&gt; {
+  return new Promise((resolve) =&gt; {
+    const vitals = {
+      LCP: null,
+      FID: null,
+      CLS: 0
+    };
+
+    // LCP
+    new PerformanceObserver((list) =&gt; {
+      const entries = list.getEntries();
+      vitals.LCP = entries[entries.length - 1].renderTime ||
+                   entries[entries.length - 1].loadTime;
+    }).observe({ entryTypes: [&#x27;largest-contentful-paint&#x27;] });
+
+    // FID
+    new PerformanceObserver((list) =&gt; {
+      vitals.FID = list.getEntries()[0].processingStart -
+                   list.getEntries()[0].startTime;
+    }).observe({ entryTypes: [&#x27;first-input&#x27;] });
+
+    // CLS
+    new PerformanceObserver((list) =&gt; {
+      list.getEntries().forEach((entry) =&gt; {
+        if (!entry.hadRecentInput) {
+          vitals.CLS += entry.value;
+        }
+      });
+    }).observe({ entryTypes: [&#x27;layout-shift&#x27;] });
+
+    // Wait 5 seconds for metrics
+    setTimeout(() =&gt; resolve(vitals), 5000);
+  });
+});
+
+console.log(&#x27;Core Web Vitals:&#x27;, vitals);
+```
+
+### Other Important Metrics
+
+**TTFB (Time to First Byte)**
+```javascript
+const ttfb = await page.evaluate(() =&gt; {
+  const [navigationEntry] = performance.getEntriesByType(&#x27;navigation&#x27;);
+  return navigationEntry.responseStart - navigationEntry.requestStart;
+});
+```
+
+**FCP (First Contentful Paint)**
+```javascript
+const fcp = await page.evaluate(() =&gt; {
+  const paintEntries = performance.getEntriesByType(&#x27;paint&#x27;);
+  const fcpEntry = paintEntries.find(e =&gt; e.name === &#x27;first-contentful-paint&#x27;);
+  return fcpEntry ? fcpEntry.startTime : null;
+});
+```
+
+**TTI (Time to Interactive)**
+```javascript
+// Requires lighthouse or manual calculation
+const tti = await page.evaluate(() =&gt; {
+  // Complex calculation based on network idle and long tasks
+  // Best to use Lighthouse for accurate TTI
+});
+```
+
+---
+
+## Performance Tracing
+
+### Chrome Trace Categories
+
+**Loading:**
+- Page load events
+- Resource loading
+- Parser activity
+
+**Rendering:**
+- Layout calculations
+- Paint operations
+- Compositing
+
+**Scripting:**
+- JavaScript execution
+- V8 compilation
+- Garbage collection
+
+**Network:**
+- HTTP requests
+- WebSocket traffic
+- Resource fetching
+
+**Input:**
+- User input processing
+- Touch/scroll events
+
+**GPU:**
+- GPU operations
+- Compositing work
+
+### Record Performance Trace
+
+**Usi</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/puppeteer-reference.md</code> <span class="muted">(18.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Puppeteer Quick Reference
+
+Complete guide to browser automation with Puppeteer - a high-level API over Chrome DevTools Protocol.
+
+## Table of Contents
+
+- [Setup](#setup)
+- [Browser &amp; Page Management](#browser--page-management)
+- [Navigation](#navigation)
+- [Element Interaction](#element-interaction)
+- [JavaScript Execution](#javascript-execution)
+- [Screenshots &amp; PDFs](#screenshots--pdfs)
+- [Network Interception](#network-interception)
+- [Device Emulation](#device-emulation)
+- [Performance](#performance)
+- [Common Patterns](#common-patterns)
+
+---
+
+## Setup
+
+### Installation
+
+```bash
+# Install Puppeteer
+npm install puppeteer
+
+# Install core only (bring your own Chrome)
+npm install puppeteer-core
+```
+
+### Basic Usage
+
+```javascript
+import puppeteer from &#x27;puppeteer&#x27;;
+
+// Launch browser
+const browser = await puppeteer.launch({
+  headless: true,
+  args: [&#x27;--no-sandbox&#x27;]
+});
+
+// Open page
+const page = await browser.newPage();
+
+// Navigate
+await page.goto(&#x27;https://example.com&#x27;);
+
+// Do work...
+
+// Cleanup
+await browser.close();
+```
+
+---
+
+## Browser &amp; Page Management
+
+### Launch Browser
+
+```javascript
+const browser = await puppeteer.launch({
+  // Visibility
+  headless: false,              // Show browser UI
+  headless: &#x27;new&#x27;,              // New headless mode (Chrome 112+)
+
+  // Chrome location
+  executablePath: &#x27;/path/to/chrome&#x27;,
+  channel: &#x27;chrome&#x27;,            // or &#x27;chrome-canary&#x27;, &#x27;chrome-beta&#x27;
+
+  // Browser context
+  userDataDir: &#x27;./user-data&#x27;,   // Persistent profile
+
+  // Window size
+  defaultViewport: {
+    width: 1920,
+    height: 1080,
+    deviceScaleFactor: 1,
+    isMobile: false
+  },
+
+  // Advanced options
+  args: [
+    &#x27;--no-sandbox&#x27;,
+    &#x27;--disable-setuid-sandbox&#x27;,
+    &#x27;--disable-dev-shm-usage&#x27;,
+    &#x27;--disable-web-security&#x27;,
+    &#x27;--disable-features=IsolateOrigins&#x27;,
+    &#x27;--disable-site-isolation-trials&#x27;,
+    &#x27;--start-maximized&#x27;
+  ],
+
+  // Debugging
+  devtools: true,               // Open DevTools automatically
+  slowMo: 250,                  // Slow down by 250ms per action
+
+  // Network
+  proxy: {
+    server: &#x27;http://proxy.com:8080&#x27;
+  }
+});
+```
+
+### Connect to Running Browser
+
+```javascript
+// Launch Chrome with debugging
+// google-chrome --remote-debugging-port=9222
+
+const browser = await puppeteer.connect({
+  browserURL: &#x27;http://localhost:9222&#x27;,
+  // or browserWSEndpoint: &#x27;ws://localhost:9222/devtools/browser/...&#x27;
+});
+```
+
+### Page Management
+
+```javascript
+// Create new page
+const page = await browser.newPage();
+
+// Get all pages
+const pages = await browser.pages();
+
+// Close page
+await page.close();
+
+// Multiple pages
+const page1 = await browser.newPage();
+const page2 = await browser.newPage();
+
+// Switch between pages
+await page1.bringToFront();
+```
+
+### Browser Context (Incognito)
+
+```javascript
+// Create isolated context
+const context = await browser.createBrowserContext();
+const page = await context.newPage();
+
+// Cleanup context
+await context.close();
+```
+
+---
+
+## Navigation
+
+### Basic Navigation
+
+```javascript
+// Navigate to URL
+await page.goto(&#x27;https://example.com&#x27;);
+
+// Navigate with options
+await page.goto(&#x27;https://example.com&#x27;, {
+  waitUntil: &#x27;networkidle2&#x27;,    // or &#x27;load&#x27;, &#x27;domcontentloaded&#x27;, &#x27;networkidle0&#x27;
+  timeout: 30000                 // Max wait time (ms)
+});
+
+// Reload page
+await page.reload({ waitUntil: &#x27;networkidle2&#x27; });
+
+// Navigation history
+await page.goBack();
+await page.goForward();
+
+// Wait for navigation
+await page.waitForNavigation({
+  waitUntil: &#x27;networkidle2&#x27;
+});
+```
+
+### Wait Until Options
+
+- `load` - Wait for load event
+- `domcontentloaded` - Wait for DOMContentLoaded event
+- `networkidle0` - Wait until no network connections for 500ms
+- `networkidle2` - Wait until max 2 network connections for 500ms
+
+---
+
+## Element Interaction
+
+### Selectors
+
+```javascript
+// CSS selectors
+await page.$(&#x27;#id&#x27;);
+await page.$(&#x27;.class&#x27;);
+await page.$(&#x27;div &gt; p&#x27;);
+
+// XPath
+await page.$x(&#x27;//button[text()=&quot;Submit&quot;]&#x27;);
+
+// Get all matching elements
+await page.$$(&#x27;.item&#x27;);
+await page.$$x(&#x27;//div[@class=&quot;ite</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>scripts/.gitignore</code> <span class="muted">(12 B, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/__tests__/selector.test.js</code> <span class="muted">(6.4 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * Tests for selector parsing library
+ * Run with: node --test __tests__/selector.test.js
+ */
+import { describe, it } from &#x27;node:test&#x27;;
+import assert from &#x27;node:assert&#x27;;
+import { parseSelector } from &#x27;../lib/selector.js&#x27;;
+
+describe(&#x27;parseSelector&#x27;, () =&gt; {
+  describe(&#x27;CSS Selectors&#x27;, () =&gt; {
+    it(&#x27;should detect simple CSS selectors&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;button&#x27;);
+      assert.strictEqual(result.type, &#x27;css&#x27;);
+      assert.strictEqual(result.selector, &#x27;button&#x27;);
+    });
+
+    it(&#x27;should detect class selectors&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;.btn-submit&#x27;);
+      assert.strictEqual(result.type, &#x27;css&#x27;);
+      assert.strictEqual(result.selector, &#x27;.btn-submit&#x27;);
+    });
+
+    it(&#x27;should detect ID selectors&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;#email-input&#x27;);
+      assert.strictEqual(result.type, &#x27;css&#x27;);
+      assert.strictEqual(result.selector, &#x27;#email-input&#x27;);
+    });
+
+    it(&#x27;should detect attribute selectors&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;button[type=&quot;submit&quot;]&#x27;);
+      assert.strictEqual(result.type, &#x27;css&#x27;);
+      assert.strictEqual(result.selector, &#x27;button[type=&quot;submit&quot;]&#x27;);
+    });
+
+    it(&#x27;should detect complex CSS selectors&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;div.container &gt; button.btn-primary:hover&#x27;);
+      assert.strictEqual(result.type, &#x27;css&#x27;);
+    });
+  });
+
+  describe(&#x27;XPath Selectors&#x27;, () =&gt; {
+    it(&#x27;should detect absolute XPath&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;/html/body/button&#x27;);
+      assert.strictEqual(result.type, &#x27;xpath&#x27;);
+      assert.strictEqual(result.selector, &#x27;/html/body/button&#x27;);
+    });
+
+    it(&#x27;should detect relative XPath&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;//button&#x27;);
+      assert.strictEqual(result.type, &#x27;xpath&#x27;);
+      assert.strictEqual(result.selector, &#x27;//button&#x27;);
+    });
+
+    it(&#x27;should detect XPath with text matching&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;//button[text()=&quot;Click Me&quot;]&#x27;);
+      assert.strictEqual(result.type, &#x27;xpath&#x27;);
+    });
+
+    it(&#x27;should detect XPath with contains&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;//button[contains(text(),&quot;Submit&quot;)]&#x27;);
+      assert.strictEqual(result.type, &#x27;xpath&#x27;);
+    });
+
+    it(&#x27;should detect XPath with attributes&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;//input[@type=&quot;email&quot;]&#x27;);
+      assert.strictEqual(result.type, &#x27;xpath&#x27;);
+    });
+
+    it(&#x27;should detect grouped XPath&#x27;, () =&gt; {
+      const result = parseSelector(&#x27;(//button)[1]&#x27;);
+      assert.strictEqual(result.type, &#x27;xpath&#x27;);
+    });
+  });
+
+  describe(&#x27;Security Validation&#x27;, () =&gt; {
+    it(&#x27;should block javascript: injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//button[@onclick=&quot;javascript:alert(1)&quot;]&#x27;),
+        /XPath injection detected.*javascript:/i
+      );
+    });
+
+    it(&#x27;should block &lt;script tag injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//div[contains(text(),&quot;&lt;script&gt;alert(1)&lt;/script&gt;&quot;)]&#x27;),
+        /XPath injection detected.*&lt;script/i
+      );
+    });
+
+    it(&#x27;should block onerror= injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//img[@onerror=&quot;alert(1)&quot;]&#x27;),
+        /XPath injection detected.*onerror=/i
+      );
+    });
+
+    it(&#x27;should block onload= injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//body[@onload=&quot;malicious()&quot;]&#x27;),
+        /XPath injection detected.*onload=/i
+      );
+    });
+
+    it(&#x27;should block onclick= injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//a[@onclick=&quot;steal()&quot;]&#x27;),
+        /XPath injection detected.*onclick=/i
+      );
+    });
+
+    it(&#x27;should block eval( injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//div[eval(&quot;malicious&quot;)]&#x27;),
+        /XPath injection detected.*eval\(/i
+      );
+    });
+
+    it(&#x27;should block Function( injection&#x27;, () =&gt; {
+      assert.throws(
+        () =&gt; parseSelector(&#x27;//div[Function(&quot;return 1&quot;)()]&#x27;),
+        /XPath injection detected.*Function\(/i
+      );
+    });
+
+    it(&#x27;should block constru</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>scripts/auth-screenshot.mjs</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/click.js</code> <span class="muted">(2.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Click an element
+ * Usage: node click.js --selector &quot;.button&quot; [--url https://example.com] [--wait-for &quot;.result&quot;]
+ * Supports both CSS and XPath selectors:
+ *   - CSS: node click.js --selector &quot;button.submit&quot;
+ *   - XPath: node click.js --selector &quot;//button[contains(text(),&#x27;Submit&#x27;)]&quot;
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+import { parseSelector, waitForElement, clickElement, enhanceError } from &#x27;./lib/selector.js&#x27;;
+
+async function click() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.selector) {
+    outputError(new Error(&#x27;--selector is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    // Navigate if URL provided
+    if (args.url) {
+      await page.goto(args.url, {
+        waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;
+      });
+    }
+
+    // Parse and validate selector
+    const parsed = parseSelector(args.selector);
+
+    // Wait for element based on selector type
+    await waitForElement(page, parsed, {
+      visible: true,
+      timeout: parseInt(args.timeout || &#x27;5000&#x27;)
+    });
+
+    // Set up navigation promise BEFORE clicking (in case click triggers immediate navigation)
+    const navigationPromise = page.waitForNavigation({
+      waitUntil: &#x27;load&#x27;,
+      timeout: 5000
+    }).catch(() =&gt; null); // Catch timeout - navigation may not occur
+
+    // Click element
+    await clickElement(page, parsed);
+
+    // Wait for optional selector after click
+    if (args[&#x27;wait-for&#x27;]) {
+      await page.waitForSelector(args[&#x27;wait-for&#x27;], {
+        timeout: parseInt(args.timeout || &#x27;5000&#x27;)
+      });
+    } else {
+      // Wait for navigation to complete (or timeout if no navigation)
+      await navigationPromise;
+    }
+
+    outputJSON({
+      success: true,
+      url: page.url(),
+      title: await page.title()
+    });
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    // Enhance error message with troubleshooting tips
+    const enhanced = enhanceError(error, args.selector);
+    outputError(enhanced);
+    process.exit(1);
+  }
+}
+
+click();
+</pre></details><details><summary><code>scripts/console.js</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Monitor console messages
+ * Usage: node console.js --url https://example.com [--types error,warn] [--duration 5000]
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+
+async function monitorConsole() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.url) {
+    outputError(new Error(&#x27;--url is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    const messages = [];
+    const filterTypes = args.types ? args.types.split(&#x27;,&#x27;) : null;
+
+    // Listen for console messages
+    page.on(&#x27;console&#x27;, (msg) =&gt; {
+      const type = msg.type();
+
+      if (!filterTypes || filterTypes.includes(type)) {
+        messages.push({
+          type: type,
+          text: msg.text(),
+          location: msg.location(),
+          timestamp: Date.now()
+        });
+      }
+    });
+
+    // Listen for page errors
+    page.on(&#x27;pageerror&#x27;, (error) =&gt; {
+      messages.push({
+        type: &#x27;pageerror&#x27;,
+        text: error.message,
+        stack: error.stack,
+        timestamp: Date.now()
+      });
+    });
+
+    // Navigate
+    await page.goto(args.url, {
+      waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;
+    });
+
+    // Wait for additional time if specified
+    if (args.duration) {
+      await new Promise(resolve =&gt; setTimeout(resolve, parseInt(args.duration)));
+    }
+
+    outputJSON({
+      success: true,
+      url: page.url(),
+      messageCount: messages.length,
+      messages: messages
+    });
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    outputError(error);
+  }
+}
+
+monitorConsole();
+</pre></details><details><summary><code>scripts/evaluate.js</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Execute JavaScript in page context
+ * Usage: node evaluate.js --script &quot;document.title&quot; [--url https://example.com]
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+
+async function evaluate() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.script) {
+    outputError(new Error(&#x27;--script is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    // Navigate if URL provided
+    if (args.url) {
+      await page.goto(args.url, {
+        waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;
+      });
+    }
+
+    const result = await page.evaluate((script) =&gt; {
+      // eslint-disable-next-line no-eval
+      return eval(script);
+    }, args.script);
+
+    outputJSON({
+      success: true,
+      result: result,
+      url: page.url()
+    });
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    outputError(error);
+  }
+}
+
+evaluate();
+</pre></details><details><summary><code>scripts/fill.js</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Fill form fields
+ * Usage: node fill.js --selector &quot;#input&quot; --value &quot;text&quot; [--url https://example.com]
+ * Supports both CSS and XPath selectors:
+ *   - CSS: node fill.js --selector &quot;#email&quot; --value &quot;user@example.com&quot;
+ *   - XPath: node fill.js --selector &quot;//input[@type=&#x27;email&#x27;]&quot; --value &quot;user@example.com&quot;
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+import { parseSelector, waitForElement, typeIntoElement, enhanceError } from &#x27;./lib/selector.js&#x27;;
+
+async function fill() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.selector) {
+    outputError(new Error(&#x27;--selector is required&#x27;));
+    return;
+  }
+
+  if (!args.value) {
+    outputError(new Error(&#x27;--value is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    // Navigate if URL provided
+    if (args.url) {
+      await page.goto(args.url, {
+        waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;
+      });
+    }
+
+    // Parse and validate selector
+    const parsed = parseSelector(args.selector);
+
+    // Wait for element based on selector type
+    await waitForElement(page, parsed, {
+      visible: true,
+      timeout: parseInt(args.timeout || &#x27;5000&#x27;)
+    });
+
+    // Type into element
+    await typeIntoElement(page, parsed, args.value, {
+      clear: args.clear === &#x27;true&#x27;,
+      delay: parseInt(args.delay || &#x27;0&#x27;)
+    });
+
+    outputJSON({
+      success: true,
+      selector: args.selector,
+      value: args.value,
+      url: page.url()
+    });
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    // Enhance error message with troubleshooting tips
+    const enhanced = enhanceError(error, args.selector);
+    outputError(enhanced);
+    process.exit(1);
+  }
+}
+
+fill();
+</pre></details><div class="file-row"><code>scripts/firefly-gen.mjs</code> <span class="muted">(3.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/firefly.cjs</code> <span class="muted">(2.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/firefly2.cjs</code> <span class="muted">(4.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/firefly3.cjs</code> <span class="muted">(4.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>scripts/firefly4.cjs</code> <span class="muted">(4.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/install-deps.sh</code> <span class="muted">(4.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+# System dependencies installation script for Chrome DevTools Agent Skill
+# This script installs required system libraries for running Chrome/Chromium
+
+set -e
+
+echo &quot;🚀 Installing system dependencies for Chrome/Chromium...&quot;
+echo &quot;&quot;
+
+# Detect OS
+if [ -f /etc/os-release ]; then
+    . /etc/os-release
+    OS=$ID
+else
+    echo &quot;❌ Cannot detect OS. This script supports Debian/Ubuntu-based systems.&quot;
+    exit 1
+fi
+
+# Check if running as root
+if [ &quot;$EUID&quot; -ne 0 ]; then
+    SUDO=&quot;sudo&quot;
+    echo &quot;⚠️  This script requires root privileges to install system packages.&quot;
+    echo &quot;   You may be prompted for your password.&quot;
+    echo &quot;&quot;
+else
+    SUDO=&quot;&quot;
+fi
+
+# Install dependencies based on OS
+case $OS in
+    ubuntu|debian|pop)
+        echo &quot;Detected: $PRETTY_NAME&quot;
+        echo &quot;Installing dependencies with apt...&quot;
+        echo &quot;&quot;
+
+        $SUDO apt-get update
+
+        # Install Chrome dependencies
+        $SUDO apt-get install -y \
+            ca-certificates \
+            fonts-liberation \
+            libasound2t64 \
+            libatk-bridge2.0-0 \
+            libatk1.0-0 \
+            libc6 \
+            libcairo2 \
+            libcups2 \
+            libdbus-1-3 \
+            libexpat1 \
+            libfontconfig1 \
+            libgbm1 \
+            libgcc1 \
+            libglib2.0-0 \
+            libgtk-3-0 \
+            libnspr4 \
+            libnss3 \
+            libpango-1.0-0 \
+            libpangocairo-1.0-0 \
+            libstdc++6 \
+            libx11-6 \
+            libx11-xcb1 \
+            libxcb1 \
+            libxcomposite1 \
+            libxcursor1 \
+            libxdamage1 \
+            libxext6 \
+            libxfixes3 \
+            libxi6 \
+            libxrandr2 \
+            libxrender1 \
+            libxss1 \
+            libxtst6 \
+            lsb-release \
+            wget \
+            xdg-utils
+
+        echo &quot;&quot;
+        echo &quot;✅ System dependencies installed successfully!&quot;
+        ;;
+
+    fedora|rhel|centos)
+        echo &quot;Detected: $PRETTY_NAME&quot;
+        echo &quot;Installing dependencies with dnf/yum...&quot;
+        echo &quot;&quot;
+
+        # Try dnf first, fallback to yum
+        if command -v dnf &amp;&gt; /dev/null; then
+            PKG_MGR=&quot;dnf&quot;
+        else
+            PKG_MGR=&quot;yum&quot;
+        fi
+
+        $SUDO $PKG_MGR install -y \
+            alsa-lib \
+            atk \
+            at-spi2-atk \
+            cairo \
+            cups-libs \
+            dbus-libs \
+            expat \
+            fontconfig \
+            glib2 \
+            gtk3 \
+            libdrm \
+            libgbm \
+            libX11 \
+            libxcb \
+            libXcomposite \
+            libXcursor \
+            libXdamage \
+            libXext \
+            libXfixes \
+            libXi \
+            libxkbcommon \
+            libXrandr \
+            libXrender \
+            libXScrnSaver \
+            libXtst \
+            mesa-libgbm \
+            nspr \
+            nss \
+            pango
+
+        echo &quot;&quot;
+        echo &quot;✅ System dependencies installed successfully!&quot;
+        ;;
+
+    arch|manjaro)
+        echo &quot;Detected: $PRETTY_NAME&quot;
+        echo &quot;Installing dependencies with pacman...&quot;
+        echo &quot;&quot;
+
+        $SUDO pacman -Sy --noconfirm \
+            alsa-lib \
+            at-spi2-core \
+            cairo \
+            cups \
+            dbus \
+            expat \
+            glib2 \
+            gtk3 \
+            libdrm \
+            libx11 \
+            libxcb \
+            libxcomposite \
+            libxcursor \
+            libxdamage \
+            libxext \
+            libxfixes \
+            libxi \
+            libxkbcommon \
+            libxrandr \
+            libxrender \
+            libxshmfence \
+            libxss \
+            libxtst \
+            mesa \
+            nspr \
+            nss \
+            pango
+
+        echo &quot;&quot;
+        echo &quot;✅ System dependencies installed successfully!&quot;
+        ;;
+
+    *)
+        echo &quot;❌ Unsupported OS: $OS&quot;
+        echo &quot;   This script supports: Ubuntu, Debian, Fedora, RHEL, CentOS, Arch, Manjaro&quot;
+   </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/install.sh</code> <span class="muted">(2.1 KB, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+# Installation script for Chrome DevTools Agent Skill
+
+set -e
+
+echo &quot;🚀 Installing Chrome DevTools Agent Skill...&quot;
+echo &quot;&quot;
+
+# Check Node.js version
+echo &quot;Checking Node.js version...&quot;
+NODE_VERSION=$(node --version | cut -d&#x27;v&#x27; -f2 | cut -d&#x27;.&#x27; -f1)
+
+if [ &quot;$NODE_VERSION&quot; -lt 18 ]; then
+  echo &quot;❌ Error: Node.js 18+ is required. Current version: $(node --version)&quot;
+  echo &quot;   Please upgrade Node.js: https://nodejs.org/&quot;
+  exit 1
+fi
+
+echo &quot;✓ Node.js version: $(node --version)&quot;
+echo &quot;&quot;
+
+# Check for system dependencies (Linux only)
+if [[ &quot;$OSTYPE&quot; == &quot;linux-gnu&quot;* ]]; then
+  echo &quot;Checking system dependencies (Linux)...&quot;
+
+  # Check for critical Chrome dependencies
+  MISSING_DEPS=()
+
+  if ! ldconfig -p | grep -q libnss3.so; then
+    MISSING_DEPS+=(&quot;libnss3&quot;)
+  fi
+
+  if ! ldconfig -p | grep -q libnspr4.so; then
+    MISSING_DEPS+=(&quot;libnspr4&quot;)
+  fi
+
+  if ! ldconfig -p | grep -q libgbm.so; then
+    MISSING_DEPS+=(&quot;libgbm1&quot;)
+  fi
+
+  if [ ${#MISSING_DEPS[@]} -gt 0 ]; then
+    echo &quot;⚠️  Missing system dependencies: ${MISSING_DEPS[*]}&quot;
+    echo &quot;&quot;
+    echo &quot;   Chrome/Chromium requires system libraries to run.&quot;
+    echo &quot;   Install them with:&quot;
+    echo &quot;&quot;
+    echo &quot;   ./install-deps.sh&quot;
+    echo &quot;&quot;
+    echo &quot;   Or manually:&quot;
+    echo &quot;   sudo apt-get install -y libnss3 libnspr4 libgbm1 libasound2t64 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2&quot;
+    echo &quot;&quot;
+
+    read -p &quot;   Continue anyway? (y/N) &quot; -n 1 -r
+    echo &quot;&quot;
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+      echo &quot;Installation cancelled.&quot;
+      exit 1
+    fi
+  else
+    echo &quot;✓ System dependencies found&quot;
+  fi
+  echo &quot;&quot;
+elif [[ &quot;$OSTYPE&quot; == &quot;darwin&quot;* ]]; then
+  echo &quot;Platform: macOS (no system dependencies needed)&quot;
+  echo &quot;&quot;
+elif [[ &quot;$OSTYPE&quot; == &quot;msys&quot; ]] || [[ &quot;$OSTYPE&quot; == &quot;cygwin&quot; ]]; then
+  echo &quot;Platform: Windows (no system dependencies needed)&quot;
+  echo &quot;&quot;
+fi
+
+# Install Node.js dependencies
+echo &quot;Installing Node.js dependencies...&quot;
+npm install
+
+echo &quot;&quot;
+echo &quot;✅ Installation complete!&quot;
+echo &quot;&quot;
+echo &quot;Test the installation:&quot;
+echo &quot;  node navigate.js --url https://example.com&quot;
+echo &quot;&quot;
+echo &quot;For more information:&quot;
+echo &quot;  cat README.md&quot;
+echo &quot;&quot;
+</pre></details><details><summary><code>scripts/lib/browser.js</code> <span class="muted">(2.4 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * Shared browser utilities for Chrome DevTools scripts
+ */
+import puppeteer from &#x27;puppeteer&#x27;;
+import debug from &#x27;debug&#x27;;
+
+const log = debug(&#x27;chrome-devtools:browser&#x27;);
+
+let browserInstance = null;
+let pageInstance = null;
+
+/**
+ * Launch or connect to browser
+ */
+export async function getBrowser(options = {}) {
+  if (browserInstance &amp;&amp; browserInstance.isConnected()) {
+    log(&#x27;Reusing existing browser instance&#x27;);
+    return browserInstance;
+  }
+
+  const launchOptions = {
+    headless: options.headless !== false,
+    args: [
+      &#x27;--no-sandbox&#x27;,
+      &#x27;--disable-setuid-sandbox&#x27;,
+      &#x27;--disable-dev-shm-usage&#x27;,
+      ...(options.args || [])
+    ],
+    defaultViewport: options.viewport || {
+      width: 1920,
+      height: 1080
+    },
+    ...options
+  };
+
+  if (options.browserUrl || options.wsEndpoint) {
+    log(&#x27;Connecting to existing browser&#x27;);
+    browserInstance = await puppeteer.connect({
+      browserURL: options.browserUrl,
+      browserWSEndpoint: options.wsEndpoint
+    });
+  } else {
+    log(&#x27;Launching new browser&#x27;);
+    browserInstance = await puppeteer.launch(launchOptions);
+  }
+
+  return browserInstance;
+}
+
+/**
+ * Get current page or create new one
+ */
+export async function getPage(browser) {
+  if (pageInstance &amp;&amp; !pageInstance.isClosed()) {
+    log(&#x27;Reusing existing page&#x27;);
+    return pageInstance;
+  }
+
+  const pages = await browser.pages();
+  if (pages.length &gt; 0) {
+    pageInstance = pages[0];
+  } else {
+    pageInstance = await browser.newPage();
+  }
+
+  return pageInstance;
+}
+
+/**
+ * Close browser
+ */
+export async function closeBrowser() {
+  if (browserInstance) {
+    await browserInstance.close();
+    browserInstance = null;
+    pageInstance = null;
+  }
+}
+
+/**
+ * Parse command line arguments
+ */
+export function parseArgs(argv, options = {}) {
+  const args = {};
+
+  for (let i = 0; i &lt; argv.length; i++) {
+    const arg = argv[i];
+
+    if (arg.startsWith(&#x27;--&#x27;)) {
+      const key = arg.slice(2);
+      const nextArg = argv[i + 1];
+
+      if (nextArg &amp;&amp; !nextArg.startsWith(&#x27;--&#x27;)) {
+        args[key] = nextArg;
+        i++;
+      } else {
+        args[key] = true;
+      }
+    }
+  }
+
+  return args;
+}
+
+/**
+ * Output JSON result
+ */
+export function outputJSON(data) {
+  console.log(JSON.stringify(data, null, 2));
+}
+
+/**
+ * Output error
+ */
+export function outputError(error) {
+  console.error(JSON.stringify({
+    success: false,
+    error: error.message,
+    stack: error.stack
+  }, null, 2));
+  process.exit(1);
+}
+</pre></details><details><summary><code>scripts/lib/selector.js</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * Shared selector parsing and validation library
+ * Supports CSS and XPath selectors with security validation
+ */
+
+/**
+ * Parse and validate selector
+ * @param {string} selector - CSS or XPath selector
+ * @returns {{type: &#x27;css&#x27;|&#x27;xpath&#x27;, selector: string}}
+ * @throws {Error} If XPath contains injection patterns
+ */
+export function parseSelector(selector) {
+  if (!selector || typeof selector !== &#x27;string&#x27;) {
+    throw new Error(&#x27;Selector must be a non-empty string&#x27;);
+  }
+
+  // Detect XPath selectors
+  if (selector.startsWith(&#x27;/&#x27;) || selector.startsWith(&#x27;(//&#x27;)) {
+    // XPath injection prevention
+    validateXPath(selector);
+    return { type: &#x27;xpath&#x27;, selector };
+  }
+
+  // CSS selector
+  return { type: &#x27;css&#x27;, selector };
+}
+
+/**
+ * Validate XPath selector for security
+ * @param {string} xpath - XPath expression to validate
+ * @throws {Error} If XPath contains dangerous patterns
+ */
+function validateXPath(xpath) {
+  const dangerous = [
+    &#x27;javascript:&#x27;,
+    &#x27;&lt;script&#x27;,
+    &#x27;onerror=&#x27;,
+    &#x27;onload=&#x27;,
+    &#x27;onclick=&#x27;,
+    &#x27;onmouseover=&#x27;,
+    &#x27;eval(&#x27;,
+    &#x27;Function(&#x27;,
+    &#x27;constructor(&#x27;,
+  ];
+
+  const lower = xpath.toLowerCase();
+  for (const pattern of dangerous) {
+    if (lower.includes(pattern.toLowerCase())) {
+      throw new Error(`Potential XPath injection detected: ${pattern}`);
+    }
+  }
+
+  // Additional validation: check for extremely long selectors (potential DoS)
+  if (xpath.length &gt; 1000) {
+    throw new Error(&#x27;XPath selector too long (max 1000 characters)&#x27;);
+  }
+}
+
+/**
+ * Wait for element based on selector type
+ * @param {Object} page - Puppeteer page instance
+ * @param {{type: string, selector: string}} parsed - Parsed selector
+ * @param {Object} options - Wait options (visible, timeout)
+ * @returns {Promise&lt;void&gt;}
+ */
+export async function waitForElement(page, parsed, options = {}) {
+  const defaultOptions = {
+    visible: true,
+    timeout: 5000,
+    ...options
+  };
+
+  if (parsed.type === &#x27;xpath&#x27;) {
+    // Use locator API for XPath (Puppeteer v24+)
+    const locator = page.locator(`::-p-xpath(${parsed.selector})`);
+    // setVisibility and setTimeout are the locator options
+    await locator
+      .setVisibility(defaultOptions.visible ? &#x27;visible&#x27; : null)
+      .setTimeout(defaultOptions.timeout)
+      .wait();
+  } else {
+    await page.waitForSelector(parsed.selector, defaultOptions);
+  }
+}
+
+/**
+ * Click element based on selector type
+ * @param {Object} page - Puppeteer page instance
+ * @param {{type: string, selector: string}} parsed - Parsed selector
+ * @returns {Promise&lt;void&gt;}
+ */
+export async function clickElement(page, parsed) {
+  if (parsed.type === &#x27;xpath&#x27;) {
+    // Use locator API for XPath (Puppeteer v24+)
+    const locator = page.locator(`::-p-xpath(${parsed.selector})`);
+    await locator.click();
+  } else {
+    await page.click(parsed.selector);
+  }
+}
+
+/**
+ * Type into element based on selector type
+ * @param {Object} page - Puppeteer page instance
+ * @param {{type: string, selector: string}} parsed - Parsed selector
+ * @param {string} value - Text to type
+ * @param {Object} options - Type options (delay, clear)
+ * @returns {Promise&lt;void&gt;}
+ */
+export async function typeIntoElement(page, parsed, value, options = {}) {
+  if (parsed.type === &#x27;xpath&#x27;) {
+    // Use locator API for XPath (Puppeteer v24+)
+    const locator = page.locator(`::-p-xpath(${parsed.selector})`);
+
+    // Clear if requested
+    if (options.clear) {
+      await locator.fill(&#x27;&#x27;);
+    }
+
+    await locator.fill(value);
+  } else {
+    // CSS selector
+    if (options.clear) {
+      await page.$eval(parsed.selector, el =&gt; el.value = &#x27;&#x27;);
+    }
+
+    await page.type(parsed.selector, value, { delay: options.delay || 0 });
+  }
+}
+
+/**
+ * Get element handle based on selector type
+ * @param {Object} page - Puppeteer page instance
+ * @param {{type: string, selector: string}} parsed - Parsed selector
+ * @returns {Promise&lt;ElementHandle|null&gt;}
+ */
+export async function getElement(page, parsed) {
+  if (parsed.type === &#x27;xpath&#x27;) {
+    // For XPath, use pag</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/navigate.js</code> <span class="muted">(994 B, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Navigate to a URL
+ * Usage: node navigate.js --url https://example.com [--wait-until networkidle2] [--timeout 30000]
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+
+async function navigate() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.url) {
+    outputError(new Error(&#x27;--url is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    const options = {
+      waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;,
+      timeout: parseInt(args.timeout || &#x27;30000&#x27;)
+    };
+
+    await page.goto(args.url, options);
+
+    const result = {
+      success: true,
+      url: page.url(),
+      title: await page.title()
+    };
+
+    outputJSON(result);
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    outputError(error);
+  }
+}
+
+navigate();
+</pre></details><details><summary><code>scripts/network.js</code> <span class="muted">(2.7 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Monitor network requests
+ * Usage: node network.js --url https://example.com [--types xhr,fetch] [--output requests.json]
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+import fs from &#x27;fs/promises&#x27;;
+
+async function monitorNetwork() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.url) {
+    outputError(new Error(&#x27;--url is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    const requests = [];
+    const filterTypes = args.types ? args.types.split(&#x27;,&#x27;).map(t =&gt; t.toLowerCase()) : null;
+
+    // Monitor requests
+    page.on(&#x27;request&#x27;, (request) =&gt; {
+      const resourceType = request.resourceType().toLowerCase();
+
+      if (!filterTypes || filterTypes.includes(resourceType)) {
+        requests.push({
+          id: request._requestId || requests.length,
+          url: request.url(),
+          method: request.method(),
+          resourceType: resourceType,
+          headers: request.headers(),
+          postData: request.postData(),
+          timestamp: Date.now()
+        });
+      }
+    });
+
+    // Monitor responses
+    const responses = new Map();
+    page.on(&#x27;response&#x27;, async (response) =&gt; {
+      const request = response.request();
+      const resourceType = request.resourceType().toLowerCase();
+
+      if (!filterTypes || filterTypes.includes(resourceType)) {
+        try {
+          responses.set(request._requestId || request.url(), {
+            status: response.status(),
+            statusText: response.statusText(),
+            headers: response.headers(),
+            fromCache: response.fromCache(),
+            timing: response.timing()
+          });
+        } catch (e) {
+          // Ignore errors for some response types
+        }
+      }
+    });
+
+    // Navigate
+    await page.goto(args.url, {
+      waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;
+    });
+
+    // Merge requests with responses
+    const combined = requests.map(req =&gt; ({
+      ...req,
+      response: responses.get(req.id) || responses.get(req.url) || null
+    }));
+
+    const result = {
+      success: true,
+      url: page.url(),
+      requestCount: combined.length,
+      requests: combined
+    };
+
+    if (args.output) {
+      await fs.writeFile(args.output, JSON.stringify(result, null, 2));
+      outputJSON({
+        success: true,
+        output: args.output,
+        requestCount: combined.length
+      });
+    } else {
+      outputJSON(result);
+    }
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    outputError(error);
+  }
+}
+
+monitorNetwork();
+</pre></details><details><summary><code>scripts/package-lock.json</code> <span class="muted">(39.9 KB, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;name&quot;: &quot;chrome-devtools-scripts&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;lockfileVersion&quot;: 3,
+  &quot;requires&quot;: true,
+  &quot;packages&quot;: {
+    &quot;&quot;: {
+      &quot;name&quot;: &quot;chrome-devtools-scripts&quot;,
+      &quot;version&quot;: &quot;1.0.0&quot;,
+      &quot;dependencies&quot;: {
+        &quot;debug&quot;: &quot;^4.4.0&quot;,
+        &quot;puppeteer&quot;: &quot;^24.15.0&quot;,
+        &quot;yargs&quot;: &quot;^17.7.2&quot;
+      },
+      &quot;engines&quot;: {
+        &quot;node&quot;: &quot;&gt;=18.0.0&quot;
+      }
+    },
+    &quot;node_modules/@babel/code-frame&quot;: {
+      &quot;version&quot;: &quot;7.27.1&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@babel/code-frame/-/code-frame-7.27.1.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-cjQ7ZlQ0Mv3b47hABuTevyTuYN4i+loJKGeV9flcCgIK37cCXRh+L1bd3iBHlynerhQ7BhCkn2BPbQUL+rGqFg==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;,
+      &quot;dependencies&quot;: {
+        &quot;@babel/helper-validator-identifier&quot;: &quot;^7.27.1&quot;,
+        &quot;js-tokens&quot;: &quot;^4.0.0&quot;,
+        &quot;picocolors&quot;: &quot;^1.1.1&quot;
+      },
+      &quot;engines&quot;: {
+        &quot;node&quot;: &quot;&gt;=6.9.0&quot;
+      }
+    },
+    &quot;node_modules/@babel/helper-validator-identifier&quot;: {
+      &quot;version&quot;: &quot;7.28.5&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.28.5.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-qSs4ifwzKJSV39ucNjsvc6WVHs6b7S03sOh2OcHF9UHfVPqWWALUsNUVzhSBiItjRZoLHx7nIarVjqKVusUZ1Q==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;,
+      &quot;engines&quot;: {
+        &quot;node&quot;: &quot;&gt;=6.9.0&quot;
+      }
+    },
+    &quot;node_modules/@puppeteer/browsers&quot;: {
+      &quot;version&quot;: &quot;2.10.13&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@puppeteer/browsers/-/browsers-2.10.13.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-a9Ruw3j3qlnB5a/zHRTkruppynxqaeE4H9WNj5eYGRWqw0ZauZ23f4W2ARf3hghF5doozyD+CRtt7XSYuYRI/Q==&quot;,
+      &quot;license&quot;: &quot;Apache-2.0&quot;,
+      &quot;dependencies&quot;: {
+        &quot;debug&quot;: &quot;^4.4.3&quot;,
+        &quot;extract-zip&quot;: &quot;^2.0.1&quot;,
+        &quot;progress&quot;: &quot;^2.0.3&quot;,
+        &quot;proxy-agent&quot;: &quot;^6.5.0&quot;,
+        &quot;semver&quot;: &quot;^7.7.3&quot;,
+        &quot;tar-fs&quot;: &quot;^3.1.1&quot;,
+        &quot;yargs&quot;: &quot;^17.7.2&quot;
+      },
+      &quot;bin&quot;: {
+        &quot;browsers&quot;: &quot;lib/cjs/main-cli.js&quot;
+      },
+      &quot;engines&quot;: {
+        &quot;node&quot;: &quot;&gt;=18&quot;
+      }
+    },
+    &quot;node_modules/@tootallnate/quickjs-emscripten&quot;: {
+      &quot;version&quot;: &quot;0.23.0&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@tootallnate/quickjs-emscripten/-/quickjs-emscripten-0.23.0.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;
+    },
+    &quot;node_modules/@types/node&quot;: {
+      &quot;version&quot;: &quot;24.10.1&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@types/node/-/node-24.10.1.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-GNWcUTRBgIRJD5zj+Tq0fKOJ5XZajIiBroOF0yvj2bSU1WvNdYS/dn9UxwsujGW4JX06dnHyjV2y9rRaybH0iQ==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;,
+      &quot;optional&quot;: true,
+      &quot;dependencies&quot;: {
+        &quot;undici-types&quot;: &quot;~7.16.0&quot;
+      }
+    },
+    &quot;node_modules/@types/yauzl&quot;: {
+      &quot;version&quot;: &quot;2.10.3&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/@types/yauzl/-/yauzl-2.10.3.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;,
+      &quot;optional&quot;: true,
+      &quot;dependencies&quot;: {
+        &quot;@types/node&quot;: &quot;*&quot;
+      }
+    },
+    &quot;node_modules/agent-base&quot;: {
+      &quot;version&quot;: &quot;7.1.4&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/agent-base/-/agent-base-7.1.4.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;,
+      &quot;engines&quot;: {
+        &quot;node&quot;: &quot;&gt;= 14&quot;
+      }
+    },
+    &quot;node_modules/ansi-regex&quot;: {
+      &quot;version&quot;: &quot;5.0.1&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/ansi-regex/-/ansi-regex-5.0.1.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-quJQXlTSUGL2LH9SUXo8VwsY4soanhgo6LNSm84E1LBcE8s3O0wpdiRzyR9z/ZZJMlMWv37qOOb9pdJlMUEKFQ==&quot;,
+      &quot;license&quot;: &quot;MIT&quot;,
+      &quot;engines&quot;: {
+        &quot;node&quot;: &quot;&gt;=8&quot;
+      }
+    },
+    &quot;node_modules/ansi-styles&quot;: {
+      &quot;version&quot;: &quot;4.3.0&quot;,
+      &quot;resolved&quot;: &quot;https://registry.npmjs.org/ansi-styles/-/ansi-styles-4.3.0.tgz&quot;,
+      &quot;integrity&quot;: &quot;sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJ</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/package.json</code> <span class="muted">(321 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;name&quot;: &quot;chrome-devtools-scripts&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Browser automation scripts for Chrome DevTools Agent Skill&quot;,
+  &quot;type&quot;: &quot;module&quot;,
+  &quot;scripts&quot;: {},
+  &quot;dependencies&quot;: {
+    &quot;puppeteer&quot;: &quot;^24.15.0&quot;,
+    &quot;debug&quot;: &quot;^4.4.0&quot;,
+    &quot;yargs&quot;: &quot;^17.7.2&quot;
+  },
+  &quot;engines&quot;: {
+    &quot;node&quot;: &quot;&gt;=18.0.0&quot;
+  }
+}
+</pre></details><details><summary><code>scripts/performance.js</code> <span class="muted">(3.8 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Measure performance metrics and record trace
+ * Usage: node performance.js --url https://example.com [--trace trace.json] [--metrics]
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+import fs from &#x27;fs/promises&#x27;;
+
+async function measurePerformance() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.url) {
+    outputError(new Error(&#x27;--url is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    // Start tracing if requested
+    if (args.trace) {
+      await page.tracing.start({
+        path: args.trace,
+        categories: [
+          &#x27;devtools.timeline&#x27;,
+          &#x27;disabled-by-default-devtools.timeline&#x27;,
+          &#x27;disabled-by-default-devtools.timeline.frame&#x27;
+        ]
+      });
+    }
+
+    // Navigate
+    await page.goto(args.url, {
+      waitUntil: &#x27;networkidle2&#x27;
+    });
+
+    // Stop tracing
+    if (args.trace) {
+      await page.tracing.stop();
+    }
+
+    // Get performance metrics
+    const metrics = await page.metrics();
+
+    // Get Core Web Vitals
+    const vitals = await page.evaluate(() =&gt; {
+      return new Promise((resolve) =&gt; {
+        const vitals = {
+          LCP: null,
+          FID: null,
+          CLS: 0,
+          FCP: null,
+          TTFB: null
+        };
+
+        // LCP
+        try {
+          new PerformanceObserver((list) =&gt; {
+            const entries = list.getEntries();
+            if (entries.length &gt; 0) {
+              const lastEntry = entries[entries.length - 1];
+              vitals.LCP = lastEntry.renderTime || lastEntry.loadTime;
+            }
+          }).observe({ entryTypes: [&#x27;largest-contentful-paint&#x27;], buffered: true });
+        } catch (e) {}
+
+        // CLS
+        try {
+          new PerformanceObserver((list) =&gt; {
+            list.getEntries().forEach((entry) =&gt; {
+              if (!entry.hadRecentInput) {
+                vitals.CLS += entry.value;
+              }
+            });
+          }).observe({ entryTypes: [&#x27;layout-shift&#x27;], buffered: true });
+        } catch (e) {}
+
+        // FCP
+        try {
+          const paintEntries = performance.getEntriesByType(&#x27;paint&#x27;);
+          const fcpEntry = paintEntries.find(e =&gt; e.name === &#x27;first-contentful-paint&#x27;);
+          if (fcpEntry) {
+            vitals.FCP = fcpEntry.startTime;
+          }
+        } catch (e) {}
+
+        // TTFB
+        try {
+          const [navigationEntry] = performance.getEntriesByType(&#x27;navigation&#x27;);
+          if (navigationEntry) {
+            vitals.TTFB = navigationEntry.responseStart - navigationEntry.requestStart;
+          }
+        } catch (e) {}
+
+        // Wait a bit for metrics to stabilize
+        setTimeout(() =&gt; resolve(vitals), 1000);
+      });
+    });
+
+    // Get resource timing
+    const resources = await page.evaluate(() =&gt; {
+      return performance.getEntriesByType(&#x27;resource&#x27;).map(r =&gt; ({
+        name: r.name,
+        type: r.initiatorType,
+        duration: r.duration,
+        size: r.transferSize,
+        startTime: r.startTime
+      }));
+    });
+
+    const result = {
+      success: true,
+      url: page.url(),
+      metrics: {
+        ...metrics,
+        JSHeapUsedSizeMB: (metrics.JSHeapUsedSize / 1024 / 1024).toFixed(2),
+        JSHeapTotalSizeMB: (metrics.JSHeapTotalSize / 1024 / 1024).toFixed(2)
+      },
+      vitals: vitals,
+      resources: {
+        count: resources.length,
+        totalDuration: resources.reduce((sum, r) =&gt; sum + r.duration, 0),
+        items: args.resources === &#x27;true&#x27; ? resources : undefined
+      }
+    };
+
+    if (args.trace) {
+      result.trace = args.trace;
+    }
+
+    outputJSON(result);
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    outputError(error);
+  }
+}
+
+measurePerformance();
+</pre></details><details><summary><code>scripts/README.md</code> <span class="muted">(5.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Chrome DevTools Scripts
+
+CLI scripts for browser automation using Puppeteer.
+
+**CRITICAL**: Always check `pwd` before running scripts.
+
+## Installation
+
+### Quick Install
+
+```bash
+pwd  # Should show current working directory
+cd .claude/skills/chrome-devtools/scripts
+./install.sh  # Auto-checks dependencies and installs
+```
+
+### Manual Installation
+
+**Linux/WSL** - Install system dependencies first:
+```bash
+./install-deps.sh  # Auto-detects OS (Ubuntu, Debian, Fedora, etc.)
+```
+
+Or manually:
+```bash
+sudo apt-get install -y libnss3 libnspr4 libasound2t64 libatk1.0-0 libatk-bridge2.0-0 libcups2 libdrm2 libxkbcommon0 libxcomposite1 libxdamage1 libxfixes3 libxrandr2 libgbm1
+```
+
+**All platforms** - Install Node dependencies:
+```bash
+npm install
+```
+
+## Scripts
+
+**CRITICAL**: Always check `pwd` before running scripts.
+
+### navigate.js
+Navigate to a URL.
+
+```bash
+node navigate.js --url https://example.com [--wait-until networkidle2] [--timeout 30000]
+```
+
+### screenshot.js
+Take a screenshot with automatic compression.
+
+**Important**: Always save screenshots to `./docs/screenshots` directory.
+
+```bash
+node screenshot.js --output screenshot.png [--url https://example.com] [--full-page true] [--selector .element] [--max-size 5] [--no-compress]
+```
+
+**Automatic Compression**: Screenshots &gt;5MB are automatically compressed using ImageMagick to ensure compatibility with Gemini API and Claude Code. Install ImageMagick for this feature:
+- macOS: `brew install imagemagick`
+- Linux: `sudo apt-get install imagemagick`
+
+Options:
+- `--max-size N` - Custom size threshold in MB (default: 5)
+- `--no-compress` - Disable automatic compression
+- `--format png|jpeg` - Output format (default: png)
+- `--quality N` - JPEG quality 0-100 (default: auto)
+
+### click.js
+Click an element.
+
+```bash
+node click.js --selector &quot;.button&quot; [--url https://example.com] [--wait-for &quot;.result&quot;]
+```
+
+### fill.js
+Fill form fields.
+
+```bash
+node fill.js --selector &quot;#input&quot; --value &quot;text&quot; [--url https://example.com] [--clear true]
+```
+
+### evaluate.js
+Execute JavaScript in page context.
+
+```bash
+node evaluate.js --script &quot;document.title&quot; [--url https://example.com]
+```
+
+### snapshot.js
+Get DOM snapshot with interactive elements.
+
+```bash
+node snapshot.js [--url https://example.com] [--output snapshot.json]
+```
+
+### console.js
+Monitor console messages.
+
+```bash
+node console.js --url https://example.com [--types error,warn] [--duration 5000]
+```
+
+### network.js
+Monitor network requests.
+
+```bash
+node network.js --url https://example.com [--types xhr,fetch] [--output requests.json]
+```
+
+### performance.js
+Measure performance metrics and record trace.
+
+```bash
+node performance.js --url https://example.com [--trace trace.json] [--metrics] [--resources true]
+```
+
+## Common Options
+
+- `--headless false` - Show browser window
+- `--close false` - Keep browser open
+- `--timeout 30000` - Set timeout in milliseconds
+- `--wait-until networkidle2` - Wait strategy (load, domcontentloaded, networkidle0, networkidle2)
+
+## Selector Support
+
+Scripts that accept `--selector` (click.js, fill.js, screenshot.js) support both **CSS** and **XPath** selectors.
+
+### CSS Selectors (Default)
+
+```bash
+# Element tag
+node click.js --selector &quot;button&quot; --url https://example.com
+
+# Class selector
+node click.js --selector &quot;.btn-submit&quot; --url https://example.com
+
+# ID selector
+node fill.js --selector &quot;#email&quot; --value &quot;user@example.com&quot; --url https://example.com
+
+# Attribute selector
+node click.js --selector &#x27;button[type=&quot;submit&quot;]&#x27; --url https://example.com
+
+# Complex selector
+node screenshot.js --selector &quot;div.container &gt; button.btn-primary&quot; --output btn.png
+```
+
+### XPath Selectors
+
+XPath selectors start with `/` or `(//` and are automatically detected:
+
+```bash
+# Text matching - exact
+node click.js --selector &#x27;//button[text()=&quot;Submit&quot;]&#x27; --url https://example.com
+
+# Text matching - contains
+node click.js --selector &#x27;//button[contains(text(),&quot;Submit&quot;)]&#x27; --url https://example.com
+
+# Attribute matching
+node fill.js </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/screenshot.js</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Take a screenshot
+ * Usage: node screenshot.js --output screenshot.png [--url https://example.com] [--full-page true] [--selector .element] [--max-size 5] [--no-compress]
+ * Supports both CSS and XPath selectors:
+ *   - CSS: node screenshot.js --selector &quot;.main-content&quot; --output page.png
+ *   - XPath: node screenshot.js --selector &quot;//div[@class=&#x27;main-content&#x27;]&quot; --output page.png
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+import { parseSelector, getElement, enhanceError } from &#x27;./lib/selector.js&#x27;;
+import fs from &#x27;fs/promises&#x27;;
+import path from &#x27;path&#x27;;
+import { execSync } from &#x27;child_process&#x27;;
+
+/**
+ * Compress image using ImageMagick if it exceeds max size
+ * @param {string} filePath - Path to the image file
+ * @param {number} maxSizeMB - Maximum file size in MB (default: 5)
+ * @returns {Promise&lt;{compressed: boolean, originalSize: number, finalSize: number}&gt;}
+ */
+async function compressImageIfNeeded(filePath, maxSizeMB = 5) {
+  const stats = await fs.stat(filePath);
+  const originalSize = stats.size;
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+  if (originalSize &lt;= maxSizeBytes) {
+    return { compressed: false, originalSize, finalSize: originalSize };
+  }
+
+  try {
+    // Check if ImageMagick is available
+    try {
+      execSync(&#x27;magick -version&#x27;, { stdio: &#x27;pipe&#x27; });
+    } catch {
+      try {
+        execSync(&#x27;convert -version&#x27;, { stdio: &#x27;pipe&#x27; });
+      } catch {
+        console.error(&#x27;Warning: ImageMagick not found. Install it to enable automatic compression.&#x27;);
+        return { compressed: false, originalSize, finalSize: originalSize };
+      }
+    }
+
+    const ext = path.extname(filePath).toLowerCase();
+    const tempPath = filePath.replace(ext, `.temp${ext}`);
+
+    // Determine compression strategy based on file type
+    let compressionCmd;
+    if (ext === &#x27;.png&#x27;) {
+      // For PNG: resize and compress with quality
+      compressionCmd = `magick &quot;${filePath}&quot; -strip -resize 90% -quality 85 &quot;${tempPath}&quot;`;
+    } else if (ext === &#x27;.jpg&#x27; || ext === &#x27;.jpeg&#x27;) {
+      // For JPEG: compress with quality and progressive
+      compressionCmd = `magick &quot;${filePath}&quot; -strip -quality 80 -interlace Plane &quot;${tempPath}&quot;`;
+    } else {
+      // For other formats: convert to JPEG with compression
+      compressionCmd = `magick &quot;${filePath}&quot; -strip -quality 80 &quot;${tempPath.replace(ext, &#x27;.jpg&#x27;)}&quot;`;
+    }
+
+    // Try compression
+    execSync(compressionCmd, { stdio: &#x27;pipe&#x27; });
+
+    const compressedStats = await fs.stat(tempPath);
+    const compressedSize = compressedStats.size;
+
+    // If still too large, try more aggressive compression
+    if (compressedSize &gt; maxSizeBytes) {
+      const finalPath = filePath.replace(ext, `.final${ext}`);
+      let aggressiveCmd;
+
+      if (ext === &#x27;.png&#x27;) {
+        aggressiveCmd = `magick &quot;${tempPath}&quot; -strip -resize 75% -quality 70 &quot;${finalPath}&quot;`;
+      } else {
+        aggressiveCmd = `magick &quot;${tempPath}&quot; -strip -quality 60 -sampling-factor 4:2:0 &quot;${finalPath}&quot;`;
+      }
+
+      execSync(aggressiveCmd, { stdio: &#x27;pipe&#x27; });
+      await fs.unlink(tempPath);
+      await fs.rename(finalPath, filePath);
+    } else {
+      await fs.rename(tempPath, filePath);
+    }
+
+    const finalStats = await fs.stat(filePath);
+    return { compressed: true, originalSize, finalSize: finalStats.size };
+  } catch (error) {
+    console.error(&#x27;Compression error:&#x27;, error.message);
+    // If compression fails, keep original file
+    try {
+      const tempPath = filePath.replace(path.extname(filePath), &#x27;.temp&#x27; + path.extname(filePath));
+      await fs.unlink(tempPath).catch(() =&gt; {});
+    } catch {}
+    return { compressed: false, originalSize, finalSize: originalSize };
+  }
+}
+
+async function screenshot() {
+  const args = parseArgs(process.argv.slice(2));
+
+  if (!args.output) {
+    outputError(new Error(&#x27;--output is required&#x27;));
+    return;
+  }
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+   </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/snapshot.js</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+/**
+ * Get DOM snapshot with selectors
+ * Usage: node snapshot.js [--url https://example.com] [--output snapshot.json]
+ */
+import { getBrowser, getPage, closeBrowser, parseArgs, outputJSON, outputError } from &#x27;./lib/browser.js&#x27;;
+import fs from &#x27;fs/promises&#x27;;
+
+async function snapshot() {
+  const args = parseArgs(process.argv.slice(2));
+
+  try {
+    const browser = await getBrowser({
+      headless: args.headless !== &#x27;false&#x27;
+    });
+
+    const page = await getPage(browser);
+
+    // Navigate if URL provided
+    if (args.url) {
+      await page.goto(args.url, {
+        waitUntil: args[&#x27;wait-until&#x27;] || &#x27;networkidle2&#x27;
+      });
+    }
+
+    // Get interactive elements with metadata
+    const elements = await page.evaluate(() =&gt; {
+      const interactiveSelectors = [
+        &#x27;a[href]&#x27;,
+        &#x27;button&#x27;,
+        &#x27;input&#x27;,
+        &#x27;textarea&#x27;,
+        &#x27;select&#x27;,
+        &#x27;[onclick]&#x27;,
+        &#x27;[role=&quot;button&quot;]&#x27;,
+        &#x27;[role=&quot;link&quot;]&#x27;,
+        &#x27;[contenteditable]&#x27;
+      ];
+
+      const elements = [];
+      const selector = interactiveSelectors.join(&#x27;, &#x27;);
+      const nodes = document.querySelectorAll(selector);
+
+      nodes.forEach((el, index) =&gt; {
+        const rect = el.getBoundingClientRect();
+
+        // Generate unique selector
+        let uniqueSelector = &#x27;&#x27;;
+        if (el.id) {
+          uniqueSelector = `#${el.id}`;
+        } else if (el.className) {
+          const classes = Array.from(el.classList).join(&#x27;.&#x27;);
+          uniqueSelector = `${el.tagName.toLowerCase()}.${classes}`;
+        } else {
+          uniqueSelector = el.tagName.toLowerCase();
+        }
+
+        elements.push({
+          index: index,
+          tagName: el.tagName.toLowerCase(),
+          type: el.type || null,
+          id: el.id || null,
+          className: el.className || null,
+          name: el.name || null,
+          value: el.value || null,
+          text: el.textContent?.trim().substring(0, 100) || null,
+          href: el.href || null,
+          selector: uniqueSelector,
+          xpath: getXPath(el),
+          visible: rect.width &gt; 0 &amp;&amp; rect.height &gt; 0,
+          position: {
+            x: rect.x,
+            y: rect.y,
+            width: rect.width,
+            height: rect.height
+          }
+        });
+      });
+
+      function getXPath(element) {
+        if (element.id) {
+          return `//*[@id=&quot;${element.id}&quot;]`;
+        }
+        if (element === document.body) {
+          return &#x27;/html/body&#x27;;
+        }
+        let ix = 0;
+        const siblings = element.parentNode?.childNodes || [];
+        for (let i = 0; i &lt; siblings.length; i++) {
+          const sibling = siblings[i];
+          if (sibling === element) {
+            return getXPath(element.parentNode) + &#x27;/&#x27; + element.tagName.toLowerCase() + &#x27;[&#x27; + (ix + 1) + &#x27;]&#x27;;
+          }
+          if (sibling.nodeType === 1 &amp;&amp; sibling.tagName === element.tagName) {
+            ix++;
+          }
+        }
+        return &#x27;&#x27;;
+      }
+
+      return elements;
+    });
+
+    const result = {
+      success: true,
+      url: page.url(),
+      title: await page.title(),
+      elementCount: elements.length,
+      elements: elements
+    };
+
+    if (args.output) {
+      await fs.writeFile(args.output, JSON.stringify(result, null, 2));
+      outputJSON({
+        success: true,
+        output: args.output,
+        elementCount: elements.length
+      });
+    } else {
+      outputJSON(result);
+    }
+
+    if (args.close !== &#x27;false&#x27;) {
+      await closeBrowser();
+    }
+  } catch (error) {
+    outputError(error);
+  }
+}
+
+snapshot();
+</pre></details><details><summary><code>scripts/test-task-toggle.js</code> <span class="muted">(5.0 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env node
+import { getBrowser, getPage, closeBrowser, outputJSON } from &#x27;./lib/browser.js&#x27;;
+
+const URL = &#x27;https://empathetic-clarity-production.up.railway.app&#x27;;
+const EMAIL = &#x27;laurenj3250@gmail.com&#x27;;
+const PASSWORD = &#x27;Crumpet11!!&#x27;;
+
+const delay = ms =&gt; new Promise(resolve =&gt; setTimeout(resolve, ms));
+
+async function testTaskToggle() {
+  const browser = await getBrowser({ headless: true });
+  const page = await getPage(browser);
+
+  try {
+    // 1. Navigate to login page
+    console.error(&#x27;Navigating to login page...&#x27;);
+    await page.goto(URL, { waitUntil: &#x27;networkidle2&#x27;, timeout: 30000 });
+
+    // 2. Fill login form
+    console.error(&#x27;Filling login form...&#x27;);
+    await page.waitForSelector(&#x27;input[type=&quot;email&quot;]&#x27;, { timeout: 10000 });
+    await page.type(&#x27;input[type=&quot;email&quot;]&#x27;, EMAIL);
+    await page.type(&#x27;input[type=&quot;password&quot;]&#x27;, PASSWORD);
+
+    // 3. Click Sign In
+    console.error(&#x27;Clicking Sign In...&#x27;);
+    await page.click(&#x27;button[type=&quot;submit&quot;]&#x27;);
+
+    // Wait for login
+    console.error(&#x27;Waiting for login...&#x27;);
+    await delay(5000);
+
+    // Screenshot after login attempt
+    await page.screenshot({ path: &#x27;/tmp/vethub-after-login.png&#x27;, fullPage: true });
+    console.error(&#x27;Screenshot saved to /tmp/vethub-after-login.png&#x27;);
+    console.error(&#x27;Current URL:&#x27;, page.url());
+
+    // 4. Wait a bit more for React
+    await delay(2000);
+
+    // 5. Take screenshot of dashboard
+    await page.screenshot({ path: &#x27;/tmp/vethub-dashboard.png&#x27;, fullPage: true });
+    console.error(&#x27;Dashboard screenshot saved to /tmp/vethub-dashboard.png&#x27;);
+
+    // 6. Set up console logging
+    const consoleLogs = [];
+    page.on(&#x27;console&#x27;, msg =&gt; {
+      const text = msg.text();
+      if (text.includes(&#x27;TASK&#x27;) || text.includes(&#x27;toggle&#x27;) || text.includes(&#x27;API&#x27;)) {
+        consoleLogs.push(text);
+      }
+    });
+
+    // 7. Look for task items and find one to click
+    const taskInfo = await page.evaluate(() =&gt; {
+      const tasks = [];
+      const buttons = document.querySelectorAll(&#x27;button&#x27;);
+      for (const btn of buttons) {
+        const text = btn.textContent || &#x27;&#x27;;
+        if (text.includes(&#x27;○&#x27;) || text.includes(&#x27;✓&#x27;)) {
+          tasks.push({
+            text: text.trim().substring(0, 50),
+            completed: text.includes(&#x27;✓&#x27;)
+          });
+        }
+      }
+      return {
+        taskCount: tasks.length,
+        tasks: tasks.slice(0, 10)
+      };
+    });
+
+    console.error(&#x27;Found tasks:&#x27;, JSON.stringify(taskInfo, null, 2));
+
+    // 8. Scroll down to see patient cards, then click a patient task
+    await page.evaluate(() =&gt; window.scrollTo(0, 500));
+    await delay(1000);
+
+    // Take a screenshot showing patient view
+    await page.screenshot({ path: &#x27;/tmp/vethub-patient-view.png&#x27;, fullPage: true });
+    console.error(&#x27;Patient view screenshot saved&#x27;);
+
+    // 9. Click a PATIENT task (not general task) using page.evaluate
+    const clickResult = await page.evaluate(() =&gt; {
+      // Find all clickable elements
+      const allElements = document.querySelectorAll(&#x27;button, [role=&quot;button&quot;], [onclick]&#x27;);
+      let clicked = null;
+      let foundGeneral = false;
+
+      for (const el of allElements) {
+        const text = el.textContent || &#x27;&#x27;;
+        // Skip the General task, look for patient tasks with ○
+        if (text.includes(&#x27;○&#x27;)) {
+          if (text.includes(&#x27;General&#x27;)) {
+            foundGeneral = true;
+            continue;  // Skip general task
+          }
+          clicked = text.trim().substring(0, 80);
+          el.click();
+          break;
+        }
+      }
+
+      return { clicked, foundGeneral, elementCount: allElements.length };
+    });
+
+    console.error(&#x27;Click result:&#x27;, JSON.stringify(clickResult));
+
+    if (clickResult.clicked) {
+      console.error(&#x27;Clicked task, waiting for update...&#x27;);
+      await delay(2000);
+
+      // Take screenshot after click
+      await page.screenshot({ path: &#x27;/tmp/vethub-after-click.png&#x27;, fullPage: true });
+      console.error(&#x27;After-click screenshot saved to /tmp/vethub-after-click.png&#x27;);
+
+      </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(10.2 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: chrome-devtools
+description: Browser automation, debugging, and performance analysis using Puppeteer CLI scripts. Use for automating browsers, taking screenshots, analyzing performance, monitoring network traffic, web scraping, form automation, and JavaScript debugging.
+license: Apache-2.0
+---
+
+# Chrome DevTools Agent Skill
+
+Browser automation via executable Puppeteer scripts. All scripts output JSON for easy parsing.
+
+## Quick Start
+
+**CRITICAL**: Always check `pwd` before running scripts.
+
+### Installation
+
+#### Step 1: Install System Dependencies (Linux/WSL only)
+
+On Linux/WSL, Chrome requires system libraries. Install them first:
+
+```bash
+pwd  # Should show current working directory
+cd .claude/skills/chrome-devtools/scripts
+./install-deps.sh  # Auto-detects OS and installs required libs
+```
+
+Supports: Ubuntu, Debian, Fedora, RHEL, CentOS, Arch, Manjaro
+
+**macOS/Windows**: Skip this step (dependencies bundled with Chrome)
+
+#### Step 2: Install Node Dependencies
+
+```bash
+npm install  # Installs puppeteer, debug, yargs
+```
+
+#### Step 3: Install ImageMagick (Optional, Recommended)
+
+ImageMagick enables automatic screenshot compression to keep files under 5MB:
+
+**macOS:**
+```bash
+brew install imagemagick
+```
+
+**Ubuntu/Debian/WSL:**
+```bash
+sudo apt-get install imagemagick
+```
+
+**Verify:**
+```bash
+magick -version  # or: convert -version
+```
+
+Without ImageMagick, screenshots &gt;5MB will not be compressed (may fail to load in Gemini/Claude).
+
+### Test
+```bash
+node navigate.js --url https://example.com
+# Output: {&quot;success&quot;: true, &quot;url&quot;: &quot;https://example.com&quot;, &quot;title&quot;: &quot;Example Domain&quot;}
+```
+
+## Available Scripts
+
+All scripts are in `.claude/skills/chrome-devtools/scripts/`
+
+**CRITICAL**: Always check `pwd` before running scripts.
+
+### Script Usage
+- `./scripts/README.md`
+
+### Core Automation
+- `navigate.js` - Navigate to URLs
+- `screenshot.js` - Capture screenshots (full page or element)
+- `click.js` - Click elements
+- `fill.js` - Fill form fields
+- `evaluate.js` - Execute JavaScript in page context
+
+### Analysis &amp; Monitoring
+- `snapshot.js` - Extract interactive elements with metadata
+- `console.js` - Monitor console messages/errors
+- `network.js` - Track HTTP requests/responses
+- `performance.js` - Measure Core Web Vitals + record traces
+
+## Usage Patterns
+
+### Single Command
+```bash
+pwd  # Should show current working directory
+cd .claude/skills/chrome-devtools/scripts
+node screenshot.js --url https://example.com --output ./docs/screenshots/page.png
+```
+**Important**: Always save screenshots to `./docs/screenshots` directory.
+
+### Automatic Image Compression
+Screenshots are **automatically compressed** if they exceed 5MB to ensure compatibility with Gemini API and Claude Code (which have 5MB limits). This uses ImageMagick internally:
+
+```bash
+# Default: auto-compress if &gt;5MB
+node screenshot.js --url https://example.com --output page.png
+
+# Custom size threshold (e.g., 3MB)
+node screenshot.js --url https://example.com --output page.png --max-size 3
+
+# Disable compression
+node screenshot.js --url https://example.com --output page.png --no-compress
+```
+
+**Compression behavior:**
+- PNG: Resizes to 90% + quality 85 (or 75% + quality 70 if still too large)
+- JPEG: Quality 80 + progressive encoding (or quality 60 if still too large)
+- Other formats: Converted to JPEG with compression
+- Requires ImageMagick installed (see imagemagick skill)
+
+**Output includes compression info:**
+```json
+{
+  &quot;success&quot;: true,
+  &quot;output&quot;: &quot;/path/to/page.png&quot;,
+  &quot;compressed&quot;: true,
+  &quot;originalSize&quot;: 8388608,
+  &quot;size&quot;: 3145728,
+  &quot;compressionRatio&quot;: &quot;62.50%&quot;,
+  &quot;url&quot;: &quot;https://example.com&quot;
+}
+```
+
+### Chain Commands (reuse browser)
+```bash
+# Keep browser open with --close false
+node navigate.js --url https://example.com/login --close false
+node fill.js --selector &quot;#email&quot; --value &quot;user@example.com&quot; --close false
+node fill.js --selector &quot;#password&quot; --value &quot;secret&quot; --close false
+node click.js --selector &quot;button[type=submit]&quot;
+```
+
+### Parse JSON Output
+```</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.338</td><td>0.18</td><td><strong>6.08</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

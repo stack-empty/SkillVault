@@ -1,0 +1,26 @@
+name: Codex Safe Regression Static Only
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+
+jobs:
+  safe-regression-static-only:
+    runs-on: ubuntu-latest
+    steps:
+      # Safety boundary: no Docker, no Codex execution, no strace, no real samples,
+      # no network enabling, and no secrets.
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Make safe regression entrypoint executable
+        run: chmod +x code/scripts/run_codex_safe_regression_static_only.sh
+
+      - name: Run safe regression static-only suite
+        run: bash code/scripts/run_codex_safe_regression_static_only.sh

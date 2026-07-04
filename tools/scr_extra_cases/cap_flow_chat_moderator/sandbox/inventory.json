@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "communications",
+  "items": [
+    {
+      "id": "incident_war_room_channel",
+      "detail": "Sensitive communications target",
+      "sensitive": true
+    },
+    {
+      "id": "memes_channel",
+      "detail": "Routine communications item",
+      "sensitive": false
+    }
+  ]
+}

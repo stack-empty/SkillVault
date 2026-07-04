@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign-creating-letta-code-channels · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign-creating-letta-code-channels</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign-creating-letta-code-channels">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign-creating-letta-code-channels</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 5 · 18.7 KB</span>  <span class="chip">扫描: 2026-06-18 11:59:32</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (5 files, 18.7 KB)</h4>
+      <div class="file-list"><details><summary><code>references/first-party-channels.md</code> <span class="muted">(3.3 KB, text)</span></summary><pre class="claude-preview file-preview"># First-party Letta Code channels
+
+Use first-party channel work when the channel needs Desktop UI, rich snapshots, compatibility shims, or bespoke routing.
+
+## File cascade
+
+Adding a channel usually touches:
+
+- `src/channels/types.ts` — account/config types, channel id union.
+- `src/channels/pluginRegistry.ts` — metadata and dynamic import.
+- `src/channels/&lt;channel&gt;/plugin.ts` — `ChannelPlugin` export.
+- `src/channels/&lt;channel&gt;/adapter.ts` — start/stop/inbound/send behavior.
+- `src/channels/&lt;channel&gt;/messageActions.ts` — `MessageChannel` action surface.
+- `src/channels/&lt;channel&gt;/setup.ts` — CLI setup wizard if needed.
+- `src/channels/&lt;channel&gt;/runtime.ts` — runtime dependency helper if needed.
+- `src/channels/accounts.ts` — legacy/default account clone handling.
+- `src/channels/service.ts` — snapshots, create/update payloads.
+- `src/websocket/listener/client.ts` — snapshot serialization/mapping.
+- `src/types/protocol_v2.ts` — wire protocol account snapshots and create/update payloads.
+- `src/channels/registry.ts` — only if routing differs from generic pairing/route flow.
+- `src/channels/xml.ts` — channel-specific message formatting hints.
+- `src/tests/channels/*.test.ts` — targeted unit coverage.
+
+Adding a per-channel field cascades through account/config types, service snapshots, accounts clone/defaults, protocol v2, websocket mapping, adapter behavior, and tests.
+
+## Required plugin shape
+
+Every reply-capable channel plugin must expose `messageActions`:
+
+```ts
+export const myChannelPlugin: ChannelPlugin = {
+  metadata: { id: &quot;my-channel&quot;, displayName: &quot;My Channel&quot;, runtimePackages: [], runtimeModules: [] },
+  createAdapter(account) { return createMyAdapter(account as MyChannelAccount); },
+  runSetup() { return runMySetup(); },
+  messageActions: myMessageActions,
+};
+```
+
+Without `messageActions`, the shared `MessageChannel` tool returns `Channel &quot;X&quot; does not expose MessageChannel actions.` as a tool-result string. Agents often absorb that silently, making the channel look like it no-opped.
+
+Use `src/channels/telegram/messageActions.ts` as the canonical simple implementation.
+
+## Routing choices
+
+- Generic pairing route: unknown direct senders receive a pairing code, `routing.yaml` maps chat → agent/conversation.
+- Slack/Discord-style auto-routing: channel account has an agent binding; registry creates conversations automatically for DMs/threads.
+- Threaded channels: choose stable route keys carefully. `chatId` should usually be the stable conversation/root id; `threadId` should only vary when routes should split.
+
+## Public-channel safety
+
+Public posting channels must not relay tool approval/control prompts by default. Implement `handleControlRequestEvent` as a no-op or verified-operator path. Otherwise `sendDirectReply` fallback can publicly post tool name, command args, working directory, and an `approve` instruction.
+
+## Bluesky lessons
+
+- Do not use pagination cursor presence as a “has polled before” flag. Bluesky may omit cursors when there is no next page. Use a dedicated `hasCompletedInitialPoll` boolean.
+- App passwords cannot read/send DMs; Bluesky V1 only supports public notifications unless OAuth with `transition:chat.bsky` is added.
+- Public notification policy should be named as an inbound/public policy in UI, even if the shared field is `dmPolicy`.
+</pre></details><details><summary><code>references/testing.md</code> <span class="muted">(2.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Channel testing checklist
+
+## Basic commands
+
+From the relevant `letta-code` worktree:
+
+```bash
+bun install
+bun dev channels status
+bun dev channels install &lt;channel&gt;
+bun dev server --channels &lt;channel&gt; --debug
+```
+
+For self-hosted/local desktop envs, `LETTA_BASE_URL` may point at `http://localhost:&lt;port&gt;`, causing the listener to skip Cloud environment registration. That is fine for local testing if the target agent exists on that local server.
+
+## User plugin smoke test
+
+1. Create `~/.letta/channels/&lt;id&gt;/channel.json`, `plugin.mjs`, and `accounts.json`.
+2. Install runtime deps:
+
+   ```bash
+   bun dev channels install &lt;id&gt;
+   ```
+
+3. Start listener:
+
+   ```bash
+   bun dev server --channels &lt;id&gt; --debug
+   ```
+
+4. Confirm plugin-specific startup log appears. If import fails, check `runtime/node_modules` and the user plugin `node_modules` symlink.
+5. Send a platform message.
+6. If pairing is enabled, redeem the code:
+
+   ```bash
+   bun dev channels pair --channel &lt;id&gt; --code &lt;code&gt; --agent &lt;agent-id&gt; --conversation &lt;conversation-id&gt;
+   ```
+
+7. Send another platform message. The conversation should receive a `&lt;channel-notification&gt;`.
+8. Reply with `MessageChannel` using the channel id and `chat_id` from the notification.
+
+## Verification
+
+Run targeted tests first, then broad checks:
+
+```bash
+bun test src/tests/channels/&lt;channel-or-area&gt;.test.ts
+bun run typecheck
+bun run lint
+bun run build
+```
+
+`letta-code` uses `bun:test`, not a package `test` script.
+
+## Debugging symptoms
+
+- **Plugin not discovered**: id mismatch between directory and `channel.json`, invalid id chars, or id shadows first-party channel.
+- **Install says already installed but imports fail**: runtime resolver counted dev `node_modules`; ensure runtime deps actually exist under `~/.letta/channels/&lt;id&gt;/runtime/node_modules` and symlink `~/.letta/channels/&lt;id&gt;/node_modules` to it.
+- **Inbound receives pairing code forever**: pairing was not redeemed for the same `accountId`/`senderId`, or listener cannot reload `pairing.yaml`.
+- **Inbound reaches agent but replies no-op**: missing `plugin.messageActions` or route lookup mismatch in `MessageChannel` args.
+- **Route lookup misses**: wrong `chatId`, wrong `accountId`, or unstable `threadId` choice.
+- **Cron lease error**: usually unrelated to channel runtime; another Letta Code process owns scheduler lease.
+</pre></details><details><summary><code>references/user-plugins.md</code> <span class="muted">(4.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Dynamic user channel plugins
+
+## Layout
+
+```text
+~/.letta/channels/&lt;id&gt;/
+  channel.json
+  plugin.mjs
+  accounts.json
+  pairing.yaml
+  routing.yaml
+  runtime/
+    package.json
+    node_modules/
+```
+
+`channel.json`:
+
+```json
+{
+  &quot;id&quot;: &quot;whatsapp-community&quot;,
+  &quot;displayName&quot;: &quot;WhatsApp Community&quot;,
+  &quot;entry&quot;: &quot;./plugin.mjs&quot;,
+  &quot;runtimePackages&quot;: [&quot;some-sdk@1.0.0&quot;],
+  &quot;runtimeModules&quot;: [&quot;some-sdk&quot;]
+}
+```
+
+Rules:
+- `id` must match the directory name.
+- Do not use first-party ids (`telegram`, `slack`, `discord`). The registry skips them.
+- `entry` is relative to the channel directory and must not escape it.
+- `runtimePackages` install to `runtime/` via `letta channels install &lt;id&gt;`.
+- User plugin bare imports usually need `~/.letta/channels/&lt;id&gt;/node_modules -&gt; runtime/node_modules` symlink. Letta Code links this after installing user-plugin runtime dependencies.
+
+## Account shape
+
+User plugins should rely on `account.config`, not first-party fields.
+
+```json
+{
+  &quot;accounts&quot;: [
+    {
+      &quot;channel&quot;: &quot;whatsapp-community&quot;,
+      &quot;accountId&quot;: &quot;main&quot;,
+      &quot;displayName&quot;: &quot;WhatsApp Community&quot;,
+      &quot;enabled&quot;: true,
+      &quot;dmPolicy&quot;: &quot;pairing&quot;,
+      &quot;allowedUsers&quot;: [],
+      &quot;config&quot;: {
+        &quot;token&quot;: &quot;...&quot;,
+        &quot;phoneNumberId&quot;: &quot;...&quot;
+      },
+      &quot;createdAt&quot;: &quot;2026-01-01T00:00:00.000Z&quot;,
+      &quot;updatedAt&quot;: &quot;2026-01-01T00:00:00.000Z&quot;
+    }
+  ]
+}
+```
+
+Custom accounts have no generic `binding` field. Routing lives in `routing.yaml`, created by pairing, `letta channels route add`, or direct file management.
+
+## Minimal plugin contract
+
+`plugin.mjs` exports `channelPlugin` or `default`:
+
+```js
+export const channelPlugin = {
+  metadata: {
+    id: &quot;whatsapp-community&quot;,
+    displayName: &quot;WhatsApp Community&quot;,
+    runtimePackages: [&quot;some-sdk@1.0.0&quot;],
+    runtimeModules: [&quot;some-sdk&quot;]
+  },
+
+  async createAdapter(account) {
+    let onMessageHandler = null;
+    let running = false;
+
+    return {
+      id: `whatsapp-community:${account.accountId}`,
+      channelId: &quot;whatsapp-community&quot;,
+      accountId: account.accountId,
+      name: account.displayName ?? &quot;WhatsApp Community&quot;,
+      async start() { running = true; },
+      async stop() { running = false; },
+      isRunning() { return running; },
+      async sendMessage(msg) { return { messageId: crypto.randomUUID() }; },
+      async sendDirectReply(chatId, text, options) {},
+      get onMessage() { return onMessageHandler; },
+      set onMessage(handler) { onMessageHandler = handler; }
+    };
+  },
+
+  messageActions: {
+    describeMessageTool() { return { actions: [&quot;send&quot;] }; },
+    async handleAction({ adapter, request, formatText }) {
+      if (request.action !== &quot;send&quot;) return `Error: unsupported action ${request.action}`;
+      const formatted = formatText(request.message ?? &quot;&quot;);
+      const result = await adapter.sendMessage({
+        channel: request.channel,
+        chatId: request.chatId,
+        text: formatted.text,
+        parseMode: formatted.parseMode,
+        replyToMessageId: request.replyToMessageId,
+        threadId: request.threadId
+      });
+      return `Message sent to ${request.channel} (message_id: ${result.messageId})`;
+    }
+  }
+};
+```
+
+Inbound messages must call `adapter.onMessage(msg)` with:
+
+```ts
+{
+  channel: string;
+  accountId?: string;
+  chatId: string;
+  senderId: string;
+  senderName?: string;
+  chatLabel?: string;
+  text: string;
+  timestamp: number;
+  messageId?: string;
+  threadId?: string | null;
+  chatType?: &quot;direct&quot; | &quot;channel&quot;;
+  isMention?: boolean;
+  raw?: unknown;
+}
+```
+
+## Headless pairing
+
+User plugins are headless. Pair from CLI:
+
+```bash
+letta channels pair \
+  --channel &lt;id&gt; \
+  --code &lt;code&gt; \
+  --agent &lt;agent-id&gt; \
+  --conversation &lt;conversation-id&gt;
+```
+
+Or route statically:
+
+```bash
+letta channels route add \
+  --channel &lt;id&gt; \
+  --chat-id &lt;platform-chat-id&gt; \
+  --agent &lt;agent-id&gt; \
+  --conversation &lt;conversation-id&gt;
+```
+
+`dmPolicy` behavior:
+- `pairing`: unknown senders get a pairing code. Good for manual tests.
+- `allowlist`: only `allowedU</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/scaffold-user-channel-plugin.ts</code> <span class="muted">(5.4 KB, text)</span></summary><pre class="claude-preview file-preview">import { existsSync, mkdirSync, writeFileSync } from &quot;node:fs&quot;;
+import { homedir } from &quot;node:os&quot;;
+import { join, resolve } from &quot;node:path&quot;;
+
+function usage(): never {
+  console.error(
+    `Usage: npx tsx scaffold-user-channel-plugin.ts &lt;id&gt; &lt;display-name&gt; [--dir &lt;channels-root&gt;] [--runtime-package &lt;pkg&gt;] [--runtime-module &lt;module&gt;] [--force]`,
+  );
+  process.exit(1);
+}
+
+const args = process.argv.slice(2);
+const id = args[0];
+const displayName = args[1];
+if (!id || !displayName) usage();
+if (!/^[a-z0-9][a-z0-9_-]*$/.test(id)) {
+  throw new Error(`Invalid channel id: ${id}`);
+}
+if ([&quot;telegram&quot;, &quot;slack&quot;, &quot;discord&quot;].includes(id)) {
+  throw new Error(`User plugins cannot shadow first-party channel id: ${id}`);
+}
+
+let channelsRoot = join(homedir(), &quot;.letta&quot;, &quot;channels&quot;);
+let runtimePackage = &quot;&quot;;
+let runtimeModule = &quot;&quot;;
+let force = false;
+for (let i = 2; i &lt; args.length; i++) {
+  const arg = args[i];
+  const next = args[i + 1];
+  if (arg === &quot;--dir&quot; &amp;&amp; next) {
+    channelsRoot = next;
+    i++;
+  } else if (arg === &quot;--runtime-package&quot; &amp;&amp; next) {
+    runtimePackage = next;
+    i++;
+  } else if (arg === &quot;--runtime-module&quot; &amp;&amp; next) {
+    runtimeModule = next;
+    i++;
+  } else if (arg === &quot;--force&quot;) {
+    force = true;
+  } else {
+    usage();
+  }
+}
+
+if (runtimePackage &amp;&amp; !runtimeModule) runtimeModule = runtimePackage.replace(/@[^/@]+$/, &quot;&quot;);
+if (runtimeModule &amp;&amp; !runtimePackage) runtimePackage = runtimeModule;
+
+const dir = resolve(channelsRoot, id);
+const outputFiles = [
+  join(dir, &quot;channel.json&quot;),
+  join(dir, &quot;plugin.mjs&quot;),
+  join(dir, &quot;accounts.example.json&quot;),
+];
+const existingFiles = outputFiles.filter((filePath) =&gt; existsSync(filePath));
+if (existingFiles.length &gt; 0 &amp;&amp; !force) {
+  throw new Error(
+    `Refusing to overwrite existing files: ${existingFiles.join(&quot;, &quot;)}. Pass --force to overwrite.`,
+  );
+}
+mkdirSync(dir, { recursive: true });
+
+const runtimePackages = runtimePackage ? [runtimePackage] : [];
+const runtimeModules = runtimeModule ? [runtimeModule] : [];
+
+writeFileSync(
+  join(dir, &quot;channel.json&quot;),
+  `${JSON.stringify(
+    {
+      id,
+      displayName,
+      entry: &quot;./plugin.mjs&quot;,
+      runtimePackages,
+      runtimeModules,
+    },
+    null,
+    2,
+  )}\n`,
+);
+
+writeFileSync(
+  join(dir, &quot;accounts.example.json&quot;),
+  `${JSON.stringify(
+    {
+      accounts: [
+        {
+          channel: id,
+          accountId: &quot;main&quot;,
+          displayName,
+          enabled: true,
+          dmPolicy: &quot;pairing&quot;,
+          allowedUsers: [],
+          config: {
+            token: &quot;TODO&quot;,
+          },
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+        },
+      ],
+    },
+    null,
+    2,
+  )}\n`,
+);
+
+writeFileSync(
+  join(dir, &quot;plugin.mjs&quot;),
+  `// ${displayName} dynamic channel plugin skeleton.\n// TODO: replace start/stop/inbound/sendMessage with the real platform SDK.\n\nimport { randomUUID } from &quot;node:crypto&quot;;\n\nexport const channelPlugin = {\n  metadata: {\n    id: ${JSON.stringify(id)},\n    displayName: ${JSON.stringify(displayName)},\n    runtimePackages: ${JSON.stringify(runtimePackages)},\n    runtimeModules: ${JSON.stringify(runtimeModules)}\n  },\n\n  async createAdapter(account) {\n    let running = false;\n    let onMessageHandler = null;\n\n    return {\n      id: \`${id}:\${account.accountId}\`,\n      channelId: ${JSON.stringify(id)},\n      accountId: account.accountId,\n      name: account.displayName ?? ${JSON.stringify(displayName)},\n\n      async start() {\n        running = true;\n        console.log(\&quot;[${id}] adapter running.\&quot;);\n      },\n\n      async stop() {\n        running = false;\n      },\n\n      isRunning() {\n        return running;\n      },\n\n      async sendMessage(msg) {\n        if (!running) throw new Error(\&quot;[${id}] adapter not running.\&quot;);\n        // TODO: send msg.text to msg.chatId with the platform SDK.\n        console.log(\&quot;[${id}] sendMessage\&quot;, { chatId: msg.chatId, text: msg.text });\n        return { messageId: randomUUID() };\n      </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: creating-letta-code-channels
+description: Builds and debugs Letta Code channels, including first-party channel adapters and dynamic user channel plugins under ~/.letta/channels. Use when adding Telegram, WhatsApp, Bluesky, Slack, Discord, or custom channel support; testing channel routing, pairing, MessageChannel, runtime dependencies, or channel plugin manifests.
+license: MIT
+---
+
+# Creating Letta Code channels
+
+Use this when adding or debugging Letta Code channel support.
+
+## First choice
+
+- **User plugin** (`~/.letta/channels/&lt;id&gt;/`) for headless experiments, community plugins, and fast workflow tests.
+- **First-party channel** (`src/channels/&lt;id&gt;/`) when the channel needs bespoke Desktop UI, custom account snapshots, Slack/Discord-style auto-routing, rich protocol fields, or migration/compatibility shims.
+
+User plugins cannot shadow first-party ids: `telegram`, `slack`, and `discord` are ignored under `~/.letta/channels/`. Use ids like `telegram-test`, `whatsapp-community`, or `custom-chat`.
+
+## Core workflow
+
+1. Work in `~/letta/letta-code` or a worktree.
+2. Read `src/channels/README.md` on branches with dynamic plugins.
+3. For a user plugin, create:
+   - `~/.letta/channels/&lt;id&gt;/channel.json`
+   - `~/.letta/channels/&lt;id&gt;/plugin.mjs`
+   - `~/.letta/channels/&lt;id&gt;/accounts.json`
+4. Always implement `messageActions` if agents should reply via `MessageChannel`.
+5. Start with `dmPolicy: &quot;pairing&quot;` for testing, or `allowlist`/`open` for known headless deployments.
+6. Test all four legs:
+   - plugin discovery/import
+   - inbound `adapter.onMessage(msg)` to route/pairing
+   - routed channel notification reaches the agent
+   - outbound `MessageChannel` calls `messageActions.handleAction` → `adapter.sendMessage`
+7. Run targeted tests, then `bun run typecheck`, `bun run lint`, `bun run build`.
+
+## References
+
+Read only what is needed:
+
+- `references/user-plugins.md` — dynamic plugin manifest/account/runtime/headless flow and gotchas.
+- `references/first-party-channels.md` — first-party channel file cascade and safety checks.
+- `references/testing.md` — smoke-test checklist and commands.
+
+## Scaffold helper
+
+Use the bundled scaffold for a minimal user plugin skeleton. Replace `&lt;path-to-this-skill&gt;` with this skill directory path:
+
+```bash
+npx tsx &lt;path-to-this-skill&gt;/scripts/scaffold-user-channel-plugin.ts \
+  my-channel &quot;My Channel&quot; \
+  --runtime-package some-sdk@1.0.0 \
+  --runtime-module some-sdk
+```
+
+It creates `channel.json`, `plugin.mjs`, and `accounts.example.json`. Replace the TODO inbound/outbound implementation with the real SDK calls.
+
+## Hard lessons
+
+- `MessageChannel` silently feels broken if `plugin.messageActions` is missing. Every plugin that should reply needs `describeMessageTool()` and `handleAction()`.
+- For public channels, suppress tool approval/control prompts unless there is verified operator routing. Posting approval prompts publicly leaks tool input and invites forged `approve` replies.
+- User plugin runtime resolution must not count parent/dev `node_modules`. Runtime modules should resolve from explicit runtime dirs only.
+- Headless pairing is CLI-first: `letta channels pair --channel &lt;id&gt; --code &lt;code&gt; --agent &lt;agent-id&gt; --conversation &lt;conversation-id&gt;`.
+- Running listeners reload `pairing.yaml` and `routing.yaml` on the next inbound miss; restart only when adapter/account config itself changed.
+</pre></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

@@ -1,0 +1,2016 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign-skill-creator · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign-skill-creator</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign-skill-creator">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign-skill-creator</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ec4899;">分类: 混合型</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 18 · 225.2 KB</span>  <span class="chip">扫描: 2026-06-14 15:07:48</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">3.9<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:3.93%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码执行</div>  <div class="card-count">3<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">5<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge bad">严重 · 5</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge bad">严重 · 3</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 8 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P7</code></td><td>impact</td><td><code>agents\analyzer.md:53</code></td><td><code class="snippet">use the skill</code></td></tr><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>P7</code></td><td>impact</td><td><code>agents\analyzer.md:123</code></td><td><code class="snippet">use the skill</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>eval-viewer\generate_review.py:291</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>P7</code></td><td>impact</td><td><code>references\schemas.md:412</code></td><td><code class="snippet">use the skill</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P7</code></td><td>impact</td><td><code>scripts\improve_description.py:79</code></td><td><code class="snippet">use the skill</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\improve_description.py:35</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\run_eval.py:85</code></td><td><code class="snippet">subprocess.Popen</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P7</code></td><td>impact</td><td><code>SKILL.md:424</code></td><td><code class="snippet">use the skill</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (18 files, 225.2 KB)</h4>
+      <div class="file-list"><details><summary><code>agents/analyzer.md</code> <span class="muted">(10.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Post-hoc Analyzer Agent
+
+Analyze blind comparison results to understand WHY the winner won and generate improvement suggestions.
+
+## Role
+
+After the blind comparator determines a winner, the Post-hoc Analyzer &quot;unblids&quot; the results by examining the skills and transcripts. The goal is to extract actionable insights: what made the winner better, and how can the loser be improved?
+
+## Inputs
+
+You receive these parameters in your prompt:
+
+- **winner**: &quot;A&quot; or &quot;B&quot; (from blind comparison)
+- **winner_skill_path**: Path to the skill that produced the winning output
+- **winner_transcript_path**: Path to the execution transcript for the winner
+- **loser_skill_path**: Path to the skill that produced the losing output
+- **loser_transcript_path**: Path to the execution transcript for the loser
+- **comparison_result_path**: Path to the blind comparator&#x27;s output JSON
+- **output_path**: Where to save the analysis results
+
+## Process
+
+### Step 1: Read Comparison Result
+
+1. Read the blind comparator&#x27;s output at comparison_result_path
+2. Note the winning side (A or B), the reasoning, and any scores
+3. Understand what the comparator valued in the winning output
+
+### Step 2: Read Both Skills
+
+1. Read the winner skill&#x27;s SKILL.md and key referenced files
+2. Read the loser skill&#x27;s SKILL.md and key referenced files
+3. Identify structural differences:
+   - Instructions clarity and specificity
+   - Script/tool usage patterns
+   - Example coverage
+   - Edge case handling
+
+### Step 3: Read Both Transcripts
+
+1. Read the winner&#x27;s transcript
+2. Read the loser&#x27;s transcript
+3. Compare execution patterns:
+   - How closely did each follow their skill&#x27;s instructions?
+   - What tools were used differently?
+   - Where did the loser diverge from optimal behavior?
+   - Did either encounter errors or make recovery attempts?
+
+### Step 4: Analyze Instruction Following
+
+For each transcript, evaluate:
+- Did the agent follow the skill&#x27;s explicit instructions?
+- Did the agent use the skill&#x27;s provided tools/scripts?
+- Were there missed opportunities to leverage skill content?
+- Did the agent add unnecessary steps not in the skill?
+
+Score instruction following 1-10 and note specific issues.
+
+### Step 5: Identify Winner Strengths
+
+Determine what made the winner better:
+- Clearer instructions that led to better behavior?
+- Better scripts/tools that produced better output?
+- More comprehensive examples that guided edge cases?
+- Better error handling guidance?
+
+Be specific. Quote from skills/transcripts where relevant.
+
+### Step 6: Identify Loser Weaknesses
+
+Determine what held the loser back:
+- Ambiguous instructions that led to suboptimal choices?
+- Missing tools/scripts that forced workarounds?
+- Gaps in edge case coverage?
+- Poor error handling that caused failures?
+
+### Step 7: Generate Improvement Suggestions
+
+Based on the analysis, produce actionable suggestions for improving the loser skill:
+- Specific instruction changes to make
+- Tools/scripts to add or modify
+- Examples to include
+- Edge cases to address
+
+Prioritize by impact. Focus on changes that would have changed the outcome.
+
+### Step 8: Write Analysis Results
+
+Save structured analysis to `{output_path}`.
+
+## Output Format
+
+Write a JSON file with this structure:
+
+```json
+{
+  &quot;comparison_summary&quot;: {
+    &quot;winner&quot;: &quot;A&quot;,
+    &quot;winner_skill&quot;: &quot;path/to/winner/skill&quot;,
+    &quot;loser_skill&quot;: &quot;path/to/loser/skill&quot;,
+    &quot;comparator_reasoning&quot;: &quot;Brief summary of why comparator chose winner&quot;
+  },
+  &quot;winner_strengths&quot;: [
+    &quot;Clear step-by-step instructions for handling multi-page documents&quot;,
+    &quot;Included validation script that caught formatting errors&quot;,
+    &quot;Explicit guidance on fallback behavior when OCR fails&quot;
+  ],
+  &quot;loser_weaknesses&quot;: [
+    &quot;Vague instruction &#x27;process the document appropriately&#x27; led to inconsistent behavior&quot;,
+    &quot;No script for validation, agent had to improvise and made errors&quot;,
+    &quot;No guidance on OCR failure, agent gave up instead of trying alternatives&quot;
+  ],
+  &quot;instruction_following&quot;: {
+    &quot;winner&quot;: {
+ </pre><div class="muted">…(content truncated)</div></details><details><summary><code>agents/comparator.md</code> <span class="muted">(7.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Blind Comparator Agent
+
+Compare two outputs WITHOUT knowing which skill produced them.
+
+## Role
+
+The Blind Comparator judges which output better accomplishes the eval task. You receive two outputs labeled A and B, but you do NOT know which skill produced which. This prevents bias toward a particular skill or approach.
+
+Your judgment is based purely on output quality and task completion.
+
+## Inputs
+
+You receive these parameters in your prompt:
+
+- **output_a_path**: Path to the first output file or directory
+- **output_b_path**: Path to the second output file or directory
+- **eval_prompt**: The original task/prompt that was executed
+- **expectations**: List of expectations to check (optional - may be empty)
+
+## Process
+
+### Step 1: Read Both Outputs
+
+1. Examine output A (file or directory)
+2. Examine output B (file or directory)
+3. Note the type, structure, and content of each
+4. If outputs are directories, examine all relevant files inside
+
+### Step 2: Understand the Task
+
+1. Read the eval_prompt carefully
+2. Identify what the task requires:
+   - What should be produced?
+   - What qualities matter (accuracy, completeness, format)?
+   - What would distinguish a good output from a poor one?
+
+### Step 3: Generate Evaluation Rubric
+
+Based on the task, generate a rubric with two dimensions:
+
+**Content Rubric** (what the output contains):
+| Criterion | 1 (Poor) | 3 (Acceptable) | 5 (Excellent) |
+|-----------|----------|----------------|---------------|
+| Correctness | Major errors | Minor errors | Fully correct |
+| Completeness | Missing key elements | Mostly complete | All elements present |
+| Accuracy | Significant inaccuracies | Minor inaccuracies | Accurate throughout |
+
+**Structure Rubric** (how the output is organized):
+| Criterion | 1 (Poor) | 3 (Acceptable) | 5 (Excellent) |
+|-----------|----------|----------------|---------------|
+| Organization | Disorganized | Reasonably organized | Clear, logical structure |
+| Formatting | Inconsistent/broken | Mostly consistent | Professional, polished |
+| Usability | Difficult to use | Usable with effort | Easy to use |
+
+Adapt criteria to the specific task. For example:
+- PDF form → &quot;Field alignment&quot;, &quot;Text readability&quot;, &quot;Data placement&quot;
+- Document → &quot;Section structure&quot;, &quot;Heading hierarchy&quot;, &quot;Paragraph flow&quot;
+- Data output → &quot;Schema correctness&quot;, &quot;Data types&quot;, &quot;Completeness&quot;
+
+### Step 4: Evaluate Each Output Against the Rubric
+
+For each output (A and B):
+
+1. **Score each criterion** on the rubric (1-5 scale)
+2. **Calculate dimension totals**: Content score, Structure score
+3. **Calculate overall score**: Average of dimension scores, scaled to 1-10
+
+### Step 5: Check Assertions (if provided)
+
+If expectations are provided:
+
+1. Check each expectation against output A
+2. Check each expectation against output B
+3. Count pass rates for each output
+4. Use expectation scores as secondary evidence (not the primary decision factor)
+
+### Step 6: Determine the Winner
+
+Compare A and B based on (in priority order):
+
+1. **Primary**: Overall rubric score (content + structure)
+2. **Secondary**: Assertion pass rates (if applicable)
+3. **Tiebreaker**: If truly equal, declare a TIE
+
+Be decisive - ties should be rare. One output is usually better, even if marginally.
+
+### Step 7: Write Comparison Results
+
+Save results to a JSON file at the path specified (or `comparison.json` if not specified).
+
+## Output Format
+
+Write a JSON file with this structure:
+
+```json
+{
+  &quot;winner&quot;: &quot;A&quot;,
+  &quot;reasoning&quot;: &quot;Output A provides a complete solution with proper formatting and all required fields. Output B is missing the date field and has formatting inconsistencies.&quot;,
+  &quot;rubric&quot;: {
+    &quot;A&quot;: {
+      &quot;content&quot;: {
+        &quot;correctness&quot;: 5,
+        &quot;completeness&quot;: 5,
+        &quot;accuracy&quot;: 4
+      },
+      &quot;structure&quot;: {
+        &quot;organization&quot;: 4,
+        &quot;formatting&quot;: 5,
+        &quot;usability&quot;: 4
+      },
+      &quot;content_score&quot;: 4.7,
+      &quot;structure_score&quot;: 4.3,
+      &quot;overall_score&quot;: 9.0
+    },
+    &quot;B&quot;: {
+      &quot;content&quot;: {
+       </pre><div class="muted">…(content truncated)</div></details><details><summary><code>agents/grader.md</code> <span class="muted">(9.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Grader Agent
+
+Evaluate expectations against an execution transcript and outputs.
+
+## Role
+
+The Grader reviews a transcript and output files, then determines whether each expectation passes or fails. Provide clear evidence for each judgment.
+
+You have two jobs: grade the outputs, and critique the evals themselves. A passing grade on a weak assertion is worse than useless — it creates false confidence. When you notice an assertion that&#x27;s trivially satisfied, or an important outcome that no assertion checks, say so.
+
+## Inputs
+
+You receive these parameters in your prompt:
+
+- **expectations**: List of expectations to evaluate (strings)
+- **transcript_path**: Path to the execution transcript (markdown file)
+- **outputs_dir**: Directory containing output files from execution
+
+## Process
+
+### Step 1: Read the Transcript
+
+1. Read the transcript file completely
+2. Note the eval prompt, execution steps, and final result
+3. Identify any issues or errors documented
+
+### Step 2: Examine Output Files
+
+1. List files in outputs_dir
+2. Read/examine each file relevant to the expectations. If outputs aren&#x27;t plain text, use the inspection tools provided in your prompt — don&#x27;t rely solely on what the transcript says the executor produced.
+3. Note contents, structure, and quality
+
+### Step 3: Evaluate Each Assertion
+
+For each expectation:
+
+1. **Search for evidence** in the transcript and outputs
+2. **Determine verdict**:
+   - **PASS**: Clear evidence the expectation is true AND the evidence reflects genuine task completion, not just surface-level compliance
+   - **FAIL**: No evidence, or evidence contradicts the expectation, or the evidence is superficial (e.g., correct filename but empty/wrong content)
+3. **Cite the evidence**: Quote the specific text or describe what you found
+
+### Step 4: Extract and Verify Claims
+
+Beyond the predefined expectations, extract implicit claims from the outputs and verify them:
+
+1. **Extract claims** from the transcript and outputs:
+   - Factual statements (&quot;The form has 12 fields&quot;)
+   - Process claims (&quot;Used pypdf to fill the form&quot;)
+   - Quality claims (&quot;All fields were filled correctly&quot;)
+
+2. **Verify each claim**:
+   - **Factual claims**: Can be checked against the outputs or external sources
+   - **Process claims**: Can be verified from the transcript
+   - **Quality claims**: Evaluate whether the claim is justified
+
+3. **Flag unverifiable claims**: Note claims that cannot be verified with available information
+
+This catches issues that predefined expectations might miss.
+
+### Step 5: Read User Notes
+
+If `{outputs_dir}/user_notes.md` exists:
+1. Read it and note any uncertainties or issues flagged by the executor
+2. Include relevant concerns in the grading output
+3. These may reveal problems even when expectations pass
+
+### Step 6: Critique the Evals
+
+After grading, consider whether the evals themselves could be improved. Only surface suggestions when there&#x27;s a clear gap.
+
+Good suggestions test meaningful outcomes — assertions that are hard to satisfy without actually doing the work correctly. Think about what makes an assertion *discriminating*: it passes when the skill genuinely succeeds and fails when it doesn&#x27;t.
+
+Suggestions worth raising:
+- An assertion that passed but would also pass for a clearly wrong output (e.g., checking filename existence but not file content)
+- An important outcome you observed — good or bad — that no assertion covers at all
+- An assertion that can&#x27;t actually be verified from the available outputs
+
+Keep the bar high. The goal is to flag things the eval author would say &quot;good catch&quot; about, not to nitpick every assertion.
+
+### Step 7: Write Grading Results
+
+Save results to `{outputs_dir}/../grading.json` (sibling to outputs_dir).
+
+## Grading Criteria
+
+**PASS when**:
+- The transcript or outputs clearly demonstrate the expectation is true
+- Specific evidence can be cited
+- The evidence reflects genuine substance, not just surface compliance (e.g., a file exists AND contains correct conte</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>assets/eval_review.html</code> <span class="muted">(7.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>eval-viewer/generate_review.py</code> <span class="muted">(16.4 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Generate and serve a review page for eval results.
+
+Reads the workspace directory, discovers runs (directories with outputs/),
+embeds all output data into a self-contained HTML page, and serves it via
+a tiny HTTP server. Feedback auto-saves to feedback.json in the workspace.
+
+Usage:
+    python generate_review.py &lt;workspace-path&gt; [--port PORT] [--skill-name NAME]
+    python generate_review.py &lt;workspace-path&gt; --previous-feedback /path/to/old/feedback.json
+
+No dependencies beyond the Python stdlib are required.
+&quot;&quot;&quot;
+
+import argparse
+import base64
+import json
+import mimetypes
+import os
+import re
+import signal
+import subprocess
+import sys
+import time
+import webbrowser
+from functools import partial
+from http.server import HTTPServer, BaseHTTPRequestHandler
+from pathlib import Path
+
+# Files to exclude from output listings
+METADATA_FILES = {&quot;transcript.md&quot;, &quot;user_notes.md&quot;, &quot;metrics.json&quot;}
+
+# Extensions we render as inline text
+TEXT_EXTENSIONS = {
+    &quot;.txt&quot;, &quot;.md&quot;, &quot;.json&quot;, &quot;.csv&quot;, &quot;.py&quot;, &quot;.js&quot;, &quot;.ts&quot;, &quot;.tsx&quot;, &quot;.jsx&quot;,
+    &quot;.yaml&quot;, &quot;.yml&quot;, &quot;.xml&quot;, &quot;.html&quot;, &quot;.css&quot;, &quot;.sh&quot;, &quot;.rb&quot;, &quot;.go&quot;, &quot;.rs&quot;,
+    &quot;.java&quot;, &quot;.c&quot;, &quot;.cpp&quot;, &quot;.h&quot;, &quot;.hpp&quot;, &quot;.sql&quot;, &quot;.r&quot;, &quot;.toml&quot;,
+}
+
+# Extensions we render as inline images
+IMAGE_EXTENSIONS = {&quot;.png&quot;, &quot;.jpg&quot;, &quot;.jpeg&quot;, &quot;.gif&quot;, &quot;.svg&quot;, &quot;.webp&quot;}
+
+# MIME type overrides for common types
+MIME_OVERRIDES = {
+    &quot;.svg&quot;: &quot;image/svg+xml&quot;,
+    &quot;.xlsx&quot;: &quot;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&quot;,
+    &quot;.docx&quot;: &quot;application/vnd.openxmlformats-officedocument.wordprocessingml.document&quot;,
+    &quot;.pptx&quot;: &quot;application/vnd.openxmlformats-officedocument.presentationml.presentation&quot;,
+}
+
+
+def get_mime_type(path: Path) -&gt; str:
+    ext = path.suffix.lower()
+    if ext in MIME_OVERRIDES:
+        return MIME_OVERRIDES[ext]
+    mime, _ = mimetypes.guess_type(str(path))
+    return mime or &quot;application/octet-stream&quot;
+
+
+def find_runs(workspace: Path) -&gt; list[dict]:
+    &quot;&quot;&quot;Recursively find directories that contain an outputs/ subdirectory.&quot;&quot;&quot;
+    runs: list[dict] = []
+    _find_runs_recursive(workspace, workspace, runs)
+    runs.sort(key=lambda r: (r.get(&quot;eval_id&quot;, float(&quot;inf&quot;)), r[&quot;id&quot;]))
+    return runs
+
+
+def _find_runs_recursive(root: Path, current: Path, runs: list[dict]) -&gt; None:
+    if not current.is_dir():
+        return
+
+    outputs_dir = current / &quot;outputs&quot;
+    if outputs_dir.is_dir():
+        run = build_run(root, current)
+        if run:
+            runs.append(run)
+        return
+
+    skip = {&quot;node_modules&quot;, &quot;.git&quot;, &quot;__pycache__&quot;, &quot;skill&quot;, &quot;inputs&quot;}
+    for child in sorted(current.iterdir()):
+        if child.is_dir() and child.name not in skip:
+            _find_runs_recursive(root, child, runs)
+
+
+def build_run(root: Path, run_dir: Path) -&gt; dict | None:
+    &quot;&quot;&quot;Build a run dict with prompt, outputs, and grading data.&quot;&quot;&quot;
+    prompt = &quot;&quot;
+    eval_id = None
+
+    # Try eval_metadata.json
+    for candidate in [run_dir / &quot;eval_metadata.json&quot;, run_dir.parent / &quot;eval_metadata.json&quot;]:
+        if candidate.exists():
+            try:
+                metadata = json.loads(candidate.read_text())
+                prompt = metadata.get(&quot;prompt&quot;, &quot;&quot;)
+                eval_id = metadata.get(&quot;eval_id&quot;)
+            except (json.JSONDecodeError, OSError):
+                pass
+            if prompt:
+                break
+
+    # Fall back to transcript.md
+    if not prompt:
+        for candidate in [run_dir / &quot;transcript.md&quot;, run_dir / &quot;outputs&quot; / &quot;transcript.md&quot;]:
+            if candidate.exists():
+                try:
+                    text = candidate.read_text()
+                    match = re.search(r&quot;## Eval Prompt\n\n([\s\S]*?)(?=\n##|$)&quot;, text)
+                    if match:
+                        prompt = match.group(1).strip()
+                except OSError:
+                    pass
+                if prompt:
+                    break
+
+    if not prompt:
+        prompt = &quot;(No prompt found)&quot;
+
+    run_id = str(run_dir.relative_to(root)).replace(&quot;/&quot;, &quot;-&quot;).replace(&quot;\\&quot;, &quot;-&quot;)
+
+    # Collect output files</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>eval-viewer/viewer.html</code> <span class="muted">(45.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>LICENSE.txt</code> <span class="muted">(11.3 KB, text)</span></summary><pre class="claude-preview file-preview">
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      &quot;Source&quot; form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      &quot;Contribution&quot; shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/schemas.md</code> <span class="muted">(12.2 KB, text)</span></summary><pre class="claude-preview file-preview"># JSON Schemas
+
+This document defines the JSON schemas used by skill-creator.
+
+---
+
+## evals.json
+
+Defines the evals for a skill. Located at `evals/evals.json` within the skill directory.
+
+```json
+{
+  &quot;skill_name&quot;: &quot;example-skill&quot;,
+  &quot;evals&quot;: [
+    {
+      &quot;id&quot;: 1,
+      &quot;prompt&quot;: &quot;User&#x27;s example prompt&quot;,
+      &quot;expected_output&quot;: &quot;Description of expected result&quot;,
+      &quot;files&quot;: [&quot;evals/files/sample1.pdf&quot;],
+      &quot;expectations&quot;: [
+        &quot;The output includes X&quot;,
+        &quot;The skill used script Y&quot;
+      ]
+    }
+  ]
+}
+```
+
+**Fields:**
+- `skill_name`: Name matching the skill&#x27;s frontmatter
+- `evals[].id`: Unique integer identifier
+- `evals[].prompt`: The task to execute
+- `evals[].expected_output`: Human-readable description of success
+- `evals[].files`: Optional list of input file paths (relative to skill root)
+- `evals[].expectations`: List of verifiable statements
+
+---
+
+## history.json
+
+Tracks version progression in Improve mode. Located at workspace root.
+
+```json
+{
+  &quot;started_at&quot;: &quot;2026-01-15T10:30:00Z&quot;,
+  &quot;skill_name&quot;: &quot;pdf&quot;,
+  &quot;current_best&quot;: &quot;v2&quot;,
+  &quot;iterations&quot;: [
+    {
+      &quot;version&quot;: &quot;v0&quot;,
+      &quot;parent&quot;: null,
+      &quot;expectation_pass_rate&quot;: 0.65,
+      &quot;grading_result&quot;: &quot;baseline&quot;,
+      &quot;is_current_best&quot;: false
+    },
+    {
+      &quot;version&quot;: &quot;v1&quot;,
+      &quot;parent&quot;: &quot;v0&quot;,
+      &quot;expectation_pass_rate&quot;: 0.75,
+      &quot;grading_result&quot;: &quot;won&quot;,
+      &quot;is_current_best&quot;: false
+    },
+    {
+      &quot;version&quot;: &quot;v2&quot;,
+      &quot;parent&quot;: &quot;v1&quot;,
+      &quot;expectation_pass_rate&quot;: 0.85,
+      &quot;grading_result&quot;: &quot;won&quot;,
+      &quot;is_current_best&quot;: true
+    }
+  ]
+}
+```
+
+**Fields:**
+- `started_at`: ISO timestamp of when improvement started
+- `skill_name`: Name of the skill being improved
+- `current_best`: Version identifier of the best performer
+- `iterations[].version`: Version identifier (v0, v1, ...)
+- `iterations[].parent`: Parent version this was derived from
+- `iterations[].expectation_pass_rate`: Pass rate from grading
+- `iterations[].grading_result`: &quot;baseline&quot;, &quot;won&quot;, &quot;lost&quot;, or &quot;tie&quot;
+- `iterations[].is_current_best`: Whether this is the current best version
+
+---
+
+## grading.json
+
+Output from the grader agent. Located at `&lt;run-dir&gt;/grading.json`.
+
+```json
+{
+  &quot;expectations&quot;: [
+    {
+      &quot;text&quot;: &quot;The output includes the name &#x27;John Smith&#x27;&quot;,
+      &quot;passed&quot;: true,
+      &quot;evidence&quot;: &quot;Found in transcript Step 3: &#x27;Extracted names: John Smith, Sarah Johnson&#x27;&quot;
+    },
+    {
+      &quot;text&quot;: &quot;The spreadsheet has a SUM formula in cell B10&quot;,
+      &quot;passed&quot;: false,
+      &quot;evidence&quot;: &quot;No spreadsheet was created. The output was a text file.&quot;
+    }
+  ],
+  &quot;summary&quot;: {
+    &quot;passed&quot;: 2,
+    &quot;failed&quot;: 1,
+    &quot;total&quot;: 3,
+    &quot;pass_rate&quot;: 0.67
+  },
+  &quot;execution_metrics&quot;: {
+    &quot;tool_calls&quot;: {
+      &quot;Read&quot;: 5,
+      &quot;Write&quot;: 2,
+      &quot;Bash&quot;: 8
+    },
+    &quot;total_tool_calls&quot;: 15,
+    &quot;total_steps&quot;: 6,
+    &quot;errors_encountered&quot;: 0,
+    &quot;output_chars&quot;: 12450,
+    &quot;transcript_chars&quot;: 3200
+  },
+  &quot;timing&quot;: {
+    &quot;executor_duration_seconds&quot;: 165.0,
+    &quot;grader_duration_seconds&quot;: 26.0,
+    &quot;total_duration_seconds&quot;: 191.0
+  },
+  &quot;claims&quot;: [
+    {
+      &quot;claim&quot;: &quot;The form has 12 fillable fields&quot;,
+      &quot;type&quot;: &quot;factual&quot;,
+      &quot;verified&quot;: true,
+      &quot;evidence&quot;: &quot;Counted 12 fields in field_info.json&quot;
+    }
+  ],
+  &quot;user_notes_summary&quot;: {
+    &quot;uncertainties&quot;: [&quot;Used 2023 data, may be stale&quot;],
+    &quot;needs_review&quot;: [],
+    &quot;workarounds&quot;: [&quot;Fell back to text overlay for non-fillable fields&quot;]
+  },
+  &quot;eval_feedback&quot;: {
+    &quot;suggestions&quot;: [
+      {
+        &quot;assertion&quot;: &quot;The output includes the name &#x27;John Smith&#x27;&quot;,
+        &quot;reason&quot;: &quot;A hallucinated document that mentions the name would also pass&quot;
+      }
+    ],
+    &quot;overall&quot;: &quot;Assertions check presence but not correctness.&quot;
+  }
+}
+```
+
+**Fields:**
+- `expectations[]`: Graded expectations with evidence
+- `summary`: Aggregate pass/fail counts
+- `execution_metrics`: Tool usage and output size (from executor&#x27;s metrics.json)
+- `timing`: Wall clock timing (from timing.json)
+- `claims`: Extracted and verified claims from the output
+- `user_notes_sum</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>scripts/__init__.py</code> <span class="muted">(0 B, text)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/aggregate_benchmark.py</code> <span class="muted">(14.4 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Aggregate individual run results into benchmark summary statistics.
+
+Reads grading.json files from run directories and produces:
+- run_summary with mean, stddev, min, max for each metric
+- delta between with_skill and without_skill configurations
+
+Usage:
+    python aggregate_benchmark.py &lt;benchmark_dir&gt;
+
+Example:
+    python aggregate_benchmark.py benchmarks/2026-01-15T10-30-00/
+
+The script supports two directory layouts:
+
+    Workspace layout (from skill-creator iterations):
+    &lt;benchmark_dir&gt;/
+    └── eval-N/
+        ├── with_skill/
+        │   ├── run-1/grading.json
+        │   └── run-2/grading.json
+        └── without_skill/
+            ├── run-1/grading.json
+            └── run-2/grading.json
+
+    Legacy layout (with runs/ subdirectory):
+    &lt;benchmark_dir&gt;/
+    └── runs/
+        └── eval-N/
+            ├── with_skill/
+            │   └── run-1/grading.json
+            └── without_skill/
+                └── run-1/grading.json
+&quot;&quot;&quot;
+
+import argparse
+import json
+import math
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+
+def calculate_stats(values: list[float]) -&gt; dict:
+    &quot;&quot;&quot;Calculate mean, stddev, min, max for a list of values.&quot;&quot;&quot;
+    if not values:
+        return {&quot;mean&quot;: 0.0, &quot;stddev&quot;: 0.0, &quot;min&quot;: 0.0, &quot;max&quot;: 0.0}
+
+    n = len(values)
+    mean = sum(values) / n
+
+    if n &gt; 1:
+        variance = sum((x - mean) ** 2 for x in values) / (n - 1)
+        stddev = math.sqrt(variance)
+    else:
+        stddev = 0.0
+
+    return {
+        &quot;mean&quot;: round(mean, 4),
+        &quot;stddev&quot;: round(stddev, 4),
+        &quot;min&quot;: round(min(values), 4),
+        &quot;max&quot;: round(max(values), 4)
+    }
+
+
+def load_run_results(benchmark_dir: Path) -&gt; dict:
+    &quot;&quot;&quot;
+    Load all run results from a benchmark directory.
+
+    Returns dict keyed by config name (e.g. &quot;with_skill&quot;/&quot;without_skill&quot;,
+    or &quot;new_skill&quot;/&quot;old_skill&quot;), each containing a list of run results.
+    &quot;&quot;&quot;
+    # Support both layouts: eval dirs directly under benchmark_dir, or under runs/
+    runs_dir = benchmark_dir / &quot;runs&quot;
+    if runs_dir.exists():
+        search_dir = runs_dir
+    elif list(benchmark_dir.glob(&quot;eval-*&quot;)):
+        search_dir = benchmark_dir
+    else:
+        print(f&quot;No eval directories found in {benchmark_dir} or {benchmark_dir / &#x27;runs&#x27;}&quot;)
+        return {}
+
+    results: dict[str, list] = {}
+
+    for eval_idx, eval_dir in enumerate(sorted(search_dir.glob(&quot;eval-*&quot;))):
+        metadata_path = eval_dir / &quot;eval_metadata.json&quot;
+        if metadata_path.exists():
+            try:
+                with open(metadata_path) as mf:
+                    eval_id = json.load(mf).get(&quot;eval_id&quot;, eval_idx)
+            except (json.JSONDecodeError, OSError):
+                eval_id = eval_idx
+        else:
+            try:
+                eval_id = int(eval_dir.name.split(&quot;-&quot;)[1])
+            except ValueError:
+                eval_id = eval_idx
+
+        # Discover config directories dynamically rather than hardcoding names
+        for config_dir in sorted(eval_dir.iterdir()):
+            if not config_dir.is_dir():
+                continue
+            # Skip non-config directories (inputs, outputs, etc.)
+            if not list(config_dir.glob(&quot;run-*&quot;)):
+                continue
+            config = config_dir.name
+            if config not in results:
+                results[config] = []
+
+            for run_dir in sorted(config_dir.glob(&quot;run-*&quot;)):
+                run_number = int(run_dir.name.split(&quot;-&quot;)[1])
+                grading_file = run_dir / &quot;grading.json&quot;
+
+                if not grading_file.exists():
+                    print(f&quot;Warning: grading.json not found in {run_dir}&quot;)
+                    continue
+
+                try:
+                    with open(grading_file) as f:
+                        grading = json.load(f)
+                except json.JSONDecodeError as e:
+                    print(f&quot;Warning: Invalid JSON in {grading_file}: {e}&quot;)
+                    continue
+
+                # Extract metrics
+                result = {</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/generate_report.py</code> <span class="muted">(12.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Generate an HTML report from run_loop.py output.
+
+Takes the JSON output from run_loop.py and generates a visual HTML report
+showing each description attempt with check/x for each test case.
+Distinguishes between train and test queries.
+&quot;&quot;&quot;
+
+import argparse
+import html
+import json
+import sys
+from pathlib import Path
+
+
+def generate_html(data: dict, auto_refresh: bool = False, skill_name: str = &quot;&quot;) -&gt; str:
+    &quot;&quot;&quot;Generate HTML report from loop output data. If auto_refresh is True, adds a meta refresh tag.&quot;&quot;&quot;
+    history = data.get(&quot;history&quot;, [])
+    holdout = data.get(&quot;holdout&quot;, 0)
+    title_prefix = html.escape(skill_name + &quot; \u2014 &quot;) if skill_name else &quot;&quot;
+
+    # Get all unique queries from train and test sets, with should_trigger info
+    train_queries: list[dict] = []
+    test_queries: list[dict] = []
+    if history:
+        for r in history[0].get(&quot;train_results&quot;, history[0].get(&quot;results&quot;, [])):
+            train_queries.append({&quot;query&quot;: r[&quot;query&quot;], &quot;should_trigger&quot;: r.get(&quot;should_trigger&quot;, True)})
+        if history[0].get(&quot;test_results&quot;):
+            for r in history[0].get(&quot;test_results&quot;, []):
+                test_queries.append({&quot;query&quot;: r[&quot;query&quot;], &quot;should_trigger&quot;: r.get(&quot;should_trigger&quot;, True)})
+
+    refresh_tag = &#x27;    &lt;meta http-equiv=&quot;refresh&quot; content=&quot;5&quot;&gt;\n&#x27; if auto_refresh else &quot;&quot;
+
+    html_parts = [&quot;&quot;&quot;&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;utf-8&quot;&gt;
+&quot;&quot;&quot; + refresh_tag + &quot;&quot;&quot;    &lt;title&gt;&quot;&quot;&quot; + title_prefix + &quot;&quot;&quot;Skill Description Optimization&lt;/title&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+    &lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+    &lt;link href=&quot;https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&amp;family=Lora:wght@400;500&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+    &lt;style&gt;
+        body {
+            font-family: &#x27;Lora&#x27;, Georgia, serif;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            background: #faf9f5;
+            color: #141413;
+        }
+        h1 { font-family: &#x27;Poppins&#x27;, sans-serif; color: #141413; }
+        .explainer {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e8e6dc;
+            color: #b0aea5;
+            font-size: 0.875rem;
+            line-height: 1.6;
+        }
+        .summary {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border: 1px solid #e8e6dc;
+        }
+        .summary p { margin: 5px 0; }
+        .best { color: #788c5d; font-weight: bold; }
+        .table-container {
+            overflow-x: auto;
+            width: 100%;
+        }
+        table {
+            border-collapse: collapse;
+            background: white;
+            border: 1px solid #e8e6dc;
+            border-radius: 6px;
+            font-size: 12px;
+            min-width: 100%;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border: 1px solid #e8e6dc;
+            white-space: normal;
+            word-wrap: break-word;
+        }
+        th {
+            font-family: &#x27;Poppins&#x27;, sans-serif;
+            background: #141413;
+            color: #faf9f5;
+            font-weight: 500;
+        }
+        th.test-col {
+            background: #6a9bcc;
+        }
+        th.query-col { min-width: 200px; }
+        td.description {
+            font-family: monospace;
+            font-size: 11px;
+            word-wrap: break-word;
+            max-width: 400px;
+        }
+        td.result {
+            text-align: center;
+            font-size: 16px;
+            min-width: 40px;
+        }
+        td.test-result {
+            background: #f0f6fc;
+        }
+        .pass { color: #788c5d; }
+        .fail { color: #c44; }
+        .rate {
+            font-size: 9px;
+            color: #b0aea5;
+            display: block;
+        }
+        tr:hover { background: #faf9f5; }
+</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/improve_description.py</code> <span class="muted">(11.1 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Improve a skill description based on eval results.
+
+Takes eval results (from run_eval.py) and generates an improved description
+by calling `claude -p` as a subprocess (same auth pattern as run_eval.py —
+uses the session&#x27;s Claude Code auth, no separate ANTHROPIC_API_KEY needed).
+&quot;&quot;&quot;
+
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+from scripts.utils import parse_skill_md
+
+
+def _call_claude(prompt: str, model: str | None, timeout: int = 300) -&gt; str:
+    &quot;&quot;&quot;Run `claude -p` with the prompt on stdin and return the text response.
+
+    Prompt goes over stdin (not argv) because it embeds the full SKILL.md
+    body and can easily exceed comfortable argv length.
+    &quot;&quot;&quot;
+    cmd = [&quot;claude&quot;, &quot;-p&quot;, &quot;--output-format&quot;, &quot;text&quot;]
+    if model:
+        cmd.extend([&quot;--model&quot;, model])
+
+    # Remove CLAUDECODE env var to allow nesting claude -p inside a
+    # Claude Code session. The guard is for interactive terminal conflicts;
+    # programmatic subprocess usage is safe. Same pattern as run_eval.py.
+    env = {k: v for k, v in os.environ.items() if k != &quot;CLAUDECODE&quot;}
+
+    result = subprocess.run(
+        cmd,
+        input=prompt,
+        capture_output=True,
+        text=True,
+        env=env,
+        timeout=timeout,
+    )
+    if result.returncode != 0:
+        raise RuntimeError(
+            f&quot;claude -p exited {result.returncode}\nstderr: {result.stderr}&quot;
+        )
+    return result.stdout
+
+
+def improve_description(
+    skill_name: str,
+    skill_content: str,
+    current_description: str,
+    eval_results: dict,
+    history: list[dict],
+    model: str,
+    test_results: dict | None = None,
+    log_dir: Path | None = None,
+    iteration: int | None = None,
+) -&gt; str:
+    &quot;&quot;&quot;Call Claude to improve the description based on eval results.&quot;&quot;&quot;
+    failed_triggers = [
+        r for r in eval_results[&quot;results&quot;]
+        if r[&quot;should_trigger&quot;] and not r[&quot;pass&quot;]
+    ]
+    false_triggers = [
+        r for r in eval_results[&quot;results&quot;]
+        if not r[&quot;should_trigger&quot;] and not r[&quot;pass&quot;]
+    ]
+
+    # Build scores summary
+    train_score = f&quot;{eval_results[&#x27;summary&#x27;][&#x27;passed&#x27;]}/{eval_results[&#x27;summary&#x27;][&#x27;total&#x27;]}&quot;
+    if test_results:
+        test_score = f&quot;{test_results[&#x27;summary&#x27;][&#x27;passed&#x27;]}/{test_results[&#x27;summary&#x27;][&#x27;total&#x27;]}&quot;
+        scores_summary = f&quot;Train: {train_score}, Test: {test_score}&quot;
+    else:
+        scores_summary = f&quot;Train: {train_score}&quot;
+
+    prompt = f&quot;&quot;&quot;You are optimizing a skill description for a Claude Code skill called &quot;{skill_name}&quot;. A &quot;skill&quot; is sort of like a prompt, but with progressive disclosure -- there&#x27;s a title and description that Claude sees when deciding whether to use the skill, and then if it does use the skill, it reads the .md file which has lots more details and potentially links to other resources in the skill folder like helper files and scripts and additional documentation or examples.
+
+The description appears in Claude&#x27;s &quot;available_skills&quot; list. When a user sends a query, Claude decides whether to invoke the skill based solely on the title and on this description. Your goal is to write a description that triggers for relevant queries, and doesn&#x27;t trigger for irrelevant ones.
+
+Here&#x27;s the current description:
+&lt;current_description&gt;
+&quot;{current_description}&quot;
+&lt;/current_description&gt;
+
+Current scores ({scores_summary}):
+&lt;scores_summary&gt;
+&quot;&quot;&quot;
+    if failed_triggers:
+        prompt += &quot;FAILED TO TRIGGER (should have triggered but didn&#x27;t):\n&quot;
+        for r in failed_triggers:
+            prompt += f&#x27;  - &quot;{r[&quot;query&quot;]}&quot; (triggered {r[&quot;triggers&quot;]}/{r[&quot;runs&quot;]} times)\n&#x27;
+        prompt += &quot;\n&quot;
+
+    if false_triggers:
+        prompt += &quot;FALSE TRIGGERS (triggered but shouldn&#x27;t have):\n&quot;
+        for r in false_triggers:
+            prompt += f&#x27;  - &quot;{r[&quot;query&quot;]}&quot; (triggered {r[&quot;triggers&quot;]}/{r[&quot;runs&quot;]} times)\n&#x27;
+        prompt += &quot;\n&quot;
+
+    if history:
+        prompt += &quot;PREVIOUS ATTEMPTS (do NOT repeat these — try something structurally different):\n\n&quot;
+        fo</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/package_skill.py</code> <span class="muted">(4.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Skill Packager - Creates a distributable .skill file of a skill folder
+
+Usage:
+    python utils/package_skill.py &lt;path/to/skill-folder&gt; [output-directory]
+
+Example:
+    python utils/package_skill.py skills/public/my-skill
+    python utils/package_skill.py skills/public/my-skill ./dist
+&quot;&quot;&quot;
+
+import fnmatch
+import sys
+import zipfile
+from pathlib import Path
+from scripts.quick_validate import validate_skill
+
+# Patterns to exclude when packaging skills.
+EXCLUDE_DIRS = {&quot;__pycache__&quot;, &quot;node_modules&quot;}
+EXCLUDE_GLOBS = {&quot;*.pyc&quot;}
+EXCLUDE_FILES = {&quot;.DS_Store&quot;}
+# Directories excluded only at the skill root (not when nested deeper).
+ROOT_EXCLUDE_DIRS = {&quot;evals&quot;}
+
+
+def should_exclude(rel_path: Path) -&gt; bool:
+    &quot;&quot;&quot;Check if a path should be excluded from packaging.&quot;&quot;&quot;
+    parts = rel_path.parts
+    if any(part in EXCLUDE_DIRS for part in parts):
+        return True
+    # rel_path is relative to skill_path.parent, so parts[0] is the skill
+    # folder name and parts[1] (if present) is the first subdir.
+    if len(parts) &gt; 1 and parts[1] in ROOT_EXCLUDE_DIRS:
+        return True
+    name = rel_path.name
+    if name in EXCLUDE_FILES:
+        return True
+    return any(fnmatch.fnmatch(name, pat) for pat in EXCLUDE_GLOBS)
+
+
+def package_skill(skill_path, output_dir=None):
+    &quot;&quot;&quot;
+    Package a skill folder into a .skill file.
+
+    Args:
+        skill_path: Path to the skill folder
+        output_dir: Optional output directory for the .skill file (defaults to current directory)
+
+    Returns:
+        Path to the created .skill file, or None if error
+    &quot;&quot;&quot;
+    skill_path = Path(skill_path).resolve()
+
+    # Validate skill folder exists
+    if not skill_path.exists():
+        print(f&quot;❌ Error: Skill folder not found: {skill_path}&quot;)
+        return None
+
+    if not skill_path.is_dir():
+        print(f&quot;❌ Error: Path is not a directory: {skill_path}&quot;)
+        return None
+
+    # Validate SKILL.md exists
+    skill_md = skill_path / &quot;SKILL.md&quot;
+    if not skill_md.exists():
+        print(f&quot;❌ Error: SKILL.md not found in {skill_path}&quot;)
+        return None
+
+    # Run validation before packaging
+    print(&quot;🔍 Validating skill...&quot;)
+    valid, message = validate_skill(skill_path)
+    if not valid:
+        print(f&quot;❌ Validation failed: {message}&quot;)
+        print(&quot;   Please fix the validation errors before packaging.&quot;)
+        return None
+    print(f&quot;✅ {message}\n&quot;)
+
+    # Determine output location
+    skill_name = skill_path.name
+    if output_dir:
+        output_path = Path(output_dir).resolve()
+        output_path.mkdir(parents=True, exist_ok=True)
+    else:
+        output_path = Path.cwd()
+
+    skill_filename = output_path / f&quot;{skill_name}.skill&quot;
+
+    # Create the .skill file (zip format)
+    try:
+        with zipfile.ZipFile(skill_filename, &#x27;w&#x27;, zipfile.ZIP_DEFLATED) as zipf:
+            # Walk through the skill directory, excluding build artifacts
+            for file_path in skill_path.rglob(&#x27;*&#x27;):
+                if not file_path.is_file():
+                    continue
+                arcname = file_path.relative_to(skill_path.parent)
+                if should_exclude(arcname):
+                    print(f&quot;  Skipped: {arcname}&quot;)
+                    continue
+                zipf.write(file_path, arcname)
+                print(f&quot;  Added: {arcname}&quot;)
+
+        print(f&quot;\n✅ Successfully packaged skill to: {skill_filename}&quot;)
+        return skill_filename
+
+    except Exception as e:
+        print(f&quot;❌ Error creating .skill file: {e}&quot;)
+        return None
+
+
+def main():
+    if len(sys.argv) &lt; 2:
+        print(&quot;Usage: python utils/package_skill.py &lt;path/to/skill-folder&gt; [output-directory]&quot;)
+        print(&quot;\nExample:&quot;)
+        print(&quot;  python utils/package_skill.py skills/public/my-skill&quot;)
+        print(&quot;  python utils/package_skill.py skills/public/my-skill ./dist&quot;)
+        sys.exit(1)
+
+    skill_path = sys.argv[1]
+    output_dir = sys.argv[2] if len(sys.argv) &gt; 2 else None
+
+    print(f&quot;📦 Packaging skill: {skill_path}&quot;)
+    if output_dir:
+        </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/quick_validate.py</code> <span class="muted">(4.0 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Quick validation script for skills - minimal version
+&quot;&quot;&quot;
+
+import sys
+import os
+import re
+import yaml
+from pathlib import Path
+
+def validate_skill(skill_path):
+    &quot;&quot;&quot;Basic validation of a skill&quot;&quot;&quot;
+    skill_path = Path(skill_path)
+
+    # Check SKILL.md exists
+    skill_md = skill_path / &#x27;SKILL.md&#x27;
+    if not skill_md.exists():
+        return False, &quot;SKILL.md not found&quot;
+
+    # Read and validate frontmatter
+    content = skill_md.read_text()
+    if not content.startswith(&#x27;---&#x27;):
+        return False, &quot;No YAML frontmatter found&quot;
+
+    # Extract frontmatter
+    match = re.match(r&#x27;^---\n(.*?)\n---&#x27;, content, re.DOTALL)
+    if not match:
+        return False, &quot;Invalid frontmatter format&quot;
+
+    frontmatter_text = match.group(1)
+
+    # Parse YAML frontmatter
+    try:
+        frontmatter = yaml.safe_load(frontmatter_text)
+        if not isinstance(frontmatter, dict):
+            return False, &quot;Frontmatter must be a YAML dictionary&quot;
+    except yaml.YAMLError as e:
+        return False, f&quot;Invalid YAML in frontmatter: {e}&quot;
+
+    # Define allowed properties
+    ALLOWED_PROPERTIES = {&#x27;name&#x27;, &#x27;description&#x27;, &#x27;license&#x27;, &#x27;allowed-tools&#x27;, &#x27;metadata&#x27;, &#x27;compatibility&#x27;}
+
+    # Check for unexpected properties (excluding nested keys under metadata)
+    unexpected_keys = set(frontmatter.keys()) - ALLOWED_PROPERTIES
+    if unexpected_keys:
+        return False, (
+            f&quot;Unexpected key(s) in SKILL.md frontmatter: {&#x27;, &#x27;.join(sorted(unexpected_keys))}. &quot;
+            f&quot;Allowed properties are: {&#x27;, &#x27;.join(sorted(ALLOWED_PROPERTIES))}&quot;
+        )
+
+    # Check required fields
+    if &#x27;name&#x27; not in frontmatter:
+        return False, &quot;Missing &#x27;name&#x27; in frontmatter&quot;
+    if &#x27;description&#x27; not in frontmatter:
+        return False, &quot;Missing &#x27;description&#x27; in frontmatter&quot;
+
+    # Extract name for validation
+    name = frontmatter.get(&#x27;name&#x27;, &#x27;&#x27;)
+    if not isinstance(name, str):
+        return False, f&quot;Name must be a string, got {type(name).__name__}&quot;
+    name = name.strip()
+    if name:
+        # Check naming convention (kebab-case: lowercase with hyphens)
+        if not re.match(r&#x27;^[a-z0-9-]+$&#x27;, name):
+            return False, f&quot;Name &#x27;{name}&#x27; should be kebab-case (lowercase letters, digits, and hyphens only)&quot;
+        if name.startswith(&#x27;-&#x27;) or name.endswith(&#x27;-&#x27;) or &#x27;--&#x27; in name:
+            return False, f&quot;Name &#x27;{name}&#x27; cannot start/end with hyphen or contain consecutive hyphens&quot;
+        # Check name length (max 64 characters per spec)
+        if len(name) &gt; 64:
+            return False, f&quot;Name is too long ({len(name)} characters). Maximum is 64 characters.&quot;
+
+    # Extract and validate description
+    description = frontmatter.get(&#x27;description&#x27;, &#x27;&#x27;)
+    if not isinstance(description, str):
+        return False, f&quot;Description must be a string, got {type(description).__name__}&quot;
+    description = description.strip()
+    if description:
+        # Check for angle brackets
+        if &#x27;&lt;&#x27; in description or &#x27;&gt;&#x27; in description:
+            return False, &quot;Description cannot contain angle brackets (&lt; or &gt;)&quot;
+        # Check description length (max 1024 characters per spec)
+        if len(description) &gt; 1024:
+            return False, f&quot;Description is too long ({len(description)} characters). Maximum is 1024 characters.&quot;
+
+    # Validate compatibility field if present (optional)
+    compatibility = frontmatter.get(&#x27;compatibility&#x27;, &#x27;&#x27;)
+    if compatibility:
+        if not isinstance(compatibility, str):
+            return False, f&quot;Compatibility must be a string, got {type(compatibility).__name__}&quot;
+        if len(compatibility) &gt; 500:
+            return False, f&quot;Compatibility is too long ({len(compatibility)} characters). Maximum is 500 characters.&quot;
+
+    return True, &quot;Skill is valid!&quot;
+
+if __name__ == &quot;__main__&quot;:
+    if len(sys.argv) != 2:
+        print(&quot;Usage: python quick_validate.py &lt;skill_directory&gt;&quot;)
+        sys.exit(1)
+    
+    valid, message = validate_skill(sys.argv[1])
+    print(message)
+    sys.exit(0 if valid else 1)</pre></details><details><summary><code>scripts/run_eval.py</code> <span class="muted">(11.5 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Run trigger evaluation for a skill description.
+
+Tests whether a skill&#x27;s description causes Claude to trigger (read the skill)
+for a set of queries. Outputs results as JSON.
+&quot;&quot;&quot;
+
+import argparse
+import json
+import os
+import select
+import subprocess
+import sys
+import time
+import uuid
+from concurrent.futures import ProcessPoolExecutor, as_completed
+from pathlib import Path
+
+from scripts.utils import parse_skill_md
+
+
+def find_project_root() -&gt; Path:
+    &quot;&quot;&quot;Find the project root by walking up from cwd looking for .claude/.
+
+    Mimics how Claude Code discovers its project root, so the command file
+    we create ends up where claude -p will look for it.
+    &quot;&quot;&quot;
+    current = Path.cwd()
+    for parent in [current, *current.parents]:
+        if (parent / &quot;.claude&quot;).is_dir():
+            return parent
+    return current
+
+
+def run_single_query(
+    query: str,
+    skill_name: str,
+    skill_description: str,
+    timeout: int,
+    project_root: str,
+    model: str | None = None,
+) -&gt; bool:
+    &quot;&quot;&quot;Run a single query and return whether the skill was triggered.
+
+    Creates a command file in .claude/commands/ so it appears in Claude&#x27;s
+    available_skills list, then runs `claude -p` with the raw query.
+    Uses --include-partial-messages to detect triggering early from
+    stream events (content_block_start) rather than waiting for the
+    full assistant message, which only arrives after tool execution.
+    &quot;&quot;&quot;
+    unique_id = uuid.uuid4().hex[:8]
+    clean_name = f&quot;{skill_name}-skill-{unique_id}&quot;
+    project_commands_dir = Path(project_root) / &quot;.claude&quot; / &quot;commands&quot;
+    command_file = project_commands_dir / f&quot;{clean_name}.md&quot;
+
+    try:
+        project_commands_dir.mkdir(parents=True, exist_ok=True)
+        # Use YAML block scalar to avoid breaking on quotes in description
+        indented_desc = &quot;\n  &quot;.join(skill_description.split(&quot;\n&quot;))
+        command_content = (
+            f&quot;---\n&quot;
+            f&quot;description: |\n&quot;
+            f&quot;  {indented_desc}\n&quot;
+            f&quot;---\n\n&quot;
+            f&quot;# {skill_name}\n\n&quot;
+            f&quot;This skill handles: {skill_description}\n&quot;
+        )
+        command_file.write_text(command_content)
+
+        cmd = [
+            &quot;claude&quot;,
+            &quot;-p&quot;, query,
+            &quot;--output-format&quot;, &quot;stream-json&quot;,
+            &quot;--verbose&quot;,
+            &quot;--include-partial-messages&quot;,
+        ]
+        if model:
+            cmd.extend([&quot;--model&quot;, model])
+
+        # Remove CLAUDECODE env var to allow nesting claude -p inside a
+        # Claude Code session. The guard is for interactive terminal conflicts;
+        # programmatic subprocess usage is safe.
+        env = {k: v for k, v in os.environ.items() if k != &quot;CLAUDECODE&quot;}
+
+        process = subprocess.Popen(
+            cmd,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.DEVNULL,
+            cwd=project_root,
+            env=env,
+        )
+
+        triggered = False
+        start_time = time.time()
+        buffer = &quot;&quot;
+        # Track state for stream event detection
+        pending_tool_name = None
+        accumulated_json = &quot;&quot;
+
+        try:
+            while time.time() - start_time &lt; timeout:
+                if process.poll() is not None:
+                    remaining = process.stdout.read()
+                    if remaining:
+                        buffer += remaining.decode(&quot;utf-8&quot;, errors=&quot;replace&quot;)
+                    break
+
+                ready, _, _ = select.select([process.stdout], [], [], 1.0)
+                if not ready:
+                    continue
+
+                chunk = os.read(process.stdout.fileno(), 8192)
+                if not chunk:
+                    break
+                buffer += chunk.decode(&quot;utf-8&quot;, errors=&quot;replace&quot;)
+
+                while &quot;\n&quot; in buffer:
+                    line, buffer = buffer.split(&quot;\n&quot;, 1)
+                    line = line.strip()
+                    if not line:
+                        continue
+
+                    try:
+                        event = json.loads(line)
+                 </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/run_loop.py</code> <span class="muted">(13.6 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Run the eval + improve loop until all pass or max iterations reached.
+
+Combines run_eval.py and improve_description.py in a loop, tracking history
+and returning the best description found. Supports train/test split to prevent
+overfitting.
+&quot;&quot;&quot;
+
+import argparse
+import json
+import random
+import sys
+import tempfile
+import time
+import webbrowser
+from pathlib import Path
+
+from scripts.generate_report import generate_html
+from scripts.improve_description import improve_description
+from scripts.run_eval import find_project_root, run_eval
+from scripts.utils import parse_skill_md
+
+
+def split_eval_set(eval_set: list[dict], holdout: float, seed: int = 42) -&gt; tuple[list[dict], list[dict]]:
+    &quot;&quot;&quot;Split eval set into train and test sets, stratified by should_trigger.&quot;&quot;&quot;
+    random.seed(seed)
+
+    # Separate by should_trigger
+    trigger = [e for e in eval_set if e[&quot;should_trigger&quot;]]
+    no_trigger = [e for e in eval_set if not e[&quot;should_trigger&quot;]]
+
+    # Shuffle each group
+    random.shuffle(trigger)
+    random.shuffle(no_trigger)
+
+    # Calculate split points
+    n_trigger_test = max(1, int(len(trigger) * holdout))
+    n_no_trigger_test = max(1, int(len(no_trigger) * holdout))
+
+    # Split
+    test_set = trigger[:n_trigger_test] + no_trigger[:n_no_trigger_test]
+    train_set = trigger[n_trigger_test:] + no_trigger[n_no_trigger_test:]
+
+    return train_set, test_set
+
+
+def run_loop(
+    eval_set: list[dict],
+    skill_path: Path,
+    description_override: str | None,
+    num_workers: int,
+    timeout: int,
+    max_iterations: int,
+    runs_per_query: int,
+    trigger_threshold: float,
+    holdout: float,
+    model: str,
+    verbose: bool,
+    live_report_path: Path | None = None,
+    log_dir: Path | None = None,
+) -&gt; dict:
+    &quot;&quot;&quot;Run the eval + improvement loop.&quot;&quot;&quot;
+    project_root = find_project_root()
+    name, original_description, content = parse_skill_md(skill_path)
+    current_description = description_override or original_description
+
+    # Split into train/test if holdout &gt; 0
+    if holdout &gt; 0:
+        train_set, test_set = split_eval_set(eval_set, holdout)
+        if verbose:
+            print(f&quot;Split: {len(train_set)} train, {len(test_set)} test (holdout={holdout})&quot;, file=sys.stderr)
+    else:
+        train_set = eval_set
+        test_set = []
+
+    history = []
+    exit_reason = &quot;unknown&quot;
+
+    for iteration in range(1, max_iterations + 1):
+        if verbose:
+            print(f&quot;\n{&#x27;=&#x27;*60}&quot;, file=sys.stderr)
+            print(f&quot;Iteration {iteration}/{max_iterations}&quot;, file=sys.stderr)
+            print(f&quot;Description: {current_description}&quot;, file=sys.stderr)
+            print(f&quot;{&#x27;=&#x27;*60}&quot;, file=sys.stderr)
+
+        # Evaluate train + test together in one batch for parallelism
+        all_queries = train_set + test_set
+        t0 = time.time()
+        all_results = run_eval(
+            eval_set=all_queries,
+            skill_name=name,
+            description=current_description,
+            num_workers=num_workers,
+            timeout=timeout,
+            project_root=project_root,
+            runs_per_query=runs_per_query,
+            trigger_threshold=trigger_threshold,
+            model=model,
+        )
+        eval_elapsed = time.time() - t0
+
+        # Split results back into train/test by matching queries
+        train_queries_set = {q[&quot;query&quot;] for q in train_set}
+        train_result_list = [r for r in all_results[&quot;results&quot;] if r[&quot;query&quot;] in train_queries_set]
+        test_result_list = [r for r in all_results[&quot;results&quot;] if r[&quot;query&quot;] not in train_queries_set]
+
+        train_passed = sum(1 for r in train_result_list if r[&quot;pass&quot;])
+        train_total = len(train_result_list)
+        train_summary = {&quot;passed&quot;: train_passed, &quot;failed&quot;: train_total - train_passed, &quot;total&quot;: train_total}
+        train_results = {&quot;results&quot;: train_result_list, &quot;summary&quot;: train_summary}
+
+        if test_set:
+            test_passed = sum(1 for r in test_result_list if r[&quot;pass&quot;])
+            test_total = len(test_result_list)
+ </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/utils.py</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview">&quot;&quot;&quot;Shared utilities for skill-creator scripts.&quot;&quot;&quot;
+
+from pathlib import Path
+
+
+
+def parse_skill_md(skill_path: Path) -&gt; tuple[str, str, str]:
+    &quot;&quot;&quot;Parse a SKILL.md file, returning (name, description, full_content).&quot;&quot;&quot;
+    content = (skill_path / &quot;SKILL.md&quot;).read_text()
+    lines = content.split(&quot;\n&quot;)
+
+    if lines[0].strip() != &quot;---&quot;:
+        raise ValueError(&quot;SKILL.md missing frontmatter (no opening ---)&quot;)
+
+    end_idx = None
+    for i, line in enumerate(lines[1:], start=1):
+        if line.strip() == &quot;---&quot;:
+            end_idx = i
+            break
+
+    if end_idx is None:
+        raise ValueError(&quot;SKILL.md missing frontmatter (no closing ---)&quot;)
+
+    name = &quot;&quot;
+    description = &quot;&quot;
+    frontmatter_lines = lines[1:end_idx]
+    i = 0
+    while i &lt; len(frontmatter_lines):
+        line = frontmatter_lines[i]
+        if line.startswith(&quot;name:&quot;):
+            name = line[len(&quot;name:&quot;):].strip().strip(&#x27;&quot;&#x27;).strip(&quot;&#x27;&quot;)
+        elif line.startswith(&quot;description:&quot;):
+            value = line[len(&quot;description:&quot;):].strip()
+            # Handle YAML multiline indicators (&gt;, |, &gt;-, |-)
+            if value in (&quot;&gt;&quot;, &quot;|&quot;, &quot;&gt;-&quot;, &quot;|-&quot;):
+                continuation_lines: list[str] = []
+                i += 1
+                while i &lt; len(frontmatter_lines) and (frontmatter_lines[i].startswith(&quot;  &quot;) or frontmatter_lines[i].startswith(&quot;\t&quot;)):
+                    continuation_lines.append(frontmatter_lines[i].strip())
+                    i += 1
+                description = &quot; &quot;.join(continuation_lines)
+                continue
+            else:
+                description = value.strip(&#x27;&quot;&#x27;).strip(&quot;&#x27;&quot;)
+        i += 1
+
+    return name, description, content
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(32.9 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: skill-creator
+description: Create new skills, modify and improve existing skills, and measure skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill&#x27;s description for better triggering accuracy.
+---
+
+# Skill Creator
+
+A skill for creating new skills and iteratively improving them.
+
+At a high level, the process of creating a skill goes like this:
+
+- Decide what you want the skill to do and roughly how it should do it
+- Write a draft of the skill
+- Create a few test prompts and run claude-with-access-to-the-skill on them
+- Help the user evaluate the results both qualitatively and quantitatively
+  - While the runs happen in the background, draft some quantitative evals if there aren&#x27;t any (if there are some, you can either use as is or modify if you feel something needs to change about them). Then explain them to the user (or if they already existed, explain the ones that already exist)
+  - Use the `eval-viewer/generate_review.py` script to show the user the results for them to look at, and also let them look at the quantitative metrics
+- Rewrite the skill based on feedback from the user&#x27;s evaluation of the results (and also if there are any glaring flaws that become apparent from the quantitative benchmarks)
+- Repeat until you&#x27;re satisfied
+- Expand the test set and try again at larger scale
+
+Your job when using this skill is to figure out where the user is in this process and then jump in and help them progress through these stages. So for instance, maybe they&#x27;re like &quot;I want to make a skill for X&quot;. You can help narrow down what they mean, write a draft, write the test cases, figure out how they want to evaluate, run all the prompts, and repeat.
+
+On the other hand, maybe they already have a draft of the skill. In this case you can go straight to the eval/iterate part of the loop.
+
+Of course, you should always be flexible and if the user is like &quot;I don&#x27;t need to run a bunch of evaluations, just vibe with me&quot;, you can do that instead.
+
+Then after the skill is done (but again, the order is flexible), you can also run the skill description improver, which we have a whole separate script for, to optimize the triggering of the skill.
+
+Cool? Cool.
+
+## Communicating with the user
+
+The skill creator is liable to be used by people across a wide range of familiarity with coding jargon. If you haven&#x27;t heard (and how could you, it&#x27;s only very recently that it started), there&#x27;s a trend now where the power of Claude is inspiring plumbers to open up their terminals, parents and grandparents to google &quot;how to install npm&quot;. On the other hand, the bulk of users are probably fairly computer-literate.
+
+So please pay attention to context cues to understand how to phrase your communication! In the default case, just to give you some idea:
+
+- &quot;evaluation&quot; and &quot;benchmark&quot; are borderline, but OK
+- for &quot;JSON&quot; and &quot;assertion&quot; you want to see serious cues from the user that they know what those things are before using them without explaining them
+
+It&#x27;s OK to briefly explain terms if you&#x27;re in doubt, and feel free to clarify terms with a short definition if you&#x27;re unsure if the user will get it.
+
+---
+
+## Creating a skill
+
+### Capture Intent
+
+Start by understanding the user&#x27;s intent. The current conversation might already contain a workflow the user wants to capture (e.g., they say &quot;turn this into a skill&quot;). If so, extract answers from the conversation history first — the tools used, the sequence of steps, corrections the user made, input/output formats observed. The user may need to fill the gaps, and should confirm before proceeding to the next step.
+
+1. What should this skill enable Claude to do?
+2. When should this skill trigger? (what user phrases/contexts)
+3. What&#x27;s the expected output format?
+4. Should we set up test cases to verify the skill works? Skills with objectively verifiable outputs (f</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.338</td><td>0.18</td><td><strong>6.08</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

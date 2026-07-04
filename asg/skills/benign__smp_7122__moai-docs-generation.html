@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__smp_7122__moai-docs-generation · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__smp_7122__moai-docs-generation</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__smp_7122__moai-docs-generation">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__smp_7122__moai-docs-generation</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 8 · 39.3 KB</span>  <span class="chip">扫描: 2026-07-03 02:40:15</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary"><div class="ai-summary-title">AI 研判描述 <span class="ai-meta">模型 claude-opus-4-7 · LLM判 SAFE · 拒绝度 1.00</span></div><div class="ai-summary-body">该 skill 是一个文档生成模式指南，介绍如何使用 Sphinx、MkDocs、TypeDoc、JSDoc、OpenAPI/Swagger 以及 Nextra/Docusaurus/VitePress 等主流工具生成技术文档、API 文档和静态站点。内容为纯说明性文档，不包含任何可执行源代码。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__smp_7122__moai-docs-generation_T5QRIEA6Z4_ZHCO0YZP</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:c66ff358f4&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:c6bdf3a4cb&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:55efc02703&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:a9899bfa96&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:6c88ecd69b&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:23795f9fad&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:b872f99c53&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (8 files, 39.3 KB)</h4>
+      <div class="file-list"><details><summary><code>modules/api-documentation.md</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview"># API Documentation Generation
+
+## Overview
+
+Generate comprehensive API documentation using established tools: FastAPI auto-docs, swagger-jsdoc, Redoc, and OpenAPI specification standards.
+
+## FastAPI Automatic Documentation
+
+FastAPI provides built-in OpenAPI documentation. Access at /docs (Swagger UI) and /redoc (ReDoc).
+
+### Enhancing FastAPI Documentation
+
+Add detailed descriptions to route handlers:
+- Include docstrings that describe endpoint purpose
+- Use response_model parameter for typed responses
+- Add summary and description parameters to decorators
+- Define examples in Pydantic model Config class
+
+Organize endpoints with tags:
+- Group related endpoints under meaningful tag names
+- Add tag descriptions in app configuration
+- Use consistent naming conventions
+
+Enhance Pydantic models:
+- Add Field descriptions with Field(description=&quot;...&quot;)
+- Include examples with Field(example=&quot;...&quot;)
+- Document validation constraints
+- Use Config class for schema customization
+
+### Exporting OpenAPI Specification
+
+Access the generated OpenAPI JSON at /openapi.json endpoint.
+
+For programmatic access, use app.openapi() method to get the specification dictionary.
+
+Save to file by serializing the openapi() output to JSON format.
+
+## Express/Node.js with swagger-jsdoc
+
+### Setup
+
+Install swagger-jsdoc and swagger-ui-express packages.
+
+Create swagger configuration object:
+- Define openapi version (3.0.0 or 3.1.0)
+- Set info section with title, version, description
+- Specify servers array with URLs
+- Define component schemas for reuse
+- Add security definitions if needed
+
+### Documenting Endpoints
+
+Add @openapi comments above route handlers:
+- Document path with HTTP method
+- Specify summary and description
+- Define parameters (path, query, body)
+- Document request body schema
+- List all response codes with schemas
+- Add tags for organization
+
+### Serving Documentation
+
+Use swagger-ui-express to serve interactive documentation at /api-docs endpoint.
+
+Generate static OpenAPI JSON file for external tools.
+
+## OpenAPI Specification Best Practices
+
+Schema Organization:
+- Define reusable schemas in components section
+- Use $ref references to avoid duplication
+- Create separate schemas for request and response when different
+- Document nullable fields explicitly
+
+Documentation Quality:
+- Write clear, concise summaries (under 80 characters)
+- Provide detailed descriptions for complex operations
+- Include realistic examples for all schemas
+- Document error responses with problem details
+
+Security Documentation:
+- Define security schemes in components
+- Apply security requirements at operation or global level
+- Document required scopes for OAuth flows
+- Include authentication examples
+
+## Rendering Tools
+
+Swagger UI:
+- Interactive documentation with try-it-out feature
+- Customizable with CSS and configuration
+- Supports OAuth authentication flows
+
+Redoc:
+- Three-panel layout for better readability
+- Generates static HTML for hosting
+- Better for large API specifications
+
+Stoplight Elements:
+- Modern React-based documentation
+- Built-in mock server capabilities
+- Supports OpenAPI 3.1 features
+
+## Integration Points
+
+CI/CD Integration:
+- Generate OpenAPI spec during build
+- Validate spec with spectral or openapi-validator
+- Deploy documentation alongside API
+- Version documentation with API releases
+
+External Tools:
+- Postman collection generation from OpenAPI
+- SDK generation with openapi-generator
+- API testing with tools like Dredd
+
+---
+
+Version: 2.0.0
+Last Updated: 2025-12-30
+</pre></details><details><summary><code>modules/code-documentation.md</code> <span class="muted">(3.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Code Documentation Patterns
+
+## Overview
+
+Generate documentation from source code using established tools: Sphinx for Python, TypeDoc for TypeScript, JSDoc for JavaScript, and mkdocstrings for MkDocs integration.
+
+## Python Documentation with Sphinx
+
+### Setup and Configuration
+
+Install Sphinx and extensions:
+- sphinx - Core documentation generator
+- sphinx-autodoc-typehints - Type hint integration
+- sphinx-rtd-theme - Read the Docs theme
+- myst-parser - Markdown support in Sphinx
+
+Initialize project with sphinx-quickstart in docs directory.
+
+Configure conf.py:
+- Add source directory to sys.path for autodoc
+- Enable extensions: autodoc, napoleon, typehints, viewcode
+- Set html_theme to sphinx_rtd_theme
+- Configure autodoc options for member ordering
+
+### Writing Docstrings
+
+Use Google style or NumPy style docstrings:
+- Include summary line (one sentence)
+- Add detailed description if needed
+- Document all parameters with types
+- Document return values
+- Include usage examples
+- Document raised exceptions
+
+### Generating Documentation
+
+Run sphinx-apidoc to generate rst files from source:
+- Specify source directory and output directory
+- Use --separate for one file per module
+- Use --force to overwrite existing files
+
+Build HTML documentation with make html or sphinx-build command.
+
+## Python Documentation with MkDocs
+
+### mkdocstrings Integration
+
+Install mkdocs-material and mkdocstrings-python.
+
+Configure mkdocs.yml:
+- Add mkdocstrings plugin
+- Configure Python handler with options
+- Set docstring style (google, numpy, sphinx)
+- Enable signature rendering
+
+### Usage in Markdown
+
+Reference Python objects with ::: syntax:
+- Use ::: module.Class to document a class
+- Use ::: module.function to document a function
+- Configure display options per reference
+
+Organize documentation with nav structure in mkdocs.yml.
+
+## TypeScript Documentation with TypeDoc
+
+### Setup
+
+Install typedoc as development dependency.
+
+Create typedoc.json configuration:
+- Set entryPoints to source files or directories
+- Configure out for output directory
+- Enable excludePrivate and excludeProtected as needed
+- Set includeVersion for version display
+- Configure theme (default or custom)
+
+### Writing TSDoc Comments
+
+Use TSDoc comment format:
+- Start with summary paragraph
+- Use @param for parameters
+- Use @returns for return value
+- Use @example for code examples
+- Use @see for cross-references
+- Use @deprecated for deprecated items
+
+### Plugin Ecosystem
+
+Enhance TypeDoc with plugins:
+- typedoc-plugin-markdown for Markdown output
+- typedoc-plugin-missing-exports for coverage
+- Custom themes for branding
+
+## JavaScript Documentation with JSDoc
+
+### Setup
+
+Install jsdoc as development dependency.
+
+Create jsdoc.json configuration:
+- Configure source paths and patterns
+- Set output destination
+- Enable plugins like markdown
+- Configure templates
+
+### Writing JSDoc Comments
+
+Document functions with JSDoc tags:
+- @param for parameters with type and description
+- @returns for return value
+- @throws for exceptions
+- @example for usage examples
+- @typedef for custom types
+- @callback for callback definitions
+
+Document modules with @module tag at file start.
+
+## Documentation Coverage
+
+### Python Coverage with interrogate
+
+Install interrogate for docstring coverage analysis.
+
+Configure in pyproject.toml:
+- Set minimum coverage threshold
+- Exclude specific patterns or files
+- Configure output format
+
+Run in CI to enforce documentation standards.
+
+### TypeScript Coverage
+
+Use typedoc with strict mode to identify undocumented items.
+
+Configure TSDoc linting with eslint-plugin-tsdoc.
+
+## Integration with Editors
+
+VS Code Extensions:
+- Python Docstring Generator
+- Document This for TypeScript/JavaScript
+- TSDoc Comment Tags
+
+IntelliJ/WebStorm:
+- Built-in documentation generation
+- Quick documentation preview
+
+---
+
+Version: 2.0.0
+Last Updated: 2025-12-30
+</pre></details><details><summary><code>modules/INDEX.md</code> <span class="muted">(1.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Documentation Generation Modules
+
+This directory contains modular components for comprehensive documentation generation using real tools and frameworks.
+
+## Module Structure
+
+### Core Modules
+
+- api-documentation.md - OpenAPI/Swagger generation patterns for FastAPI, Express, and other frameworks
+- code-documentation.md - Source code documentation with Sphinx, TypeDoc, JSDoc
+- user-guides.md - User guide and tutorial creation patterns
+- multi-format-output.md - HTML, PDF, and static site generation with real tools
+
+### Tool Categories
+
+API Documentation Tools:
+- FastAPI automatic OpenAPI generation
+- swagger-jsdoc for Express/Node.js
+- Redoc and Swagger UI for rendering
+
+Code Documentation Tools:
+- Sphinx with autodoc for Python
+- TypeDoc for TypeScript
+- JSDoc for JavaScript
+- mkdocstrings for MkDocs integration
+
+Static Site Generators:
+- Nextra (Next.js-based)
+- Docusaurus (React-based)
+- VitePress (Vue-based)
+- MkDocs with Material theme
+
+### Usage Patterns
+
+1. API Documentation: Reference api-documentation.md for OpenAPI patterns
+2. Code Analysis: Reference code-documentation.md for docstring-based docs
+3. User Guides: Reference user-guides.md for tutorial creation
+4. Output Formats: Reference multi-format-output.md for publishing
+
+### Progressive Disclosure
+
+- Quick Start: Use SKILL.md for immediate guidance
+- Implementation: Reference module files for detailed patterns
+- Advanced: Combine with moai-library-nextra for full documentation sites
+
+### Integration with Other Skills
+
+- Skill(&quot;moai-library-nextra&quot;) - Comprehensive Nextra documentation framework
+- Skill(&quot;moai-lang-python&quot;) - Python docstring conventions
+- Skill(&quot;moai-lang-typescript&quot;) - TypeScript documentation patterns
+- Skill(&quot;moai-domain-backend&quot;) - API documentation for services
+
+---
+
+Version: 2.0.0
+Last Updated: 2025-12-30
+</pre></details><details><summary><code>modules/multi-format-output.md</code> <span class="muted">(3.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Multi-Format Documentation Output
+
+## Overview
+
+Generate documentation in multiple formats using established tools: static site generators for HTML, WeasyPrint or Pandoc for PDF, and Markdown for portable content.
+
+## Static Site Generators
+
+### Nextra (Next.js)
+
+Reference Skill(&quot;moai-library-nextra&quot;) for comprehensive patterns.
+
+Key features:
+- MDX support for React components in Markdown
+- File-system based routing
+- Built-in search with FlexSearch
+- Theme customization
+- Internationalization support
+
+Deployment options:
+- Vercel (recommended for Next.js)
+- Netlify
+- GitHub Pages with static export
+
+### Docusaurus (React)
+
+Initialize with npx create-docusaurus command.
+
+Configure docusaurus.config.js:
+- Set site metadata (title, tagline, url)
+- Configure presets for docs and blog
+- Add theme configuration for navbar, footer
+- Enable plugins for search, analytics
+
+Organize content:
+- Place docs in docs directory
+- Use category.json for sidebar configuration
+- Add versioning for multiple doc versions
+- Configure blog in blog directory
+
+### VitePress (Vue)
+
+Initialize with npm init vitepress.
+
+Configure in .vitepress/config.js:
+- Set site title and description
+- Define navigation and sidebar
+- Configure search (built-in or Algolia)
+- Add social links
+
+Features:
+- Vue components in Markdown
+- Automatic code syntax highlighting
+- Dark mode support
+- Fast hot module replacement
+
+### MkDocs with Material
+
+Install mkdocs-material theme.
+
+Configure mkdocs.yml:
+- Set theme to material
+- Configure color palette and fonts
+- Enable navigation features (tabs, sections)
+- Add plugins for search, social cards
+
+Deploy with mkdocs gh-deploy for GitHub Pages.
+
+## PDF Generation
+
+### Sphinx PDF Output
+
+Use sphinx-build with latex builder:
+- Requires LaTeX installation (texlive)
+- Configure latex_documents in conf.py
+- Customize styling with latex_elements
+
+Alternative with rinohtype:
+- Pure Python PDF generation
+- No LaTeX dependency
+- Configure with rinoh.ini
+
+### MkDocs PDF Export
+
+Install mkdocs-pdf-export-plugin.
+
+Configure in mkdocs.yml:
+- Set combined output option
+- Configure styling
+- Exclude specific pages if needed
+
+Alternative with mkdocs-with-pdf plugin:
+- Better styling options
+- Cover page support
+- Table of contents generation
+
+### Pandoc Conversion
+
+Convert Markdown to PDF with Pandoc:
+- Requires Pandoc and LaTeX installation
+- Use templates for consistent styling
+- Configure with YAML metadata
+
+Supports multiple input formats:
+- Markdown, reStructuredText
+- HTML, EPUB
+- Word documents
+
+### WeasyPrint for HTML to PDF
+
+Convert HTML documentation to PDF:
+- Renders CSS for print media
+- Supports modern CSS features
+- Generates bookmarks from headings
+
+Configuration options:
+- Custom stylesheets
+- Page size and margins
+- Headers and footers
+
+## Markdown Output
+
+### GitHub Flavored Markdown
+
+Standard for repository documentation:
+- README.md for project overview
+- CONTRIBUTING.md for contribution guidelines
+- CHANGELOG.md for version history
+- docs/ directory for extended documentation
+
+Features:
+- Tables, task lists, strikethrough
+- Syntax highlighted code blocks
+- Automatic linking for URLs
+- Emoji shortcodes
+
+### MDX for Component Documentation
+
+Combine Markdown with JSX:
+- Import and use React components
+- Interactive examples
+- Code playgrounds
+
+Supported by:
+- Nextra, Docusaurus
+- Storybook for component docs
+- Custom MDX processors
+
+## Hosting and Deployment
+
+### GitHub Pages
+
+Deploy static sites:
+- Configure in repository settings
+- Use GitHub Actions for automation
+- Support custom domains
+
+### Netlify
+
+Features:
+- Automatic builds from Git
+- Preview deployments for PRs
+- Form handling, serverless functions
+- Split testing
+
+### Vercel
+
+Optimized for Next.js (Nextra):
+- Zero configuration deployment
+- Edge functions
+- Analytics
+- Incremental static regeneration
+
+### Read the Docs
+
+Specialized for Sphinx:
+- Automatic versioning
+- PDF generation
+- Search integration
+- Pull request previews
+
+---
+
+Version: 2.0.0
+Last Updated: 2</pre><div class="muted">…(content truncated)</div></details><details><summary><code>modules/user-guides.md</code> <span class="muted">(4.4 KB, text)</span></summary><pre class="claude-preview file-preview"># User Guide Creation Patterns
+
+## Overview
+
+Create effective user guides, tutorials, and getting started documentation following best practices and established documentation standards.
+
+## Getting Started Guide Structure
+
+### Essential Sections
+
+Prerequisites:
+- System requirements (OS, runtime versions)
+- Required tools and dependencies
+- Account or access requirements
+- Knowledge prerequisites
+
+Installation:
+- Package manager commands (npm, pip, etc.)
+- Configuration file setup
+- Environment variable configuration
+- Verification steps to confirm success
+
+Quick Start:
+- Minimal working example
+- Expected output description
+- Common first-time issues and solutions
+
+Basic Usage:
+- Core concepts explanation
+- Essential API or CLI commands
+- Simple workflow demonstration
+
+Next Steps:
+- Links to detailed tutorials
+- Reference documentation pointers
+- Community resources
+
+### Writing Effective Instructions
+
+Use imperative mood for actions: &quot;Run the command&quot; not &quot;You should run&quot;
+
+Break complex tasks into numbered steps:
+1. One action per step
+2. Include expected results
+3. Add troubleshooting for likely failures
+
+Provide copy-paste ready commands:
+- Use consistent command prefixes
+- Include expected output where helpful
+- Note platform-specific variations
+
+## Tutorial Structure
+
+### Tutorial Components
+
+Introduction:
+- What the reader will learn
+- Why this topic matters
+- Estimated completion time
+
+Prerequisites:
+- What should be completed first
+- Required background knowledge
+- Setup verification
+
+Step-by-Step Instructions:
+- Logical progression of steps
+- Each step builds on previous
+- Clear success indicators
+
+Complete Example:
+- Full working code at the end
+- Runnable without modifications
+- Includes all imports and setup
+
+Exercises:
+- Practice problems to reinforce learning
+- Variations to explore
+- Challenges for advanced readers
+
+### Tutorial Types
+
+Conceptual Tutorials:
+- Explain how things work
+- Use diagrams and analogies
+- Build mental models
+
+Task-Based Tutorials:
+- Focus on accomplishing specific goals
+- Step-by-step with clear outcomes
+- Practical and actionable
+
+Reference Tutorials:
+- Comprehensive feature coverage
+- Organized for lookup
+- Include all options and variations
+
+## Cookbook and Recipe Format
+
+### Recipe Structure
+
+Problem Statement:
+- Clear description of the challenge
+- When this pattern applies
+- What the reader wants to achieve
+
+Solution:
+- Concise answer or approach
+- Working code example
+- Configuration if applicable
+
+Explanation:
+- Why the solution works
+- Key concepts involved
+- Trade-offs and alternatives
+
+Variations:
+- Common modifications
+- Related patterns
+- Edge cases and handling
+
+### Cookbook Organization
+
+Organize by task or domain:
+- Authentication recipes
+- Database patterns
+- API integration examples
+- Testing strategies
+
+Include difficulty indicators:
+- Beginner-friendly patterns
+- Intermediate techniques
+- Advanced implementations
+
+Cross-reference related recipes:
+- Link prerequisites
+- Reference complementary patterns
+- Build learning paths
+
+## Documentation Style Guidelines
+
+### Google Developer Documentation Style
+
+Use second person (you):
+- &quot;You can configure...&quot; not &quot;Users can configure...&quot;
+
+Use active voice:
+- &quot;The function returns...&quot; not &quot;The value is returned by...&quot;
+
+Keep sentences short:
+- One idea per sentence
+- Break complex explanations into lists
+
+Use consistent terminology:
+- Define terms on first use
+- Maintain a glossary for projects
+
+### Microsoft Writing Style Guide
+
+Be concise:
+- Remove unnecessary words
+- Get to the point quickly
+
+Use simple words:
+- &quot;use&quot; not &quot;utilize&quot;
+- &quot;start&quot; not &quot;commence&quot;
+
+Format for scanning:
+- Use headings liberally
+- Include bulleted lists
+- Highlight key information
+
+## Documentation Maintenance
+
+### Keeping Docs Current
+
+Tie documentation to code changes:
+- Update docs in same PR as code
+- Include docs in definition of done
+- Review docs during code review
+
+Automate where possible:
+- Generate API docs from code
+- Validate code examples </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/examples.md</code> <span class="muted">(6.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Documentation Generation Examples
+
+Practical examples demonstrating documentation generation patterns using real tools and workflows.
+
+---
+
+## Example 1: Sphinx Documentation for Python Package
+
+Scenario: Generate API documentation for a Python package using Sphinx with autodoc.
+
+Setup Steps:
+
+1. Install Sphinx and extensions:
+   - pip install sphinx sphinx-autodoc-typehints sphinx-rtd-theme
+
+2. Initialize Sphinx in docs directory:
+   - Run sphinx-quickstart docs
+   - Answer prompts for project name, author, version
+
+3. Configure docs/conf.py:
+   - Add parent directory to sys.path for module discovery
+   - Set extensions list to include autodoc, napoleon, viewcode
+   - Configure html_theme to sphinx_rtd_theme
+   - Set autodoc_member_order to bysource
+
+4. Generate API documentation:
+   - Run sphinx-apidoc -o docs/api src/mypackage
+   - This creates .rst files for each module
+
+5. Build HTML documentation:
+   - Run make html in docs directory
+   - Output appears in docs/_build/html
+
+Result: Professional HTML documentation with automatically generated API reference from docstrings, syntax highlighting, and navigation sidebar.
+
+---
+
+## Example 2: MkDocs with mkdocstrings
+
+Scenario: Create documentation site with automatic Python API docs using MkDocs Material.
+
+Setup Steps:
+
+1. Install MkDocs and plugins:
+   - pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python
+
+2. Create mkdocs.yml configuration:
+   - Set site_name to project name
+   - Configure theme with name material
+   - Add mkdocstrings to plugins list
+   - Define nav structure with docs and API sections
+
+3. Create docs/api.md with mkdocstrings syntax:
+   - Use ::: mypackage.module.ClassName to document classes
+   - Use ::: mypackage.module.function_name for functions
+   - Configure options for rendering style
+
+4. Serve locally for preview:
+   - Run mkdocs serve
+   - Access at http://localhost:8000
+
+5. Deploy to GitHub Pages:
+   - Run mkdocs gh-deploy
+   - Documentation available at username.github.io/repo
+
+Result: Modern documentation site with search, dark mode, and API documentation generated directly from Python docstrings.
+
+---
+
+## Example 3: TypeDoc for TypeScript Library
+
+Scenario: Generate API documentation for a TypeScript library.
+
+Setup Steps:
+
+1. Install TypeDoc:
+   - npm install typedoc --save-dev
+
+2. Create typedoc.json configuration:
+   - Set entryPoints to src/index.ts
+   - Configure out to docs/api
+   - Enable includeVersion
+   - Set excludePrivate to true
+
+3. Add documentation script to package.json:
+   - Add script docs:generate with command typedoc
+
+4. Write TSDoc comments in source:
+   - Add summary as first paragraph
+   - Use @param for each parameter
+   - Use @returns for return value
+   - Use @example for usage examples
+
+5. Generate documentation:
+   - Run npm run docs:generate
+   - HTML output in docs/api directory
+
+Result: Comprehensive TypeScript API documentation with type information, inheritance hierarchies, and source links.
+
+---
+
+## Example 4: OpenAPI from FastAPI
+
+Scenario: Generate and customize OpenAPI documentation for a FastAPI application.
+
+Enhancement Steps:
+
+1. Add detailed route docstrings:
+   - Include description of endpoint purpose
+   - Document expected behavior
+   - Note authentication requirements
+
+2. Configure Pydantic models:
+   - Add Field with description parameter
+   - Include example values
+   - Document validation rules
+
+3. Organize with tags:
+   - Add tags parameter to route decorators
+   - Define tag metadata in app setup
+   - Group related endpoints
+
+4. Access documentation:
+   - Swagger UI at /docs
+   - ReDoc at /redoc
+   - OpenAPI JSON at /openapi.json
+
+5. Export for external tools:
+   - Save openapi.json to file
+   - Use with Postman, Stoplight, or SDK generators
+
+Result: Interactive API documentation with try-it-out feature, automatically updated as code changes.
+
+---
+
+## Example 5: Docusaurus Documentation Site
+
+Scenario: Create a comprehensive documentation site with tutorials and API reference.
+</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/reference.md</code> <span class="muted">(6.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Documentation Generation Reference
+
+## Tool Reference
+
+### Python Documentation Tools
+
+Sphinx:
+- Official site: https://www.sphinx-doc.org/
+- Configuration: conf.py in docs directory
+- Extensions: autodoc, napoleon, viewcode, intersphinx
+- Themes: sphinx_rtd_theme, furo, pydata-sphinx-theme
+- Output formats: HTML, PDF (via LaTeX), ePub, man pages
+
+MkDocs:
+- Official site: https://www.mkdocs.org/
+- Configuration: mkdocs.yml in project root
+- Themes: material (recommended), readthedocs
+- Plugins: search, mkdocstrings, macros, git-revision-date
+- Output formats: HTML static site
+
+mkdocstrings:
+- Official site: https://mkdocstrings.github.io/
+- Handlers: python, crystal, vba
+- Features: Cross-references, signature rendering, source linking
+- Styles: google, numpy, sphinx
+
+interrogate:
+- Purpose: Docstring coverage analysis
+- Configuration: pyproject.toml or .interrogate.yaml
+- Output: Coverage report, badge generation
+- CI integration: Fail builds below threshold
+
+### JavaScript/TypeScript Documentation Tools
+
+TypeDoc:
+- Official site: https://typedoc.org/
+- Configuration: typedoc.json or CLI options
+- Themes: default, or custom themes
+- Plugins: markdown, missing-exports, mermaid
+- Output formats: HTML, JSON, Markdown
+
+JSDoc:
+- Official site: https://jsdoc.app/
+- Configuration: jsdoc.json or conf.json
+- Templates: default, docdash, minami, better-docs
+- Plugins: markdown, summarize
+- Output format: HTML
+
+TSDoc:
+- Official site: https://tsdoc.org/
+- Standard: Unified TypeScript doc comment format
+- Tooling: eslint-plugin-tsdoc, api-extractor
+- Purpose: Standardize TypeScript documentation
+
+### API Documentation Tools
+
+OpenAPI/Swagger:
+- Specification: https://spec.openapis.org/
+- Versions: 3.0.x, 3.1.x (latest)
+- Editors: Swagger Editor, Stoplight Studio
+- Validators: spectral, swagger-cli
+- Code generators: openapi-generator, swagger-codegen
+
+Swagger UI:
+- Official site: https://swagger.io/tools/swagger-ui/
+- Features: Interactive try-it-out, OAuth flows
+- Hosting: Standalone, embedded, SwaggerHub
+- Customization: CSS, plugins
+
+Redoc:
+- Official site: https://redocly.github.io/redoc/
+- Features: Three-panel layout, search, code samples
+- Hosting: Static HTML, React component
+- CLI: redocly bundle, redocly preview
+
+Stoplight:
+- Official site: https://stoplight.io/
+- Features: Design-first API development
+- Tools: Studio (editor), Elements (docs), Prism (mock)
+- Hosting: Cloud or self-hosted
+
+### Static Site Generators
+
+Nextra:
+- Official site: https://nextra.site/
+- Framework: Next.js
+- Features: MDX, file routing, search, i18n
+- Themes: docs, blog
+- Deployment: Vercel (optimized)
+
+Docusaurus:
+- Official site: https://docusaurus.io/
+- Framework: React
+- Features: Versioning, i18n, search, blog
+- Plugins: Search (Algolia, local), PWA, ideal-image
+- Deployment: Any static host
+
+VitePress:
+- Official site: https://vitepress.dev/
+- Framework: Vue 3
+- Features: Fast HMR, Vue in Markdown, theming
+- Built-in: Search, dark mode, carbon ads
+- Deployment: Any static host
+
+MkDocs Material:
+- Official site: https://squidfunk.github.io/mkdocs-material/
+- Framework: MkDocs
+- Features: Search, dark mode, navigation tabs, social cards
+- Plugins: Blog, tags, privacy
+- Deployment: GitHub Pages, any static host
+
+### PDF Generation Tools
+
+WeasyPrint:
+- Official site: https://weasyprint.org/
+- Input: HTML + CSS
+- Features: Print CSS, bookmarks, PDF/A
+- Dependencies: System libraries (cairo, pango)
+
+Pandoc:
+- Official site: https://pandoc.org/
+- Input formats: Markdown, HTML, RST, many more
+- Output formats: PDF (via LaTeX), DOCX, EPUB
+- Features: Templates, filters, citations
+
+rinohtype:
+- Purpose: Sphinx PDF without LaTeX
+- Features: Pure Python, customizable styles
+- Configuration: rinoh.ini
+
+## Configuration Examples
+
+### Sphinx conf.py Essential Settings
+
+Project information:
+- project: Project name string
+- author: Author name string
+- version: Short version string
+- release: Full version string
+
+Extensions:
+- sphinx.ext.autodoc: Auto-generate </pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(9.0 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: moai-docs-generation
+description: &gt;
+  Documentation generation patterns for technical specs, API docs, user guides,
+  and knowledge bases using real tools like Sphinx, MkDocs, TypeDoc, and Nextra.
+  Use when creating docs from code, building doc sites, or automating
+  documentation workflows.
+license: Apache-2.0
+compatibility: Designed for Claude Code
+allowed-tools: Read Write Edit Grep Glob Bash(npm:*) Bash(npx:*) Bash(git:*) Bash(sphinx-build:*) Bash(mkdocs:*) Bash(typedoc:*) mcp__context7__resolve-library-id mcp__context7__get-library-docs
+user-invocable: false
+metadata:
+  version: &quot;2.1.0&quot;
+  category: &quot;workflow&quot;
+  status: &quot;active&quot;
+  updated: &quot;2026-01-08&quot;
+  modularized: &quot;true&quot;
+  tags: &quot;workflow, documentation, sphinx, mkdocs, typedoc, api-docs, static-sites&quot;
+  context: &quot;fork&quot;
+  agent: &quot;general-purpose&quot;
+---
+
+# Documentation Generation Patterns
+
+## Quick Reference (30 seconds)
+
+Purpose: Generate professional documentation using established tools and frameworks.
+
+Core Documentation Tools:
+- Python: Sphinx with autodoc, MkDocs with Material theme, pydoc
+- TypeScript/JavaScript: TypeDoc, JSDoc, TSDoc
+- API Documentation: OpenAPI/Swagger from FastAPI/Express, Redoc, Stoplight
+- Static Sites: Nextra (Next.js), Docusaurus (React), VitePress (Vue)
+- Universal: Markdown, MDX, reStructuredText
+
+When to Use This Skill:
+- Generating API documentation from code annotations
+- Building documentation sites with search and navigation
+- Creating user guides and technical specifications
+- Automating documentation updates in CI/CD pipelines
+- Converting between documentation formats
+
+---
+
+## Implementation Guide (5 minutes)
+
+### Python Documentation with Sphinx
+
+Sphinx Setup and Configuration:
+
+Install Sphinx and extensions with pip install sphinx sphinx-autodoc-typehints sphinx-rtd-theme myst-parser
+
+Initialize a Sphinx project by running sphinx-quickstart docs which creates the basic structure.
+
+Configure conf.py with the following key settings:
+- Set extensions to include autodoc, napoleon, typehints, and myst_parser
+- Configure html_theme to sphinx_rtd_theme for a professional look
+- Add autodoc_typehints set to description for inline type hints
+
+Generate API documentation by running sphinx-apidoc with the source directory, outputting to docs/api, then run make html in the docs directory.
+
+### Python Documentation with MkDocs
+
+MkDocs Material Setup:
+
+Install with pip install mkdocs mkdocs-material mkdocstrings mkdocstrings-python
+
+Create mkdocs.yml configuration:
+- Set site_name and site_url
+- Configure theme with name material and desired color palette
+- Add plugins including search and mkdocstrings
+- Define nav structure with sections and pages
+
+Use mkdocstrings syntax in Markdown files with ::: module.path to auto-generate API docs from docstrings.
+
+Serve locally with mkdocs serve, build with mkdocs build, deploy with mkdocs gh-deploy.
+
+### TypeScript Documentation with TypeDoc
+
+TypeDoc Setup:
+
+Install with npm install typedoc --save-dev
+
+Add to package.json scripts: typedoc --out docs/api src/index.ts
+
+Configure with typedoc.json:
+- Set entryPoints to source files
+- Configure out to docs/api
+- Enable includeVersion and categorizeByGroup
+- Set theme to default or install custom themes
+
+Generate documentation by running npm run docs:generate
+
+### JavaScript Documentation with JSDoc
+
+JSDoc Setup:
+
+Install with npm install jsdoc --save-dev
+
+Create jsdoc.json configuration:
+- Set source include paths and includePattern
+- Configure templates and output destination
+- Enable markdown plugin for rich formatting
+
+Document functions with JSDoc comments using tags:
+- @param for parameters with type and description
+- @returns for return value documentation
+- @example for usage examples
+- @throws for error documentation
+
+### OpenAPI/Swagger Documentation
+
+FastAPI Auto-Documentation:
+
+FastAPI provides automatic OpenAPI docs. Access Swagger UI at /docs and ReDoc at /redoc.
+
+Enhance documentation by:
+- Adding docstrings to route handlers
+- Usin</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

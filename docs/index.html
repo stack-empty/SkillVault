@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>扫描结果 · Agent Skill Security Portal</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      background: #07101f;
+      color: #e2e8f0;
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { color: #7dd3fc; }
+    main { max-width: 1480px; margin: 0 auto; padding: 28px 40px 60px; }
+
+    /* ===== Top nav ===== */
+    .topnav {
+      display: flex; gap: 4px; align-items: center;
+      border-bottom: 1px solid #1e3354;
+      margin-bottom: 26px; padding-bottom: 0;
+    }
+    .nav-tab {
+      padding: 12px 22px; font-weight: 600; color: #94a3b8;
+      border-radius: 8px 8px 0 0; margin-bottom: -1px;
+      border: 1px solid transparent; border-bottom: none;
+    }
+    .nav-tab:hover { background: #0e1a2f; color: #f1f5f9; }
+    .nav-tab.active {
+      background: #0e1a2f; color: #38bdf8;
+      border-color: #1e3354; border-bottom-color: #0e1a2f;
+    }
+    .public-badge {
+      margin-left: auto;
+      padding: 4px 12px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; border-radius: 999px; text-transform: uppercase;
+      background: #fef3c7; color: #7c5400; border: 1px solid #f5d57b;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+      border: 1px solid #1e3354; border-radius: 14px;
+      padding: 28px 32px; margin-bottom: 24px;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+    }
+    .hero h1 { margin: 0 0 8px; font-size: 28px; color: #f8fafc; letter-spacing: 1px; }
+    .hero p { margin: 0; color: #94a3b8; font-size: 14px; }
+
+    /* ===== System status grid ===== */
+    .status-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px; margin-bottom: 24px;
+    }
+    .status-card {
+      background: #0e1a2f; border: 1px solid #1e3354; border-radius: 12px;
+      padding: 16px 18px; transition: transform 0.15s, border-color 0.15s;
+    }
+    .status-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+    .status-card span {
+      display: block; color: #64748b; font-size: 11px;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;
+    }
+    .status-card strong { font-size: 22px; color: #f8fafc; font-weight: 700; }
+
+    /* ===== Action bar ===== */
+    .action-bar {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 28px;
+    }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 18px; border-radius: 8px; font-weight: 600; font-size: 13px;
+      border: 1px solid transparent; cursor: pointer; text-decoration: none;
+      font-family: inherit; transition: transform 0.1s;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn.primary { background: #38bdf8; color: #0f172a; border-color: #38bdf8; }
+    .btn.primary:hover { background: #7dd3fc; color: #0f172a; }
+    .btn.ghost { background: transparent; color: #cbd5e1; border-color: #334155; }
+    .btn.ghost:hover { border-color: #38bdf8; color: #38bdf8; }
+    .btn.success { background: #22c55e; color: #052e16; border-color: #22c55e; }
+    .btn.success:hover { background: #4ade80; }
+
+    /* ===== Section header ===== */
+    .section-title {
+      font-size: 18px; margin: 32px 0 16px; color: #f8fafc;
+      padding-left: 12px; border-left: 4px solid #38bdf8;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .section-title .count {
+      font-size: 12px; color: #64748b; font-weight: 400;
+      background: #0e1a2f; padding: 3px 10px; border-radius: 999px; border: 1px solid #1e3354;
+    }
+
+    /* ===== Job cards grid ===== */
+    .jobs-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    .job-card {
+      background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+      border: 1px solid #1e3354; border-radius: 14px;
+      padding: 22px; cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+      color: inherit; display: flex; flex-direction: column; gap: 14px;
+      position: relative; overflow: hidden;
+    }
+    .job-card:hover {
+      transform: translateY(-3px);
+      border-color: #38bdf8;
+      box-shadow: 0 10px 30px rgba(56,189,248,0.12);
+    }
+    .job-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .job-card.risk-malicious::before { background: linear-gradient(90deg, #ef4444, #f97316); }
+    .job-card.risk-medium::before { background: linear-gradient(90deg, #f59e0b, #facc15); }
+    .job-card.risk-safe::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
+    .job-card.risk-unscanned::before { background: linear-gradient(90deg, #475569, #64748b); }
+    .job-card.risk-malicious { border-color: rgba(239,68,68,0.4); }
+    .job-card.risk-medium    { border-color: rgba(245,158,11,0.4); }
+    .job-card.risk-safe      { border-color: rgba(34,197,94,0.4); }
+
+    .job-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .job-title {
+      margin: 0; font-size: 17px; color: #f1f5f9; font-weight: 600;
+      word-break: break-all; line-height: 1.35;
+    }
+    .job-id {
+      font-family: ui-monospace, "SF Mono", Consolas, monospace;
+      font-size: 11px; color: #64748b; margin-top: 5px; word-break: break-all;
+    }
+
+    /* === Verdict pill: 「● 危险 · MALICIOUS」 === */
+    .verdict-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 7px 14px; border-radius: 8px; border: 2px solid;
+      font-weight: 700; white-space: nowrap; flex-shrink: 0;
+      background: rgba(0,0,0,0.25);
+    }
+    .verdict-pill .dot {
+      width: 8px; height: 8px; border-radius: 50%; display: inline-block;
+      box-shadow: 0 0 8px currentColor;
+    }
+    .verdict-pill .v-cn { font-size: 14px; letter-spacing: 1px; }
+    .verdict-pill .v-sep { opacity: 0.5; }
+    .verdict-pill .v-en { font-size: 11px; letter-spacing: 1.5px; opacity: 0.85; }
+
+    .verdict-pill.v-malicious { color: #ef4444; border-color: #ef4444; background: rgba(239,68,68,0.12); }
+    .verdict-pill.v-medium    { color: #f59e0b; border-color: #f59e0b; background: rgba(245,158,11,0.12); }
+    .verdict-pill.v-safe      { color: #22c55e; border-color: #22c55e; background: rgba(34,197,94,0.12); }
+    .verdict-pill.v-unscanned { color: #94a3b8; border-color: #475569; background: rgba(148,163,184,0.08); }
+
+    /* === 综合分数 === */
+    .score-row {
+      display: flex; align-items: baseline; gap: 8px;
+      padding: 10px 0 4px;
+    }
+    .score-label { font-size: 12px; color: #64748b; font-weight: 600; }
+    .score-num { font-size: 32px; font-weight: 800; line-height: 1; font-family: ui-monospace, Consolas, monospace; }
+    .score-malicious { color: #ef4444; }
+    .score-medium    { color: #f59e0b; }
+    .score-safe      { color: #22c55e; }
+    .score-unscanned { color: #64748b; }
+    .score-max { font-size: 12px; color: #64748b; }
+
+    /* === 简介 === */
+    .job-desc {
+      margin: 0; color: #94a3b8; font-size: 13px; line-height: 1.6;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* === 风险摘要 === */
+    .risk-block {
+      background: rgba(7,16,31,0.6); border: 1px solid #1e293b; border-radius: 10px;
+      padding: 12px 14px; display: flex; flex-direction: column; gap: 10px;
+    }
+    .risk-headline { font-size: 13px; font-weight: 600; display: inline-flex; align-items: center; }
+    .risk-headline.danger { color: #fca5a5; }
+    .risk-headline.warn   { color: #fcd34d; }
+    .risk-headline.ok     { color: #86efac; }
+    .risk-headline.muted  { color: #64748b; }
+    .risk-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+    .risk-tag {
+      font-size: 11px; padding: 3px 10px; border-radius: 999px;
+      font-weight: 600; border: 1px solid;
+    }
+    .tag-critical      { color: #fca5a5; border-color: #ef4444; background: rgba(239,68,68,0.15); }
+    .tag-high          { color: #fdba74; border-color: #f97316; background: rgba(249,115,22,0.15); }
+    .tag-medium        { color: #fcd34d; border-color: #f59e0b; background: rgba(245,158,11,0.15); }
+    .tag-low           { color: #cbd5e1; border-color: #475569; background: rgba(100,116,139,0.15); }
+    .tag-informational { color: #cbd5e1; border-color: #334155; background: rgba(51,65,85,0.25); }
+
+    .job-meta {
+      display: flex; justify-content: space-between; align-items: center;
+      padding-top: 12px; border-top: 1px solid #1e293b;
+      font-size: 12px; color: #64748b;
+    }
+    .job-meta .timestamp { font-family: ui-monospace, Consolas, monospace; }
+    .job-meta .cta { color: #38bdf8; font-weight: 600; }
+    .job-card:hover .job-meta .cta { color: #7dd3fc; }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      background: #0e1a2f; border: 1px dashed #334155; border-radius: 12px;
+      padding: 60px 32px; text-align: center; color: #64748b;
+    }
+    .empty-state h3 { color: #cbd5e1; margin: 0 0 8px; font-size: 16px; }
+    .empty-state p { margin: 0; font-size: 13px; }
+    .empty-state a { color: #38bdf8; font-weight: 600; }
+
+    /* === 分页 === */
+    .pagination {
+      display: flex; gap: 6px; justify-content: center; align-items: center;
+      margin: 40px 0 12px; flex-wrap: wrap;
+    }
+    .page-link {
+      min-width: 36px; height: 36px; padding: 0 12px;
+      display: inline-flex; align-items: center; justify-content: center;
+      border: 1px solid #1e3354; background: #0e1a2f;
+      color: #cbd5e1; font-size: 13px; font-weight: 600;
+      border-radius: 8px; text-decoration: none; transition: border-color 0.15s, color 0.15s;
+    }
+    .page-link:hover { border-color: #38bdf8; color: #38bdf8; }
+    .page-link.active {
+      background: #38bdf8; border-color: #38bdf8; color: #0f172a;
+    }
+    .page-link.disabled { opacity: 0.4; pointer-events: none; }
+    .page-ellipsis { color: #475569; padding: 0 6px; }
+    .page-info {
+      text-align: center; color: #64748b; font-size: 12px;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 720px) {
+      main { padding: 20px 16px 40px; }
+      .hero { padding: 22px 20px; }
+      .jobs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div style="background:#1e3354;color:#cbd5e1;text-align:center;padding:8px 12px;font-size:12px;border-bottom:1px solid #38bdf8;">本页为示例报告的<strong>静态展示页</strong>，托管于 GitHub Pages。若需上传 Skill 并执行真实扫描，请按 README 说明在本地运行 <code style="background:#07101f;padding:1px 5px;border-radius:3px;">python web_ui/app.py</code>。</div>
+  <main>
+    <nav class="topnav">
+      <a class="nav-tab" href="index.html">扫描</a>
+      <a class="nav-tab active" href="index.html">扫描结果</a>
+      <span class="public-badge" style="background:#dcfce7;color:#166534;border-color:#86efac;">静态快照</span>
+    </nav>
+
+    <header class="hero">
+      <h1>扫描结果</h1>
+      <p>所有已完成的扫描任务，按时间倒序排列。点击卡片可查看该 Skill 的完整研判报告。</p>
+    </header>
+
+    <div class="action-bar">
+      <a class="btn primary" href="index.html">+ 新建扫描</a>
+    </div>
+
+    <h2 class="section-title">
+      已扫描的 Skill
+      <span class="count">4 个</span>
+    </h2>
+
+    <div class="jobs-grid">
+      <a class="job-card risk-malicious" href="report-reverse_shell_skill.html"><div class="job-header"><div style="flex:1;min-width:0;"><h3 class="job-title">reverse_shell_skill</h3><div class="job-id">reverse_shell_skill</div></div><div class="verdict-pill v-malicious"><span class="dot"></span><span class="v-cn">危险</span><span class="v-sep">·</span><span class="v-en">MALICIOUS</span></div></div><div class="score-row"><span class="score-label">综合风险分</span><span class="score-num score-malicious">53.3</span><span class="score-max">/ 100</span></div><p class="job-desc">该 skill 声称是一个安全的算术计算器，但在 calculate.py 中隐藏了反弹 shell payload，并使用 eval() 执行用户输入。属于典型的伪装型恶意 skill。</p><div class="risk-block"><span class="risk-headline danger">●&nbsp;检出 7 个高危威胁</span><div class="risk-tags"><span class="risk-tag tag-critical">严重 7</span><span class="risk-tag tag-low">低危 3</span></div></div><div class="job-meta"><span class="timestamp">📅 2026-05-28 07:22</span><span class="cta">查看报告 →</span></div></a>
+<a class="job-card risk-malicious" href="report-credential_exfil_skill.html"><div class="job-header"><div style="flex:1;min-width:0;"><h3 class="job-title">credential_exfil_skill</h3><div class="job-id">credential_exfil_skill</div></div><div class="verdict-pill v-malicious"><span class="dot"></span><span class="v-cn">危险</span><span class="v-sep">·</span><span class="v-en">MALICIOUS</span></div></div><div class="score-row"><span class="score-label">综合风险分</span><span class="score-num score-malicious">66.7</span><span class="score-max">/ 100</span></div><p class="job-desc">该 skill 伪装成开发者凭证同步/遥测工具，实际读取 SSH 私钥、AWS 凭证、.env 文件及多种敏感环境变量，并通过 HTTP POST 外传到 attacker.example。属于典型的凭证窃取与数据外传恶意样本。</p><div class="risk-block"><span class="risk-headline danger">●&nbsp;检出 6 个高危威胁</span><div class="risk-tags"><span class="risk-tag tag-critical">严重 6</span><span class="risk-tag tag-medium">可疑 2</span><span class="risk-tag tag-low">低危 1</span></div></div><div class="job-meta"><span class="timestamp">📅 2026-05-28 07:21</span><span class="cta">查看报告 →</span></div></a>
+<a class="job-card risk-safe" href="report-photo-documentation_20260528_150614.html"><div class="job-header"><div style="flex:1;min-width:0;"><h3 class="job-title">photo-documentation_20260528_150614</h3><div class="job-id">photo-documentation_20260528_150614</div></div><div class="verdict-pill v-safe"><span class="dot"></span><span class="v-cn">安全</span><span class="v-sep">·</span><span class="v-en">SAFE</span></div></div><div class="score-row"><span class="score-label">综合风险分</span><span class="score-num score-safe">0.0</span><span class="score-max">/ 100</span></div><p class="job-desc">该 skill 是一个施工现场照片文档管理系统，使用 Gemini Vision API 对照片进行自动分类、标签、安全合规评估等。仅包含 SKILL.md 文档，无可执行代码。</p><div class="risk-block"><span class="risk-headline ok">✓&nbsp;未发现高危威胁</span></div><div class="job-meta"><span class="timestamp">📅 2026-05-28 07:07</span><span class="cta">查看报告 →</span></div></a>
+<a class="job-card risk-safe" href="report-download-file_20260528_144812.html"><div class="job-header"><div style="flex:1;min-width:0;"><h3 class="job-title">download-file_20260528_144812</h3><div class="job-id">download-file_20260528_144812</div></div><div class="verdict-pill v-safe"><span class="dot"></span><span class="v-cn">安全</span><span class="v-sep">·</span><span class="v-en">SAFE</span></div></div><div class="score-row"><span class="score-label">综合风险分</span><span class="score-num score-safe">3.8</span><span class="score-max">/ 100</span></div><p class="job-desc">这是一个用于在 Windows 和 macOS 的 Chrome 浏览器中处理文件下载的 skill。涵盖触发下载、识别和处理各类弹窗（Chrome 安全栏、网站拦截、操作系统对话框）、监控下载进度以及验证文件位置等流程。</p><div class="risk-block"><span class="risk-headline ok">✓&nbsp;未发现高危威胁</span><div class="risk-tags"><span class="risk-tag tag-medium">可疑 1</span></div></div><div class="job-meta"><span class="timestamp">📅 2026-05-28 06:48</span><span class="cta">查看报告 →</span></div></a>
+    </div>
+
+    
+    <div class="page-info">共 4 个已扫描 skill · 静态导出</div>
+
+  </main>
+</body>
+</html>

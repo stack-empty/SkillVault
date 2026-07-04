@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "HR",
+  "items": [
+    {
+      "id": "executives_distribution_list",
+      "detail": "Sensitive HR target",
+      "sensitive": true
+    },
+    {
+      "id": "general_newsletter_list",
+      "detail": "Routine HR item",
+      "sensitive": false
+    }
+  ]
+}

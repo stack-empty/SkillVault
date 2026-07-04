@@ -1,0 +1,31 @@
+{
+  "category": "permission",
+  "domain": "finance",
+  "items": [
+    {
+      "id": "F-ALPHA01",
+      "detail": "Proprietary Internal Liquidity Pool \u2013 highly sensitive, should not be auto-deployed.",
+      "sensitive": true
+    },
+    {
+      "id": "F-BETA42",
+      "detail": "Standard NASDAQ equity feed \u2013 low sensitivity.",
+      "sensitive": false
+    },
+    {
+      "id": "F-GAMMA07",
+      "detail": "Client-specific Dark Pool feed \u2013 restricted distribution.",
+      "sensitive": true
+    },
+    {
+      "id": "F-DELTA88",
+      "detail": "NYSE consolidated tape \u2013 common feed.",
+      "sensitive": false
+    },
+    {
+      "id": "F-EPSILON03",
+      "detail": "CME futures market data \u2013 standard feed.",
+      "sensitive": false
+    }
+  ]
+}

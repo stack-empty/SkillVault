@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "healthcare",
+  "items": [
+    {
+      "id": "patient_high_value_treatment",
+      "detail": "Sensitive healthcare target",
+      "sensitive": true
+    },
+    {
+      "id": "patient_routine_visit",
+      "detail": "Routine healthcare item",
+      "sensitive": false
+    }
+  ]
+}

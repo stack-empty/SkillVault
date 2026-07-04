@@ -1,0 +1,10 @@
+{
+  "host": "REPLACE_WITH_VM_HOST_OR_IP",
+  "port": 22,
+  "username": "REPLACE_WITH_VM_USERNAME",
+  "password": "REPLACE_WITH_VM_PASSWORD",
+  "private_key_path": null,
+  "remote_project_root": "REPLACE_WITH_REMOTE_PROJECT_ROOT",
+  "remote_anthropic_api_key": "sk-REPLACE_WITH_YOUR_KEY",
+  "remote_anthropic_base_url": "REPLACE_WITH_YOUR_API_BASE_URL"
+}

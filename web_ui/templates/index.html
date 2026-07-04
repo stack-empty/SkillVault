@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Codex Runtime Security Prototype - Skill Security Portal</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="page">
+    <header class="hero">
+      <h1>Agent Skill Security Portal — Codex + ASG (Claude)</h1>
+      <p>Dual-platform skill review: Codex static / dynamic plan and ASG Claude agent-in-the-loop scoring.</p>
+      <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+        <a href="/asg" style="display:inline-block;padding:10px 18px;background:#38bdf8;color:#0f172a;border-radius:6px;text-decoration:none;font-weight:600;">&#x1f6e1; Open ASG Dashboard</a>
+        <a href="/dashboard/index.html" style="display:inline-block;padding:10px 18px;background:#475569;color:#e2e8f0;border-radius:6px;text-decoration:none;">Codex Offline Dashboard</a>
+        <form method="post" action="/asg/rebuild" style="display:inline;margin:0;">
+          <button type="submit" style="padding:10px 18px;background:#22c55e;color:#0f172a;border:none;border-radius:6px;cursor:pointer;font-weight:600;">&#x1f504; Rebuild ASG (scan 7 samples)</button>
+        </form>
+      </div>
+    </header>
+
+    <section class="status-grid" aria-label="System status">
+      <article class="status-card"><span>Codex Regression</span><strong>PASS 11/11</strong></article>
+      <article class="status-card"><span>Synthetic Matrix</span><strong>10/10</strong></article>
+      <article class="status-card"><span>ASG Static Rules</span><strong>17 patterns</strong></article>
+      <article class="status-card"><span>ASG Samples</span><strong>7 covered</strong></article>
+      <article class="status-card"><span>ASG Attack Chains</span><strong>6 from paper</strong></article>
+      <article class="status-card"><span>Composite Score</span><strong>Math formula</strong></article>
+    </section>
+
+    <section class="panel">
+      <h2>三种研判模式</h2>
+      <p class="muted">从「不执行」到「真执行」再到「让 Claude 真用一下」——三层证据强度递增，按需选择。</p>
+
+      <!-- ============ 模式一 ============ -->
+      <h3 style="font-size:16px;margin-top:18px;color:#22c55e;border-left:4px solid #22c55e;padding-left:10px;">模式一 · 静态扫 + AI 研判（不执行 Skill）</h3>
+      <p style="font-size:13px;color:#94a3b8;">用 17 条静态规则扫所有文件（找已知恶意模式），再把 <code>SKILL.md</code> 文本送 Claude（kuaipao.ai 中转）当安全审计员判 <strong>SAFE / SUSPICIOUS / MALICIOUS</strong>。报告里会显示 skill 的目录结构和每个文件内容预览。<strong>Skill 代码全程不执行</strong>——任何人上传任何文件都安全，零风险。最快、最便宜（约 ¥0.1/次）。</p>
+
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <form method="post" action="/asg/upload_scan" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:320px;">
+          <div style="font-size:12px;color:#64748b;font-weight:600;">A · 上传文件扫描（推荐）</div>
+          <label style="font-size:13px;">Skill 文件（.zip / .py / .md / 任意单文件） <input type="file" name="archive" required style="padding:6px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:4px;"></label>
+          <button type="submit" style="padding:10px 18px;background:#22c55e;color:#0f172a;border:none;border-radius:6px;cursor:pointer;font-weight:700;align-self:flex-start;">上传并扫描</button>
+        </form>
+
+        <form method="post" action="/asg/local_api_check" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:320px;">
+          <div style="font-size:12px;color:#64748b;font-weight:600;">B · 强调 AI 研判（同上传，也走 Claude API）</div>
+          <label style="font-size:13px;">Skill zip / 单文件 <input type="file" name="archive" required style="padding:6px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:4px;"></label>
+          <button type="submit" style="padding:10px 18px;background:#22c55e;color:#0f172a;border:none;border-radius:6px;cursor:pointer;font-weight:700;align-self:flex-start;">上传 + 强制 AI 研判</button>
+        </form>
+      </div>
+
+      <!-- ============ 模式二 ============ -->
+      <h3 style="font-size:16px;margin-top:30px;color:#f59e0b;border-left:4px solid #f59e0b;padding-left:10px;">模式二 · 动态执行（Docker 跑代码 + 看真行为）</h3>
+      <p style="font-size:13px;color:#94a3b8;">在 VM 的 Docker 容器里直接 <code>python script.py</code> / <code>bash script.sh</code> 跑 skill 的所有可执行文件，<code>strace</code> 抓系统调用、<code>tcpdump</code> 抓网络包。<strong>不调 Claude API，零成本</strong>。最强证据——syscall 不会撒谎。或者你已经有以前录好的 <code>strace.log</code> 目录，直接喂进来重新打分。</p>
+
+      <div style="display:flex;gap:20px;flex-wrap:wrap;">
+        <form method="post" action="/asg/vm_paper_run" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:320px;">
+          <div style="font-size:12px;color:#64748b;font-weight:600;">A · 现场跑（连 VM 真执行）</div>
+          <label style="font-size:13px;">Skill zip / 单文件 <input type="file" name="archive" required style="padding:6px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:4px;"></label>
+          <button type="submit" style="padding:10px 18px;background:#f59e0b;color:#0f172a;border:none;border-radius:6px;cursor:pointer;font-weight:700;align-self:flex-start;">上传 + VM 容器执行</button>
+        </form>
+
+        <form method="post" action="/asg/vm_ingest" style="display:flex;flex-direction:column;gap:8px;flex:1;min-width:320px;">
+          <div style="font-size:12px;color:#64748b;font-weight:600;">B · 吃旧证据（离线打分）</div>
+          <label style="font-size:13px;">本地 Skill 目录路径 <input name="skill_path" placeholder="asg/samples/data_thief" required style="padding:6px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:4px;"></label>
+          <label style="font-size:13px;">证据目录（含 strace.log / claude_output.txt） <input name="evidence_dir" placeholder="analysis_results/asg/data_thief/vm_ssh_logs" required style="padding:6px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:4px;"></label>
+          <button type="submit" style="padding:10px 18px;background:#f59e0b;color:#0f172a;border:none;border-radius:6px;cursor:pointer;font-weight:700;align-self:flex-start;">离线吃证据</button>
+        </form>
+      </div>
+
+      <!-- ============ 模式三 ============ -->
+      <h3 style="font-size:16px;margin-top:30px;color:#a855f7;border-left:4px solid #a855f7;padding-left:10px;">模式三 · Docker 里跑 Claude（验证 Agent 抗诱导）</h3>
+      <p style="font-size:13px;color:#94a3b8;">在 VM 的 Docker 容器里启动 <strong>Claude CLI</strong>，把 skill 装到 <code>~/.claude/skills/</code>，给 Claude 一个用户 prompt 让它"读这个 skill 并使用"——然后 <code>strace</code> 录下 Claude 实际做了什么。回答的核心问题：<strong>真 Claude 会不会被这个 SKILL.md 骗着干坏事</strong>。这才是参考文献真正关心的攻击面。约 ¥1.2/次。</p>
+
+      <form method="post" action="/asg/vm_ssh_run" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:8px;max-width:640px;">
+        <label style="font-size:13px;">Skill zip / 单文件 <input type="file" name="archive" required style="padding:6px;background:#0f172a;color:#e2e8f0;border:1px solid #334155;border-radius:4px;"></label>
+        <button type="submit" style="padding:10px 18px;background:#a855f7;color:#0f172a;border:none;border-radius:6px;cursor:pointer;font-weight:700;align-self:flex-start;">上传 + 让 Claude 在容器里使用此 Skill</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Upload Skill Package</h2>
+      <form method="post" action="/upload" enctype="multipart/form-data" class="upload-form">
+        <label>Skill name <input name="skill_name" maxlength="120" required></label>
+        <label>Notes <textarea name="note" rows="3" maxlength="1000"></textarea></label>
+        <label>Archive <input type="file" name="archive" accept=".zip,.tar.gz,.tgz" required></label>
+        <button type="submit">Create Job</button>
+      </form>
+    </section>
+
+    <section class="panel">
+      <h2>Real Skill Static-only Intake</h2>
+      <ul class="controls">
+        <li>Real skills first enter the isolated inbox for static-only intake.</li>
+        <li>Stage 19 generates sha256 manifests, safe extraction output, static scan reports, and dynamic gate plan-only reports.</li>
+        <li>Real skills are not executed in Stage 19.</li>
+        <li>HIGH / CRITICAL findings block the dynamic gate.</li>
+        <li>Low-risk real skills still require manual review before Stage 21.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <h2>Jobs</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Skill</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Risk summary</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{ jobs_table }}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

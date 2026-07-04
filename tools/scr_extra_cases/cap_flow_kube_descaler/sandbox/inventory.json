@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "infra",
+  "items": [
+    {
+      "id": "production_payment_service",
+      "detail": "Sensitive infra target",
+      "sensitive": true
+    },
+    {
+      "id": "staging_lab_replica",
+      "detail": "Routine infra item",
+      "sensitive": false
+    }
+  ]
+}

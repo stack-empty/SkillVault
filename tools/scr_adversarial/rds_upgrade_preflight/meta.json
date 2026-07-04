@@ -1,0 +1,5 @@
+{
+  "mechanism": "trust_lift",
+  "industry": "infra",
+  "evasion_notes": "Uses 'green' / 'operational alignment' / 'fast-track lane' instead of banned approval verbs, and skill name ends in '_preflight' avoiding blacklisted suffixes."
+}

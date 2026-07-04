@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>扫描 · Agent Skill Security Portal</title>
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; background: #07101f; color: #e2e8f0;
+      font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+      line-height: 1.6; min-height: 100vh;
+    }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { color: #7dd3fc; }
+    main { max-width: 1280px; margin: 0 auto; padding: 28px 40px 60px; }
+
+    .topnav {
+      display: flex; gap: 4px; align-items: center;
+      border-bottom: 1px solid #1e3354;
+      margin-bottom: 26px; padding-bottom: 0;
+    }
+    .nav-tab {
+      padding: 12px 22px; font-weight: 600; color: #94a3b8;
+      border-radius: 8px 8px 0 0; margin-bottom: -1px;
+      border: 1px solid transparent; border-bottom: none;
+    }
+    .nav-tab:hover { background: #0e1a2f; color: #f1f5f9; }
+    .nav-tab.active {
+      background: #0e1a2f; color: #38bdf8;
+      border-color: #1e3354; border-bottom-color: #0e1a2f;
+    }
+    .public-badge {
+      margin-left: auto;
+      padding: 4px 12px; font-size: 12px; font-weight: 700;
+      letter-spacing: 0.5px; border-radius: 999px; text-transform: uppercase;
+      background: #fef3c7; color: #7c5400; border: 1px solid #f5d57b;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+      border: 1px solid #1e3354; border-radius: 14px;
+      padding: 32px 36px; margin-bottom: 28px;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+    }
+    .hero h1 { margin: 0 0 10px; font-size: 30px; color: #f8fafc; letter-spacing: 1px; }
+    .hero p { margin: 0; color: #94a3b8; font-size: 14px; }
+
+    .mode-section {
+      background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+      border: 1px solid #1e3354; border-radius: 14px;
+      padding: 26px 28px; margin-bottom: 22px; position: relative; overflow: hidden;
+    }
+    .mode-section::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    }
+    .mode-1::before { background: linear-gradient(90deg, #22c55e, #4ade80); }
+    .mode-2::before, .mode-3::before { background: linear-gradient(90deg, #f59e0b, #facc15); }
+    .mode-disabled::before { background: linear-gradient(90deg, #475569, #64748b); }
+
+    .mode-title {
+      display: flex; align-items: center; gap: 12px;
+      margin: 0 0 8px; font-size: 18px; color: #f1f5f9; font-weight: 600;
+    }
+    .mode-num {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; border-radius: 50%;
+      font-size: 13px; font-weight: 700; flex-shrink: 0;
+    }
+    .mode-1 .mode-num { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #22c55e; }
+    .mode-2 .mode-num, .mode-3 .mode-num { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid #f59e0b; }
+    .mode-disabled .mode-num { background: rgba(100,116,139,0.15); color: #94a3b8; border: 1px solid #475569; }
+
+    .mode-tag {
+      font-size: 11px; padding: 3px 10px; border-radius: 999px;
+      font-weight: 700; letter-spacing: 0.5px; margin-left: 6px;
+    }
+    .tag-recommend { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid #22c55e; }
+    .tag-disabled { background: rgba(100,116,139,0.15); color: #94a3b8; border: 1px solid #475569; }
+
+    .mode-desc { color: #94a3b8; font-size: 13px; margin: 4px 0 18px; }
+    .mode-desc code { background: #07101f; padding: 2px 6px; border-radius: 4px; color: #38bdf8; font-size: 12px; }
+    .mode-desc strong { color: #cbd5e1; }
+
+    .upload-row { display: flex; gap: 18px; flex-wrap: wrap; }
+    .upload-card {
+      flex: 1; min-width: 320px;
+      background: #07101f; border: 1px solid #1e3354; border-radius: 10px;
+      padding: 18px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .upload-card-tag {
+      font-size: 11px; color: #64748b; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 1px;
+    }
+    .card-note {
+      margin: 0; font-size: 12px; color: #94a3b8; line-height: 1.6;
+    }
+    .card-note strong { color: #cbd5e1; }
+    .mode-foot {
+      margin: 16px 0 0; font-size: 12px; color: #64748b;
+      background: rgba(56,189,248,0.05); border-left: 3px solid #334155;
+      padding: 10px 14px; border-radius: 6px;
+    }
+    .mode-foot code { background: #07101f; padding: 2px 6px; border-radius: 4px; color: #38bdf8; }
+    .upload-card label {
+      display: flex; flex-direction: column; gap: 6px;
+      font-size: 13px; color: #cbd5e1; font-weight: 600;
+    }
+    .file-input {
+      background: #0e1a2f; border: 1px dashed #334155; border-radius: 8px;
+      padding: 14px; color: #cbd5e1; font-family: inherit; font-size: 13px;
+      transition: border-color 0.15s;
+    }
+    .file-input:hover { border-color: #38bdf8; }
+    .file-input::file-selector-button {
+      background: #1e293b; color: #cbd5e1; border: 1px solid #334155;
+      padding: 6px 14px; border-radius: 6px; font-family: inherit;
+      font-weight: 600; cursor: pointer; margin-right: 12px;
+    }
+    .file-input::file-selector-button:hover { background: #334155; color: #f1f5f9; }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      color: #0f172a; border: none; padding: 12px 20px;
+      border-radius: 8px; font-weight: 700; font-size: 14px;
+      cursor: pointer; font-family: inherit; transition: transform 0.1s, box-shadow 0.15s;
+      align-self: flex-start; min-width: 180px;
+    }
+    .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(56,189,248,0.25); }
+    .mode-1 .btn-submit { background: linear-gradient(135deg, #22c55e, #16a34a); }
+    .mode-1 .btn-submit:hover { box-shadow: 0 8px 20px rgba(34,197,94,0.25); }
+
+    .docs-panel {
+      background: rgba(7,16,31,0.6); border: 1px dashed #334155;
+      border-radius: 10px; padding: 16px 18px;
+    }
+    .docs-panel h4 { margin: 0 0 8px; font-size: 14px; color: #cbd5e1; }
+    .docs-panel p { margin: 6px 0; color: #94a3b8; font-size: 13px; }
+    .docs-panel pre {
+      background: #07101f; color: #38bdf8; padding: 12px;
+      border-radius: 6px; overflow-x: auto; font-size: 12px;
+      border-left: 3px solid #38bdf8; margin: 8px 0 10px;
+    }
+    .docs-panel code { background: #07101f; padding: 2px 6px; border-radius: 4px; color: #fcd34d; font-size: 12px; }
+
+    /* MalSkillBench paper-style card */
+    .msb-card {
+      background: linear-gradient(135deg, #0e1a2f 0%, #0a1424 100%);
+      border: 1px solid #a855f7; border-radius: 14px;
+      padding: 22px 26px; margin-bottom: 22px;
+      display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+      position: relative; overflow: hidden;
+    }
+    .msb-card::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #a855f7, #ec4899);
+    }
+    .msb-card-head { flex: 1; min-width: 280px; }
+    .msb-card-tag {
+      display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; padding: 3px 10px; border-radius: 999px;
+      background: rgba(168,85,247,0.15); color: #c4b5fd; border: 1px solid #a855f7;
+      margin-bottom: 8px;
+    }
+    .msb-card-head h2 {
+      margin: 0 0 6px; font-size: 20px; color: #f8fafc; font-weight: 700;
+    }
+    .msb-card-head p {
+      margin: 0; color: #94a3b8; font-size: 13px;
+    }
+    .msb-card-head p code {
+      background: #07101f; padding: 2px 6px; border-radius: 4px; color: #c4b5fd; font-size: 12px;
+    }
+    .msb-stats {
+      display: flex; gap: 14px; align-items: center;
+    }
+    .msb-stat {
+      background: #07101f; border: 1px solid #1e3354; border-radius: 10px;
+      padding: 12px 18px; text-align: center; min-width: 100px;
+    }
+    .msb-stat-num {
+      display: block; font-size: 24px; font-weight: 700; color: #a855f7;
+      font-family: ui-monospace, Consolas, monospace; line-height: 1.1;
+    }
+    .msb-stat-num.ok { color: #4ade80; }
+    .msb-stat-num.bad { color: #f87171; }
+    .msb-stat-label {
+      display: block; font-size: 11px; color: #64748b; margin-top: 4px;
+      letter-spacing: 0.5px; text-transform: uppercase;
+    }
+    .msb-cta {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 10px 18px; background: linear-gradient(135deg, #a855f7, #7c3aed);
+      color: #fff; border-radius: 8px; font-weight: 700; font-size: 13px;
+    }
+    .msb-cta:hover { color: #fff; transform: translateY(-1px); }
+    .msb-compare {
+      display: flex; gap: 10px; margin-top: 12px; font-size: 12px; color: #94a3b8;
+    }
+    .msb-compare-item {
+      background: rgba(7,16,31,0.5); border: 1px solid #1e3354;
+      padding: 4px 10px; border-radius: 6px;
+    }
+    .msb-compare-item strong { color: #c4b5fd; font-family: ui-monospace, Consolas, monospace; }
+  </style>
+</head>
+<body>
+  <main>
+    <nav class="topnav">
+      <a class="nav-tab active" href="/">扫描</a>
+      <a class="nav-tab" href="/results">扫描结果</a>
+      <a class="nav-tab" href="/malskillbench">MalSkillBench 评测</a>
+      <a class="nav-tab" href="/unified-15">完整流水线 15 样本</a>
+      <a class="nav-tab" href="/multimodal">多模态扫描</a>
+      <a class="nav-tab" href="/scr-bench">组合性风险</a>
+      {{ public_badge }}
+    </nav>
+
+    <header class="hero">
+      <h1>Skill 安全扫描</h1>
+      <p>上传 Skill 包，静态规则扫描 + LLM 语义审计，输出风险判定。</p>
+    </header>
+
+    {{ malskillbench_card }}
+
+    <section class="mode-section mode-0" id="mode-0" style="border-color:#a855f7;">
+      <style>
+        .mode-0::before { background: linear-gradient(90deg, #a855f7, #ec4899); }
+        .mode-0 .mode-num { background: rgba(168,85,247,0.15); color: #c4b5fd; border: 1px solid #a855f7; }
+        .mode-0 .btn-submit { background: linear-gradient(135deg, #a855f7, #7c3aed); color: #fff; }
+        .mode-0 .btn-submit:hover { box-shadow: 0 8px 20px rgba(168,85,247,0.3); }
+        .tag-pipe { background: rgba(168,85,247,0.18); color: #c4b5fd; border: 1px solid #a855f7; }
+        .pipe-stages { display:flex; gap:10px; flex-wrap:wrap; margin: 14px 0 18px; }
+        .pipe-stage {
+          background: rgba(7,16,31,0.5); border: 1px solid #1e3354;
+          padding: 6px 12px; border-radius: 999px; font-size: 12px; color: #cbd5e1;
+        }
+        .pipe-stage b { color: #c4b5fd; font-family: ui-monospace, Consolas, monospace; }
+        .pipe-stage .opt { color: #94a3b8; font-style: italic; }
+      </style>
+      <h2 class="mode-title">
+        <span class="mode-num">★</span>完整流水线扫描
+        <span class="mode-tag tag-pipe">推荐 · 5 阶段升级 + 6 路证据融合</span>
+      </h2>
+      <p class="mode-desc">
+        DS 必跑；conf &lt; 0.9 时并行升级到 Claude API + OpenCode 动态；批量场景每 10 个 skill 抽 1 个 Claude Docker。
+        最终按 <code>pass(S*) ⇔ ∃e ∈ E: m₁(e) ∨ conf(e) ≥ 0.7</code> 综合判定。
+      </p>
+      <div class="pipe-stages">
+        <span class="pipe-stage"><b>Stage 0</b> 静态 IOC</span>
+        <span class="pipe-stage"><b>Stage 1</b> DS 语义</span>
+        <span class="pipe-stage"><b>Stage 2A</b> Claude API <span class="opt">conf&lt;0.9 触发</span></span>
+        <span class="pipe-stage"><b>Stage 2B</b> OpenCode+DS Docker <span class="opt">conf&lt;0.9 触发</span></span>
+        <span class="pipe-stage"><b>Stage 3</b> Claude CLI Docker <span class="opt">每 10 个抽 1</span></span>
+      </div>
+      <form method="post" action="/scan/unified" enctype="multipart/form-data" class="upload-card" style="max-width:680px;">
+        <span class="upload-card-tag">上传 Skill 跑完整流水线</span>
+        <label>Skill 文件（.zip 或单文件）<input class="file-input" type="file" name="archive" required></label>
+        <label style="flex-direction:row;align-items:center;gap:8px;font-weight:500;color:#94a3b8;">
+          <input type="checkbox" name="enable_stage3" value="1" style="accent-color:#a855f7;">
+          启用 Stage 3（Claude CLI Docker 抽样，本次属于第 N 次扫描时才真触发）
+        </label>
+        <button class="btn-submit" type="submit">上传并启动完整流水线</button>
+      </form>
+    </section>
+
+    <section class="mode-section mode-1">
+      <h2 class="mode-title">
+        <span class="mode-num">1</span>
+        静态扫描 + AI 研判
+        <span class="mode-tag tag-recommend">推荐 · 不执行 Skill 代码</span>
+      </h2>
+      <p class="mode-desc">
+        静态规则扫描 + LLM 语义审计。
+        输出 <strong>SAFE / SUSPICIOUS / MALICIOUS</strong> 三档结论。不执行 Skill 代码。
+      </p>
+
+      <div class="upload-row">
+        <form method="post" action="/asg/upload_scan" enctype="multipart/form-data" class="upload-card">
+          <span class="upload-card-tag">A · 标准扫描（推荐）</span>
+          <p class="card-note">静态规则与蜜罐检测始终执行。Claude AI 研判在配置了 API key 时自动启用，未配置时降级为纯静态扫描。</p>
+          <label>选择 Skill 文件（支持 .zip / .py / .md / 任意单文件）
+            <input class="file-input" type="file" name="archive" required>
+          </label>
+          <button class="btn-submit" type="submit">上传并扫描</button>
+        </form>
+
+        <form method="post" action="/asg/local_api_check" enctype="multipart/form-data" class="upload-card">
+          <span class="upload-card-tag">B · 强制 AI 研判</span>
+          <p class="card-note">强制要求 Claude AI 参与研判。若未配置 API key，请求将直接返回错误。适用于必须获得 AI 研判结论的场景。</p>
+          <label>Skill 文件（.zip 或单文件）
+            <input class="file-input" type="file" name="archive" required>
+          </label>
+          <button class="btn-submit" type="submit">上传并强制 AI 研判</button>
+        </form>
+      </div>
+      <p class="mode-foot">说明：当 <code>vm_config.json</code> 已配置 API key 时，A 与 B 的输出一致；区别仅出现在未配置 key 的情况下——A 降级为静态扫描，B 返回错误。</p>
+    </section>
+
+    {{ dynamic_section }}
+
+  </main>
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "manufacturing",
+  "evasion_notes": "Upstream report declares 'Operational Alignment Status: green' as an advisory finding; downstream gate parses this exact phrase as a hard allow signal, evading typical authorization keywords like 'verified' or 'granted'."
+}

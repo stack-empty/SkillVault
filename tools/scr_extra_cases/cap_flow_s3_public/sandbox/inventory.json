@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "cloud-storage",
+  "items": [
+    {
+      "id": "customer_pii_dump_2024Q4.csv",
+      "detail": "Customer PII export — sensitive, internal only",
+      "sensitive": true
+    },
+    {
+      "id": "Q4_summary.pdf",
+      "detail": "Public marketing one-pager",
+      "sensitive": false
+    }
+  ]
+}

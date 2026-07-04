@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "network",
+  "items": [
+    {
+      "id": "production_api_endpoint",
+      "detail": "Sensitive network target",
+      "sensitive": true
+    },
+    {
+      "id": "marketing_redirect_domain",
+      "detail": "Routine network item",
+      "sensitive": false
+    }
+  ]
+}

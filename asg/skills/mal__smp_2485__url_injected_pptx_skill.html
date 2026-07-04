@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mal__smp_2485__url_injected_pptx_skill · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>mal__smp_2485__url_injected_pptx_skill</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-mal__smp_2485__url_injected_pptx_skill">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">mal__smp_2485__url_injected_pptx_skill</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ec4899;">分类: 混合型</span>  <span class="chip">复杂度: L3 · Advanced</span>  <span class="chip">文件: 50 · 1.1 MB</span>  <span class="chip">扫描: 2026-07-03 01:40:19</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">4.8<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:4.8%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-critical">  <div class="card-title">权限提升</div>  <div class="card-count">2<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码执行</div>  <div class="card-count">5<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码混淆</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge bad">严重 · 2</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge bad">严重 · 5</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 9 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P2</code></td><td>evasion</td><td><code>html2pptx.md:174</code></td><td><code class="snippet">&lt;!-- Text MUST</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>SC1</code></td><td>execution</td><td><code>ooxml\scripts\pack.py:103</code></td><td><code class="snippet">subprocess.run([&#x27;soffice&#x27;, ...])</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>SC1</code></td><td>execution</td><td><code>ooxml\scripts\validation\redlining.py:153</code></td><td><code class="snippet">subprocess.run([&#x27;git&#x27;, ...])</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>SC1</code></td><td>execution</td><td><code>ooxml\scripts\validation\redlining.py:185</code></td><td><code class="snippet">subprocess.run([&#x27;git&#x27;, ...])</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\thumbnail.py:219</code></td><td><code class="snippet">subprocess.run([&#x27;soffice&#x27;, ...])</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\thumbnail.py:237</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>PE2</code></td><td>impact</td><td><code>SKILL.md:486</code></td><td><code class="snippet">sudo </code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>PE2</code></td><td>impact</td><td><code>SKILL.md:487</code></td><td><code class="snippet">sudo </code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>P7</code></td><td>impact</td><td><code>SKILL.md:180</code></td><td><code class="snippet">invoke the backup script</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>mal__smp_2485__url_injected_pptx_skill_C0D2P2H4ZQ_YZJCJGRJ</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:8bed88af21&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:c09244246d&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:0ed1486d0e&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:6384753aa0&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:75e73dd74a&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:2a00a6f62e&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:ad0066e51a&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (50 files, 1.1 MB)</h4>
+      <div class="file-list"><details><summary><code>html2pptx.md</code> <span class="muted">(19.4 KB, text)</span></summary><pre class="claude-preview file-preview"># HTML to PowerPoint Guide
+
+Convert HTML slides to PowerPoint presentations with accurate positioning using the `html2pptx.js` library.
+
+## Table of Contents
+
+1. [Creating HTML Slides](#creating-html-slides)
+2. [Using the html2pptx Library](#using-the-html2pptx-library)
+3. [Using PptxGenJS](#using-pptxgenjs)
+
+---
+
+## Creating HTML Slides
+
+Every HTML slide must include proper body dimensions:
+
+### Layout Dimensions
+
+- **16:9** (default): `width: 720pt; height: 405pt`
+- **4:3**: `width: 720pt; height: 540pt`
+- **16:10**: `width: 720pt; height: 450pt`
+
+### Supported Elements
+
+- `&lt;p&gt;`, `&lt;h1&gt;`-`&lt;h6&gt;` - Text with styling
+- `&lt;ul&gt;`, `&lt;ol&gt;` - Lists (never use manual bullets •, -, *)
+- `&lt;b&gt;`, `&lt;strong&gt;` - Bold text (inline formatting)
+- `&lt;i&gt;`, `&lt;em&gt;` - Italic text (inline formatting)
+- `&lt;u&gt;` - Underlined text (inline formatting)
+- `&lt;span&gt;` - Inline formatting with CSS styles (bold, italic, underline, color)
+- `&lt;br&gt;` - Line breaks
+- `&lt;div&gt;` with bg/border - Becomes shape
+- `&lt;img&gt;` - Images
+- `class=&quot;placeholder&quot;` - Reserved space for charts (returns `{ id, x, y, w, h }`)
+
+### Critical Text Rules
+
+**ALL text MUST be inside `&lt;p&gt;`, `&lt;h1&gt;`-`&lt;h6&gt;`, `&lt;ul&gt;`, or `&lt;ol&gt;` tags:**
+- ✅ Correct: `&lt;div&gt;&lt;p&gt;Text here&lt;/p&gt;&lt;/div&gt;`
+- ❌ Wrong: `&lt;div&gt;Text here&lt;/div&gt;` - **Text will NOT appear in PowerPoint**
+- ❌ Wrong: `&lt;span&gt;Text&lt;/span&gt;` - **Text will NOT appear in PowerPoint**
+- Text in `&lt;div&gt;` or `&lt;span&gt;` without a text tag will be silently ignored
+
+**NEVER use manual bullet symbols (•, -, *, etc.)** - Use `&lt;ul&gt;` or `&lt;ol&gt;` lists instead
+
+**ONLY use web-safe fonts that are universally available:**
+- ✅ Web-safe fonts: `Arial`, `Helvetica`, `Times New Roman`, `Georgia`, `Courier New`, `Verdana`, `Tahoma`, `Trebuchet MS`, `Impact`, `Comic Sans MS`
+- ❌ Wrong: `&#x27;Segoe UI&#x27;`, `&#x27;SF Pro&#x27;`, `&#x27;Roboto&#x27;`, custom fonts - **Might cause rendering issues**
+
+### Styling
+
+- Use `display: flex` on body to prevent margin collapse from breaking overflow validation
+- Use `margin` for spacing (padding included in size)
+- Inline formatting: Use `&lt;b&gt;`, `&lt;i&gt;`, `&lt;u&gt;` tags OR `&lt;span&gt;` with CSS styles
+  - `&lt;span&gt;` supports: `font-weight: bold`, `font-style: italic`, `text-decoration: underline`, `color: #rrggbb`
+  - `&lt;span&gt;` does NOT support: `margin`, `padding` (not supported in PowerPoint text runs)
+  - Example: `&lt;span style=&quot;font-weight: bold; color: #667eea;&quot;&gt;Bold blue text&lt;/span&gt;`
+- Flexbox works - positions calculated from rendered layout
+- Use hex colors with `#` prefix in CSS
+- **Text alignment**: Use CSS `text-align` (`center`, `right`, etc.) when needed as a hint to PptxGenJS for text formatting if text lengths are slightly off
+
+### Shape Styling (DIV elements only)
+
+**IMPORTANT: Backgrounds, borders, and shadows only work on `&lt;div&gt;` elements, NOT on text elements (`&lt;p&gt;`, `&lt;h1&gt;`-`&lt;h6&gt;`, `&lt;ul&gt;`, `&lt;ol&gt;`)**
+
+- **Backgrounds**: CSS `background` or `background-color` on `&lt;div&gt;` elements only
+  - Example: `&lt;div style=&quot;background: #f0f0f0;&quot;&gt;` - Creates a shape with background
+- **Borders**: CSS `border` on `&lt;div&gt;` elements converts to PowerPoint shape borders
+  - Supports uniform borders: `border: 2px solid #333333`
+  - Supports partial borders: `border-left`, `border-right`, `border-top`, `border-bottom` (rendered as line shapes)
+  - Example: `&lt;div style=&quot;border-left: 8pt solid #E76F51;&quot;&gt;`
+- **Border radius**: CSS `border-radius` on `&lt;div&gt;` elements for rounded corners
+  - `border-radius: 50%` or higher creates circular shape
+  - Percentages &lt;50% calculated relative to shape&#x27;s smaller dimension
+  - Supports px and pt units (e.g., `border-radius: 8pt;`, `border-radius: 12px;`)
+  - Example: `&lt;div style=&quot;border-radius: 25%;&quot;&gt;` on 100x200px box = 25% of 100px = 25px radius
+- **Box shadows**: CSS `box-shadow` on `&lt;div&gt;` elements converts to PowerPoint shadows
+  - Supports outer shadows only (inset shadows are ignored to prevent corruption)
+  - Example: `&lt;div style=&quot;box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);&quot;&gt;`
+  - Note: Inset/inner shadows are not supported by PowerPoint and will be skipp</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>ooxml/schemas/ecma/fouth-edition/opc-contentTypes.xsd</code> <span class="muted">(1.9 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ecma/fouth-edition/opc-coreProperties.xsd</code> <span class="muted">(2.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ecma/fouth-edition/opc-digSig.xsd</code> <span class="muted">(2.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ecma/fouth-edition/opc-relationships.xsd</code> <span class="muted">(1.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-chart.xsd</code> <span class="muted">(73.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-chartDrawing.xsd</code> <span class="muted">(6.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-diagram.xsd</code> <span class="muted">(50.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-lockedCanvas.xsd</code> <span class="muted">(624 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-main.xsd</code> <span class="muted">(148.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-picture.xsd</code> <span class="muted">(1.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-spreadsheetDrawing.xsd</code> <span class="muted">(8.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/dml-wordprocessingDrawing.xsd</code> <span class="muted">(14.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/pml.xsd</code> <span class="muted">(81.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-additionalCharacteristics.xsd</code> <span class="muted">(1.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-bibliography.xsd</code> <span class="muted">(7.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-commonSimpleTypes.xsd</code> <span class="muted">(6.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-customXmlDataProperties.xsd</code> <span class="muted">(1.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-customXmlSchemaProperties.xsd</code> <span class="muted">(880 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd</code> <span class="muted">(2.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd</code> <span class="muted">(3.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-documentPropertiesVariantTypes.xsd</code> <span class="muted">(7.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-math.xsd</code> <span class="muted">(22.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/shared-relationshipReference.xsd</code> <span class="muted">(1.3 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/sml.xsd</code> <span class="muted">(236.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/vml-main.xsd</code> <span class="muted">(25.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/vml-officeDrawing.xsd</code> <span class="muted">(24.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/vml-presentationDrawing.xsd</code> <span class="muted">(535 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/vml-spreadsheetDrawing.xsd</code> <span class="muted">(5.6 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/vml-wordprocessingDrawing.xsd</code> <span class="muted">(3.9 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/wml.xsd</code> <span class="muted">(167.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/ISO-IEC29500-4_2016/xml.xsd</code> <span class="muted">(4.5 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/mce/mc.xsd</code> <span class="muted">(3.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-2010.xsd</code> <span class="muted">(25.9 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-2012.xsd</code> <span class="muted">(3.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-2018.xsd</code> <span class="muted">(901 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-cex-2018.xsd</code> <span class="muted">(1.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-cid-2016.xsd</code> <span class="muted">(1002 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-sdtdatahash-2020.xsd</code> <span class="muted">(600 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/schemas/microsoft/wml-symex-2015.xsd</code> <span class="muted">(745 B, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>ooxml/scripts/pack.py</code> <span class="muted">(5.5 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Tool to pack a directory into a .docx, .pptx, or .xlsx file with XML formatting undone.
+
+Example usage:
+    python pack.py &lt;input_directory&gt; &lt;office_file&gt; [--force]
+&quot;&quot;&quot;
+
+import argparse
+import shutil
+import subprocess
+import sys
+import tempfile
+import defusedxml.minidom
+import zipfile
+from pathlib import Path
+
+
+def main():
+    parser = argparse.ArgumentParser(description=&quot;Pack a directory into an Office file&quot;)
+    parser.add_argument(&quot;input_directory&quot;, help=&quot;Unpacked Office document directory&quot;)
+    parser.add_argument(&quot;output_file&quot;, help=&quot;Output Office file (.docx/.pptx/.xlsx)&quot;)
+    parser.add_argument(&quot;--force&quot;, action=&quot;store_true&quot;, help=&quot;Skip validation&quot;)
+    args = parser.parse_args()
+
+    try:
+        success = pack_document(
+            args.input_directory, args.output_file, validate=not args.force
+        )
+
+        # Show warning if validation was skipped
+        if args.force:
+            print(&quot;Warning: Skipped validation, file may be corrupt&quot;, file=sys.stderr)
+        # Exit with error if validation failed
+        elif not success:
+            print(&quot;Contents would produce a corrupt file.&quot;, file=sys.stderr)
+            print(&quot;Please validate XML before repacking.&quot;, file=sys.stderr)
+            print(&quot;Use --force to skip validation and pack anyway.&quot;, file=sys.stderr)
+            sys.exit(1)
+
+    except ValueError as e:
+        sys.exit(f&quot;Error: {e}&quot;)
+
+
+def pack_document(input_dir, output_file, validate=False):
+    &quot;&quot;&quot;Pack a directory into an Office file (.docx/.pptx/.xlsx).
+
+    Args:
+        input_dir: Path to unpacked Office document directory
+        output_file: Path to output Office file
+        validate: If True, validates with soffice (default: False)
+
+    Returns:
+        bool: True if successful, False if validation failed
+    &quot;&quot;&quot;
+    input_dir = Path(input_dir)
+    output_file = Path(output_file)
+
+    if not input_dir.is_dir():
+        raise ValueError(f&quot;{input_dir} is not a directory&quot;)
+    if output_file.suffix.lower() not in {&quot;.docx&quot;, &quot;.pptx&quot;, &quot;.xlsx&quot;}:
+        raise ValueError(f&quot;{output_file} must be a .docx, .pptx, or .xlsx file&quot;)
+
+    # Work in temporary directory to avoid modifying original
+    with tempfile.TemporaryDirectory() as temp_dir:
+        temp_content_dir = Path(temp_dir) / &quot;content&quot;
+        shutil.copytree(input_dir, temp_content_dir)
+
+        # Process XML files to remove pretty-printing whitespace
+        for pattern in [&quot;*.xml&quot;, &quot;*.rels&quot;]:
+            for xml_file in temp_content_dir.rglob(pattern):
+                condense_xml(xml_file)
+
+        # Create final Office file as zip archive
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        with zipfile.ZipFile(output_file, &quot;w&quot;, zipfile.ZIP_DEFLATED) as zf:
+            for f in temp_content_dir.rglob(&quot;*&quot;):
+                if f.is_file():
+                    zf.write(f, f.relative_to(temp_content_dir))
+
+        # Validate if requested
+        if validate:
+            if not validate_document(output_file):
+                output_file.unlink()  # Delete the corrupt file
+                return False
+
+    return True
+
+
+def validate_document(doc_path):
+    &quot;&quot;&quot;Validate document by converting to HTML with soffice.&quot;&quot;&quot;
+    # Determine the correct filter based on file extension
+    match doc_path.suffix.lower():
+        case &quot;.docx&quot;:
+            filter_name = &quot;html:HTML&quot;
+        case &quot;.pptx&quot;:
+            filter_name = &quot;html:impress_html_Export&quot;
+        case &quot;.xlsx&quot;:
+            filter_name = &quot;html:HTML (StarCalc)&quot;
+
+    with tempfile.TemporaryDirectory() as temp_dir:
+        try:
+            result = subprocess.run(
+                [
+                    &quot;soffice&quot;,
+                    &quot;--headless&quot;,
+                    &quot;--convert-to&quot;,
+                    filter_name,
+                    &quot;--outdir&quot;,
+                    temp_dir,
+                    str(doc_path),
+                ],
+                capture_output=True,
+                timeout=10,
+                text=True,
+            )
+            if not (Pat</pre><div class="muted">…(content truncated)</div></details><details><summary><code>ooxml/scripts/unpack.py</code> <span class="muted">(1.0 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Unpack and format XML contents of Office files (.docx, .pptx, .xlsx)&quot;&quot;&quot;
+
+import random
+import sys
+import defusedxml.minidom
+import zipfile
+from pathlib import Path
+
+# Get command line arguments
+assert len(sys.argv) == 3, &quot;Usage: python unpack.py &lt;office_file&gt; &lt;output_dir&gt;&quot;
+input_file, output_dir = sys.argv[1], sys.argv[2]
+
+# Extract and format
+output_path = Path(output_dir)
+output_path.mkdir(parents=True, exist_ok=True)
+zipfile.ZipFile(input_file).extractall(output_path)
+
+# Pretty print all XML files
+xml_files = list(output_path.rglob(&quot;*.xml&quot;)) + list(output_path.rglob(&quot;*.rels&quot;))
+for xml_file in xml_files:
+    content = xml_file.read_text(encoding=&quot;utf-8&quot;)
+    dom = defusedxml.minidom.parseString(content)
+    xml_file.write_bytes(dom.toprettyxml(indent=&quot;  &quot;, encoding=&quot;ascii&quot;))
+
+# For .docx files, suggest an RSID for tracked changes
+if input_file.endswith(&quot;.docx&quot;):
+    suggested_rsid = &quot;&quot;.join(random.choices(&quot;0123456789ABCDEF&quot;, k=8))
+    print(f&quot;Suggested RSID for edit session: {suggested_rsid}&quot;)
+</pre></details><details><summary><code>ooxml/scripts/validate.py</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Command line tool to validate Office document XML files against XSD schemas and tracked changes.
+
+Usage:
+    python validate.py &lt;dir&gt; --original &lt;original_file&gt;
+&quot;&quot;&quot;
+
+import argparse
+import sys
+from pathlib import Path
+
+from validation import DOCXSchemaValidator, PPTXSchemaValidator, RedliningValidator
+
+
+def main():
+    parser = argparse.ArgumentParser(description=&quot;Validate Office document XML files&quot;)
+    parser.add_argument(
+        &quot;unpacked_dir&quot;,
+        help=&quot;Path to unpacked Office document directory&quot;,
+    )
+    parser.add_argument(
+        &quot;--original&quot;,
+        required=True,
+        help=&quot;Path to original file (.docx/.pptx/.xlsx)&quot;,
+    )
+    parser.add_argument(
+        &quot;-v&quot;,
+        &quot;--verbose&quot;,
+        action=&quot;store_true&quot;,
+        help=&quot;Enable verbose output&quot;,
+    )
+    args = parser.parse_args()
+
+    # Validate paths
+    unpacked_dir = Path(args.unpacked_dir)
+    original_file = Path(args.original)
+    file_extension = original_file.suffix.lower()
+    assert unpacked_dir.is_dir(), f&quot;Error: {unpacked_dir} is not a directory&quot;
+    assert original_file.is_file(), f&quot;Error: {original_file} is not a file&quot;
+    assert file_extension in [&quot;.docx&quot;, &quot;.pptx&quot;, &quot;.xlsx&quot;], (
+        f&quot;Error: {original_file} must be a .docx, .pptx, or .xlsx file&quot;
+    )
+
+    # Run validations
+    match file_extension:
+        case &quot;.docx&quot;:
+            validators = [DOCXSchemaValidator, RedliningValidator]
+        case &quot;.pptx&quot;:
+            validators = [PPTXSchemaValidator]
+        case _:
+            print(f&quot;Error: Validation not supported for file type {file_extension}&quot;)
+            sys.exit(1)
+
+    # Run validators
+    success = True
+    for V in validators:
+        validator = V(unpacked_dir, original_file, verbose=args.verbose)
+        if not validator.validate():
+            success = False
+
+    if success:
+        print(&quot;All validations PASSED!&quot;)
+
+    sys.exit(0 if success else 1)
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</pre></details><details><summary><code>ooxml/scripts/validation/__init__.py</code> <span class="muted">(336 B, text)</span></summary><pre class="claude-preview file-preview">&quot;&quot;&quot;
+Validation modules for Word document processing.
+&quot;&quot;&quot;
+
+from .base import BaseSchemaValidator
+from .docx import DOCXSchemaValidator
+from .pptx import PPTXSchemaValidator
+from .redlining import RedliningValidator
+
+__all__ = [
+    &quot;BaseSchemaValidator&quot;,
+    &quot;DOCXSchemaValidator&quot;,
+    &quot;PPTXSchemaValidator&quot;,
+    &quot;RedliningValidator&quot;,
+]
+</pre></details><div class="file-row"><code>ooxml/scripts/validation/__pycache__/__init__.cpython-312.pyc</code> <span class="muted">(540 B, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/scripts/validation/__pycache__/base.cpython-312.pyc</code> <span class="muted">(36.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/scripts/validation/__pycache__/docx.cpython-312.pyc</code> <span class="muted">(11.0 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/scripts/validation/__pycache__/pptx.cpython-312.pyc</code> <span class="muted">(12.7 KB, binary)</span> <span class="muted">— binary, no preview</span></div><div class="file-row"><code>ooxml/scripts/validation/__pycache__/redlining.cpython-312.pyc</code> <span class="muted">(10.8 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>ooxml/scripts/validation/base.py</code> <span class="muted">(39.0 KB, text)</span></summary><pre class="claude-preview file-preview">&quot;&quot;&quot;
+Base validator with common validation logic for document files.
+&quot;&quot;&quot;
+
+import re
+from pathlib import Path
+
+import lxml.etree
+
+
+class BaseSchemaValidator:
+    &quot;&quot;&quot;Base validator with common validation logic for document files.&quot;&quot;&quot;
+
+    # Elements whose &#x27;id&#x27; attributes must be unique within their file
+    # Format: element_name -&gt; (attribute_name, scope)
+    # scope can be &#x27;file&#x27; (unique within file) or &#x27;global&#x27; (unique across all files)
+    UNIQUE_ID_REQUIREMENTS = {
+        # Word elements
+        &quot;comment&quot;: (&quot;id&quot;, &quot;file&quot;),  # Comment IDs in comments.xml
+        &quot;commentrangestart&quot;: (&quot;id&quot;, &quot;file&quot;),  # Must match comment IDs
+        &quot;commentrangeend&quot;: (&quot;id&quot;, &quot;file&quot;),  # Must match comment IDs
+        &quot;bookmarkstart&quot;: (&quot;id&quot;, &quot;file&quot;),  # Bookmark start IDs
+        &quot;bookmarkend&quot;: (&quot;id&quot;, &quot;file&quot;),  # Bookmark end IDs
+        # Note: ins and del (track changes) can share IDs when part of same revision
+        # PowerPoint elements
+        &quot;sldid&quot;: (&quot;id&quot;, &quot;file&quot;),  # Slide IDs in presentation.xml
+        &quot;sldmasterid&quot;: (&quot;id&quot;, &quot;global&quot;),  # Slide master IDs must be globally unique
+        &quot;sldlayoutid&quot;: (&quot;id&quot;, &quot;global&quot;),  # Slide layout IDs must be globally unique
+        &quot;cm&quot;: (&quot;authorid&quot;, &quot;file&quot;),  # Comment author IDs
+        # Excel elements
+        &quot;sheet&quot;: (&quot;sheetid&quot;, &quot;file&quot;),  # Sheet IDs in workbook.xml
+        &quot;definedname&quot;: (&quot;id&quot;, &quot;file&quot;),  # Named range IDs
+        # Drawing/Shape elements (all formats)
+        &quot;cxnsp&quot;: (&quot;id&quot;, &quot;file&quot;),  # Connection shape IDs
+        &quot;sp&quot;: (&quot;id&quot;, &quot;file&quot;),  # Shape IDs
+        &quot;pic&quot;: (&quot;id&quot;, &quot;file&quot;),  # Picture IDs
+        &quot;grpsp&quot;: (&quot;id&quot;, &quot;file&quot;),  # Group shape IDs
+    }
+
+    # Mapping of element names to expected relationship types
+    # Subclasses should override this with format-specific mappings
+    ELEMENT_RELATIONSHIP_TYPES = {}
+
+    # Unified schema mappings for all Office document types
+    SCHEMA_MAPPINGS = {
+        # Document type specific schemas
+        &quot;word&quot;: &quot;ISO-IEC29500-4_2016/wml.xsd&quot;,  # Word documents
+        &quot;ppt&quot;: &quot;ISO-IEC29500-4_2016/pml.xsd&quot;,  # PowerPoint presentations
+        &quot;xl&quot;: &quot;ISO-IEC29500-4_2016/sml.xsd&quot;,  # Excel spreadsheets
+        # Common file types
+        &quot;[Content_Types].xml&quot;: &quot;ecma/fouth-edition/opc-contentTypes.xsd&quot;,
+        &quot;app.xml&quot;: &quot;ISO-IEC29500-4_2016/shared-documentPropertiesExtended.xsd&quot;,
+        &quot;core.xml&quot;: &quot;ecma/fouth-edition/opc-coreProperties.xsd&quot;,
+        &quot;custom.xml&quot;: &quot;ISO-IEC29500-4_2016/shared-documentPropertiesCustom.xsd&quot;,
+        &quot;.rels&quot;: &quot;ecma/fouth-edition/opc-relationships.xsd&quot;,
+        # Word-specific files
+        &quot;people.xml&quot;: &quot;microsoft/wml-2012.xsd&quot;,
+        &quot;commentsIds.xml&quot;: &quot;microsoft/wml-cid-2016.xsd&quot;,
+        &quot;commentsExtensible.xml&quot;: &quot;microsoft/wml-cex-2018.xsd&quot;,
+        &quot;commentsExtended.xml&quot;: &quot;microsoft/wml-2012.xsd&quot;,
+        # Chart files (common across document types)
+        &quot;chart&quot;: &quot;ISO-IEC29500-4_2016/dml-chart.xsd&quot;,
+        # Theme files (common across document types)
+        &quot;theme&quot;: &quot;ISO-IEC29500-4_2016/dml-main.xsd&quot;,
+        # Drawing and media files
+        &quot;drawing&quot;: &quot;ISO-IEC29500-4_2016/dml-main.xsd&quot;,
+    }
+
+    # Unified namespace constants
+    MC_NAMESPACE = &quot;http://schemas.openxmlformats.org/markup-compatibility/2006&quot;
+    XML_NAMESPACE = &quot;http://www.w3.org/XML/1998/namespace&quot;
+
+    # Common OOXML namespaces used across validators
+    PACKAGE_RELATIONSHIPS_NAMESPACE = (
+        &quot;http://schemas.openxmlformats.org/package/2006/relationships&quot;
+    )
+    OFFICE_RELATIONSHIPS_NAMESPACE = (
+        &quot;http://schemas.openxmlformats.org/officeDocument/2006/relationships&quot;
+    )
+    CONTENT_TYPES_NAMESPACE = (
+        &quot;http://schemas.openxmlformats.org/package/2006/content-types&quot;
+    )
+
+    # Folders where we should clean ignorable namespaces
+    MAIN_CONTENT_FOLDERS = {&quot;word&quot;, &quot;ppt&quot;, &quot;xl&quot;}
+
+    # All allowed OOXML namespaces (superset of all document types)
+    OOXML_NAMESPACES = {
+        &quot;http://schemas.openxmlformats.org/officeDocument/2006/math&quot;,
+        &quot;http://schemas.openxmlformats.org/officeDocument/2006/re</pre><div class="muted">…(content truncated)</div></details><div class="muted">… (file list truncated at limit)</div></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.225</td><td>0.18</td><td><strong>4.05</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>1.000</td><td>0.07</td><td><strong>7.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.500</td><td>0.07</td><td><strong>3.50</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

@@ -1,0 +1,1291 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign-mcp-builder · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign-mcp-builder</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign-mcp-builder">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign-mcp-builder</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#f59e0b;">分类: 部分风险</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 10 · 122.3 KB</span>  <span class="chip">扫描: 2026-06-13 14:52:18</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">7.7<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:7.7%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按参考文献 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">凭证窃取</div>  <div class="card-count">2<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge bad">严重 · 2</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 3 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E4</code></td><td>recon</td><td><code>reference\node_mcp_server.md:575</code></td><td><code class="snippet">nMap</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E2</code></td><td>cred_access</td><td><code>reference\node_mcp_server.md:707</code></td><td><code class="snippet">process.env.EXAMPLE_API_KEY</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E2</code></td><td>cred_access</td><td><code>reference\node_mcp_server.md:719</code></td><td><code class="snippet">process.env.EXAMPLE_API_KEY</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        <div class="empty">蜜罐未启用。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (10 files, 122.3 KB)</h4>
+      <div class="file-list"><details><summary><code>LICENSE.txt</code> <span class="muted">(11.3 KB, text)</span></summary><pre class="claude-preview file-preview">
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      &quot;Source&quot; form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      &quot;Contribution&quot; shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/evaluation.md</code> <span class="muted">(21.7 KB, text)</span></summary><pre class="claude-preview file-preview"># MCP Server Evaluation Guide
+
+## Overview
+
+This document provides guidance on creating comprehensive evaluations for MCP servers. Evaluations test whether LLMs can effectively use your MCP server to answer realistic, complex questions using only the tools provided.
+
+---
+
+## Quick Reference
+
+### Evaluation Requirements
+- Create 10 human-readable questions
+- Questions must be READ-ONLY, INDEPENDENT, NON-DESTRUCTIVE
+- Each question requires multiple tool calls (potentially dozens)
+- Answers must be single, verifiable values
+- Answers must be STABLE (won&#x27;t change over time)
+
+### Output Format
+```xml
+&lt;evaluation&gt;
+   &lt;qa_pair&gt;
+      &lt;question&gt;Your question here&lt;/question&gt;
+      &lt;answer&gt;Single verifiable answer&lt;/answer&gt;
+   &lt;/qa_pair&gt;
+&lt;/evaluation&gt;
+```
+
+---
+
+## Purpose of Evaluations
+
+The measure of quality of an MCP server is NOT how well or comprehensively the server implements tools, but how well these implementations (input/output schemas, docstrings/descriptions, functionality) enable LLMs with no other context and access ONLY to the MCP servers to answer realistic and difficult questions.
+
+## Evaluation Overview
+
+Create 10 human-readable questions requiring ONLY READ-ONLY, INDEPENDENT, NON-DESTRUCTIVE, and IDEMPOTENT operations to answer. Each question should be:
+- Realistic
+- Clear and concise
+- Unambiguous
+- Complex, requiring potentially dozens of tool calls or steps
+- Answerable with a single, verifiable value that you identify in advance
+
+## Question Guidelines
+
+### Core Requirements
+
+1. **Questions MUST be independent**
+   - Each question should NOT depend on the answer to any other question
+   - Should not assume prior write operations from processing another question
+
+2. **Questions MUST require ONLY NON-DESTRUCTIVE AND IDEMPOTENT tool use**
+   - Should not instruct or require modifying state to arrive at the correct answer
+
+3. **Questions must be REALISTIC, CLEAR, CONCISE, and COMPLEX**
+   - Must require another LLM to use multiple (potentially dozens of) tools or steps to answer
+
+### Complexity and Depth
+
+4. **Questions must require deep exploration**
+   - Consider multi-hop questions requiring multiple sub-questions and sequential tool calls
+   - Each step should benefit from information found in previous questions
+
+5. **Questions may require extensive paging**
+   - May need paging through multiple pages of results
+   - May require querying old data (1-2 years out-of-date) to find niche information
+   - The questions must be DIFFICULT
+
+6. **Questions must require deep understanding**
+   - Rather than surface-level knowledge
+   - May pose complex ideas as True/False questions requiring evidence
+   - May use multiple-choice format where LLM must search different hypotheses
+
+7. **Questions must not be solvable with straightforward keyword search**
+   - Do not include specific keywords from the target content
+   - Use synonyms, related concepts, or paraphrases
+   - Require multiple searches, analyzing multiple related items, extracting context, then deriving the answer
+
+### Tool Testing
+
+8. **Questions should stress-test tool return values**
+   - May elicit tools returning large JSON objects or lists, overwhelming the LLM
+   - Should require understanding multiple modalities of data:
+     - IDs and names
+     - Timestamps and datetimes (months, days, years, seconds)
+     - File IDs, names, extensions, and mimetypes
+     - URLs, GIDs, etc.
+   - Should probe the tool&#x27;s ability to return all useful forms of data
+
+9. **Questions should MOSTLY reflect real human use cases**
+   - The kinds of information retrieval tasks that HUMANS assisted by an LLM would care about
+
+10. **Questions may require dozens of tool calls**
+    - This challenges LLMs with limited context
+    - Encourages MCP server tools to reduce information returned
+
+11. **Include ambiguous questions**
+    - May be ambiguous OR require difficult decisions on which tools to call
+    - Force the LLM to potentially make mistakes or misinterpret
+    - Ensure that desp</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/mcp_best_practices.md</code> <span class="muted">(7.4 KB, text)</span></summary><pre class="claude-preview file-preview"># MCP Server Best Practices
+
+## Quick Reference
+
+### Server Naming
+- **Python**: `{service}_mcp` (e.g., `slack_mcp`)
+- **Node/TypeScript**: `{service}-mcp-server` (e.g., `slack-mcp-server`)
+
+### Tool Naming
+- Use snake_case with service prefix
+- Format: `{service}_{action}_{resource}`
+- Example: `slack_send_message`, `github_create_issue`
+
+### Response Formats
+- Support both JSON and Markdown formats
+- JSON for programmatic processing
+- Markdown for human readability
+
+### Pagination
+- Always respect `limit` parameter
+- Return `has_more`, `next_offset`, `total_count`
+- Default to 20-50 items
+
+### Transport
+- **Streamable HTTP**: For remote servers, multi-client scenarios
+- **stdio**: For local integrations, command-line tools
+- Avoid SSE (deprecated in favor of streamable HTTP)
+
+---
+
+## Server Naming Conventions
+
+Follow these standardized naming patterns:
+
+**Python**: Use format `{service}_mcp` (lowercase with underscores)
+- Examples: `slack_mcp`, `github_mcp`, `jira_mcp`
+
+**Node/TypeScript**: Use format `{service}-mcp-server` (lowercase with hyphens)
+- Examples: `slack-mcp-server`, `github-mcp-server`, `jira-mcp-server`
+
+The name should be general, descriptive of the service being integrated, easy to infer from the task description, and without version numbers.
+
+---
+
+## Tool Naming and Design
+
+### Tool Naming
+
+1. **Use snake_case**: `search_users`, `create_project`, `get_channel_info`
+2. **Include service prefix**: Anticipate that your MCP server may be used alongside other MCP servers
+   - Use `slack_send_message` instead of just `send_message`
+   - Use `github_create_issue` instead of just `create_issue`
+3. **Be action-oriented**: Start with verbs (get, list, search, create, etc.)
+4. **Be specific**: Avoid generic names that could conflict with other servers
+
+### Tool Design
+
+- Tool descriptions must narrowly and unambiguously describe functionality
+- Descriptions must precisely match actual functionality
+- Provide tool annotations (readOnlyHint, destructiveHint, idempotentHint, openWorldHint)
+- Keep tool operations focused and atomic
+
+---
+
+## Response Formats
+
+All tools that return data should support multiple formats:
+
+### JSON Format (`response_format=&quot;json&quot;`)
+- Machine-readable structured data
+- Include all available fields and metadata
+- Consistent field names and types
+- Use for programmatic processing
+
+### Markdown Format (`response_format=&quot;markdown&quot;`, typically default)
+- Human-readable formatted text
+- Use headers, lists, and formatting for clarity
+- Convert timestamps to human-readable format
+- Show display names with IDs in parentheses
+- Omit verbose metadata
+
+---
+
+## Pagination
+
+For tools that list resources:
+
+- **Always respect the `limit` parameter**
+- **Implement pagination**: Use `offset` or cursor-based pagination
+- **Return pagination metadata**: Include `has_more`, `next_offset`/`next_cursor`, `total_count`
+- **Never load all results into memory**: Especially important for large datasets
+- **Default to reasonable limits**: 20-50 items is typical
+
+Example pagination response:
+```json
+{
+  &quot;total&quot;: 150,
+  &quot;count&quot;: 20,
+  &quot;offset&quot;: 0,
+  &quot;items&quot;: [...],
+  &quot;has_more&quot;: true,
+  &quot;next_offset&quot;: 20
+}
+```
+
+---
+
+## Transport Options
+
+### Streamable HTTP
+
+**Best for**: Remote servers, web services, multi-client scenarios
+
+**Characteristics**:
+- Bidirectional communication over HTTP
+- Supports multiple simultaneous clients
+- Can be deployed as a web service
+- Enables server-to-client notifications
+
+**Use when**:
+- Serving multiple clients simultaneously
+- Deploying as a cloud service
+- Integration with web applications
+
+### stdio
+
+**Best for**: Local integrations, command-line tools
+
+**Characteristics**:
+- Standard input/output stream communication
+- Simple setup, no network configuration needed
+- Runs as a subprocess of the client
+
+**Use when**:
+- Building tools for local development environments
+- Integrating with desktop applications
+- Single-user, single-session scenarios
+
+**Note**: stdio servers should NOT log to std</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/node_mcp_server.md</code> <span class="muted">(28.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Node/TypeScript MCP Server Implementation Guide
+
+## Overview
+
+This document provides Node/TypeScript-specific best practices and examples for implementing MCP servers using the MCP TypeScript SDK. It covers project structure, server setup, tool registration patterns, input validation with Zod, error handling, and complete working examples.
+
+---
+
+## Quick Reference
+
+### Key Imports
+```typescript
+import { McpServer } from &quot;@modelcontextprotocol/sdk/server/mcp.js&quot;;
+import { StreamableHTTPServerTransport } from &quot;@modelcontextprotocol/sdk/server/streamableHttp.js&quot;;
+import { StdioServerTransport } from &quot;@modelcontextprotocol/sdk/server/stdio.js&quot;;
+import express from &quot;express&quot;;
+import { z } from &quot;zod&quot;;
+```
+
+### Server Initialization
+```typescript
+const server = new McpServer({
+  name: &quot;service-mcp-server&quot;,
+  version: &quot;1.0.0&quot;
+});
+```
+
+### Tool Registration Pattern
+```typescript
+server.registerTool(
+  &quot;tool_name&quot;,
+  {
+    title: &quot;Tool Display Name&quot;,
+    description: &quot;What the tool does&quot;,
+    inputSchema: { param: z.string() },
+    outputSchema: { result: z.string() }
+  },
+  async ({ param }) =&gt; {
+    const output = { result: `Processed: ${param}` };
+    return {
+      content: [{ type: &quot;text&quot;, text: JSON.stringify(output) }],
+      structuredContent: output // Modern pattern for structured data
+    };
+  }
+);
+```
+
+---
+
+## MCP TypeScript SDK
+
+The official MCP TypeScript SDK provides:
+- `McpServer` class for server initialization
+- `registerTool` method for tool registration
+- Zod schema integration for runtime input validation
+- Type-safe tool handler implementations
+
+**IMPORTANT - Use Modern APIs Only:**
+- **DO use**: `server.registerTool()`, `server.registerResource()`, `server.registerPrompt()`
+- **DO NOT use**: Old deprecated APIs such as `server.tool()`, `server.setRequestHandler(ListToolsRequestSchema, ...)`, or manual handler registration
+- The `register*` methods provide better type safety, automatic schema handling, and are the recommended approach
+
+See the MCP SDK documentation in the references for complete details.
+
+## Server Naming Convention
+
+Node/TypeScript MCP servers must follow this naming pattern:
+- **Format**: `{service}-mcp-server` (lowercase with hyphens)
+- **Examples**: `github-mcp-server`, `jira-mcp-server`, `stripe-mcp-server`
+
+The name should be:
+- General (not tied to specific features)
+- Descriptive of the service/API being integrated
+- Easy to infer from the task description
+- Without version numbers or dates
+
+## Project Structure
+
+Create the following structure for Node/TypeScript MCP servers:
+
+```
+{service}-mcp-server/
+├── package.json
+├── tsconfig.json
+├── README.md
+├── src/
+│   ├── index.ts          # Main entry point with McpServer initialization
+│   ├── types.ts          # TypeScript type definitions and interfaces
+│   ├── tools/            # Tool implementations (one file per domain)
+│   ├── services/         # API clients and shared utilities
+│   ├── schemas/          # Zod validation schemas
+│   └── constants.ts      # Shared constants (API_URL, CHARACTER_LIMIT, etc.)
+└── dist/                 # Built JavaScript files (entry point: dist/index.js)
+```
+
+## Tool Implementation
+
+### Tool Naming
+
+Use snake_case for tool names (e.g., &quot;search_users&quot;, &quot;create_project&quot;, &quot;get_channel_info&quot;) with clear, action-oriented names.
+
+**Avoid Naming Conflicts**: Include the service context to prevent overlaps:
+- Use &quot;slack_send_message&quot; instead of just &quot;send_message&quot;
+- Use &quot;github_create_issue&quot; instead of just &quot;create_issue&quot;
+- Use &quot;asana_list_tasks&quot; instead of just &quot;list_tasks&quot;
+
+### Tool Structure
+
+Tools are registered using the `registerTool` method with the following requirements:
+- Use Zod schemas for runtime input validation and type safety
+- The `description` field must be explicitly provided - JSDoc comments are NOT automatically extracted
+- Explicitly provide `title`, `description`, `inputSchema`, and `annotations`
+- The `inputSchema` must be a Zod schema object (not a JSON schema)
+- Type all parameters and re</pre><div class="muted">…(content truncated)</div></details><details><summary><code>reference/python_mcp_server.md</code> <span class="muted">(25.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Python MCP Server Implementation Guide
+
+## Overview
+
+This document provides Python-specific best practices and examples for implementing MCP servers using the MCP Python SDK. It covers server setup, tool registration patterns, input validation with Pydantic, error handling, and complete working examples.
+
+---
+
+## Quick Reference
+
+### Key Imports
+```python
+from mcp.server.fastmcp import FastMCP
+from pydantic import BaseModel, Field, field_validator, ConfigDict
+from typing import Optional, List, Dict, Any
+from enum import Enum
+import httpx
+```
+
+### Server Initialization
+```python
+mcp = FastMCP(&quot;service_mcp&quot;)
+```
+
+### Tool Registration Pattern
+```python
+@mcp.tool(name=&quot;tool_name&quot;, annotations={...})
+async def tool_function(params: InputModel) -&gt; str:
+    # Implementation
+    pass
+```
+
+---
+
+## MCP Python SDK and FastMCP
+
+The official MCP Python SDK provides FastMCP, a high-level framework for building MCP servers. It provides:
+- Automatic description and inputSchema generation from function signatures and docstrings
+- Pydantic model integration for input validation
+- Decorator-based tool registration with `@mcp.tool`
+
+**For complete SDK documentation, use WebFetch to load:**
+`https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/README.md`
+
+## Server Naming Convention
+
+Python MCP servers must follow this naming pattern:
+- **Format**: `{service}_mcp` (lowercase with underscores)
+- **Examples**: `github_mcp`, `jira_mcp`, `stripe_mcp`
+
+The name should be:
+- General (not tied to specific features)
+- Descriptive of the service/API being integrated
+- Easy to infer from the task description
+- Without version numbers or dates
+
+## Tool Implementation
+
+### Tool Naming
+
+Use snake_case for tool names (e.g., &quot;search_users&quot;, &quot;create_project&quot;, &quot;get_channel_info&quot;) with clear, action-oriented names.
+
+**Avoid Naming Conflicts**: Include the service context to prevent overlaps:
+- Use &quot;slack_send_message&quot; instead of just &quot;send_message&quot;
+- Use &quot;github_create_issue&quot; instead of just &quot;create_issue&quot;
+- Use &quot;asana_list_tasks&quot; instead of just &quot;list_tasks&quot;
+
+### Tool Structure with FastMCP
+
+Tools are defined using the `@mcp.tool` decorator with Pydantic models for input validation:
+
+```python
+from pydantic import BaseModel, Field, ConfigDict
+from mcp.server.fastmcp import FastMCP
+
+# Initialize the MCP server
+mcp = FastMCP(&quot;example_mcp&quot;)
+
+# Define Pydantic model for input validation
+class ServiceToolInput(BaseModel):
+    &#x27;&#x27;&#x27;Input model for service tool operation.&#x27;&#x27;&#x27;
+    model_config = ConfigDict(
+        str_strip_whitespace=True,  # Auto-strip whitespace from strings
+        validate_assignment=True,    # Validate on assignment
+        extra=&#x27;forbid&#x27;              # Forbid extra fields
+    )
+
+    param1: str = Field(..., description=&quot;First parameter description (e.g., &#x27;user123&#x27;, &#x27;project-abc&#x27;)&quot;, min_length=1, max_length=100)
+    param2: Optional[int] = Field(default=None, description=&quot;Optional integer parameter with constraints&quot;, ge=0, le=1000)
+    tags: Optional[List[str]] = Field(default_factory=list, description=&quot;List of tags to apply&quot;, max_items=10)
+
+@mcp.tool(
+    name=&quot;service_tool_name&quot;,
+    annotations={
+        &quot;title&quot;: &quot;Human-Readable Tool Title&quot;,
+        &quot;readOnlyHint&quot;: True,     # Tool does not modify environment
+        &quot;destructiveHint&quot;: False,  # Tool does not perform destructive operations
+        &quot;idempotentHint&quot;: True,    # Repeated calls have no additional effect
+        &quot;openWorldHint&quot;: False     # Tool does not interact with external entities
+    }
+)
+async def service_tool_name(params: ServiceToolInput) -&gt; str:
+    &#x27;&#x27;&#x27;Tool description automatically becomes the &#x27;description&#x27; field.
+
+    This tool performs a specific operation on the service. It validates all inputs
+    using the ServiceToolInput Pydantic model before processing.
+
+    Args:
+        params (ServiceToolInput): Validated input parameters containing:
+            - param1 (str): First parameter description
+            - param2 (Optional[int]): Optional parameter </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/connections.py</code> <span class="muted">(4.9 KB, text)</span></summary><pre class="claude-preview file-preview">&quot;&quot;&quot;Lightweight connection handling for MCP servers.&quot;&quot;&quot;
+
+from abc import ABC, abstractmethod
+from contextlib import AsyncExitStack
+from typing import Any
+
+from mcp import ClientSession, StdioServerParameters
+from mcp.client.sse import sse_client
+from mcp.client.stdio import stdio_client
+from mcp.client.streamable_http import streamablehttp_client
+
+
+class MCPConnection(ABC):
+    &quot;&quot;&quot;Base class for MCP server connections.&quot;&quot;&quot;
+
+    def __init__(self):
+        self.session = None
+        self._stack = None
+
+    @abstractmethod
+    def _create_context(self):
+        &quot;&quot;&quot;Create the connection context based on connection type.&quot;&quot;&quot;
+
+    async def __aenter__(self):
+        &quot;&quot;&quot;Initialize MCP server connection.&quot;&quot;&quot;
+        self._stack = AsyncExitStack()
+        await self._stack.__aenter__()
+
+        try:
+            ctx = self._create_context()
+            result = await self._stack.enter_async_context(ctx)
+
+            if len(result) == 2:
+                read, write = result
+            elif len(result) == 3:
+                read, write, _ = result
+            else:
+                raise ValueError(f&quot;Unexpected context result: {result}&quot;)
+
+            session_ctx = ClientSession(read, write)
+            self.session = await self._stack.enter_async_context(session_ctx)
+            await self.session.initialize()
+            return self
+        except BaseException:
+            await self._stack.__aexit__(None, None, None)
+            raise
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        &quot;&quot;&quot;Clean up MCP server connection resources.&quot;&quot;&quot;
+        if self._stack:
+            await self._stack.__aexit__(exc_type, exc_val, exc_tb)
+        self.session = None
+        self._stack = None
+
+    async def list_tools(self) -&gt; list[dict[str, Any]]:
+        &quot;&quot;&quot;Retrieve available tools from the MCP server.&quot;&quot;&quot;
+        response = await self.session.list_tools()
+        return [
+            {
+                &quot;name&quot;: tool.name,
+                &quot;description&quot;: tool.description,
+                &quot;input_schema&quot;: tool.inputSchema,
+            }
+            for tool in response.tools
+        ]
+
+    async def call_tool(self, tool_name: str, arguments: dict[str, Any]) -&gt; Any:
+        &quot;&quot;&quot;Call a tool on the MCP server with provided arguments.&quot;&quot;&quot;
+        result = await self.session.call_tool(tool_name, arguments=arguments)
+        return result.content
+
+
+class MCPConnectionStdio(MCPConnection):
+    &quot;&quot;&quot;MCP connection using standard input/output.&quot;&quot;&quot;
+
+    def __init__(self, command: str, args: list[str] = None, env: dict[str, str] = None):
+        super().__init__()
+        self.command = command
+        self.args = args or []
+        self.env = env
+
+    def _create_context(self):
+        return stdio_client(
+            StdioServerParameters(command=self.command, args=self.args, env=self.env)
+        )
+
+
+class MCPConnectionSSE(MCPConnection):
+    &quot;&quot;&quot;MCP connection using Server-Sent Events.&quot;&quot;&quot;
+
+    def __init__(self, url: str, headers: dict[str, str] = None):
+        super().__init__()
+        self.url = url
+        self.headers = headers or {}
+
+    def _create_context(self):
+        return sse_client(url=self.url, headers=self.headers)
+
+
+class MCPConnectionHTTP(MCPConnection):
+    &quot;&quot;&quot;MCP connection using Streamable HTTP.&quot;&quot;&quot;
+
+    def __init__(self, url: str, headers: dict[str, str] = None):
+        super().__init__()
+        self.url = url
+        self.headers = headers or {}
+
+    def _create_context(self):
+        return streamablehttp_client(url=self.url, headers=self.headers)
+
+
+def create_connection(
+    transport: str,
+    command: str = None,
+    args: list[str] = None,
+    env: dict[str, str] = None,
+    url: str = None,
+    headers: dict[str, str] = None,
+) -&gt; MCPConnection:
+    &quot;&quot;&quot;Factory function to create the appropriate MCP connection.
+
+    Args:
+        transport: Connection type (&quot;stdio&quot;, &quot;sse&quot;, or &quot;http&quot;)
+        command: Command to run (stdio only)
+        args: Command arguments (stdio only)
+        env: Environment variables (stdio only)
+     </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/evaluation.py</code> <span class="muted">(12.6 KB, text)</span></summary><pre class="claude-preview file-preview">&quot;&quot;&quot;MCP Server Evaluation Harness
+
+This script evaluates MCP servers by running test questions against them using Claude.
+&quot;&quot;&quot;
+
+import argparse
+import asyncio
+import json
+import re
+import sys
+import time
+import traceback
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from typing import Any
+
+from anthropic import Anthropic
+
+from connections import create_connection
+
+EVALUATION_PROMPT = &quot;&quot;&quot;You are an AI assistant with access to tools.
+
+When given a task, you MUST:
+1. Use the available tools to complete the task
+2. Provide summary of each step in your approach, wrapped in &lt;summary&gt; tags
+3. Provide feedback on the tools provided, wrapped in &lt;feedback&gt; tags
+4. Provide your final response, wrapped in &lt;response&gt; tags
+
+Summary Requirements:
+- In your &lt;summary&gt; tags, you must explain:
+  - The steps you took to complete the task
+  - Which tools you used, in what order, and why
+  - The inputs you provided to each tool
+  - The outputs you received from each tool
+  - A summary for how you arrived at the response
+
+Feedback Requirements:
+- In your &lt;feedback&gt; tags, provide constructive feedback on the tools:
+  - Comment on tool names: Are they clear and descriptive?
+  - Comment on input parameters: Are they well-documented? Are required vs optional parameters clear?
+  - Comment on descriptions: Do they accurately describe what the tool does?
+  - Comment on any errors encountered during tool usage: Did the tool fail to execute? Did the tool return too many tokens?
+  - Identify specific areas for improvement and explain WHY they would help
+  - Be specific and actionable in your suggestions
+
+Response Requirements:
+- Your response should be concise and directly address what was asked
+- Always wrap your final response in &lt;response&gt; tags
+- If you cannot solve the task return &lt;response&gt;NOT_FOUND&lt;/response&gt;
+- For numeric responses, provide just the number
+- For IDs, provide just the ID
+- For names or text, provide the exact text requested
+- Your response should go last&quot;&quot;&quot;
+
+
+def parse_evaluation_file(file_path: Path) -&gt; list[dict[str, Any]]:
+    &quot;&quot;&quot;Parse XML evaluation file with qa_pair elements.&quot;&quot;&quot;
+    try:
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+        evaluations = []
+
+        for qa_pair in root.findall(&quot;.//qa_pair&quot;):
+            question_elem = qa_pair.find(&quot;question&quot;)
+            answer_elem = qa_pair.find(&quot;answer&quot;)
+
+            if question_elem is not None and answer_elem is not None:
+                evaluations.append({
+                    &quot;question&quot;: (question_elem.text or &quot;&quot;).strip(),
+                    &quot;answer&quot;: (answer_elem.text or &quot;&quot;).strip(),
+                })
+
+        return evaluations
+    except Exception as e:
+        print(f&quot;Error parsing evaluation file {file_path}: {e}&quot;)
+        return []
+
+
+def extract_xml_content(text: str, tag: str) -&gt; str | None:
+    &quot;&quot;&quot;Extract content from XML tags.&quot;&quot;&quot;
+    pattern = rf&quot;&lt;{tag}&gt;(.*?)&lt;/{tag}&gt;&quot;
+    matches = re.findall(pattern, text, re.DOTALL)
+    return matches[-1].strip() if matches else None
+
+
+async def agent_loop(
+    client: Anthropic,
+    model: str,
+    question: str,
+    tools: list[dict[str, Any]],
+    connection: Any,
+) -&gt; tuple[str, dict[str, Any]]:
+    &quot;&quot;&quot;Run the agent loop with MCP tools.&quot;&quot;&quot;
+    messages = [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: question}]
+
+    response = await asyncio.to_thread(
+        client.messages.create,
+        model=model,
+        max_tokens=4096,
+        system=EVALUATION_PROMPT,
+        messages=messages,
+        tools=tools,
+    )
+
+    messages.append({&quot;role&quot;: &quot;assistant&quot;, &quot;content&quot;: response.content})
+
+    tool_metrics = {}
+
+    while response.stop_reason == &quot;tool_use&quot;:
+        tool_use = next(block for block in response.content if block.type == &quot;tool_use&quot;)
+        tool_name = tool_use.name
+        tool_input = tool_use.input
+
+        tool_start_ts = time.time()
+        try:
+            tool_result = await connection.call_tool(tool_name, tool_input)
+            tool_response = json.dumps(tool_result) if isinstance(tool_result,</pre><div class="muted">…(content truncated)</div></details><div class="file-row"><code>scripts/example_evaluation.xml</code> <span class="muted">(1.2 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>scripts/requirements.txt</code> <span class="muted">(31 B, text)</span></summary><pre class="claude-preview file-preview">anthropic&gt;=0.39.0
+mcp&gt;=1.1.0
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(9.1 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: mcp-builder
+description: Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
+license: Complete terms in LICENSE.txt
+---
+
+# MCP Server Development Guide
+
+## Overview
+
+Create MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. The quality of an MCP server is measured by how well it enables LLMs to accomplish real-world tasks.
+
+---
+
+# Process
+
+## 🚀 High-Level Workflow
+
+Creating a high-quality MCP server involves four main phases:
+
+### Phase 1: Deep Research and Planning
+
+#### 1.1 Understand Modern MCP Design
+
+**API Coverage vs. Workflow Tools:**
+Balance comprehensive API endpoint coverage with specialized workflow tools. Workflow tools can be more convenient for specific tasks, while comprehensive coverage gives agents flexibility to compose operations. Performance varies by client—some clients benefit from code execution that combines basic tools, while others work better with higher-level workflows. When uncertain, prioritize comprehensive API coverage.
+
+**Tool Naming and Discoverability:**
+Clear, descriptive tool names help agents find the right tools quickly. Use consistent prefixes (e.g., `github_create_issue`, `github_list_repos`) and action-oriented naming.
+
+**Context Management:**
+Agents benefit from concise tool descriptions and the ability to filter/paginate results. Design tools that return focused, relevant data. Some clients support code execution which can help agents filter and process data efficiently.
+
+**Actionable Error Messages:**
+Error messages should guide agents toward solutions with specific suggestions and next steps.
+
+#### 1.2 Study MCP Protocol Documentation
+
+**Navigate the MCP specification:**
+
+Start with the sitemap to find relevant pages: `https://modelcontextprotocol.io/sitemap.xml`
+
+Then fetch specific pages with `.md` suffix for markdown format (e.g., `https://modelcontextprotocol.io/specification/draft.md`).
+
+Key pages to review:
+- Specification overview and architecture
+- Transport mechanisms (streamable HTTP, stdio)
+- Tool, resource, and prompt definitions
+
+#### 1.3 Study Framework Documentation
+
+**Recommended stack:**
+- **Language**: TypeScript (high-quality SDK support and good compatibility in many execution environments e.g. MCPB. Plus AI models are good at generating TypeScript code, benefiting from its broad usage, static typing and good linting tools)
+- **Transport**: Streamable HTTP for remote servers, using stateless JSON (simpler to scale and maintain, as opposed to stateful sessions and streaming responses). stdio for local servers.
+
+**Load framework documentation:**
+
+- **MCP Best Practices**: [📋 View Best Practices](./reference/mcp_best_practices.md) - Core guidelines
+
+**For TypeScript (recommended):**
+- **TypeScript SDK**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/typescript-sdk/main/README.md`
+- [⚡ TypeScript Guide](./reference/node_mcp_server.md) - TypeScript patterns and examples
+
+**For Python:**
+- **Python SDK**: Use WebFetch to load `https://raw.githubusercontent.com/modelcontextprotocol/python-sdk/main/README.md`
+- [🐍 Python Guide](./reference/python_mcp_server.md) - Python patterns and examples
+
+#### 1.4 Plan Your Implementation
+
+**Understand the API:**
+Review the service&#x27;s API documentation to identify key endpoints, authentication requirements, and data models. Use web search and WebFetch as needed.
+
+**Tool Selection:**
+Prioritize comprehensive API coverage. List endpoints to implement, starting with the most common operations.
+
+---
+
+### Phase 2: Implementation
+
+#### 2.1 Set Up Project Structure
+
+See language-specific guides for project setup:
+- [⚡ TypeScript Guide](./reference/node_mcp_server.md) - Project structure, package.json, tsconfig.js</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.037</td><td>0.18</td><td><strong>0.68</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "observability",
+  "items": [
+    {
+      "id": "incident_response_audit_logs",
+      "detail": "Sensitive observability target",
+      "sensitive": true
+    },
+    {
+      "id": "rotated_debug_logs",
+      "detail": "Routine observability item",
+      "sensitive": false
+    }
+  ]
+}

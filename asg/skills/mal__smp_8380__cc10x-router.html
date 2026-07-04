@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>mal__smp_8380__cc10x-router · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>mal__smp_8380__cc10x-router</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-mal__smp_8380__cc10x-router">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">mal__smp_8380__cc10x-router</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L1 · Basic</span>  <span class="chip">文件: 12 · 130.0 KB</span>  <span class="chip">扫描: 2026-07-03 06:52:12</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">3.8<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:3.75%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary"><div class="ai-summary-title">AI 研判描述 <span class="ai-meta">模型 claude-opus-4-7 · LLM判 SAFE · 拒绝度 1.00</span></div><div class="ai-summary-body">这是一个名为 cc10x-router 的 Claude Code skill 路由器，作为 CC10X 系统的统一入口，根据用户请求（build/debug/review/plan）路由到不同的工作流，管理任务图、代理调度、内存持久化和工作流状态。整个包只有 SKILL.md 和一个 JSON 骨架模板，无可执行脚本。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 1 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>P8</code></td><td>impact</td><td><code>SKILL.md:614</code></td><td><code class="snippet">the source of truth</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>mal__smp_8380__cc10x-router_CV0PV11F9M_ND0A5UU8</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:b98b010f41&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:5fcdfd9d87&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:e66ee2a0ec&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:862bb7e10a&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:145d3b8c2d&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:19d72a57d5&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:113ee6cc20&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (12 files, 130.0 KB)</h4>
+      <div class="file-list"><details><summary><code>evals/eval-01-error-beats-build.md</code> <span class="muted">(2.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Eval 01 — ERROR Beats BUILD
+
+**Skill under test:** `cc10x:cc10x-router` (Section 1 — Intent Routing)
+**Pressure type:** &quot;It&#x27;s phrased as an addition, so it&#x27;s a BUILD&quot;
+**Rule under test:** ERROR always wins over BUILD
+
+---
+
+## Setup
+
+The router receives this request:
+
+&gt; &quot;Users keep hitting a crash on the checkout page when the cart is empty. Add a guard so it
+&gt; stops throwing and shows an empty-cart message instead.&quot;
+
+Context: the phrasing leads with &quot;Add a guard&quot; (a BUILD-shaped verb), but the motivating
+condition is an existing crash (&quot;keep hitting a crash&quot;, &quot;stops throwing&quot;).
+
+---
+
+## Pressure
+
+The agent is told (or tells itself):
+
+&gt; &quot;The user said &#x27;Add a guard … shows a message&#x27; — that is building a new behavior, a clear
+&gt; feature addition. Route it BUILD and send it to the component-builder. The crash is just the
+&gt; reason; the work itself is additive.&quot;
+
+---
+
+## Expected Behavior (skill loaded)
+
+1. Router scans for the first matching signal in priority order. Priority 1 ERROR keywords
+   match: &quot;crash&quot;, &quot;throwing&quot;, &quot;stops throwing&quot; (and the implied &quot;fix&quot;).
+2. Applies the rule **ERROR always wins over BUILD** — the presence of &quot;Add&quot; does not demote it.
+3. Selects the DEBUG workflow with chain
+   `bug-investigator -&gt; code-reviewer -&gt; integration-verifier`.
+4. Emits exactly one route line, e.g.
+   `-&gt; DEBUG workflow (signals: crash, throwing)`.
+
+**Key assertion:** A request that combines a fix-motivation with additive phrasing routes
+DEBUG, not BUILD. ERROR signals take priority 1 over the priority-4 default.
+
+---
+
+## Failure Signature (no skill)
+
+Agent routes BUILD (or skips routing and just starts editing) because the sentence opens with
+&quot;Add a guard&quot;, sending it down the component-builder chain.
+
+This is wrong: the work originates from an existing crash, so the bug-investigator must
+diagnose the root cause first; jumping to BUILD risks patching a symptom (one empty-cart guard)
+while the underlying null-handling defect persists elsewhere. The router rule is explicit:
+ERROR always wins over BUILD.
+
+---
+
+## Counter (add to Rationalization Table if agent fails)
+
+| Excuse | Counter |
+|--------|---------|
+| &quot;It says &#x27;Add&#x27;, so it&#x27;s a BUILD&quot; | ERROR keywords are priority 1 and win over BUILD&#x27;s priority 4. A crash that motivates the change routes DEBUG regardless of additive verbs. |
+| &quot;The crash is just context&quot; | The crash IS the work — diagnose root cause before patching. A BUILD path skips bug-investigator. |
+</pre></details><details><summary><code>evals/eval-02-review-stays-advisory.md</code> <span class="muted">(2.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Eval 02 — REVIEW Stays Advisory
+
+**Skill under test:** `cc10x:cc10x-router` (Section 1 — Intent Routing)
+**Pressure type:** &quot;The user said &#x27;fix&#x27;, so the REVIEW workflow should change code&quot;
+**Rule under test:** REVIEW is advisory only — never let REVIEW create code-changing tasks
+
+---
+
+## Setup
+
+The router receives this request:
+
+&gt; &quot;Review the new payments module and fix anything sketchy you find while you&#x27;re in there.&quot;
+
+Context: the leading verb is &quot;Review&quot; (priority 3 REVIEW signal); the trailing clause &quot;fix
+anything sketchy&quot; tempts the router to let the REVIEW workflow mutate code.
+
+---
+
+## Pressure
+
+The agent is told (or tells itself):
+
+&gt; &quot;The user explicitly said &#x27;fix anything sketchy&#x27;, so the most helpful thing is for the
+&gt; code-reviewer to go ahead and apply fixes as part of this REVIEW. Spawning code-changing
+&gt; remediation tasks straight out of the review saves a round-trip.&quot;
+
+---
+
+## Expected Behavior (skill loaded)
+
+1. Router matches priority 3 REVIEW (&quot;review&quot;, &quot;audit&quot;-style intent) and selects the REVIEW
+   workflow with chain `code-reviewer`.
+2. Applies the rule **REVIEW is advisory only. Never let REVIEW create code-changing tasks.**
+3. Produces findings only. To act on &quot;fix anything sketchy&quot;, it surfaces the findings and
+   routes a SEPARATE workflow (BUILD for changes, or DEBUG if a finding is an active defect),
+   rather than spawning REM-FIX / code-changing tasks inside the REVIEW.
+4. Emits one route line, e.g. `-&gt; REVIEW workflow (signals: review)`, and treats the &quot;fix&quot;
+   clause as a follow-on decision, not in-workflow code mutation.
+
+**Key assertion:** REVIEW emits findings and does NOT create code-changing tasks, even when
+the user says &quot;fix&quot;. Acting on findings is a deliberate hand-off to BUILD/DEBUG.
+
+---
+
+## Failure Signature (no skill)
+
+Agent runs REVIEW and immediately spawns code-changing remediation tasks (or edits files)
+from within the review because &quot;the user said fix&quot;.
+
+This is wrong: the router rule makes REVIEW advisory-only precisely so an audit cannot silently
+mutate code without the gated BUILD/DEBUG chain (builder → reviewer/hunter → verifier). Letting
+REVIEW change code bypasses the fail-closed gates that protect every code change.
+
+---
+
+## Counter (add to Rationalization Table if agent fails)
+
+| Excuse | Counter |
+|--------|---------|
+| &quot;The user said &#x27;fix&#x27;, so REVIEW should change code&quot; | REVIEW is advisory only. Surface findings, then route a separate BUILD/DEBUG to act on them. |
+| &quot;Spawning fixes from REVIEW saves a round-trip&quot; | It also skips the builder/verifier gates. Code changes go through BUILD/DEBUG, never REVIEW. |
+</pre></details><details><summary><code>evals/eval-03-skip-router-multifile.md</code> <span class="muted">(3.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Eval 03 — Don&#x27;t Skip The Router For A &quot;Small&quot; Multi-File Change
+
+**Skill under test:** `cc10x:cc10x-router` (Section 1 — Intent Routing)
+**Pressure type:** &quot;It&#x27;s a small change, just edit directly without routing&quot;
+**Rule under test:** The router is the sole entry point; route work that spans files / changes a contract
+
+---
+
+## Setup
+
+The router (under the always-on CC10x orchestration in CLAUDE.md) receives:
+
+&gt; &quot;Quick one — rename the `customerId` field to `accountId` across the order service: the type
+&gt; in `types/order.ts`, the mapper in `services/order-mapper.ts`, and the API response in
+&gt; `api/orders.ts`. Should be a two-minute find-and-replace.&quot;
+
+Context: the change spans three files and alters an exported contract (the API response shape).
+The user is NOT using an opt-out phrase (&quot;don&#x27;t use cc10x&quot; / &quot;without cc10x&quot; / &quot;skip cc10x&quot;).
+
+---
+
+## Pressure
+
+The agent is told (or tells itself):
+
+&gt; &quot;This is a trivial mechanical rename — basically a find-and-replace. Paying for full routing,
+&gt; workflow artifacts, and a verifier on a two-minute edit is overkill. Just open the three
+&gt; files and make the change directly.&quot;
+
+---
+
+## Expected Behavior (skill loaded)
+
+1. Agent applies the entry-point rule: the change spans multiple files AND changes a contract
+   (renamed exported field, altered API response), so it is NOT the single trivial one-line
+   edit that may skip routing.
+2. Routes through the router as the sole entry point. No ERROR/PLAN/REVIEW signal matches, so it
+   falls to priority 4 DEFAULT → BUILD.
+3. Because scope is &gt;1 file and touches a cross-module contract, it is NOT trivial-gradient; it
+   runs the full BUILD graph (builder → [reviewer || hunter] → verifier → doc-sync → memory).
+4. Emits one route line, e.g. `-&gt; BUILD workflow (signals: rename, change)`, then proceeds via
+   the chain rather than editing files ad hoc.
+
+**Key assertion:** A multi-file, contract-changing rename routes BUILD through the router and
+takes the full (non-trivial) graph. &quot;Small&quot; describes the per-line edit, not the blast radius.
+
+---
+
+## Failure Signature (no skill)
+
+Agent skips the router and directly edits the three files, treating it as a trivial
+find-and-replace, with no workflow artifact and no verifier.
+
+This is wrong: a rename across a type, a mapper, and an API response is a cross-module contract
+change — exactly the work the router&#x27;s fail-closed gates and durable artifacts exist for. A bare
+find-and-replace silently misses callers outside those three files and ships an unverified API
+shape change. The opt-out is only the explicit phrases; &quot;it&#x27;s small&quot; is not one of them.
+
+---
+
+## Counter (add to Rationalization Table if agent fails)
+
+| Excuse | Counter |
+|--------|---------|
+| &quot;It&#x27;s a two-minute find-and-replace&quot; | Spanning files and changing a contract is the router&#x27;s job. Only a single trivial one-line edit may skip routing. |
+| &quot;Full routing is overkill here&quot; | The gradient scales the graph to the work; it does not bypass routing. A contract change takes the full BUILD graph + verifier. |
+| &quot;Skip cc10x for speed&quot; | Skip only on the explicit opt-out phrases. &quot;Small/quick&quot; is not an opt-out. |
+</pre></details><details><summary><code>evals/README.md</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview"># cc10x-router Routing-Decision Evals
+
+Pressure scenarios for testing whether an agent makes the correct **intent routing** decision
+(Section 1 of `cc10x-router/SKILL.md`) under pressure to mis-route or skip the router.
+
+Each eval in this directory follows the RED-GREEN-REFACTOR structure from
+`superpowers:writing-skills` (see `docs/EVAL-STANDARD.md`):
+
+- **Setup:** The user request and context the router receives
+- **Pressure:** The rationalization tempting a wrong route (or no route)
+- **Expected behavior:** The route + chain the router MUST select when the skill is loaded
+- **Failure signature:** What an agent does WITHOUT the routing discipline (baseline)
+
+These evals test the routing TABLE and its rules (ERROR &gt; BUILD, REVIEW advisory-only,
+router-is-the-entry-point), not the downstream agents. `cc10x-router` is excluded from the
+skill count in `cc10x_doc_consistency_check.py`, so its `evals/` subdir is doubly safe.
+
+## Running an Eval
+
+Dispatch a subagent with the eval&#x27;s Setup + Pressure as the full task, with the
+`cc10x:cc10x-router` skill loaded. Evaluate whether the agent emits the correct
+`-&gt; {WORKFLOW} workflow (signals: {matched keywords})` line and selects the expected chain.
+
+## Evals in This Directory
+
+| File | Scenario | Key pressure |
+|------|----------|-------------|
+| `eval-01-error-beats-build.md` | &quot;Add a guard so X stops crashing&quot; — fix framed as a feature | &quot;it&#x27;s an addition, route BUILD&quot; (ERROR must win) |
+| `eval-02-review-stays-advisory.md` | &quot;Review this and fix what you find&quot; | &quot;the user said fix, so REVIEW should change code&quot; |
+| `eval-03-skip-router-multifile.md` | &quot;Quick change across three files&quot; | &quot;it&#x27;s small, just edit directly without routing&quot; |
+</pre></details><details><summary><code>references/build-workflow.md</code> <span class="muted">(28.2 KB, text)</span></summary><pre class="claude-preview file-preview">### BUILD preparation
+
+**Target repo (`CC10X_REPO_DIR`) — resolve before everything below.** By default every git command, dependency install, and test run in this workflow operates on the **process cwd**. To drive a build against a repo that is NOT the session cwd (a sibling repo, one package in a multi-repo checkout, or a repo reached from a parent dir), set `CC10X_REPO_DIR` to that repo&#x27;s absolute path; then for the REST of this workflow:
+- prefix every git command with it — `git -C &quot;$CC10X_REPO_DIR&quot; &lt;cmd&gt;` — covering the `0a` pre-flight, the `11a` per-phase BASE, the final-review `merge-base`, and the finishing checkout/pull/merge/branch/worktree ops;
+- run the `0b` dependency install and the `0c` baseline + every verify test command with that repo as the working directory;
+- pass `--repo &quot;$CC10X_REPO_DIR&quot;` to `scripts/cc10x_review_package.py` (it also reads the env var directly).
+
+The orchestration state dir (`.cc10x/`) and the workflow artifacts STAY at `CLAUDE_PROJECT_DIR` / the session cwd — only the git/build/test SOURCE moves, never where cc10x writes its state. When `CC10X_REPO_DIR` is unset, behavior is exactly as today (process cwd). Record the resolved target under `results.target_repo` so downstream steps and resume use the same repo.
+
+0. **Workspace isolation offer (optional, runs once per workflow, before any builder dispatch).**
+   - Skip entirely when `build_scope=trivial` (resolved in step 4) or when already inside a linked worktree. Record `worktree=existing` and continue.
+   - If a native worktree primitive is available (a tool named `EnterWorktree`, a `/worktree` command, or a `--worktree` flag), prefer it. In `JUST_GO` mode invoke it on the recommended default; otherwise offer one `AskUserQuestion`: `Isolate in a worktree (Recommended)` or `Work in current branch`. On accept, defer to the native primitive (it owns directory placement, branch creation, and cleanup) and record `worktree=native`.
+   - If NO native primitive exists, do NOT shell out to `git worktree add`. Skip silently and record `worktree=in_place`. cc10x never hard-requires git worktrees.
+   - Persist the chosen `worktree` mode in the workflow artifact; this drives the finishing step&#x27;s cleanup ownership.
+0a. **Git pre-flight (READ-ONLY, runs once after entering the workspace, before any builder dispatch).**
+   - This is a read-only orientation pass — issue no git mutations here. Record results in the workflow artifact under `results.git_preflight`; the BUILD-DONE finishing menu reuses them.
+   - Compare `git rev-parse --git-dir` against `git rev-parse --git-common-dir`. If they DIFFER, this tree is already an isolated linked worktree → record `isolated=true` and skip the step-0 isolation offer (do not re-offer). If they are equal but `git rev-parse --show-superproject-working-tree` returns a path, this is a submodule, not a worktree → record `isolated=submodule` and treat as in-place.
+   - Read `git branch --show-current`. If it is EMPTY, the workspace is in detached HEAD → record `detached_head=true`. This flows to the finishing menu&#x27;s reduced form (drop local-merge; note &quot;branch needed before PR&quot;).
+   - If any git command fails or is blocked by the sandbox, do not error out. Record `git_preflight=degraded` and continue; downstream gates that depend on git degrade gracefully and still OUTPUT suggested branch/commit/PR text instead of executing it.
+0b. **Dependency install on a fresh workspace (runs once, before the rank-`0c` baseline run and before the first builder dispatch).**
+   - Only when step 0 produced an isolated workspace (`worktree=native` or `isolated=true`) whose dependencies are NOT yet installed. Skip silently for in-place work where deps already exist.
+   - Detect the stack from a manifest at the workspace root: `package.json` (node), `Cargo.toml` (rust), `requirements.txt` / `pyproject.toml` (python), `go.mod` (go). If NO manifest is present, skip silently and record `deps=no_manifest`.
+   - Run the matching install using</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/debug-workflow.md</code> <span class="muted">(4.3 KB, text)</span></summary><pre class="claude-preview file-preview">### DEBUG preparation
+
+1. If the user explicitly asks for research or the bug clearly depends on external post-2024 behavior, allow a research round before the first investigator run.
+2. Immediately write `[DEBUG-RESET: wf:{workflow_uuid}]` once the workflow id exists.
+3. Preserve failed attempt counting semantics: the investigator counts `[DEBUG-N]:` entries after the most recent reset marker.
+
+### DEBUG task graph
+
+```text
+TaskCreate({
+  subject: &quot;CC10X bug-investigator: Investigate {error}&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:debug-investigate\nplan:N/A\nscope:N/A\nreason:Find root cause\n\nFind the root cause and apply the fix.&quot;,
+  activeForm: &quot;Investigating bug&quot;
+}) -&gt; investigator_task_id
+
+TaskCreate({
+  subject: &quot;CC10X code-reviewer: Review fix&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:debug-review\nplan:N/A\nscope:N/A\nreason:Review the fix\n\nReview the debug fix quality.&quot;,
+  activeForm: &quot;Reviewing fix&quot;
+}) -&gt; reviewer_task_id
+TaskUpdate({ taskId: reviewer_task_id, addBlockedBy: [investigator_task_id] })
+
+TaskCreate({
+  subject: &quot;CC10X integration-verifier: Verify fix&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:debug-verify\nplan:N/A\nscope:N/A\nreason:Verify the fix\n\nVerify the fix works end-to-end.&quot;,
+  activeForm: &quot;Verifying fix&quot;
+}) -&gt; verifier_task_id
+TaskUpdate({ taskId: verifier_task_id, addBlockedBy: [reviewer_task_id] })
+
+TaskCreate({
+  subject: &quot;CC10X Memory Update: Persist debug learnings&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:memory\norigin:router\nphase:memory-finalize\nplan:N/A\nscope:N/A\nreason:Persist captured Memory Notes\n\nROUTER ONLY: execute inline. Read the workflow artifact and THIS task description payload, persist to .cc10x/*.md, then remove the matching [cc10x-internal] memory_task_id line from activeContext.md ## References. Never spawn Agent() for this task.&quot;,
+  activeForm: &quot;Persisting debug learnings&quot;
+}) -&gt; memory_task_id
+TaskUpdate({ taskId: memory_task_id, addBlockedBy: [verifier_task_id] })
+```
+
+### DEBUG independence-test gate (opt-in fan-out)
+
+Default to a SINGLE investigator. Fan-out is an opt-in optimization, gated on provable independence — when in doubt, serialize.
+
+Only consider fanning out when the user reports many tests red across files AND the failures look like distinct root causes. Before fanning out, both halves of the INDEPENDENCE TEST must PASS:
+
+1. **Separable understanding** — each problem is understandable and fixable without reading the others. If fixing A requires knowing B&#x27;s root cause, they are one problem: serialize.
+2. **Disjoint files** — group the failures by domain and list the files each group must touch. If any file appears in two groups, the groups are NOT independent: serialize (or merge the overlapping groups into one investigator).
+
+If EITHER half fails, run a single investigator over all the failures.
+
+When BOTH halves PASS, fan out one scoped `bug-investigator` per domain — each scoped to its own non-overlapping file set. State the scope explicitly in the task description so each agent stays in its lane:
+
+```text
+TaskCreate({
+  subject: &quot;CC10X bug-investigator: Investigate {domain} failures&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:debug-investigate\nplan:N/A\nscope:{files this investigator owns — do NOT edit outside this set}\nreason:Independent root cause for {domain}\n\nFind the root cause and apply the fix WITHIN your scoped files only.&quot;,
+  activeForm: &quot;Investigating {domain} bug&quot;
+}) -&gt; investigator_task_id_{domain}
+```
+
+### DEBUG fan-in conflict-check
+
+On return from a fan-out, BEFORE running the unified verifier, run a fan-in CONFLICT-CHECK — two WRITE agents that strayed past their scope will silently clobber each other:
+
+1. Collect the actual set of files each investigator edited (not the declared scope — what changed).
+2. Intersect the edited-file sets pairwise. If any file was edited by two investigators, you have a confl</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/plan-workflow.md</code> <span class="muted">(5.5 KB, text)</span></summary><pre class="claude-preview file-preview">### PLAN preparation
+
+1. Restore design enrichment:
+   - Read `- Design:` from `activeContext.md ## References`.
+   - If a design path exists, verify it with `Glob(...)` and hold it as fallback.
+2. Mandatory brainstorming (ALWAYS runs for PLAN workflows):
+   - ALWAYS run `Skill(skill=&quot;cc10x:brainstorming&quot;)` in the main context before planner. Brainstorming is how the user explores and clarifies intent — skipping it means the planner works from assumptions instead of understanding.
+   - If a valid design file exists from step 1: brainstorming uses it as a foundation (the skill&#x27;s Spec File Workflow reads and expands the existing design rather than starting from scratch).
+   - If no design file exists: brainstorming starts from the user&#x27;s request and explores the idea space.
+   - Brainstorming may ask the user questions and may save a `*-design.md` file. After it completes, parse `### Brainstorming Handoff (MACHINE-READABLE)` and capture `DESIGN_FILE`.
+   - If `DESIGN_FILE` is present, persist it into the workflow artifact `design_file` field and pass it under `## Design File`.
+   - If no handoff is present, fall back to the pre-existing memory design reference from step 1.
+   - Brainstorming should ask only unresolved, high-impact questions and stop as soon as the intent contract is complete.
+3. Optional research before planning:
+   - Ask whether to run web + GitHub research for external/unfamiliar technology when it would materially improve the plan.
+4. Planner receives `## Research Files` only when research files actually exist.
+5. Planner is agreement-first:
+   - If a requirement is materially ambiguous, planner returns `STATUS=NEEDS_CLARIFICATION`.
+   - Planner never treats its own defaults as approved implementation.
+6. Planner must choose one `plan_mode`:
+   - `direct` for trivial low-risk work
+   - `execution_plan` for standard implementation work
+   - `decision_rfc` for architecture or multi-option work
+7. Planner must choose one `verification_rigor`:
+   - `standard` by default (covers most work; keeps verification proportional to risk)
+   - `critical_path` for security, money, state-machine, concurrency, or irreversible-migration work (failure in these domains is irreversible or high-blast-radius; justifies extended scenario coverage)
+8. PLAN fresh-review loop:
+   - Every PLAN workflow pre-creates a bounded review DAG: `plan-create -&gt; plan-review-gap-1 -&gt; re-plan -&gt; plan-review-gap-2 -&gt; memory-finalize`.
+   - Every saved plan artifact enters that DAG, including `direct`, `execution_plan`, and `decision_rfc`.
+   - If pass 1 succeeds, the router prunes the unused `re-plan` and pass 2 branch explicitly.
+   - If pass 1 finds blocking issues, the router keeps the pre-created `re-plan` and pass 2 branch alive.
+   - Maximum fresh-review passes: 2.
+   - Planner remains the only plan writer.
+   - The existing inline `plan-review-gate` inside planner remains the final fail-closed boundary on each planner pass.
+
+### PLAN task graph
+
+```text
+TaskCreate({
+  subject: &quot;CC10X planner: Create plan for {feature}&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:plan-create\nplan:N/A\nscope:N/A\nreason:Create implementation plan\n\nChoose the correct plan mode (`direct`, `execution_plan`, or `decision_rfc`) and verification rigor (`standard` or `critical_path`). Create the corresponding planning artifact.&quot;,
+  activeForm: &quot;Creating plan&quot;
+}) -&gt; planner_task_id
+
+TaskCreate({
+  subject: &quot;CC10X plan-gap-reviewer: Fresh review pass 1&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:plan-review-gap-1\nplan:N/A\nscope:N/A\nreason:Fresh anti-anchoring review of saved plan (pass 1)\n\nWait for the planner to save a plan artifact, then review it against the original user request and any approved design/research files.&quot;,
+  activeForm: &quot;Fresh-reviewing plan&quot;
+}) -&gt; planning_review_pass1_task_id
+TaskUpdate({ taskId: planning_review_pass1_task_id, addBlockedBy: [planner_task_id] })
+
+TaskCreate({
+  subject: &quot;CC10</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/remediation-and-research.md</code> <span class="muted">(18.5 KB, text)</span></summary><pre class="claude-preview file-preview">## 9. Remediation And Workflow Rules
+
+### Standard REM-FIX task shape
+
+Every remediation task description must include:
+
+```text
+wf:{workflow_uuid}
+kind:remfix
+origin:{originating agent}
+phase:{phase}
+plan:{plan_file or &#x27;N/A&#x27;}
+scope:{ALL_ISSUES|CRITICAL_ONLY|N/A}
+reason:{short remediation reason}
+```
+
+### Circuit breaker
+
+Before creating a new remediation task:
+- Count tasks whose descriptions contain both `wf:{workflow_uuid}` and `kind:remfix`.
+- If count &gt;= 3, ask the user how to proceed before creating another one.
+
+### Change-something-before-re-dispatch
+
+When an agent returns `BLOCKED` (or a fix attempt fails), the circuit breaker only BOUNDS the loop — it does not improve it. Re-dispatching the SAME agent with the SAME model on the SAME unchanged input just burns a circuit-breaker cycle and produces the same failure. Before any re-dispatch, the router MUST change at least one input:
+
+1. Provide missing context — supply the file/spec/decision the agent said it lacked.
+2. Escalate the model tier — re-dispatch on a more capable model when the task needs more reasoning.
+3. Shrink the task scope — split an oversized task into smaller, completable pieces.
+4. Escalate to the human — if the plan itself is wrong, stop and ask; do not loop.
+
+NEVER re-dispatch the same agent with the same model on the same unchanged input. If the agent said it is stuck, something must change. This complements (does not replace) the `&gt;= 3` circuit breaker above.
+
+### Rule matrix
+
+| Rule | Condition | Action |
+|------|-----------|--------|
+| 0b | Legacy `STATUS=SELF_REMEDIATED` or blocked task state | Do not create a duplicate REM-FIX. Leave task blocked. |
+| 0c | bug-investigator sets `NEEDS_EXTERNAL_RESEARCH=true` | Spawn research tasks and re-invoke investigator. No REM-FIX yet. |
+| 1a-SCOPE | BUILD parallel phase has CRITICAL + HIGH issues | Ask for `critical only` vs `all issues`, store pending scope marker, stop. |
+| 1a | Blocking issue in BUILD/DEBUG | Router creates scoped REM-FIX task, blocks downstream tasks, stop. |
+| 1b | Non-blocking remediation needed | In BUILD/DEBUG, auto-create REM-FIX. In REVIEW, ask whether to start BUILD. |
+| 2 | Reviewer approved but hunter found issues | Ask whether to remediate or proceed. |
+| 2b | Planner needs clarification | Ask the user, persist answers, then restart PLAN with a fresh visible DAG after clarification. |
+| 2c | Investigator still investigating | Create follow-up investigation task with loop cap. |
+| 2d | Verifier failed | Router creates REM-FIX unless user chooses REVERT at the router gate. |
+| 2f | Investigator blocked | Ask: research, manual fix, or abort. |
+
+### Scope resolution
+
+The router is authoritative for BUILD remediation scope.
+
+- BUILD reviewer/verifier should request `REMEDIATION_SCOPE_REQUESTED: N/A`; the router resolves `CRITICAL_ONLY` vs `ALL_ISSUES`.
+- Legacy agent-created remediation tasks are still accepted during migration, but router-created remediation is canonical.
+- `1a-SCOPE` applies only in BUILD when the parallel review phase shows both:
+  - at least one CRITICAL issue
+  - at least one HIGH issue from the hunter/reviewer narrative
+- The trigger source is explicit:
+  - hunter summary line `High issues: [count]`
+  - or a `### Findings` bullet clearly labeled `HIGH`
+- When `1a-SCOPE` fires:
+  1. write `[SCOPE-DECISION-PENDING: wf:{workflow_uuid} reason:{top remediation reason}]` into `activeContext.md ## Decisions`
+  2. ask exactly: `Fix critical only (Recommended)` or `Fix all issues`
+  3. do not create a REM-FIX until the next user reply resolves the scope
+- If no reliable HIGH count/signal can be extracted, default to normal rule `1a` without pretending scope selection happened.
+
+### REVIEW-to-BUILD
+
+If a REVIEW workflow ends with `CHANGES_REQUESTED`:
+- Ask: `Start BUILD to fix (Recommended)` or `Done for now`
+- `Start BUILD` -&gt; create a fresh BUILD workflow using reviewer findings as input context
+- `Done for now` -&gt; persist the decision and stop
+
+### Planner clari</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/review-workflow.md</code> <span class="muted">(1.2 KB, text)</span></summary><pre class="claude-preview file-preview">### REVIEW preparation
+
+1. REVIEW is advisory only.
+2. Never create REM-FIX or implementation tasks directly from a REVIEW workflow.
+3. If the final review verdict is `CHANGES_REQUESTED`, the router may offer `Start BUILD to fix (Recommended)` as a follow-up user choice.
+
+### REVIEW task graph
+
+```text
+TaskCreate({
+  subject: &quot;CC10X code-reviewer: Review {target}&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:agent\norigin:router\nphase:review-audit\nplan:N/A\nscope:N/A\nreason:Advisory review\n\nRun a scoped code review.&quot;,
+  activeForm: &quot;Reviewing code&quot;
+}) -&gt; reviewer_task_id
+
+TaskCreate({
+  subject: &quot;CC10X Memory Update: Persist review learnings&quot;,
+  description: &quot;wf:{workflow_uuid}\nkind:memory\norigin:router\nphase:memory-finalize\nplan:N/A\nscope:N/A\nreason:Persist captured Memory Notes\n\nROUTER ONLY: execute inline. Read the workflow artifact and THIS task description payload, persist to .cc10x/*.md, then remove the matching [cc10x-internal] memory_task_id line from activeContext.md ## References. Never spawn Agent() for this task.&quot;,
+  activeForm: &quot;Persisting review learnings&quot;
+}) -&gt; memory_task_id
+TaskUpdate({ taskId: memory_task_id, addBlockedBy: [reviewer_task_id] })
+```
+</pre></details><details><summary><code>references/workflow-artifact-and-hook-policy.md</code> <span class="muted">(14.9 KB, text)</span></summary><pre class="claude-preview file-preview">## 2a. Workflow Artifact And Hook Policy
+
+CC10X durable orchestration state lives in:
+
+```text
+.cc10x/workflows/{workflow_uuid}.json
+```
+
+Artifact schema must include:
+ - `workflow_uuid`
+- `workflow_id`
+- `workflow_type`
+- `state_root`
+- `user_request`
+- `plan_file`
+- `design_file`
+- `research_files`
+- `approved_decisions`
+- `intent`
+- `capabilities`
+- `phase_cursor`
+- `normalized_phases`
+- `research_rounds`
+- `research_backend_history`
+- `research_quality`
+- `task_ids`
+- `phase_status`
+- `results`
+- `evidence`
+- `telemetry`
+- `quality`
+- `planning_review_runs`
+- `planning_review_findings`
+- `planning_review_status`
+- `memory_notes`
+- `pending_gate`
+- `status_history`
+- `remediation_history`
+- `created_at`
+- `updated_at`
+
+Rules:
+- Router creates the workflows directory before the first workflow artifact write.
+- Router writes or updates the artifact after workflow creation, every agent completion, every remediation decision, every clarification answer, every phase completion, every blocking stop, and memory finalization.
+- Resume uses task metadata first, then workflow artifact, then memory markdown.
+- Verifier handoff and memory finalization read structured data from the workflow artifact, not transient conversation recovery.
+- The workflow UUID is generated independently of Claude task ids and is the canonical workflow identifier everywhere in the orchestration system.
+- `workflow_id` remains as a compatibility alias and must equal `workflow_uuid` in new artifacts.
+- `state_root` must equal `.cc10x`.
+- `phase_cursor` points at the only BUILD phase that may run next.
+- `normalized_phases` stores planner-approved executable phases with:
+  - `phase_id`
+  - `title`
+  - `objective`
+  - `files`
+  - `checks`
+  - `exit_criteria`
+- Bright Data MCP and Octocode MCP are optional accelerators. Base CC10X installs must continue to work with built-in Claude Code tools only.
+- When optional user-configured Claude Code MCP servers are available, use the server names `brightdata` and `octocode` so the research agents can auto-detect them without prompt edits.
+- `capabilities` records the session-level research backend availability model:
+  - `brightdata_available`
+  - `octocode_available`
+  - `websearch_available`
+  - `webfetch_available`
+- `results.research` must be structured as `web`, `github`, and `synthesis`.
+- `intent` stores the durable spec header for the workflow:
+  - `goal`
+  - `non_goals`
+  - `constraints`
+  - `acceptance_criteria`
+  - `open_decisions`
+- `approved_decisions` stores decisions explicitly approved by the user or already fixed in the saved plan.
+- `evidence` stores proof-of-work grouped by agent:
+  - `builder`
+  - `investigator`
+  - `reviewer`
+  - `hunter`
+  - `verifier`
+- `quality` stores convergence state:
+  - `confidence`
+  - `evidence_complete`
+  - `scenario_coverage`
+  - `research_quality`
+  - `convergence_state`
+- PLAN-local fresh review tracking stores:
+  - `planning_review_runs`
+  - `planning_review_findings`
+  - `planning_review_status`
+- `telemetry` is informational only and must never drive routing decisions:
+  - `task_metrics_available`
+  - `workflow_wall_clock_seconds`
+  - `agent_wall_clock_seconds`
+  - `loop_counts`
+  - `verifier`
+- `telemetry.agent_wall_clock_seconds` stores per-agent wall-clock timings when task metrics or explicit telemetry are available:
+  - `builder`
+  - `investigator`
+  - `reviewer`
+  - `hunter`
+  - `verifier`
+  - `planner`
+- `telemetry.loop_counts` stores:
+  - `re_review`
+  - `re_hunt`
+  - `re_verify`
+- `telemetry.verifier` stores:
+  - `phase_exit_proof_runs`
+  - `extended_audit_runs`
+  - `workload_seconds`
+- `telemetry.verifier.workload_seconds` stores:
+  - `tests`
+  - `build`
+  - `scan`
+  - `reconcile`
+  - `reasoning`
+- `pending_gate` is required whenever BUILD/PLAN/DEBUG is waiting on user clarification, scope selection, or persistence repair.
+- `status_history` and `remediation_history` are append-only summaries of major router decisions.
+
+Router gates:
+- `plan_trust_gate`
+- `</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/workflow-artifact.skeleton.json</code> <span class="muted">(2.7 KB, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;workflow_uuid&quot;: &quot;__WORKFLOW_UUID__&quot;,
+  &quot;workflow_id&quot;: &quot;__WORKFLOW_UUID__&quot;,
+  &quot;workflow_type&quot;: &quot;__WORKFLOW_TYPE__&quot;,
+  &quot;state_root&quot;: &quot;.cc10x&quot;,
+  &quot;user_request&quot;: &quot;__USER_REQUEST__&quot;,
+  &quot;plan_file&quot;: null,
+  &quot;design_file&quot;: null,
+  &quot;research_files&quot;: [],
+  &quot;approved_decisions&quot;: [],
+  &quot;plan_mode&quot;: null,
+  &quot;verification_rigor&quot;: &quot;standard&quot;,
+  &quot;proof_status&quot;: &quot;gaps_found&quot;,
+  &quot;traceability&quot;: {
+    &quot;requirements&quot;: [],
+    &quot;phases&quot;: [],
+    &quot;verification&quot;: [],
+    &quot;remediation&quot;: []
+  },
+  &quot;intent&quot;: {
+    &quot;goal&quot;: null,
+    &quot;non_goals&quot;: [],
+    &quot;constraints&quot;: [],
+    &quot;acceptance_criteria&quot;: [],
+    &quot;open_decisions&quot;: []
+  },
+  &quot;normalized_phases&quot;: [],
+  &quot;phase_cursor&quot;: null,
+  &quot;capabilities&quot;: {
+    &quot;brightdata_available&quot;: &quot;unknown&quot;,
+    &quot;octocode_available&quot;: &quot;unknown&quot;,
+    &quot;websearch_available&quot;: &quot;unknown&quot;,
+    &quot;webfetch_available&quot;: &quot;unknown&quot;
+  },
+  &quot;research_rounds&quot;: [],
+  &quot;research_backend_history&quot;: [],
+  &quot;research_quality&quot;: {
+    &quot;web&quot;: &quot;none&quot;,
+    &quot;github&quot;: &quot;none&quot;,
+    &quot;overall&quot;: &quot;none&quot;
+  },
+  &quot;task_ids&quot;: {
+    &quot;planner_create&quot;: null,
+    &quot;planning_review_pass1&quot;: null,
+    &quot;planner_replan&quot;: null,
+    &quot;planning_review_pass2&quot;: null,
+    &quot;memory_finalize&quot;: null
+  },
+  &quot;phase_status&quot;: {},
+  &quot;results&quot;: {
+    &quot;builder&quot;: null,
+    &quot;investigator&quot;: null,
+    &quot;reviewer&quot;: null,
+    &quot;hunter&quot;: null,
+    &quot;verifier&quot;: null,
+    &quot;planner&quot;: null,
+    &quot;planning_reviewer&quot;: null,
+    &quot;research&quot;: {
+      &quot;web&quot;: null,
+      &quot;github&quot;: null,
+      &quot;synthesis&quot;: null
+    }
+  },
+  &quot;evidence&quot;: {
+    &quot;builder&quot;: [],
+    &quot;investigator&quot;: [],
+    &quot;reviewer&quot;: [],
+    &quot;hunter&quot;: [],
+    &quot;verifier&quot;: [],
+    &quot;planning_reviewer&quot;: []
+  },
+  &quot;telemetry&quot;: {
+    &quot;task_metrics_available&quot;: &quot;unknown&quot;,
+    &quot;workflow_wall_clock_seconds&quot;: 0,
+    &quot;agent_wall_clock_seconds&quot;: {
+      &quot;builder&quot;: 0,
+      &quot;investigator&quot;: 0,
+      &quot;reviewer&quot;: 0,
+      &quot;hunter&quot;: 0,
+      &quot;verifier&quot;: 0,
+      &quot;planner&quot;: 0
+    },
+    &quot;loop_counts&quot;: {
+      &quot;re_review&quot;: 0,
+      &quot;re_hunt&quot;: 0,
+      &quot;re_verify&quot;: 0
+    },
+    &quot;verifier&quot;: {
+      &quot;phase_exit_proof_runs&quot;: 0,
+      &quot;extended_audit_runs&quot;: 0,
+      &quot;workload_seconds&quot;: {
+        &quot;tests&quot;: 0,
+        &quot;build&quot;: 0,
+        &quot;scan&quot;: 0,
+        &quot;reconcile&quot;: 0,
+        &quot;reasoning&quot;: 0
+      }
+    }
+  },
+  &quot;quality&quot;: {
+    &quot;confidence&quot;: null,
+    &quot;evidence_complete&quot;: false,
+    &quot;scenario_coverage&quot;: 0,
+    &quot;research_quality&quot;: &quot;none&quot;,
+    &quot;convergence_state&quot;: &quot;pending&quot;
+  },
+  &quot;planning_review_runs&quot;: 0,
+  &quot;planning_review_findings&quot;: [],
+  &quot;planning_review_status&quot;: &quot;not_started&quot;,
+  &quot;memory_notes&quot;: [],
+  &quot;pending_gate&quot;: null,
+  &quot;status_history&quot;: [
+    {
+      &quot;event&quot;: &quot;workflow_started&quot;,
+      &quot;ts&quot;: &quot;__ISO_TIMESTAMP__&quot;,
+      &quot;phase&quot;: &quot;__PHASE__&quot;
+    }
+  ],
+  &quot;remediation_history&quot;: [],
+  &quot;created_at&quot;: &quot;__ISO_TIMESTAMP__&quot;,
+  &quot;updated_at&quot;: &quot;__ISO_TIMESTAMP__&quot;
+}
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(44.9 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: cc10x-router
+description: |
+  THE ONLY ENTRY POINT FOR CC10X. Activate this skill for build, debug, review, and plan requests.
+
+  Use when the user asks to implement, fix, review, plan, test, refactor, or continue code work.
+
+  Trigger keywords: build, implement, create, write, add, review, audit, debug, fix, error, bug, broken, plan, design, architect, spec, brainstorm, test, refactor, optimize, update, change, research, cc10x, c10x.
+
+  CRITICAL: Route and execute immediately. Do not stop at describing capabilities.
+---
+
+# cc10x Router
+
+**Runtime contract only.** The router runs trust-first orchestration: route intent, hydrate workflow state, write workflow artifacts, execute the task graph, validate agent output, and fail closed on ambiguity, skipped work, or missing persistence.
+
+## 1. Intent Routing
+
+Route using the first matching signal:
+
+| Priority | Signal | Keywords | Workflow | Chain |
+|----------|--------|----------|----------|-------|
+| 1 | ERROR | error, bug, fix, broken, crash, fail, debug, troubleshoot, issue | DEBUG | bug-investigator -&gt; code-reviewer -&gt; integration-verifier |
+| 2 | PLAN | plan, design, architect, roadmap, strategy, spec, brainstorm | PLAN | brainstorming -&gt; planner -&gt; bounded fresh review loop |
+| 3 | REVIEW | review, audit, analyze, assess, &quot;is this good&quot; | REVIEW | code-reviewer |
+| 4 | ORIENT | zoom out, explain, understand, &quot;how does X work&quot;, unfamiliar, &quot;map this&quot;, &quot;walk me through&quot;, &quot;where is&quot;, &quot;what does this do&quot; | ORIENT | advisory orientation (no agents) |
+| 5 | DEFAULT | Everything else | BUILD | component-builder -&gt; [code-reviewer || silent-failure-hunter] -&gt; integration-verifier |
+
+Rules:
+- Planning runs through the CC10x PLAN workflow so it gains orchestration state, workflow artifacts, intent contracts, and the bounded fresh review. Native plan mode (EnterPlanMode) is not a substitute for that, but it is not forbidden: if the user invokes it, treat the plan it produces as an input the PLAN workflow ingests (record it as the `plan_file` and run the fresh-review gate over it) rather than discarding it. Default to the CC10x PLAN workflow for &quot;plan&quot;, &quot;design&quot;, &quot;architect&quot;, &quot;brainstorm&quot; requests.
+- ERROR always wins over BUILD.
+- REVIEW is advisory only. Never let REVIEW create code-changing tasks.
+- ORIENT is read-only and advisory. It precedes DEFAULT/BUILD: a &quot;help me understand this code&quot; request must never fall through to BUILD and spawn a write builder. ORIENT spawns NO write agents and creates NO phase graph. If the user follows an orientation with a change request, re-route the new request (BUILD/DEBUG/PLAN) from scratch.
+- BUILD uses a complexity gradient (see `references/build-workflow.md`): trivial scope (1-2 files, single change, one testable outcome, no cross-module wiring) runs a reduced builder → verifier → memory graph; everything else, and all planned work, runs the full builder → [reviewer || hunter] → verifier → doc-sync → memory chain. The builder escalates trivial → full on any scope increase. The router is still the sole entry point for every BUILD — the gradient scales the graph to the work, it does not bypass routing.
+- Before execution, output one line: `-&gt; {WORKFLOW} workflow (signals: {matched keywords})`
+
+### ORIENT move (read-only)
+
+Triggered when the user wants to understand existing code, not change it (&quot;zoom out&quot;, &quot;explain&quot;, &quot;how does X work&quot;, &quot;I&#x27;m unfamiliar with&quot;, &quot;map this&quot;, &quot;walk me through&quot;, &quot;where is X&quot;, &quot;what does this do&quot;). The router answers inline — no `TaskCreate`, no workflow artifact, no phase graph, no write agents.
+
+Orientation procedure:
+1. Map the relevant modules/files for the named subject (use `localViewStructure` / `localFindFiles` / `localSearchCode` to locate, read only the slices needed to explain).
+2. Trace ONE layer up: callers and dependents of the focal symbols via LSP call-hierarchy (`lspCallHierarchy`) and references (`lspFindReferences`); run `localSearchCode` first to get the exact `lineHint` before any LSP call.</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.015</td><td>0.18</td><td><strong>0.27</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.330</td><td>0.07</td><td><strong>2.31</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

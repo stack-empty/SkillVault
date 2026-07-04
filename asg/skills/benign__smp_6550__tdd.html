@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__smp_6550__tdd · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__smp_6550__tdd</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__smp_6550__tdd">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__smp_6550__tdd</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 6 · 27.4 KB</span>  <span class="chip">扫描: 2026-07-03 02:35:53</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__smp_6550__tdd_KKB9N1IT57_9PS5AL76</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:02e941cad4&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:7d4c1b6dc8&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:0c06ddb6c2&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:14e8da2ea1&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:95ae50179d&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:22005c4b32&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:31e0526031&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (6 files, 27.4 KB)</h4>
+      <div class="file-list"><details><summary><code>data/coverage-guidelines.md</code> <span class="muted">(6.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Test Coverage Guidelines
+
+## What to Test
+
+### Repository Layer ✅
+
+**DO test:**
+- CRUD operations work correctly
+- Unique constraints are enforced
+- Foreign keys are respected
+- Complex queries return correct data
+- SQL errors are handled properly
+- Transactions work correctly
+
+**Example:**
+```go
+func TestTransactionRepository_Create_UniqueConstraint(t *testing.T)
+func TestTransactionRepository_GetByAccountID_OrderByDate(t *testing.T)
+func TestTransactionRepository_BulkInsert_Rollback(t *testing.T)
+```
+
+### Service Layer ✅
+
+**DO test:**
+- Business logic is correct
+- Validation rules are enforced
+- Error handling is appropriate
+- Service composition works
+- Edge cases are handled
+- State transitions are valid
+
+**Example:**
+```go
+func TestBudgetService_CreateBudget_ValidatesAmount(t *testing.T)
+func TestTransactionService_ImportFromOFX_SkipsDuplicates(t *testing.T)
+func TestUserService_Register_ChecksEmailUniqueness(t *testing.T)
+```
+
+### Handler Layer ✅
+
+**DO test:**
+- Request parsing is correct
+- Response format is correct
+- HTTP status codes are appropriate
+- Error responses are well-formed
+- Authentication/authorization is enforced
+- Content-Type headers are set
+
+**Example:**
+```go
+func TestTransactionHandler_Import_Returns201OnSuccess(t *testing.T)
+func TestTransactionHandler_Import_Returns400OnInvalidFile(t *testing.T)
+func TestTransactionHandler_Import_Returns401WhenUnauthorized(t *testing.T)
+```
+
+## What NOT to Test ❌
+
+### Language Features
+Don&#x27;t test Go standard library or language features:
+
+```go
+// ❌ WRONG - Testing language feature
+func TestAppendWorks(t *testing.T) {
+    list := []int{1, 2}
+    list = append(list, 3)
+    assert.Equal(t, 3, len(list))
+}
+
+// ❌ WRONG - Testing map access
+func TestMapGet(t *testing.T) {
+    m := map[string]int{&quot;a&quot;: 1}
+    assert.Equal(t, 1, m[&quot;a&quot;])
+}
+```
+
+### Framework Internals
+Don&#x27;t test Chi, SQLX, or other frameworks:
+
+```go
+// ❌ WRONG - Testing Chi router
+func TestChiRoutesWork(t *testing.T) {
+    r := chi.NewRouter()
+    r.Get(&quot;/test&quot;, handler)
+    // Testing Chi&#x27;s routing, not your code
+}
+
+// ❌ WRONG - Testing SQLX behavior
+func TestSQLXSelect(t *testing.T) {
+    db.Select(&amp;result, &quot;SELECT * FROM users&quot;)
+    // Testing SQLX, not your logic
+}
+```
+
+### Database Engine Behavior
+Don&#x27;t test PostgreSQL internals:
+
+```go
+// ❌ WRONG - Testing PostgreSQL
+func TestPostgreSQLUniqueConstraint(t *testing.T) {
+    // INSERT duplicate...
+    // PostgreSQL will handle this, not your test
+}
+```
+
+### Third-Party Libraries
+Don&#x27;t test external libraries:
+
+```go
+// ❌ WRONG - Testing decimal package
+func TestDecimalAddition(t *testing.T) {
+    a := decimal.NewFromFloat(1.0)
+    b := decimal.NewFromFloat(2.0)
+    c := a.Add(b)
+    assert.Equal(t, decimal.NewFromFloat(3.0), c)
+}
+```
+
+### Trivial Code
+Don&#x27;t test simple getters/setters or data structures:
+
+```go
+// ❌ WRONG - Testing trivial getter
+func TestUser_GetEmail(t *testing.T) {
+    user := &amp;User{Email: &quot;test@example.com&quot;}
+    assert.Equal(t, &quot;test@example.com&quot;, user.GetEmail())
+}
+
+// ❌ WRONG - Testing struct initialization
+func TestBudget_New(t *testing.T) {
+    budget := &amp;Budget{Name: &quot;Test&quot;}
+    assert.Equal(t, &quot;Test&quot;, budget.Name)
+}
+```
+
+## Minimum Test Cases per Method
+
+### For Each New Method/Function
+
+**Required Tests (4 minimum):**
+
+1. **Happy Path** - Normal successful execution
+2. **Invalid Input** - What happens with bad data?
+3. **Boundary Conditions** - Empty lists, nil values, zero amounts
+4. **Error Handling** - Dependencies fail, database errors
+
+### Example: TransactionRepository.BulkInsert
+
+```go
+// 1. Happy Path ✅
+func TestTransactionRepository_BulkInsert_Success(t *testing.T)
+
+// 2. Duplicate Handling ✅
+func TestTransactionRepository_BulkInsert_SkipsDuplicates(t *testing.T)
+
+// 3. Boundary Condition ✅
+func TestTransactionRepository_BulkInsert_EmptyList(t *testing.T)
+
+// 4. Error Handling ✅
+func TestTransactionRepository_BulkInsert_DatabaseError(t *testing.T)
+```
+
+## Test Types
+
+### Unit Tests (Primary)
+- Test single function/m</pre><div class="muted">…(content truncated)</div></details><details><summary><code>data/naming-conventions.md</code> <span class="muted">(3.8 KB, text)</span></summary><pre class="claude-preview file-preview"># Test Naming Conventions
+
+## Function Naming Pattern
+
+```
+Test&lt;EntityName&gt;_&lt;MethodName&gt;_&lt;Scenario&gt;
+```
+
+### Components
+
+1. **EntityName**: The struct/type being tested
+2. **MethodName**: The method/function being tested
+3. **Scenario**: What case this test covers
+
+## Good Examples
+
+```go
+// ✅ Repository tests
+func TestTransactionRepository_BulkInsert_Success(t *testing.T)
+func TestTransactionRepository_BulkInsert_WithDuplicateFITID(t *testing.T)
+func TestTransactionRepository_BulkInsert_EmptyList(t *testing.T)
+func TestTransactionRepository_BulkInsert_DatabaseError(t *testing.T)
+
+// ✅ Service tests
+func TestBudgetService_CreateBudget_ValidData(t *testing.T)
+func TestBudgetService_CreateBudget_NullAmount(t *testing.T)
+func TestBudgetService_CalculateEffectiveAmount_FixedType(t *testing.T)
+func TestBudgetService_CalculateEffectiveAmount_CalculatedType(t *testing.T)
+
+// ✅ Handler tests
+func TestTransactionHandler_Import_ValidOFXFile(t *testing.T)
+func TestTransactionHandler_Import_MissingFile(t *testing.T)
+func TestTransactionHandler_Import_UnauthorizedUser(t *testing.T)
+
+// ✅ Parser tests
+func TestOFXParser_Parse_ValidOFX(t *testing.T)
+func TestOFXParser_Parse_InvalidXML(t *testing.T)
+func TestOFXParser_Parse_MissingRequiredFields(t *testing.T)
+```
+
+## Bad Examples
+
+```go
+// ❌ Missing entity name
+func TestImport(t *testing.T)
+func TestValidData(t *testing.T)
+
+// ❌ Missing scenario
+func TestTransactionRepository_BulkInsert(t *testing.T)
+func TestBudgetService_CreateBudget(t *testing.T)
+
+// ❌ Testing multiple things
+func TestBudgetService_Everything(t *testing.T)
+func TestTransactionRepository_AllMethods(t *testing.T)
+
+// ❌ Unclear scenario
+func TestBudgetService_CreateBudget_Test1(t *testing.T)
+func TestBudgetService_CreateBudget_Case2(t *testing.T)
+```
+
+## File Naming
+
+### Pattern
+```
+&lt;source_file&gt;_test.go
+```
+
+### Examples
+
+```
+Source File                     Test File
+─────────────────────────────   ─────────────────────────────────
+transaction_service.go     →    transaction_service_test.go
+budget_repository.go       →    budget_repository_test.go
+ofx_parser.go             →    ofx_parser_test.go
+user_handler.go           →    user_handler_test.go
+```
+
+## Test File Location
+
+Place test files **next to** the code being tested:
+
+```
+internal/service/
+├── transaction_service.go
+└── transaction_service_test.go  ← Same directory
+
+internal/repository/
+├── budget_repository.go
+└── budget_repository_test.go    ← Same directory
+
+pkg/ofx/
+├── parser.go
+└── parser_test.go               ← Same directory
+```
+
+## Scenario Naming Guidelines
+
+### Common Scenario Suffixes
+
+#### Success Cases
+- `_Success`
+- `_ValidData`
+- `_HappyPath`
+
+#### Error Cases
+- `_InvalidData`
+- `_NullInput`
+- `_MissingRequiredField`
+- `_DatabaseError`
+- `_UnauthorizedUser`
+
+#### Edge Cases
+- `_EmptyList`
+- `_ZeroAmount`
+- `_NegativeValue`
+- `_BoundaryValue`
+
+#### Business Rules
+- `_FixedType` (for budget type)
+- `_CalculatedType` (for budget type)
+- `_WithDuplicateFITID` (for transaction)
+- `_ExpiredToken` (for auth)
+
+## Test Organization
+
+Group related tests using comments:
+
+```go
+package service_test
+
+import &quot;testing&quot;
+
+// === CreateBudget Tests ===
+
+func TestBudgetService_CreateBudget_ValidData(t *testing.T) { }
+func TestBudgetService_CreateBudget_NullAmount(t *testing.T) { }
+func TestBudgetService_CreateBudget_InvalidType(t *testing.T) { }
+
+// === UpdateBudget Tests ===
+
+func TestBudgetService_UpdateBudget_ValidData(t *testing.T) { }
+func TestBudgetService_UpdateBudget_NotFound(t *testing.T) { }
+
+// === CalculateEffectiveAmount Tests ===
+
+func TestBudgetService_CalculateEffectiveAmount_FixedType(t *testing.T) { }
+func TestBudgetService_CalculateEffectiveAmount_CalculatedType(t *testing.T) { }
+```
+</pre></details><details><summary><code>examples/dialogue-examples.md</code> <span class="muted">(2.3 KB, text)</span></summary><pre class="claude-preview file-preview"># TDD Dialogue Examples
+
+## Example 1: Clear Entity
+
+**User:** &quot;Add a method to calculate budget effective amount&quot;
+
+**Claude:**
+```
+I&#x27;ll test BudgetService.CalculateEffectiveAmount() method.
+
+Test file: internal/service/budget_service_test.go
+Entity under test: BudgetService
+
+Writing failing test first...
+```
+
+## Example 2: Ambiguous Entity
+
+**User:** &quot;Implement OFX import validation&quot;
+
+**Claude:**
+```
+I need clarification on which entity to test:
+
+1. OFXParser.Validate() in pkg/ofx/
+   - Tests if OFX file format is valid
+
+2. TransactionService.ImportFromOFX() in internal/service/
+   - Tests business logic including validation
+
+3. TransactionHandler.Import() in internal/web/
+   - Tests HTTP request validation
+
+Which entity should I write tests for?
+```
+
+## Example 3: Multiple Scenarios
+
+**User:** &quot;Test the BulkInsert method&quot;
+
+**Claude:**
+```
+Testing TransactionRepository.BulkInsert() method.
+
+Test file: internal/repository/transaction_repository_test.go
+Entity under test: TransactionRepository
+
+I&#x27;ll write tests for these main cases:
+1. Happy path - Insert new transactions
+2. Duplicate FITID - Skip duplicates correctly
+3. Empty list - Handle gracefully
+4. Database error - Return appropriate error
+
+Starting with test 1 (happy path)...
+```
+
+## Example 4: Asking for Clarification
+
+**User:** &quot;Add validation to the transaction import&quot;
+
+**Claude:**
+```
+Before I write tests, I need to clarify where this validation should live:
+
+Option A: OFXParser.Parse() - Validate OFX file structure
+Option B: TransactionService.ImportFromOFX() - Validate business rules
+Option C: TransactionHandler.Import() - Validate HTTP request
+
+Also, what validation rules?
+- Amount cannot be zero?
+- Date cannot be in future?
+- Description required?
+- Account must exist?
+
+Please specify the entity and validation rules.
+```
+
+## Example 5: Stopping Before Implementation
+
+**User:** &quot;Add a CreateBudget method&quot;
+
+**Claude:**
+```
+❌ STOP - Need to write test first!
+
+I&#x27;ll test BudgetService.CreateBudget() method.
+
+Test file: internal/service/budget_service_test.go
+Entity under test: BudgetService
+
+Writing failing test for happy path:
+- Valid budget data
+- Should call repository.Create()
+- Should return no error
+
+[Shows test code...]
+
+Run test → FAILS as expected (method doesn&#x27;t exist yet)
+
+Now I can implement CreateBudget() to make this test pass.
+```
+</pre></details><details><summary><code>examples/feature-implementation.md</code> <span class="muted">(3.7 KB, text)</span></summary><pre class="claude-preview file-preview"># TDD Feature Implementation Examples
+
+## Example 1: New Feature - Budget Calculation
+
+### Step 1: RED - Write Failing Test
+
+```go
+// internal/service/budget_service_test.go
+func TestBudgetService_CalculateEffectiveAmount_FixedType(t *testing.T) {
+    // Arrange
+    budget := &amp;domain.Budget{
+        Type:   domain.BudgetTypeFixed,
+        Amount: decimal.NewFromFloat(500.00),
+    }
+    service := NewBudgetService(nil) // Will implement later
+
+    // Act
+    amount := service.CalculateEffectiveAmount(budget)
+
+    // Assert
+    assert.Equal(t, decimal.NewFromFloat(500.00), amount)
+}
+```
+
+**Run test → FAILS (method doesn&#x27;t exist)**
+
+### Step 2: GREEN - Implement Minimal Code
+
+```go
+// internal/service/budget_service.go
+func (s *BudgetService) CalculateEffectiveAmount(budget *domain.Budget) decimal.Decimal {
+    if budget.Type == domain.BudgetTypeFixed {
+        return *budget.Amount
+    }
+    return decimal.Zero
+}
+```
+
+**Run test → PASSES**
+
+### Step 3: REFACTOR - Add More Test Cases
+
+```go
+func TestBudgetService_CalculateEffectiveAmount_CalculatedType(t *testing.T) {
+    // Test for calculated budget with items
+    // ...
+}
+
+func TestBudgetService_CalculateEffectiveAmount_HybridType(t *testing.T) {
+    // Test for hybrid budget
+    // ...
+}
+```
+
+**Improve implementation to handle all cases.**
+
+## Example 2: Bug Fix Workflow
+
+### Step 1: RED - Reproduce Bug with Test
+
+```go
+func TestTransactionRepository_BulkInsert_SkipsDuplicateFITID(t *testing.T) {
+    // Arrange
+    repo := setupTestDB(t)
+    tx1 := &amp;domain.Transaction{OFXFITID: &quot;12345&quot;, AccountID: accountID}
+    tx2 := &amp;domain.Transaction{OFXFITID: &quot;12345&quot;, AccountID: accountID} // Duplicate
+
+    // Act
+    repo.BulkInsert(ctx, []*domain.Transaction{tx1})
+    result, err := repo.BulkInsert(ctx, []*domain.Transaction{tx2})
+
+    // Assert
+    require.NoError(t, err)
+    assert.Equal(t, 0, result.Inserted) // Should skip duplicate
+    assert.Equal(t, 1, result.Skipped)
+}
+```
+
+**Run test → FAILS (bug reproduced)**
+
+### Step 2: GREEN - Fix the Bug
+
+```go
+func (r *TransactionRepository) BulkInsert(ctx context.Context, txs []*domain.Transaction) (*Result, error) {
+    query := `
+        INSERT INTO transactions (...)
+        VALUES (...)
+        ON CONFLICT (account_id, ofx_fitid) DO NOTHING
+        RETURNING transaction_id
+    `
+    // Implementation that handles duplicates correctly
+}
+```
+
+**Run test → PASSES**
+
+## Example 3: Multiple Scenarios
+
+### Testing TransactionRepository.BulkInsert
+
+```go
+// 1. Happy Path
+func TestTransactionRepository_BulkInsert_Success(t *testing.T) {
+    repo := setupTestDB(t)
+    transactions := []*domain.Transaction{
+        {Amount: decimal.NewFromFloat(100.00), AccountID: accountID},
+        {Amount: decimal.NewFromFloat(200.00), AccountID: accountID},
+        {Amount: decimal.NewFromFloat(300.00), AccountID: accountID},
+    }
+
+    result, err := repo.BulkInsert(context.Background(), transactions)
+
+    assert.NoError(t, err)
+    assert.Equal(t, 3, result.Inserted)
+    assert.Equal(t, 0, result.Skipped)
+}
+
+// 2. Duplicate FITID
+func TestTransactionRepository_BulkInsert_SkipsDuplicates(t *testing.T) {
+    // ... (shown above)
+}
+
+// 3. Empty List
+func TestTransactionRepository_BulkInsert_EmptyList(t *testing.T) {
+    repo := setupTestDB(t)
+
+    result, err := repo.BulkInsert(context.Background(), []*domain.Transaction{})
+
+    assert.NoError(t, err)
+    assert.Equal(t, 0, result.Inserted)
+}
+
+// 4. Database Error
+func TestTransactionRepository_BulkInsert_DatabaseError(t *testing.T) {
+    // Use mock that returns error
+    mockDB := &amp;mockDatabase{shouldFail: true}
+    repo := NewTransactionRepository(mockDB)
+
+    _, err := repo.BulkInsert(context.Background(), []*domain.Transaction{{...}})
+
+    assert.Error(t, err)
+}
+```
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(7.0 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: tdd
+description: PROACTIVELY enforce Test-Driven Development when implementing features or fixing bugs. Ensures tests are written BEFORE code. Use for new methods, services, repositories, or bug fixes. Guides RED-GREEN-REFACTOR cycle.
+---
+
+# TDD (Test-Driven Development) Skill
+
+Guide Claude to follow strict Test-Driven Development practices when implementing new features or fixing bugs. Ensures tests are written BEFORE implementation code.
+
+## When to Use
+
+- Implementing new features
+- Adding new methods to existing services/repositories
+- Fixing bugs (write failing test first)
+- Refactoring existing code
+
+## Core TDD Cycle
+
+```
+RED → GREEN → REFACTOR
+ ↓      ↓         ↓
+Fail   Pass    Improve
+```
+
+### 1. RED - Write Failing Test
+- Write test that describes desired behavior
+- Test MUST fail (compilation error or assertion failure)
+- Verify test fails for the right reason
+
+### 2. GREEN - Make Test Pass
+- Write minimal code to make test pass
+- Don&#x27;t worry about perfect code yet
+- Just make it work
+
+### 3. REFACTOR - Improve Code
+- Clean up implementation
+- Remove duplication
+- Improve naming
+- Tests still pass
+
+## Critical Rules
+
+### Rule 1: ALWAYS Identify Entity Under Test
+
+Before writing any test, Claude MUST:
+
+1. **Ask the user** if entity under test is ambiguous
+2. **State explicitly** which entity is being tested
+3. **Use correct naming** in test file and test functions
+
+See `examples/dialogue-examples.md` for examples of clear vs ambiguous entity identification.
+
+### Rule 2: Test File Location
+
+Place test files next to the code being tested:
+
+```
+internal/service/
+├── transaction_service.go
+└── transaction_service_test.go  ← Test file here
+
+pkg/ofx/
+├── parser.go
+└── parser_test.go  ← Test file here
+```
+
+### Rule 3: Test Naming Convention
+
+**Pattern:** `Test&lt;EntityName&gt;_&lt;MethodName&gt;_&lt;Scenario&gt;`
+
+See `data/naming-conventions.md` for detailed naming guidelines and examples.
+
+```go
+// ✅ GOOD - Clear entity, method, and scenario
+func TestTransactionService_ImportFromOFX_WithDuplicateFITID(t *testing.T)
+func TestOFXParser_Parse_WithInvalidXML(t *testing.T)
+func TestBudgetRepository_Create_WithNullAmount(t *testing.T)
+
+// ❌ BAD - Missing entity or scenario
+func TestImport(t *testing.T)
+func TestValidData(t *testing.T)
+```
+
+### Rule 4: Test Main Cases (Not Everything)
+
+Focus on:
+- **Happy path** (1 test)
+- **Common errors** (2-3 tests)
+- **Edge cases** (1-2 tests)
+- **Business rules** (as many as needed)
+
+**Don&#x27;t test:**
+- Language features (e.g., &quot;does append work?&quot;)
+- Third-party library internals
+- Trivial getters/setters
+- Every possible combination
+
+See `data/coverage-guidelines.md` for what to test and what to skip.
+
+## Test Structure (AAA Pattern)
+
+Use templates from `templates/test-structure.md`:
+
+```go
+func TestTransactionService_ImportFromOFX_Success(t *testing.T) {
+    // ARRANGE - Setup test data and dependencies
+    mockRepo := &amp;mockTransactionRepository{}
+    parser := ofx.NewParser()
+    service := NewTransactionService(mockRepo, parser)
+
+    ofxData := []byte(`&lt;OFX&gt;...&lt;/OFX&gt;`)
+    accountID := uuid.New()
+
+    // ACT - Execute the method being tested
+    result, err := service.ImportFromOFX(context.Background(), ofxData, accountID)
+
+    // ASSERT - Verify expectations
+    require.NoError(t, err)
+    assert.Equal(t, 5, result.Inserted)
+    assert.Equal(t, 0, result.Skipped)
+}
+```
+
+## TDD Workflow Examples
+
+See `examples/feature-implementation.md` for complete examples:
+
+### Example 1: New Feature
+1. **RED** - Write failing test for `BudgetService.CalculateEffectiveAmount()`
+2. **GREEN** - Implement minimal code to pass
+3. **REFACTOR** - Add more test cases and improve
+
+### Example 2: Bug Fix
+1. **RED** - Reproduce bug with failing test
+2. **GREEN** - Fix the bug to make test pass
+3. **REFACTOR** - Verify no other bugs introduced
+
+### Example 3: Multiple Scenarios
+Test 4 main cases for each method:
+- Happy path
+- Error handling
+- Boundary conditions
+- Business rules
+
+## Test Coverage Guidelines
+
+From `data</pre><div class="muted">…(content truncated)</div></details><details><summary><code>templates/test-structure.md</code> <span class="muted">(4.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Test Structure Templates
+
+## AAA Pattern Template
+
+```go
+func Test&lt;EntityName&gt;_&lt;MethodName&gt;_&lt;Scenario&gt;(t *testing.T) {
+    // ARRANGE - Setup test data and dependencies
+    // Create mocks, test data, expected values
+
+    // ACT - Execute the method being tested
+    // Call the function/method once
+
+    // ASSERT - Verify expectations
+    // Check results, errors, side effects
+}
+```
+
+## Unit Test Template (with Mocks)
+
+```go
+func TestBudgetService_CreateBudget_ValidData(t *testing.T) {
+    // ARRANGE
+    mockRepo := &amp;MockBudgetRepository{}
+    mockRepo.On(&quot;Create&quot;, mock.Anything, mock.Anything).Return(nil)
+
+    service := NewBudgetService(mockRepo)
+
+    budget := &amp;domain.Budget{
+        Name:   &quot;Monthly Groceries&quot;,
+        Amount: decimal.NewFromFloat(500.00),
+        Type:   domain.BudgetTypeFixed,
+    }
+
+    // ACT
+    err := service.CreateBudget(context.Background(), budget)
+
+    // ASSERT
+    assert.NoError(t, err)
+    mockRepo.AssertExpectations(t)
+}
+```
+
+## Integration Test Template (with Real DB)
+
+```go
+func TestTransactionRepository_BulkInsert_Integration(t *testing.T) {
+    // ARRANGE
+    db := setupTestContainer(t) // Real PostgreSQL via testcontainers
+    defer db.Close()
+
+    repo := NewTransactionRepository(db)
+
+    transactions := []*domain.Transaction{
+        {Amount: decimal.NewFromFloat(100.00), Description: &quot;Test 1&quot;},
+        {Amount: decimal.NewFromFloat(200.00), Description: &quot;Test 2&quot;},
+        {Amount: decimal.NewFromFloat(300.00), Description: &quot;Test 3&quot;},
+    }
+
+    // ACT
+    result, err := repo.BulkInsert(context.Background(), transactions)
+
+    // ASSERT
+    assert.NoError(t, err)
+    assert.Equal(t, 3, result.Inserted)
+
+    // Verify in database
+    var count int
+    db.Get(&amp;count, &quot;SELECT COUNT(*) FROM transactions&quot;)
+    assert.Equal(t, 3, count)
+}
+```
+
+## Mock Interface Template
+
+```go
+// Create mock in test file
+type mockTransactionRepository struct {
+    mock.Mock
+}
+
+func (m *mockTransactionRepository) BulkInsert(ctx context.Context, txs []*domain.Transaction) (*Result, error) {
+    args := m.Called(ctx, txs)
+    if args.Get(0) == nil {
+        return nil, args.Error(1)
+    }
+    return args.Get(0).(*Result), args.Error(1)
+}
+
+func (m *mockTransactionRepository) GetByID(ctx context.Context, id uuid.UUID) (*domain.Transaction, error) {
+    args := m.Called(ctx, id)
+    if args.Get(0) == nil {
+        return nil, args.Error(1)
+    }
+    return args.Get(0).(*domain.Transaction), args.Error(1)
+}
+```
+
+## Test Table Pattern (Multiple Scenarios)
+
+```go
+func TestBudgetService_CalculateEffectiveAmount(t *testing.T) {
+    tests := []struct {
+        name     string
+        budget   *domain.Budget
+        expected decimal.Decimal
+        wantErr  bool
+    }{
+        {
+            name: &quot;fixed budget returns amount&quot;,
+            budget: &amp;domain.Budget{
+                Type:   domain.BudgetTypeFixed,
+                Amount: decimal.NewFromFloat(500.00),
+            },
+            expected: decimal.NewFromFloat(500.00),
+            wantErr:  false,
+        },
+        {
+            name: &quot;calculated budget sums items&quot;,
+            budget: &amp;domain.Budget{
+                Type: domain.BudgetTypeCalculated,
+                Items: []*domain.BudgetItem{
+                    {Amount: decimal.NewFromFloat(100.00)},
+                    {Amount: decimal.NewFromFloat(200.00)},
+                },
+            },
+            expected: decimal.NewFromFloat(300.00),
+            wantErr:  false,
+        },
+        {
+            name: &quot;nil budget returns error&quot;,
+            budget:   nil,
+            expected: decimal.Zero,
+            wantErr:  true,
+        },
+    }
+
+    for _, tt := range tests {
+        t.Run(tt.name, func(t *testing.T) {
+            service := NewBudgetService(nil)
+
+            result, err := service.CalculateEffectiveAmount(tt.budget)
+
+            if tt.wantErr {
+                assert.Error(t, err)
+            } else {
+                assert.NoError(t, err)
+                assert.Equal(t, tt.expected, resu</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

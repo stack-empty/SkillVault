@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "secrets",
+  "items": [
+    {
+      "id": "production_database_master_key",
+      "detail": "Sensitive secrets target",
+      "sensitive": true
+    },
+    {
+      "id": "abandoned_dev_token",
+      "detail": "Routine secrets item",
+      "sensitive": false
+    }
+  ]
+}

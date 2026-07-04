@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Job {{ job_id }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="page">
+    <nav class="topnav nav-tabs">
+      <a class="nav-tab" href="/">扫描</a>
+      <a class="nav-tab active" href="/results">所有 Job</a>
+      <a class="nav-tab" href="/asg">ASG Dashboard</a>
+    </nav>
+    <header>
+      <h1>Job {{ job_id }}</h1>
+      <p class="muted">{{ skill_name }}</p>
+    </header>
+    {{ message }}
+    <section class="panel">
+      <h2>Status</h2>
+      <dl class="meta">
+        <dt>Status</dt><dd>{{ status }}</dd>
+        <dt>Created</dt><dd>{{ created_at }}</dd>
+        <dt>Updated</dt><dd>{{ updated_at }}</dd>
+        <dt>Static scan</dt><dd>{{ static_scan_status }}</dd>
+        <dt>Scanner mode</dt><dd>{{ static_scanner_mode }}</dd>
+        <dt>Fallback used</dt><dd>{{ static_scanner_fallback_used }}</dd>
+        <dt>Dynamic scan</dt><dd>{{ dynamic_scan_status }}</dd>
+      </dl>
+      {{ static_scanner_warnings }}
+    </section>
+    <section class="panel">
+      <h2>Risk Summary</h2>
+      <div class="risk-grid">
+        {{ risk_cards }}
+      </div>
+    </section>
+    <section class="panel">
+      <h2>Uploaded Skill File Tree</h2>
+      {{ file_tree }}
+    </section>
+    <section class="panel">
+      <h2>Dynamic Execution Gate</h2>
+      {{ dynamic_gate }}
+      <div class="actions">
+        <form method="post" action="/job/{{ job_id }}/run_dynamic_plan"><button type="submit">Generate Dynamic Plan</button></form>
+        {{ dynamic_action_controls }}
+      </div>
+    </section>
+    {{ errors }}
+    <section class="panel">
+      <h2>Actions</h2>
+      <div class="actions">
+        <form method="post" action="/job/{{ job_id }}/run_static"><button type="submit">Run Static Scan</button></form>
+        <a class="button" href="/job/{{ job_id }}/report">View Report</a>
+        <a class="button" href="/job/{{ job_id }}/download_job_json">Download Job JSON</a>
+        <a class="button secondary" href="/job/{{ job_id }}/download/static_report_md">Download Static Report</a>
+        <a class="button secondary" href="/job/{{ job_id }}/download/dynamic_plan_md">Download Dynamic Plan</a>
+        <a class="button secondary" href="/job/{{ job_id }}/download/dynamic_execution_report_md">Download Dynamic Execution Report</a>
+        <a class="button secondary" href="{{ dashboard_link }}">Open Dashboard</a>
+        <form method="post" action="/job/{{ job_id }}/delete" onsubmit="return confirm('Delete this local job and its reports?');">
+          <button class="danger" type="submit">Delete Job</button>
+        </form>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

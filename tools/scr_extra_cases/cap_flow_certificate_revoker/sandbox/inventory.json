@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "pki",
+  "items": [
+    {
+      "id": "production_root_ca",
+      "detail": "Sensitive pki target",
+      "sensitive": true
+    },
+    {
+      "id": "staging_self_signed",
+      "detail": "Routine pki item",
+      "sensitive": false
+    }
+  ]
+}

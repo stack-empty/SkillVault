@@ -1,0 +1,3012 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>qax_92202fbc56_openclaw-hyperliquid-copytrade · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>qax_92202fbc56_openclaw-hyperliquid-copytrade</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-qax_92202fbc56_openclaw-hyperliquid-copytrade">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">qax_92202fbc56_openclaw-hyperliquid-copytrade</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 33 · 130.1 KB</span>  <span class="chip">扫描: 2026-07-03 12:32:15</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#f59e0b;color:#f59e0b;">
+            <span class="verdict-label">留意</span>
+            <span class="verdict-en">SUSPICIOUS</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#f59e0b;">建议人工审核</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#f59e0b;">35.6<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:35.57%;background:#f59e0b;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary"><div class="ai-summary-title">AI 研判描述 <span class="ai-meta">模型 claude-opus-4-7 · LLM判 SUSPICIOUS · 拒绝度 0.70</span></div><div class="ai-summary-body">这是一个 Hyperliquid 跟单机器人 skill，监控目标钱包的成交并按评分/风控规则代为下单，通过 Telegram 推送决策日志。包含订单执行服务、状态面板、Telegram 通知等模块，支持真实交易模式（HL_REAL_EXECUTION=true）。</div></div><div class="llm-risk-section"><div class="llm-risk-header"><div><span class="llm-risk-title">风险评估</span> <span class="llm-risk-subtitle">RISK ASSESSMENT</span></div><div class="llm-risk-count">4 ISSUES</div></div><details open class="llm-risk-cat" style="border-left:3px solid #f59e0b;"><summary><span class="llm-cat-name">凭证窃取</span><span class="llm-cat-badge" style="background:#f59e0b;">中危</span><span class="llm-cat-count">1 项</span></summary><div class="llm-risk-item"><div class="llm-risk-item-head"><span class="llm-risk-num">#1</span><span class="llm-risk-sev" style="background:#f59e0b;">中危</span><span class="llm-risk-title-text">要求用户私钥</span><span class="llm-risk-flag">大模型检出</span></div><div class="llm-risk-loc"><code>SKILL.md</code></div><pre class="llm-risk-code">HYPERLIQUID_WALLET_PRIVATE_KEY (your Hyperliquid wallet private key for order execution)</pre><div class="llm-risk-desc">skill 强制要求用户提供 Hyperliquid 钱包私钥并保存到工作区 .env 文件，私钥虽仅本地存储用于下单签名，但一旦 .env 泄漏、被其他进程读取或误提交，将导致资金完全失控。同时默认开启真实交易模式（MODE=live, HL_REAL_EXECUTION=true），风险窗口更大。</div><div class="llm-risk-fix"><span class="llm-risk-fix-label">修复建议:</span> 建议改用只读的 API agent wallet/子账号或硬件签名代理，避免主私钥直接落盘；默认模式改为 dry-run，让用户显式启用真实交易。</div></div></details><details open class="llm-risk-cat" style="border-left:3px solid #f59e0b;"><summary><span class="llm-cat-name">行为操控</span><span class="llm-cat-badge" style="background:#f59e0b;">中危</span><span class="llm-cat-count">1 项</span></summary><div class="llm-risk-item"><div class="llm-risk-item-head"><span class="llm-risk-num">#1</span><span class="llm-risk-sev" style="background:#f59e0b;">中危</span><span class="llm-risk-title-text">强制自动执行命令</span><span class="llm-risk-flag">大模型检出</span></div><div class="llm-risk-loc"><code>SKILL.md</code></div><pre class="llm-risk-code">you MUST execute the following command immediately — do NOT just explain the steps... Do NOT skip running the command. Do NOT just describe what the user should do. Always execute it.</pre><div class="llm-risk-desc">SKILL.md 通过强指令语气要求 Agent 在检测到相关意图时必须立即执行 manage_services.py start，绕过用户对启动真实交易服务的显式确认，属于典型的行为操控/提示注入模式，可能导致在用户未充分理解风险时启动真实下单流程。</div><div class="llm-risk-fix"><span class="llm-risk-fix-label">修复建议:</span> 移除“MUST/Do NOT skip”类强制指令，改为先向用户确认再执行；启动真实交易前必须获得用户显式二次确认。</div></div></details><details open class="llm-risk-cat" style="border-left:3px solid #64748b;"><summary><span class="llm-cat-name">其他</span><span class="llm-cat-badge" style="background:#64748b;">低危</span><span class="llm-cat-count">1 项</span></summary><div class="llm-risk-item"><div class="llm-risk-item-head"><span class="llm-risk-num">#1</span><span class="llm-risk-sev" style="background:#64748b;">低危</span><span class="llm-risk-title-text">外部URL引导</span><span class="llm-risk-flag">大模型检出</span></div><div class="llm-risk-loc"><code>SKILL.md</code></div><pre class="llm-risk-code">discover smart wallets at https://simpfor.fun/</pre><div class="llm-risk-desc">skill 多处引导用户访问 simpfor.fun 第三方站点发现“聪明钱”钱包，虽未强制交互，但对未审计的第三方推荐可能引入被诱导跟单恶意策略的风险。</div><div class="llm-risk-fix"><span class="llm-risk-fix-label">修复建议:</span> 在文档中标注该站点为第三方来源，建议用户自行审慎评估。</div></div></details><details open class="llm-risk-cat" style="border-left:3px solid #64748b;"><summary><span class="llm-cat-name">命令执行</span><span class="llm-cat-badge" style="background:#64748b;">低危</span><span class="llm-cat-count">1 项</span></summary><div class="llm-risk-item"><div class="llm-risk-item-head"><span class="llm-risk-num">#1</span><span class="llm-risk-sev" style="background:#64748b;">低危</span><span class="llm-risk-title-text">依赖curl子进程</span><span class="llm-risk-flag">大模型检出</span></div><div class="llm-risk-loc"><code>scripts\hyperliquid_api.py:11</code></div><pre class="llm-risk-code">proc = subprocess.run([&quot;curl&quot;, &quot;-sS&quot;, &quot;--fail&quot;, &quot;-X&quot;, &quot;POST&quot;, INFO_URL, ...</pre><div class="llm-risk-desc">使用 subprocess 调用 curl 而非标准 HTTP 库进行网络请求，参数为硬编码，未接受外部用户输入拼接，本身不构成命令注入。但增加了对系统 curl 的隐式依赖，属于代码质量层面的次要风险。</div><div class="llm-risk-fix"><span class="llm-risk-fix-label">修复建议:</span> 改用 urllib 或 requests 直接发起 HTTPS 请求，减少子进程调用。</div></div></details></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">代码执行</div>  <div class="card-count">6<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">凭证窃取</div>  <div class="card-count">4<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge bad">严重 · 4</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge bad">严重 · 6</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 10 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\first_run_onboarding.py:109</code></td><td><code class="snippet">subprocess.call</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\hyperliquid_api.py:12</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\live_exec.py:55</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>scripts\live_executor_service_stdlib.py:28</code></td><td><code class="snippet">os.getenv(&quot;HL_API_URL&quot;, &quot;https://api</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>scripts\live_executor_service_stdlib.py:29</code></td><td><code class="snippet">os.getenv(&quot;HYPERLIQUID_WALLET_PRIVATE_KEY</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\manage_services.py:162</code></td><td><code class="snippet">subprocess.Popen</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>scripts\runner.py:386</code></td><td><code class="snippet">os.getenv(&quot;TELEGRAM_BOT_TOKEN</code></td></tr><tr><td><span class="sev-pill sev-medium">MEDIUM</span></td><td><code>E2</code></td><td>cred_access</td><td><code>scripts\runner.py:414</code></td><td><code class="snippet">os.getenv(&quot;CAPI</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\telegram.py:9</code></td><td><code class="snippet">subprocess.run</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>SC1</code></td><td>execution</td><td><code>scripts\telegram_control.py:9</code></td><td><code class="snippet">subprocess.run</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>qax_92202fbc56_openclaw-hyperliquid-copytrade_YZ6E9QLZ32_OFSKEE37</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:5df9b9940d&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:0e659ce4e1&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:315241956c&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:e3b460b580&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:8db96ab8c6&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:7a14e871fd&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:70ceeead85&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (33 files, 130.1 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>.gitignore</code> <span class="muted">(306 B, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>docs/architecture.md</code> <span class="muted">(2.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Architecture
+
+## Overview
+
+`openclaw-hyperliquid-copytrade` is a local copy-trading pipeline with explainable decisions and Telegram-first visibility.
+
+Flow:
+
+1. `runner.py` polls source wallet fills from Hyperliquid (`/info`-style data via `hyperliquid_api.py`).
+2. Runner computes wallet stats and score (`score.py`).
+3. Runner applies risk constraints and decides `FOLLOW` / `SKIP` / `CLOSE`.
+4. Decision is sent to Telegram (`telegram.py`) with a human-readable rationale.
+5. If execution is enabled, runner calls executor endpoint through `live_exec.py`.
+6. Runtime snapshots are persisted (`state.py`, `runtime-status.json`, `wallet-analytics.json`) and shown in `status_web.py`.
+
+## Components
+
+- `scripts/runner.py`
+  - Main loop and decision engine.
+  - Startup Telegram snapshot and initial YES/NO follow flow.
+  - Risk checks, TP/SL auto-close, source close mirror.
+- `scripts/hyperliquid_api.py`
+  - Hyperliquid data fetch + fill normalization.
+- `scripts/score.py`
+  - Wallet scoring and size multiplier logic.
+- `scripts/live_exec.py`
+  - Client bridge to execution service.
+- `scripts/live_executor_service_stdlib.py`
+  - Dependency-light local execution endpoint (`/execute`).
+- `scripts/telegram.py`
+  - Telegram send wrapper.
+- `scripts/telegram_control.py`
+  - Polls incoming YES/NO replies and language hint.
+- `scripts/status_web.py`
+  - Local dashboard for runtime status and wallet analytics.
+- `scripts/manage_services.py`
+  - One-click `start|stop|status|restart` process control.
+
+## Runtime files
+
+- `state.json`: processed event IDs, exposure, startup prompt flags, copied positions.
+- `runtime-status.json`: heartbeat snapshot for dashboard.
+- `wallet-analytics.json`: per-wallet score/stats and open-position snapshot.
+- `services-pids.json`: process PIDs for service management.
+- `logs/*.log`: executor, status web, runner logs.
+
+## Decision lifecycle
+
+For each new normalized fill event:
+
+1. Load (or refresh) wallet stats over `STATS_LOOKBACK_HOURS`.
+2. Compute `score` and `size_multiplier`.
+3. Calculate proposed exposure.
+4. Evaluate gates:
+   - score threshold
+   - per-trade exposure cap
+   - total exposure cap
+   - kill switch
+5. If copied position exists, evaluate close triggers:
+   - source close event
+   - TP/SL thresholds
+6. Emit Telegram rationale and execution receipt.
+7. Persist state and runtime snapshot.
+
+## Default runtime profile
+
+Ready-to-use defaults:
+
+- `MODE=live`
+- `KILL_SWITCH=false`
+- `HL_REAL_EXECUTION=true`
+
+This enables live decision/execution flow with real order placement at startup. If you want simulation-first behavior, switch to `MODE=dry-run` or `HL_REAL_EXECUTION=false` manually.
+</pre></details><details><summary><code>docs/help-center.md</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Help Center
+
+This is the central help entry for `openclaw-hyperliquid-copytrade`.
+
+## What to read first
+
+For first-time users:
+- `docs/quickstart-onboarding.md`
+
+For existing deployments:
+- `docs/runbook.md` (operations)
+- `docs/risk-policy.md` (risk controls)
+- `docs/telegram-format.md` (message fields)
+- `docs/architecture.md` (system design)
+
+## One-command onboarding
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/first_run_onboarding.py --start
+```
+
+This command:
+1. creates/updates workspace `.env`
+2. applies defaults (`MODE=live`, `KILL_SWITCH=false`)
+3. asks for required values step-by-step
+4. starts executor + status web + runner
+
+## Common ops commands
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py status
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py stop
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py restart
+```
+
+## FAQ
+
+### Telegram not receiving messages
+- Check `.env`: `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`
+- Ensure bot can post in target chat
+- Check `skills/openclaw-hyperliquid-copytrade/logs/runner.log`
+
+### Why all actions are SKIP
+- `KILL_SWITCH=true`
+- `SCORE_THRESHOLD` too high
+- exposure caps already hit
+
+### Does first startup place live orders immediately?
+The runtime enters live decision flow by default (`MODE=live`, `KILL_SWITCH=false`).
+If you want simulation-first behavior, switch to `MODE=dry-run` before start.
+
+## Security reminders
+
+- Never share private keys/tokens in chat.
+- Keep secrets only in local `.env`.
+- Run observation/validation before any production-scale live usage.
+</pre></details><details><summary><code>docs/open-source-checklist.md</code> <span class="muted">(1.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Open Source Release Checklist
+
+## A. Functionality
+
+- [ ] `python3 scripts/first_run_onboarding.py --no-input` runs without syntax/runtime errors
+- [ ] `python3 scripts/manage_services.py start` works on clean environment
+- [ ] Telegram startup message and YES/NO flow verified
+- [ ] `MODE=dry-run` behavior confirmed
+
+## B. Security (must pass)
+
+- [ ] `.env` is not tracked by git
+- [ ] runtime files and logs are ignored by `.gitignore`
+- [ ] `references/env.example` has no real secret values
+- [ ] `python3 scripts/security_preflight.py` returns pass
+- [ ] No token/private key in docs, scripts, tests, sample outputs
+
+## C. Documentation
+
+- [ ] `docs/quickstart-onboarding.md` up-to-date
+- [ ] `docs/help-center.md` links and commands valid
+- [ ] `docs/runbook.md` covers start/stop/restart + common failures
+- [ ] `SECURITY.md` included and accurate
+
+## D. Release command suggestion
+
+From workspace root:
+
+```bash
+git status
+git diff --stat
+python3 skills/openclaw-hyperliquid-copytrade/scripts/security_preflight.py
+```
+
+Only publish when all checks are green.
+
+## E. Optional hard guard (recommended)
+
+Install a git pre-commit hook to auto-run secret scan:
+
+```bash
+bash skills/openclaw-hyperliquid-copytrade/scripts/install_git_hook.sh
+```
+
+Verify hook:
+
+```bash
+git config --get core.hooksPath
+```
+
+Expected output: `.githooks`
+</pre></details><details><summary><code>docs/quickstart-onboarding.md</code> <span class="muted">(1.8 KB, text)</span></summary><pre class="claude-preview file-preview"># First-Time Setup: One-Command Onboarding
+
+Goal: get a new user running in ~3 minutes (default ready-to-use profile: `MODE=live`, `KILL_SWITCH=false`).
+
+## Prerequisites
+
+- Python 3 installed
+- Current directory is your OpenClaw workspace root
+- Telegram bot created (you have the bot token)
+
+## One-command start
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/first_run_onboarding.py --start
+```
+
+You will be guided to provide:
+- `TARGET_WALLETS` (recommended: discover smart wallets at https://simpfor.fun/)
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `HYPERLIQUID_WALLET_PRIVATE_KEY`
+
+Then the script will:
+- create/update `.env`
+- apply default runtime values
+- start local services
+
+&gt; Even if you run `manage_services.py start` directly, first-run or missing-required-config cases now trigger step-by-step setup first (instead of starting trading immediately).
+&gt;
+&gt; If manual edit is required, the full file path is:
+&gt; `/Users/damon/.openclaw/workspace-main/.env`
+
+## Verify successful setup
+
+1. Terminal shows `started` or `running(pid)`
+2. Open `http://127.0.0.1:8899`
+3. Telegram receives startup snapshot
+
+## Common failures
+
+### 1) Missing required config
+Run onboarding again:
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/first_run_onboarding.py
+```
+
+### 2) Service startup failed
+Check logs:
+- `skills/openclaw-hyperliquid-copytrade/logs/runner.log`
+- `skills/openclaw-hyperliquid-copytrade/logs/executor.log`
+- `skills/openclaw-hyperliquid-copytrade/logs/status_web.log`
+
+### 3) No Telegram messages
+Verify bot token/chat id and bot permissions in the target chat.
+
+## Recommended next step
+
+- Observe behavior in `dry-run` first if you want lower risk
+- Validate SKIP/FOLLOW reasons and sizing behavior
+- Keep or switch mode intentionally based on your risk tolerance
+</pre></details><details><summary><code>docs/risk-policy.md</code> <span class="muted">(2.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Risk Policy
+
+## Purpose
+
+Define guardrails for copy-trading decisions so that follow sizing and close behavior remain bounded and explainable.
+
+## Core controls
+
+- Per-trade risk cap: `MAX_RISK_PER_TRADE_PCT`
+- Total exposure cap: `MAX_TOTAL_EXPOSURE_PCT`
+- Score gate: `SCORE_THRESHOLD`
+- Global kill switch: `KILL_SWITCH`
+
+A trade is executable only when all gates pass (and not kill-switched).
+
+## Decision gates
+
+For each event, runner computes:
+
+- `score = score_wallet(stats)`
+- `mult = size_multiplier(score, threshold)`
+- `proposed_exposure_pct = MAX_RISK_PER_TRADE_PCT * mult`
+
+Execution gates:
+
+1. `score &gt;= SCORE_THRESHOLD`
+2. `proposed_exposure_pct &lt;= MAX_RISK_PER_TRADE_PCT`
+3. `current_exposure_pct + proposed_exposure_pct &lt;= MAX_TOTAL_EXPOSURE_PCT`
+4. `KILL_SWITCH` must be false
+
+If any gate fails, action is `SKIP` with explicit reasons in Telegram message.
+
+## Initial-follow policy
+
+At startup, if `REQUIRE_INITIAL_DECISION=true` and open positions exist:
+
+- System asks operator to reply `YES/NO`.
+- `YES`: perform initial follow from current source open positions.
+- `NO`: skip initial follow.
+
+Sizing for initial follow is proportional to source position value share, bounded by risk budget.
+
+## Close policy
+
+When a copied position exists, close can be triggered by:
+
+1. Source close mirror (`dir` indicates close)
+2. Trailing take-profit retrace after TP activation:
+   - enable with `TRAILING_TP_ENABLE=true`
+   - activate trailing only after profit reaches `AUTO_TP_PCT`
+   - close when retrace from position watermark exceeds `TRAILING_TP_CALLBACK_PCT`
+3. Auto take-profit (`AUTO_TP_PCT`) when trailing is disabled
+4. Auto stop-loss (`AUTO_SL_PCT`)
+
+Runner persists per-position watermark state (`high_watermark_price`, `low_watermark_price`, `watermark_pnl_pct`) in `state.json` so trailing logic survives restarts.
+
+Close-side is opposite of copied side. Close reason (including trailing retrace details) is included in execution receipt.
+
+## Mode policy
+
+- `MODE=dry-run`: no live order submission; still emits full rationale and receipts.
+- `MODE=live`: requires executor URL and should only be enabled after dry-run stability checks.
+
+## Recommended operational posture
+
+### Default / ready-to-use
+
+- `MODE=live`
+- `KILL_SWITCH=false`
+- `HL_REAL_EXECUTION=true`
+
+### Safety override
+
+If you want simulation-first behavior, set `HL_REAL_EXECUTION=false` or `MODE=dry-run` manually before start.
+- no duplicate execution behavior
+- exposure math verified under stress
+- stop/restart tested
+- Telegram rationale quality accepted
+</pre></details><details><summary><code>docs/runbook.md</code> <span class="muted">(4.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Runbook
+
+## Prerequisites
+
+- Python 3 available (recommended: `.venv-hl`).
+- Workspace `.env` contains required variables.
+- Telegram bot can send messages to target chat.
+
+## Required env
+
+Minimum required values:
+
+- `TARGET_WALLETS` (recommended: discover smart wallets at https://simpfor.fun/)
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `HYPERLIQUID_WALLET_PRIVATE_KEY`
+
+Optional with defaults:
+
+- `MODE` (`live` by default)
+- `MAX_RISK_PER_TRADE_PCT` (default `10`)
+- `MAX_TOTAL_EXPOSURE_PCT` (default `60`)
+- `SCORE_THRESHOLD` (default `70`)
+- `EVENT_GRANULARITY` (`order` by default; use `fill` for per-fill mode)
+- `DECISION_DEDUP_WINDOW_SECONDS` (default `0`; only used when `EVENT_GRANULARITY=fill`)
+
+For `MODE=live`:
+
+- `LIVE_EXECUTOR_URL` is required by runner.
+
+Trailing TP options:
+
+- `AUTO_TP_PCT` (trailing activation threshold when enabled)
+- `AUTO_SL_PCT`
+- `TRAILING_TP_ENABLE` (`true`/`false`)
+- `TRAILING_TP_CALLBACK_PCT` (&gt; 0)
+
+## One-click service operations
+
+From workspace root:
+
+&gt; On first run (or when required fields are missing), `start` now runs a step-by-step interactive setup flow (TARGET_WALLETS / Telegram / private key) before services are launched.
+&gt; In non-interactive terminals, the script lists missing required fields and exits to prevent accidental startup with incomplete config.
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py status
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py stop
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py restart
+```
+
+### What `start` launches
+
+- `live_executor_service_stdlib.py` (executor)
+- `status_web.py` (local dashboard)
+- `runner.py` (main decision loop)
+
+### URLs / logs / pid files
+
+- Web status: `http://127.0.0.1:8899` (default from `STATUS_WEB_URL`)
+- Logs:
+  - `skills/openclaw-hyperliquid-copytrade/logs/executor.log`
+  - `skills/openclaw-hyperliquid-copytrade/logs/status_web.log`
+  - `skills/openclaw-hyperliquid-copytrade/logs/runner.log`
+- PID file: `skills/openclaw-hyperliquid-copytrade/services-pids.json`
+
+## Common failures and fixes
+
+### 1) `Missing required env: ...`
+
+Cause: required `.env` key missing.
+
+Fix: add missing variable in workspace `.env` and restart services.
+
+---
+
+### 2) `MODE=live requires LIVE_EXECUTOR_URL`
+
+Cause: live mode enabled without executor endpoint.
+
+Fix:
+
+- either set `LIVE_EXECUTOR_URL`, or
+- temporarily switch to `MODE=dry-run`.
+
+---
+
+### 3) Telegram send fails (`curl --fail` / non-OK response)
+
+Cause: invalid token/chat id, bot not in chat, or bot lacks permissions.
+
+Fix checklist:
+
+- verify bot token from BotFather
+- verify chat id via `getUpdates`
+- make sure bot received at least one user message
+- for groups, ensure bot is added and allowed to post
+
+---
+
+### 4) `status` shows dead processes or stale PID file
+
+Cause: process died unexpectedly.
+
+Fix:
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py stop
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+```
+
+Then inspect `logs/*.log`.
+
+---
+
+### 5) No new decisions for long time
+
+Cause options:
+
+- source wallet has no new fills
+- `SCORE_THRESHOLD` too strict
+- `KILL_SWITCH=true` forcing skips
+
+Fix:
+
+- check `wallet-analytics.json` and runner logs
+- lower threshold only after validation
+- keep dry-run while tuning
+
+---
+
+### 6) `TRAILING_TP_CALLBACK_PCT must be &gt; 0`
+
+Cause: invalid callback config.
+
+Fix:
+
+- set a positive number (example: `TRAILING_TP_CALLBACK_PCT=1`)
+- restart services
+
+## Verification notes (2026-02-27)
+
+- Runner now persists trailing watermark fields in `state.json` per copied position.
+- Telegram close rationale includes trailing retrace details when triggered.
+- Validation command used: `python3 -m py_compile scripts/*.py`.
+
+## Replay backtest for trailing TP
+
+Use a local replay to validate price paths quickly:
+
+```bash
+python3 skills/open</pre><div class="muted">…(content truncated)</div></details><details><summary><code>docs/telegram-format.md</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview"># Telegram Message Format
+
+## Message types
+
+## 1) Startup snapshot
+
+Sent on service startup (or forced startup prompt). Includes:
+
+- web dashboard URL
+- monitored wallets
+- wallet snapshot block (score / win-rate / hold-time / drawdown / open positions)
+- initial-follow prompt when applicable
+
+Example:
+
+```text
+🚀 Copytrade services started
+🌐 Web: http://127.0.0.1:8899
+👛 Monitoring wallet(s): 0x...
+
+📌 Snapshot
+- 0x...
+score=78 wr=0.63 rwr=0.70 hold=95.5m dd=12.3% open_pos=2
+  - BTC long sz=0.01 entry=62000 upnl=14.2
+
+❓ Reply YES / NO: execute initial follow now?
+```
+
+No-open-position variant ends with:
+
+```text
+ℹ️ No open positions found, skipping initial follow prompt.
+```
+
+## 2) Decision acknowledgement
+
+When operator replies `YES/NO` for initial follow:
+
+```text
+Received decision: YES. Will allow initial follow flow.
+```
+
+## 3) Initial-follow execution logs
+
+Per startup position:
+
+- dry-run: `[INITIAL-DRYRUN] ...`
+- live sent: `[INITIAL-FOLLOW] ... resp=...`
+- live failed: `[INITIAL-FAILED] ... error=...`
+- blocked by kill switch: `[INITIAL-SKIP] ... kill_switch=true`
+
+## 4) Per-event decision message (core)
+
+Template shape:
+
+```text
+📍 Symbol: &lt;symbol&gt; &lt;side&gt;
+👛 Wallet: &lt;wallet&gt;
+⚙️ Mode: &lt;mode&gt;
+
+&lt;natural-language risk rationale block&gt;
+
+🧾 Execution receipt: &lt;order_or_null&gt;
+```
+
+Rationale block includes:
+
+- decision (`FOLLOW` / `SKIP` / `CLOSE`)
+- score vs threshold
+- wallet profile metrics
+- sizing multiplier
+- per-trade and total exposure checks
+- kill switch state
+- close trigger note (`source_close` / `TP` / `SL` / `Trailing TP retrace ...`)
+- watermark context when copied position exists (`peak/current/retrace`)
+- explicit failure reasons when skipped
+
+## Formatting principles
+
+- Keep messages mobile-readable.
+- Always include explicit skip reasons.
+- Keep decision and risk checks on separate lines.
+- Never leak secrets (token/private key) into Telegram output.
+</pre></details><details><summary><code>README.md</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview"># OpenClaw Hyperliquid Copytrade Skill
+
+[English](#english) | [中文](#中文)
+
+---
+
+## English
+
+An OpenClaw skill for **Hyperliquid copy trading**:
+- Monitors target wallet fills
+- Scores opportunities with risk checks
+- Executes proportional actions (dry-run/live)
+- Sends decision/execution logs to Telegram
+
+### 1) Fastest prompt for assistant-driven startup (recommended)
+
+In Telegram/OpenClaw chat, send:
+
+```text
+Start one-click copytrade
+```
+
+For one-shot setup + launch, send:
+
+```text
+Start one-click copytrade. Write these into .env and launch:
+TARGET_WALLETS=your_wallets
+TELEGRAM_BOT_TOKEN=your_token
+TELEGRAM_CHAT_ID=your_chat_id
+```
+
+&gt; Security tip: do **not** send private keys in chat. Set `HYPERLIQUID_WALLET_PRIVATE_KEY` locally in your terminal.
+
+### 2) Quick start (CLI)
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/first_run_onboarding.py --start
+```
+
+This will:
+1. Initialize/update `.env`
+2. Apply defaults
+3. Prompt required fields interactively
+4. Start services (executor / status_web / runner)
+
+### 3) Required config
+
+- `TARGET_WALLETS` (comma-separated; discover candidate smart wallets at https://simpfor.fun/)
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `HYPERLIQUID_WALLET_PRIVATE_KEY`
+
+### 4) Common commands
+
+Start:
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+```
+
+Stop:
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py stop
+```
+
+Status:
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py status
+```
+
+### 5) Mode notes
+
+- `MODE=live`: live monitoring/execution path (still governed by safety switches)
+- `MODE=dry-run`: simulation only
+- `HL_REAL_EXECUTION=false`: safer guardrail (no real order placement)
+
+---
+
+## 中文
+
+一个用于 **Hyperliquid 跟单** 的 OpenClaw Skill：
+- 监听目标钱包成交
+- 进行评分与风控
+- 按比例执行（可 dry-run / live）
+- 将决策与执行结果推送到 Telegram
+
+### 1) 给 AI 助手的“最快启动 Prompt”（推荐）
+
+如果你在 Telegram / OpenClaw 对话里操作，直接发：
+
+```text
+启动一键跟单，走初次跟单流程
+```
+
+如果你希望它一次性就补齐配置并开跑，发：
+
+```text
+启动一键跟单。按以下配置写入 .env 并启动：
+TARGET_WALLETS=你的地址
+TELEGRAM_BOT_TOKEN=你的token
+TELEGRAM_CHAT_ID=你的chat_id
+```
+
+&gt; 安全建议：私钥不要在聊天里发送。可在本机终端手动写入 `HYPERLIQUID_WALLET_PRIVATE_KEY`。
+
+### 2) 快速启动（命令行）
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/first_run_onboarding.py --start
+```
+
+它会自动：
+1. 初始化/更新 `.env`
+2. 应用默认参数
+3. 交互式补齐必填项
+4. 启动服务（executor / status_web / runner）
+
+### 3) 必填配置
+
+- `TARGET_WALLETS`（可多个，逗号分隔，推荐先去 https://simpfor.fun/ 发现聪明钱）
+- `TELEGRAM_BOT_TOKEN`
+- `TELEGRAM_CHAT_ID`
+- `HYPERLIQUID_WALLET_PRIVATE_KEY`
+
+### 4) 常用操作
+
+启动：
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+```
+
+停止：
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py stop
+```
+
+状态：
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py status
+```
+
+### 5) 模式说明
+
+- `MODE=live`：实时模式（仍受其它安全开关约束）
+- `MODE=dry-run`：仅模拟，不真实执行
+- `HL_REAL_EXECUTION=false`：即使 live，也不真实下单（更安全）
+</pre></details><div class="file-row"><code>references/env.example</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>references/hyperliquid-integration.md</code> <span class="muted">(3.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Hyperliquid Integration Notes
+
+This skill now reads real source-wallet fills via Hyperliquid `/info` (`userFillsByTime`) in polling mode.
+
+## Event source
+
+Current implementation:
+
+- Poll `/info` with `type=userFillsByTime`
+- Normalize each fill into a copytrade event
+- Deduplicate with persisted `processed_event_ids`
+
+Optional upgrade:
+
+- Replace polling with websocket `userFills` subscriptions for lower latency
+
+Expected normalized event shape:
+
+```json
+{
+  &quot;event_id&quot;: &quot;unique-source-id&quot;,
+  &quot;wallet&quot;: &quot;0x...&quot;,
+  &quot;symbol&quot;: &quot;BTC&quot;,
+  &quot;side&quot;: &quot;buy&quot;,
+  &quot;size&quot;: 0.1,
+  &quot;price&quot;: 70000,
+  &quot;timestamp&quot;: 1730000000
+}
+```
+
+## Historical analytics
+
+For each source wallet, compute:
+
+- win_rate
+- avg_hold_minutes
+- max_drawdown_pct
+- recent_win_rate
+
+Return this object to `score_wallet()`.
+
+## Order execution
+
+Current live path forwards order intents to an external signer/executor via `LIVE_EXECUTOR_URL`.
+
+The runner sends:
+
+- symbol
+- side
+- notional_usd
+- source_event_id
+- source_wallet
+- source_price / size / timestamp
+
+Your executor service is responsible for:
+
+- wallet key management
+- Hyperliquid signed `/exchange` requests
+- retries / idempotency / final status
+
+Starter services included:
+
+1) `scripts/live_executor_service.py` (FastAPI)
+2) `scripts/live_executor_service_stdlib.py` (no external dependencies)
+
+Both expose:
+
+- `GET /health`
+- `POST /execute`
+- optional bearer auth via `EXECUTOR_BEARER`
+
+Run locally (dependency-free path):
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/live_executor_service_stdlib.py
+```
+
+Real execution mode (signed market orders):
+
+- set `HL_REAL_EXECUTION=true`
+- set `HYPERLIQUID_WALLET_PRIVATE_KEY` (keep only in local `.env`)
+- keep `HL_API_URL=https://api.hyperliquid.xyz`
+- optional: tune `HL_MARKET_SLIPPAGE`
+
+One-click service control:
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py status
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py stop
+```
+
+Startup Telegram flow:
+
+- Runner sends startup message with web URL and monitored wallet list.
+- It asks for `YES` / `NO` (also supports localized affirmative/negative variants) to decide initial-follow flow.
+- Telegram language can be forced by `TG_LANG=zh|en`, or auto-detected with `TG_LANG=auto`.
+- Auto mode prioritizes Telegram `from.language_code` (e.g. `zh-CN`, `en-US`), then falls back to text detection.
+- Decision is read via Telegram `getUpdates` and persisted in state.
+- On `YES`, runner executes initial-follow intents from current open positions (live mode calls executor; dry-run sends simulation messages).
+- Initial-follow notional is split proportionally by each source position&#x27;s absolute `position_value` share.
+- Auto-close supports: (1) source close mirror, (2) local TP/SL (`AUTO_TP_PCT`, `AUTO_SL_PCT`), (3) optional trailing TP retrace (`TRAILING_TP_ENABLE`, `TRAILING_TP_CALLBACK_PCT`) with persisted per-position watermark state.
+
+Status web (optional):
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/status_web.py
+# open http://127.0.0.1:8899
+```
+
+Then set in `.env`:
+
+```env
+LIVE_EXECUTOR_URL=http://127.0.0.1:8787/execute
+LIVE_EXECUTOR_BEARER=your_shared_secret
+```
+
+Mandatory safeguards:
+
+- Per-trade cap
+- Total exposure cap
+- Symbol allowlist/blocklist
+- Kill switch env var (`KILL_SWITCH=true`)
+
+## Reliability checklist
+
+- Reconnect websocket automatically
+- Persist processed event ids
+- Use monotonic timestamps for backoff
+- Send alert when stream is stale &gt; 60s
+</pre></details><details><summary><code>references/strategy.md</code> <span class="muted">(1.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Strategy Notes
+
+## Decision score (0-100)
+
+Weighted components:
+
+- Win rate (35%)
+- Risk-adjusted hold quality (20%)
+- Max drawdown penalty (25%)
+- Recency momentum (20%)
+
+## Suggested formulas
+
+- `win_component = clamp(win_rate, 0, 1) * 100`
+- `hold_component = exp(-abs(avg_hold_min - target_hold_min)/target_hold_min) * 100`
+- `dd_component = max(0, 100 - (max_drawdown_pct * 2))`
+- `recency_component = clamp(recent_win_rate, 0, 1) * 100`
+
+Final:
+
+`score = 0.35*win + 0.20*hold + 0.25*dd + 0.20*recency`
+
+## Execute only if
+
+- `score &gt;= SCORE_THRESHOLD`
+- `risk_per_trade_pct &lt;= MAX_RISK_PER_TRADE_PCT`
+- `current_exposure_pct + proposed_exposure_pct &lt;= MAX_TOTAL_EXPOSURE_PCT`
+
+## Position sizing
+
+Use confidence multiplier:
+
+`size_multiplier = clamp((score - threshold) / (100 - threshold), 0.1, 1.0)`
+
+Proposed notional:
+
+`notional = capital_usd * (max_risk_pct/100) * size_multiplier`
+
+## Telegram rationale template
+
+- Action: FOLLOW / SKIP
+- Wallet
+- Symbol / side
+- Score + threshold
+- Risk checks: per-trade + total exposure
+- Reason summary (one sentence)
+</pre></details><details><summary><code>scripts/backtest_trailing_tp.py</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Lightweight replay backtest for trailing TP/SL behavior.
+
+Usage:
+  python3 skills/openclaw-hyperliquid-copytrade/scripts/backtest_trailing_tp.py \
+    --side buy --entry 100 --prices 102,106,110,108
+&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import json
+import os
+import sys
+from typing import Dict, List
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
+
+import runner  # noqa: E402
+
+
+def simulate_price_path(
+    side: str,
+    entry: float,
+    prices: List[float],
+    *,
+    auto_tp_pct: float = 6.0,
+    auto_sl_pct: float = 3.0,
+    trailing_tp_enable: bool = True,
+    trailing_tp_callback_pct: float = 1.0,
+) -&gt; Dict:
+    copied = {
+        &quot;side&quot;: side,
+        &quot;entry_price&quot;: float(entry),
+        &quot;notional&quot;: 100.0,
+        &quot;high_watermark_price&quot;: float(entry),
+        &quot;low_watermark_price&quot;: float(entry),
+        &quot;watermark_price&quot;: float(entry),
+        &quot;watermark_pnl_pct&quot;: 0.0,
+    }
+
+    history = []
+    triggered = None
+    for idx, px in enumerate(prices):
+        trigger, note = runner._evaluate_tp_sl_trigger(
+            copied=copied,
+            price=float(px),
+            auto_tp_pct=float(auto_tp_pct),
+            auto_sl_pct=float(auto_sl_pct),
+            trailing_tp_enable=bool(trailing_tp_enable),
+            trailing_tp_callback_pct=float(trailing_tp_callback_pct),
+        )
+        row = {
+            &quot;step&quot;: idx,
+            &quot;price&quot;: float(px),
+            &quot;high_watermark_price&quot;: copied[&quot;high_watermark_price&quot;],
+            &quot;low_watermark_price&quot;: copied[&quot;low_watermark_price&quot;],
+            &quot;watermark_pnl_pct&quot;: copied[&quot;watermark_pnl_pct&quot;],
+            &quot;note&quot;: note,
+            &quot;trigger&quot;: trigger,
+        }
+        history.append(row)
+        if trigger and triggered is None:
+            triggered = row
+            break
+
+    return {
+        &quot;input&quot;: {
+            &quot;side&quot;: side,
+            &quot;entry&quot;: float(entry),
+            &quot;prices&quot;: [float(x) for x in prices],
+            &quot;auto_tp_pct&quot;: float(auto_tp_pct),
+            &quot;auto_sl_pct&quot;: float(auto_sl_pct),
+            &quot;trailing_tp_enable&quot;: bool(trailing_tp_enable),
+            &quot;trailing_tp_callback_pct&quot;: float(trailing_tp_callback_pct),
+        },
+        &quot;triggered&quot;: triggered,
+        &quot;history&quot;: history,
+    }
+
+
+def _parse_prices(csv: str) -&gt; List[float]:
+    return [float(x.strip()) for x in csv.split(&quot;,&quot;) if x.strip()]
+
+
+def main() -&gt; None:
+    p = argparse.ArgumentParser(description=&quot;Replay backtest for trailing TP&quot;)
+    p.add_argument(&quot;--side&quot;, choices=[&quot;buy&quot;, &quot;sell&quot;], required=True)
+    p.add_argument(&quot;--entry&quot;, type=float, required=True)
+    p.add_argument(&quot;--prices&quot;, type=str, required=True, help=&quot;CSV price path, e.g. 102,106,110,108&quot;)
+    p.add_argument(&quot;--auto-tp-pct&quot;, type=float, default=6.0)
+    p.add_argument(&quot;--auto-sl-pct&quot;, type=float, default=3.0)
+    p.add_argument(&quot;--trailing-enable&quot;, action=&quot;store_true&quot;, default=False)
+    p.add_argument(&quot;--trailing-callback-pct&quot;, type=float, default=1.0)
+    args = p.parse_args()
+
+    result = simulate_price_path(
+        side=args.side,
+        entry=args.entry,
+        prices=_parse_prices(args.prices),
+        auto_tp_pct=args.auto_tp_pct,
+        auto_sl_pct=args.auto_sl_pct,
+        trailing_tp_enable=args.trailing_enable,
+        trailing_tp_callback_pct=args.trailing_callback_pct,
+    )
+    print(json.dumps(result, ensure_ascii=False, indent=2))
+
+
+if __name__ == &quot;__main__&quot;:
+    main()
+</pre></details><details><summary><code>scripts/first_run_onboarding.py</code> <span class="muted">(7.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;One-click onboarding for first-time users of openclaw-hyperliquid-copytrade.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import argparse
+import locale
+import os
+import subprocess
+from pathlib import Path
+
+SKILL_ROOT = Path(__file__).resolve().parent.parent
+WORKSPACE_ROOT = SKILL_ROOT.parent.parent
+ENV_EXAMPLE = SKILL_ROOT / &quot;references&quot; / &quot;env.example&quot;
+ENV_FILE = WORKSPACE_ROOT / &quot;.env&quot;
+MANAGE = SKILL_ROOT / &quot;scripts&quot; / &quot;manage_services.py&quot;
+
+REQUIRED = [
+    &quot;TARGET_WALLETS&quot;,
+    &quot;TELEGRAM_BOT_TOKEN&quot;,
+    &quot;TELEGRAM_CHAT_ID&quot;,
+    &quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot;,
+]
+
+FIELD_DESC: dict[str, tuple[str, str]] = {
+    &quot;TARGET_WALLETS&quot;: (
+        &quot;comma-separated wallet addresses to copy, discover smart wallets at simpfor.fun&quot;,
+        &quot;要跟单的钱包地址，逗号分隔，推荐在 simpfor.fun 发现聪明钱&quot;,
+    ),
+    &quot;TELEGRAM_BOT_TOKEN&quot;: (
+        &quot;bot token from @BotFather in Telegram&quot;,
+        &quot;Telegram 机器人 token，从 @BotFather 获取&quot;,
+    ),
+    &quot;TELEGRAM_CHAT_ID&quot;: (
+        &quot;Telegram chat/group ID for receiving copy-trade notifications&quot;,
+        &quot;Telegram 会话/群组 ID，用于接收跟单通知&quot;,
+    ),
+    &quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot;: (
+        &quot;your Hyperliquid wallet private key for order execution&quot;,
+        &quot;你的 Hyperliquid 钱包私钥，用于下单&quot;,
+    ),
+}
+
+SAFETY_DEFAULTS = {
+    &quot;MODE&quot;: &quot;live&quot;,
+    &quot;MAX_RISK_PER_TRADE_PCT&quot;: &quot;10&quot;,
+    &quot;MAX_TOTAL_EXPOSURE_PCT&quot;: &quot;60&quot;,
+    &quot;KILL_SWITCH&quot;: &quot;false&quot;,
+    &quot;HL_REAL_EXECUTION&quot;: &quot;true&quot;,
+    &quot;LIVE_EXECUTOR_URL&quot;: &quot;http://127.0.0.1:8787/execute&quot;,
+    &quot;STATUS_WEB_URL&quot;: &quot;http://127.0.0.1:8899&quot;,
+    &quot;TG_LANG&quot;: &quot;auto&quot;,
+}
+
+
+def parse_env(path: Path) -&gt; dict[str, str]:
+    data: dict[str, str] = {}
+    if not path.exists():
+        return data
+    for line in path.read_text(encoding=&quot;utf-8&quot;).splitlines():
+        s = line.strip()
+        if not s or s.startswith(&quot;#&quot;) or &quot;=&quot; not in s:
+            continue
+        k, v = s.split(&quot;=&quot;, 1)
+        data[k.strip()] = v.strip()
+    return data
+
+
+def write_env(path: Path, data: dict[str, str]) -&gt; None:
+    lines = [f&quot;{k}={v}&quot; for k, v in data.items()]
+    path.write_text(&quot;\n&quot;.join(lines) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+
+
+def ensure_env() -&gt; dict[str, str]:
+    if not ENV_FILE.exists():
+        ENV_FILE.write_text(ENV_EXAMPLE.read_text(encoding=&quot;utf-8&quot;), encoding=&quot;utf-8&quot;)
+    return parse_env(ENV_FILE)
+
+
+def ask_if_needed(data: dict[str, str], key: str, prompt: str) -&gt; None:
+    current = data.get(key, &quot;&quot;)
+    if current and current not in {&quot;replace_me&quot;, &quot;&quot;}:
+        return
+    value = input(prompt).strip()
+    if value:
+        data[key] = value
+
+
+def apply_defaults(data: dict[str, str]) -&gt; None:
+    # Backward compatibility: older setup used HL_WALLET_PRIVATE_KEY
+    if not data.get(&quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot;) and data.get(&quot;HL_WALLET_PRIVATE_KEY&quot;):
+        data[&quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot;] = data[&quot;HL_WALLET_PRIVATE_KEY&quot;]
+
+    for k, v in SAFETY_DEFAULTS.items():
+        data[k] = v
+
+
+def validate_required(data: dict[str, str]) -&gt; list[str]:
+    missing = []
+    for k in REQUIRED:
+        v = data.get(k, &quot;&quot;).strip()
+        if not v or v == &quot;replace_me&quot;:
+            missing.append(k)
+    return missing
+
+
+def run_manage(action: str) -&gt; int:
+    cmd = [&quot;python3&quot;, str(MANAGE), action]
+    return subprocess.call(cmd, cwd=str(WORKSPACE_ROOT))
+
+
+def detect_lang() -&gt; str:
+    tg_lang = os.getenv(&quot;TG_LANG&quot;, &quot;auto&quot;).strip().lower()
+    if tg_lang in {&quot;zh&quot;, &quot;zh-cn&quot;, &quot;zh-hans&quot;, &quot;zh-tw&quot;, &quot;zh-hant&quot;}:
+        return &quot;zh&quot;
+    if tg_lang in {&quot;en&quot;, &quot;en-us&quot;, &quot;en-gb&quot;}:
+        return &quot;en&quot;
+
+    loc = (os.getenv(&quot;LANG&quot;) or (locale.getdefaultlocale()[0] or &quot;&quot;) or &quot;&quot;).lower()
+    if loc.startswith(&quot;zh&quot;):
+        return &quot;zh&quot;
+    return &quot;en&quot;
+
+
+def t(lang: str, en: str, zh: str) -&gt; str:
+    return zh if lang == &quot;zh&quot; else en
+
+
+def main() -&gt; int:
+    parser = argparse.ArgumentParser(description=&quot;First-run onboarding wizard&quot;)
+    parser.add_argument(&quot;--start&quot;, action=&quot;store_true&quot;, help=&quot;Start services after env setup&quot;)
+    parser.add_argument(&quot;--no-input&quot;, action=&quot;store_true&quot;, help=&quot;Do not prompt interactively&quot;)
+    args </pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/hyperliquid_api.py</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview">import json
+import subprocess
+import time
+from typing import Dict, List, Optional
+
+INFO_URL = &quot;https://api.hyperliquid.xyz/info&quot;
+
+
+def _post_info(payload: Dict) -&gt; Dict:
+    # Use curl for transport reliability across host Python SSL variants.
+    body = json.dumps(payload)
+    proc = subprocess.run(
+        [
+            &quot;curl&quot;,
+            &quot;-sS&quot;,
+            &quot;--fail&quot;,
+            &quot;-X&quot;,
+            &quot;POST&quot;,
+            INFO_URL,
+            &quot;-H&quot;,
+            &quot;Content-Type: application/json&quot;,
+            &quot;--data&quot;,
+            body,
+        ],
+        capture_output=True,
+        text=True,
+        timeout=20,
+        check=True,
+    )
+    return json.loads(proc.stdout)
+
+
+def fetch_user_fills(wallet: str, limit: int = 2000) -&gt; List[Dict]:
+    # Hyperliquid returns most recent fills first for userFills
+    rows = _post_info({&quot;type&quot;: &quot;userFills&quot;, &quot;user&quot;: wallet})
+    if not isinstance(rows, list):
+        return []
+    # Keep ordering stable (oldest -&gt; newest) for replay
+    rows = sorted(rows, key=lambda x: x.get(&quot;time&quot;, 0))
+    if limit &gt; 0:
+        rows = rows[-limit:]
+    return rows
+
+
+def fetch_user_fills_by_time(wallet: str, start_ms: int, end_ms: Optional[int] = None) -&gt; List[Dict]:
+    payload = {
+        &quot;type&quot;: &quot;userFillsByTime&quot;,
+        &quot;user&quot;: wallet,
+        &quot;startTime&quot;: int(start_ms),
+        &quot;endTime&quot;: int(end_ms or int(time.time() * 1000)),
+    }
+    rows = _post_info(payload)
+    if not isinstance(rows, list):
+        return []
+    return sorted(rows, key=lambda x: x.get(&quot;time&quot;, 0))
+
+
+def fetch_clearinghouse_state(wallet: str) -&gt; Dict:
+    # Perp account state including assetPositions
+    data = _post_info({&quot;type&quot;: &quot;clearinghouseState&quot;, &quot;user&quot;: wallet})
+    if not isinstance(data, dict):
+        return {}
+    return data
+
+
+def extract_open_positions(wallet: str) -&gt; List[Dict]:
+    ch = fetch_clearinghouse_state(wallet)
+    positions = []
+    for ap in ch.get(&quot;assetPositions&quot;, []) or []:
+        pos = (ap or {}).get(&quot;position&quot;, {})
+        if not isinstance(pos, dict):
+            continue
+        szi_raw = pos.get(&quot;szi&quot;, 0)
+        try:
+            szi = float(szi_raw)
+        except Exception:
+            szi = 0.0
+        if abs(szi) &lt; 1e-12:
+            continue
+        positions.append(
+            {
+                &quot;wallet&quot;: wallet,
+                &quot;coin&quot;: pos.get(&quot;coin&quot;, &quot;UNKNOWN&quot;),
+                &quot;side&quot;: &quot;long&quot; if szi &gt; 0 else &quot;short&quot;,
+                &quot;size&quot;: abs(szi),
+                &quot;signed_size&quot;: szi,
+                &quot;entry_px&quot;: float(pos.get(&quot;entryPx&quot;, 0) or 0),
+                &quot;position_value&quot;: float(pos.get(&quot;positionValue&quot;, 0) or 0),
+                &quot;unrealized_pnl&quot;: float(pos.get(&quot;unrealizedPnl&quot;, 0) or 0),
+                &quot;margin_used&quot;: float(pos.get(&quot;marginUsed&quot;, 0) or 0),
+                &quot;leverage&quot;: (pos.get(&quot;leverage&quot;) or {}).get(&quot;value&quot;),
+            }
+        )
+    return positions
+
+
+def normalize_fill_to_event(fill: Dict, wallet: str) -&gt; Dict:
+    # side: B (buy) / A (sell)
+    side_raw = (fill.get(&quot;side&quot;) or &quot;&quot;).upper()
+    side = &quot;buy&quot; if side_raw == &quot;B&quot; else &quot;sell&quot;
+
+    oid = fill.get(&quot;oid&quot;, &quot;na&quot;)
+    tid = fill.get(&quot;tid&quot;, &quot;na&quot;)
+    ts = int(fill.get(&quot;time&quot;, 0))
+
+    event_id = f&quot;{wallet}:{tid}:{oid}:{ts}&quot;
+    return {
+        &quot;event_id&quot;: event_id,
+        &quot;wallet&quot;: wallet,
+        &quot;symbol&quot;: fill.get(&quot;coin&quot;, &quot;UNKNOWN&quot;),
+        &quot;side&quot;: side,
+        &quot;size&quot;: float(fill.get(&quot;sz&quot;, 0) or 0),
+        &quot;price&quot;: float(fill.get(&quot;px&quot;, 0) or 0),
+        &quot;timestamp&quot;: ts // 1000 if ts &gt; 10_000_000_000 else ts,
+        &quot;raw_fill&quot;: fill,
+    }
+</pre></details><details><summary><code>scripts/install_git_hook.sh</code> <span class="muted">(495 B, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT=&quot;$(cd &quot;$(dirname &quot;$0&quot;)/../../..&quot; &amp;&amp; pwd)&quot;
+HOOKS_DIR=&quot;$REPO_ROOT/.githooks&quot;
+HOOK_FILE=&quot;$HOOKS_DIR/pre-commit&quot;
+
+mkdir -p &quot;$HOOKS_DIR&quot;
+cat &gt; &quot;$HOOK_FILE&quot; &lt;&lt;&#x27;EOF&#x27;
+#!/usr/bin/env bash
+set -euo pipefail
+python3 skills/openclaw-hyperliquid-copytrade/scripts/security_preflight.py
+EOF
+chmod +x &quot;$HOOK_FILE&quot;
+
+git -C &quot;$REPO_ROOT&quot; config core.hooksPath .githooks
+
+echo &quot;✅ Installed pre-commit hook at $HOOK_FILE&quot;
+echo &quot;✅ Git hooksPath set to .githooks&quot;
+</pre></details><details><summary><code>scripts/live_exec.py</code> <span class="muted">(1.7 KB, text)</span></summary><pre class="claude-preview file-preview">import json
+import subprocess
+from typing import Dict, Optional
+
+
+def execute_live_order(
+    event: Dict,
+    notional_usd: float,
+    *,
+    executor_url: Optional[str],
+    executor_bearer: Optional[str],
+    timeout_seconds: int = 20,
+) -&gt; Dict:
+    &quot;&quot;&quot;
+    Send live execution intent to an external signer/executor service.
+
+    Expected request payload:
+      {
+        &quot;symbol&quot;: &quot;BTC&quot;,
+        &quot;side&quot;: &quot;buy&quot;,
+        &quot;notional_usd&quot;: 123.45,
+        &quot;source_event_id&quot;: &quot;...&quot;,
+        &quot;source_wallet&quot;: &quot;0x...&quot;,
+        &quot;source_price&quot;: 12345.6
+      }
+    &quot;&quot;&quot;
+    if not executor_url:
+        raise RuntimeError(&quot;LIVE_EXECUTOR_URL is required for MODE=live&quot;)
+
+    payload = {
+        &quot;symbol&quot;: event.get(&quot;symbol&quot;),
+        &quot;side&quot;: event.get(&quot;side&quot;),
+        &quot;notional_usd&quot;: round(float(notional_usd), 2),
+        &quot;source_event_id&quot;: event.get(&quot;event_id&quot;),
+        &quot;source_wallet&quot;: event.get(&quot;wallet&quot;),
+        &quot;source_price&quot;: event.get(&quot;price&quot;),
+        &quot;source_size&quot;: event.get(&quot;size&quot;),
+        &quot;source_timestamp&quot;: event.get(&quot;timestamp&quot;),
+    }
+
+    cmd = [
+        &quot;curl&quot;,
+        &quot;-sS&quot;,
+        &quot;--fail&quot;,
+        &quot;-X&quot;,
+        &quot;POST&quot;,
+        executor_url,
+        &quot;-H&quot;,
+        &quot;Content-Type: application/json&quot;,
+    ]
+    if executor_bearer:
+        cmd += [&quot;-H&quot;, f&quot;Authorization: Bearer {executor_bearer}&quot;]
+    cmd += [&quot;--data&quot;, json.dumps(payload)]
+
+    proc = subprocess.run(
+        cmd,
+        capture_output=True,
+        text=True,
+        timeout=timeout_seconds,
+        check=True,
+    )
+
+    if not proc.stdout.strip():
+        return {&quot;ok&quot;: True, &quot;raw&quot;: &quot;&quot;}
+
+    try:
+        return json.loads(proc.stdout)
+    except json.JSONDecodeError:
+        return {&quot;ok&quot;: True, &quot;raw&quot;: proc.stdout.strip()}
+</pre></details><details><summary><code>scripts/live_executor_service.py</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Minimal live executor service (FastAPI).
+
+Purpose:
+- Accept execution intents from runner.py
+- Validate bearer token
+- (Current) return a safe mock response
+- (Next) wire Hyperliquid signed /exchange order placement
+&quot;&quot;&quot;
+
+import os
+import time
+from typing import Optional
+
+from fastapi import FastAPI, Header, HTTPException
+from pydantic import BaseModel, Field
+
+
+class ExecIntent(BaseModel):
+    symbol: str = Field(..., min_length=1)
+    side: str = Field(..., pattern=&quot;^(buy|sell)$&quot;)
+    notional_usd: float = Field(..., gt=0)
+    source_event_id: str
+    source_wallet: str
+    source_price: Optional[float] = None
+    source_size: Optional[float] = None
+    source_timestamp: Optional[int] = None
+
+
+app = FastAPI(title=&quot;hyperliquid-live-executor&quot;, version=&quot;0.1.0&quot;)
+
+
+def _check_auth(auth: Optional[str]) -&gt; None:
+    expected = os.getenv(&quot;EXECUTOR_BEARER&quot;, &quot;&quot;).strip()
+    if not expected:
+        return
+    if not auth or not auth.lower().startswith(&quot;bearer &quot;):
+        raise HTTPException(status_code=401, detail=&quot;Missing bearer token&quot;)
+    token = auth.split(&quot; &quot;, 1)[1].strip()
+    if token != expected:
+        raise HTTPException(status_code=403, detail=&quot;Invalid bearer token&quot;)
+
+
+@app.get(&quot;/health&quot;)
+def health():
+    return {&quot;ok&quot;: True, &quot;ts&quot;: int(time.time())}
+
+
+@app.post(&quot;/execute&quot;)
+def execute(intent: ExecIntent, authorization: Optional[str] = Header(default=None)):
+    _check_auth(authorization)
+
+    # TODO: Replace this section with real Hyperliquid signed /exchange order placement.
+    # Keep response shape stable so runner can log it.
+    return {
+        &quot;ok&quot;: True,
+        &quot;mode&quot;: &quot;mock&quot;,
+        &quot;received&quot;: intent.model_dump(),
+        &quot;note&quot;: &quot;Mock executor accepted intent. Wire signer before real funds.&quot;,
+    }
+
+
+if __name__ == &quot;__main__&quot;:
+    import uvicorn
+
+    host = os.getenv(&quot;EXECUTOR_HOST&quot;, &quot;127.0.0.1&quot;)
+    port = int(os.getenv(&quot;EXECUTOR_PORT&quot;, &quot;8787&quot;))
+    uvicorn.run(app, host=host, port=port)
+</pre></details><details><summary><code>scripts/live_executor_service_stdlib.py</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Live executor service (stdlib HTTP server) with optional real Hyperliquid execution.
+
+Endpoints:
+- GET  /health
+- POST /execute
+
+Auth:
+- Optional bearer token via EXECUTOR_BEARER env var.
+
+Execution modes:
+- HL_REAL_EXECUTION=false -&gt; mock accept
+- HL_REAL_EXECUTION=true  -&gt; signed market order via hyperliquid-python-sdk
+&quot;&quot;&quot;
+
+import json
+import os
+import time
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from typing import Any, Dict
+
+HOST = os.getenv(&quot;EXECUTOR_HOST&quot;, &quot;127.0.0.1&quot;)
+PORT = int(os.getenv(&quot;EXECUTOR_PORT&quot;, &quot;8787&quot;))
+EXPECTED_BEARER = os.getenv(&quot;EXECUTOR_BEARER&quot;, &quot;&quot;).strip()
+
+HL_REAL_EXECUTION = os.getenv(&quot;HL_REAL_EXECUTION&quot;, &quot;false&quot;).lower() in {&quot;1&quot;, &quot;true&quot;, &quot;yes&quot;, &quot;on&quot;}
+HL_API_URL = os.getenv(&quot;HL_API_URL&quot;, &quot;https://api.hyperliquid.xyz&quot;)
+HYPERLIQUID_WALLET_PRIVATE_KEY = os.getenv(&quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot;, &quot;&quot;).strip()
+HL_SLIPPAGE = float(os.getenv(&quot;HL_MARKET_SLIPPAGE&quot;, &quot;0.05&quot;))
+
+
+def _json(handler: BaseHTTPRequestHandler, code: int, payload: dict):
+    data = json.dumps(payload).encode(&quot;utf-8&quot;)
+    handler.send_response(code)
+    handler.send_header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+    handler.send_header(&quot;Content-Length&quot;, str(len(data)))
+    handler.end_headers()
+    handler.wfile.write(data)
+
+
+def _execute_real(body: Dict[str, Any]) -&gt; Dict[str, Any]:
+    if not HYPERLIQUID_WALLET_PRIVATE_KEY:
+        raise RuntimeError(&quot;HYPERLIQUID_WALLET_PRIVATE_KEY missing&quot;)
+
+    from eth_account import Account
+    from hyperliquid.exchange import Exchange
+    from hyperliquid.info import Info
+
+    symbol = str(body.get(&quot;symbol&quot;) or &quot;&quot;).strip()
+    side = str(body.get(&quot;side&quot;) or &quot;&quot;).strip().lower()
+    notional = float(body.get(&quot;notional_usd&quot;) or 0)
+    px = float(body.get(&quot;source_price&quot;) or 0)
+
+    if not symbol:
+        raise RuntimeError(&quot;symbol missing&quot;)
+    if side not in {&quot;buy&quot;, &quot;sell&quot;}:
+        raise RuntimeError(f&quot;unsupported side: {side}&quot;)
+    if notional &lt;= 0:
+        raise RuntimeError(&quot;notional_usd must be &gt; 0&quot;)
+    if px &lt;= 0:
+        raise RuntimeError(&quot;source_price must be &gt; 0 for size conversion&quot;)
+
+    raw_size = notional / px
+    if raw_size &lt;= 0:
+        raise RuntimeError(&quot;computed size &lt;= 0&quot;)
+
+    acct = Account.from_key(HYPERLIQUID_WALLET_PRIVATE_KEY)
+    info = Info(base_url=HL_API_URL, skip_ws=True)
+    meta = info.meta()
+    universe = meta.get(&quot;universe&quot;, []) if isinstance(meta, dict) else []
+    sz_decimals = None
+    for a in universe:
+        if str(a.get(&quot;name&quot;, &quot;&quot;)).upper() == symbol.upper():
+            sz_decimals = int(a.get(&quot;szDecimals&quot;, 0))
+            break
+    if sz_decimals is None:
+        raise RuntimeError(f&quot;symbol not found in meta universe: {symbol}&quot;)
+
+    size = round(raw_size, sz_decimals)
+    if size &lt;= 0:
+        raise RuntimeError(f&quot;rounded size &lt;= 0 with szDecimals={sz_decimals}&quot;)
+
+    ex = Exchange(acct, base_url=HL_API_URL, meta=meta)
+
+    resp = ex.market_open(
+        name=symbol,
+        is_buy=(side == &quot;buy&quot;),
+        sz=float(size),
+        slippage=HL_SLIPPAGE,
+    )
+
+    return {
+        &quot;ok&quot;: True,
+        &quot;mode&quot;: &quot;real&quot;,
+        &quot;symbol&quot;: symbol,
+        &quot;side&quot;: side,
+        &quot;notional_usd&quot;: notional,
+        &quot;source_price&quot;: px,
+        &quot;computed_size&quot;: size,
+        &quot;exchange_response&quot;: resp,
+    }
+
+
+class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path != &quot;/health&quot;:
+            return _json(self, 404, {&quot;ok&quot;: False, &quot;error&quot;: &quot;not_found&quot;})
+        return _json(
+            self,
+            200,
+            {
+                &quot;ok&quot;: True,
+                &quot;ts&quot;: int(time.time()),
+                &quot;mode&quot;: &quot;real&quot; if HL_REAL_EXECUTION else &quot;mock&quot;,
+                &quot;api_url&quot;: HL_API_URL,
+            },
+        )
+
+    def do_POST(self):
+        if self.path != &quot;/execute&quot;:
+            return _json(self, 404, {&quot;ok&quot;: False, &quot;error&quot;: &quot;not_found&quot;})
+
+        if EXPECTED_BEARER:
+            auth = self.headers.get(&quot;Authorization&quot;, &quot;&quot;)
+            if not auth.lower().startswith(&quot;bearer &quot;):
+                return</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/manage_services.py</code> <span class="muted">(8.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+import json
+import locale
+import os
+import signal
+import subprocess
+import sys
+from pathlib import Path
+
+BASE = Path(__file__).resolve().parent
+ROOT = BASE.parent
+WORKSPACE_ROOT = ROOT.parent.parent
+PID_FILE = ROOT / &quot;services-pids.json&quot;
+LOG_DIR = ROOT / &quot;logs&quot;
+STATE_FILE = ROOT / &quot;state.json&quot;
+ENV_FILE = WORKSPACE_ROOT / &quot;.env&quot;
+ENV_EXAMPLE = ROOT / &quot;references&quot; / &quot;env.example&quot;
+
+REQUIRED_KEYS = [
+    &quot;TARGET_WALLETS&quot;,
+    &quot;TELEGRAM_BOT_TOKEN&quot;,
+    &quot;TELEGRAM_CHAT_ID&quot;,
+    &quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot;,
+]
+
+
+def _detect_lang() -&gt; str:
+    tg_lang = os.getenv(&quot;TG_LANG&quot;, &quot;auto&quot;).strip().lower()
+    if tg_lang in {&quot;zh&quot;, &quot;zh-cn&quot;, &quot;zh-hans&quot;, &quot;zh-tw&quot;, &quot;zh-hant&quot;}:
+        return &quot;zh&quot;
+    if tg_lang in {&quot;en&quot;, &quot;en-us&quot;, &quot;en-gb&quot;}:
+        return &quot;en&quot;
+
+    loc = (os.getenv(&quot;LANG&quot;) or (locale.getdefaultlocale()[0] or &quot;&quot;) or &quot;&quot;).lower()
+    if loc.startswith(&quot;zh&quot;):
+        return &quot;zh&quot;
+    return &quot;en&quot;
+
+
+def _t(lang: str, en: str, zh: str) -&gt; str:
+    return zh if lang == &quot;zh&quot; else en
+
+
+def _prepare_startup_state():
+    if not STATE_FILE.exists():
+        return
+    try:
+        state = json.loads(STATE_FILE.read_text(encoding=&quot;utf-8&quot;))
+    except Exception:
+        return
+    state[&quot;startup_prompt_sent&quot;] = False
+    state[&quot;initial_follow_decision&quot;] = &quot;pending&quot;
+    state[&quot;initial_follow_done&quot;] = False
+    STATE_FILE.write_text(json.dumps(state, ensure_ascii=False, indent=2), encoding=&quot;utf-8&quot;)
+
+
+def _parse_env(path: Path) -&gt; dict:
+    data = {}
+    if not path.exists():
+        return data
+    for line in path.read_text(encoding=&quot;utf-8&quot;).splitlines():
+        s = line.strip()
+        if not s or s.startswith(&quot;#&quot;) or &quot;=&quot; not in s:
+            continue
+        k, v = s.split(&quot;=&quot;, 1)
+        data[k.strip()] = v.strip()
+    return data
+
+
+def _write_env(path: Path, data: dict) -&gt; None:
+    lines = [f&quot;{k}={v}&quot; for k, v in data.items()]
+    path.write_text(&quot;\n&quot;.join(lines) + &quot;\n&quot;, encoding=&quot;utf-8&quot;)
+
+
+def _missing_required_keys(data: dict) -&gt; list[str]:
+    missing = []
+    for k in REQUIRED_KEYS:
+        v = str(data.get(k, &quot;&quot;)).strip()
+        if not v or v == &quot;replace_me&quot;:
+            missing.append(k)
+    return missing
+
+
+def _ensure_required_config_interactive() -&gt; bool:
+    lang = _detect_lang()
+
+    if not ENV_FILE.exists() and ENV_EXAMPLE.exists():
+        ENV_FILE.write_text(ENV_EXAMPLE.read_text(encoding=&quot;utf-8&quot;), encoding=&quot;utf-8&quot;)
+
+    data = _parse_env(ENV_FILE)
+    missing = _missing_required_keys(data)
+    if not missing:
+        return True
+
+    if not sys.stdin.isatty():
+        if lang == &quot;zh&quot;:
+            print(&quot;启动被拦截了（配置未完成）：\n&quot;)
+            print(&quot;缺少以下必填项：&quot;)
+            if &quot;TARGET_WALLETS&quot; in missing:
+                print(&quot;- TARGET_WALLETS (要跟单的钱包地址，逗号分隔，推荐在 simpfor.fun 发现聪明钱)&quot;)
+            if &quot;TELEGRAM_BOT_TOKEN&quot; in missing:
+                print(&quot;- TELEGRAM_BOT_TOKEN (Telegram 机器人 token，从 @BotFather 获取)&quot;)
+            if &quot;TELEGRAM_CHAT_ID&quot; in missing:
+                print(&quot;- TELEGRAM_CHAT_ID (Telegram 会话/群组 ID，用于接收跟单通知)&quot;)
+            if &quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot; in missing:
+                print(&quot;- HYPERLIQUID_WALLET_PRIVATE_KEY (你的 Hyperliquid 钱包私钥，用于下单)&quot;)
+            print(&quot;\n你把这 4 项发我，我就继续帮你完成并启动。&quot;)
+        else:
+            print(&quot;Start blocked (config incomplete):\n&quot;)
+            print(&quot;Missing required fields:&quot;)
+            if &quot;TARGET_WALLETS&quot; in missing:
+                print(&quot;- TARGET_WALLETS (comma-separated wallet addresses to copy, discover smart wallets at simpfor.fun)&quot;)
+            if &quot;TELEGRAM_BOT_TOKEN&quot; in missing:
+                print(&quot;- TELEGRAM_BOT_TOKEN (bot token from @BotFather in Telegram)&quot;)
+            if &quot;TELEGRAM_CHAT_ID&quot; in missing:
+                print(&quot;- TELEGRAM_CHAT_ID (Telegram chat/group ID for receiving copy-trade notifications)&quot;)
+            if &quot;HYPERLIQUID_WALLET_PRIVATE_KEY&quot; in missing:
+                print(&quot;- HYPERLIQUID_WALLET_PRIVATE_KEY (your Hyperliquid wallet private key for order execution)&quot;)
+            print(&quot;\nSend me these 4 values and I&#x27;ll complete s</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/requirements-live-executor.txt</code> <span class="muted">(50 B, text)</span></summary><pre class="claude-preview file-preview">fastapi&gt;=0.116.0
+uvicorn&gt;=0.35.0
+pydantic&gt;=2.11.0
+</pre></details><details><summary><code>scripts/runner.py</code> <span class="muted">(41.8 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+import os
+import time
+import json
+from statistics import mean
+from typing import Dict, List
+
+from hyperliquid_api import extract_open_positions, fetch_user_fills_by_time, normalize_fill_to_event
+from live_exec import execute_live_order
+from score import WalletStats, score_wallet, size_multiplier
+from state import load_state, save_state
+from telegram import send_telegram
+from telegram_control import poll_yes_no_decision
+
+
+def load_env_file(path: str = &quot;.env&quot;) -&gt; None:
+    if not os.path.exists(path):
+        return
+    with open(path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith(&quot;#&quot;) or &quot;=&quot; not in line:
+                continue
+            k, v = line.split(&quot;=&quot;, 1)
+            os.environ.setdefault(k.strip(), v.strip())
+
+
+def get_required(name: str) -&gt; str:
+    val = os.getenv(name)
+    if not val:
+        raise ValueError(f&quot;Missing required env: {name}&quot;)
+    return val
+
+
+def _realized_metrics_from_rows(rows: List[Dict]) -&gt; Dict:
+    pnls = [float(x.get(&quot;closedPnl&quot;, 0) or 0) for x in rows]
+    non_zero = [x for x in pnls if abs(x) &gt; 1e-12]
+    realized_trade_count = len(non_zero)
+    realized_pnl_sum = sum(non_zero) if non_zero else 0.0
+    if non_zero:
+        wins = sum(1 for x in non_zero if x &gt; 0)
+        realized_win_rate = wins / len(non_zero)
+    else:
+        realized_win_rate = None
+    return {
+        &quot;pnls&quot;: pnls,
+        &quot;non_zero&quot;: non_zero,
+        &quot;realized_trade_count&quot;: realized_trade_count,
+        &quot;realized_pnl_sum&quot;: realized_pnl_sum,
+        &quot;realized_win_rate&quot;: realized_win_rate,
+    }
+
+
+def estimate_wallet_stats(wallet: str, lookback_ms: int) -&gt; WalletStats:
+    rows = fetch_user_fills_by_time(wallet, lookback_ms)
+    if not rows:
+        return WalletStats(win_rate=0.5, avg_hold_minutes=120.0, max_drawdown_pct=20.0, recent_win_rate=0.5)
+
+    metrics = _realized_metrics_from_rows(rows)
+    pnls = metrics[&quot;pnls&quot;]
+    non_zero = metrics[&quot;non_zero&quot;]
+    if non_zero:
+        win_rate = float(metrics[&quot;realized_win_rate&quot;])
+    else:
+        win_rate = 0.5
+
+    # Approximation: mean time gap between fills as hold-time proxy.
+    times = [int(x.get(&quot;time&quot;, 0)) for x in rows if x.get(&quot;time&quot;)]
+    times.sort()
+    gaps = [max(0, (times[i] - times[i - 1]) / 60000.0) for i in range(1, len(times))]
+    avg_hold_minutes = mean(gaps[-100:]) if gaps else 120.0
+
+    # Simple equity curve from realized pnl only.
+    equity = 0.0
+    peak = 0.0
+    max_dd = 0.0
+    for p in pnls:
+        equity += p
+        peak = max(peak, equity)
+        dd = peak - equity
+        max_dd = max(max_dd, dd)
+
+    # Normalize to a percentage-like value for score function.
+    gross = sum(abs(x) for x in pnls) or 1.0
+    max_drawdown_pct = min(100.0, (max_dd / gross) * 100.0)
+
+    recent = non_zero[-30:] if len(non_zero) &gt;= 1 else []
+    if recent:
+        recent_win_rate = sum(1 for x in recent if x &gt; 0) / len(recent)
+    else:
+        recent_win_rate = win_rate
+
+    return WalletStats(
+        win_rate=win_rate,
+        avg_hold_minutes=avg_hold_minutes,
+        max_drawdown_pct=max_drawdown_pct,
+        recent_win_rate=recent_win_rate,
+    )
+
+
+def build_order_stub(event: Dict, notional_usd: float) -&gt; Dict:
+    return {
+        &quot;symbol&quot;: event[&quot;symbol&quot;],
+        &quot;side&quot;: event[&quot;side&quot;],
+        &quot;notional_usd&quot;: round(notional_usd, 2),
+        &quot;source_event&quot;: event[&quot;event_id&quot;],
+    }
+
+
+def write_runtime_status(path: str, payload: Dict) -&gt; None:
+    try:
+        with open(path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f&quot;[warn] failed to write runtime status: {e}&quot;)
+
+
+def write_wallet_analytics(path: str, payload: Dict) -&gt; None:
+    try:
+        with open(path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        print(f&quot;[warn] failed to write wallet analytics: {e}&quot;)
+
+
+def _render_</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/score.py</code> <span class="muted">(970 B, text)</span></summary><pre class="claude-preview file-preview">from dataclasses import dataclass
+
+
+def clamp(value: float, lo: float, hi: float) -&gt; float:
+    return max(lo, min(hi, value))
+
+
+@dataclass
+class WalletStats:
+    win_rate: float
+    avg_hold_minutes: float
+    max_drawdown_pct: float
+    recent_win_rate: float
+
+
+def score_wallet(stats: WalletStats, target_hold_min: float = 120.0) -&gt; float:
+    win = clamp(stats.win_rate, 0.0, 1.0) * 100
+    hold = pow(2.718281828, -abs(stats.avg_hold_minutes - target_hold_min) / max(target_hold_min, 1)) * 100
+    dd = max(0.0, 100 - (stats.max_drawdown_pct * 2))
+    recency = clamp(stats.recent_win_rate, 0.0, 1.0) * 100
+
+    score = 0.35 * win + 0.20 * hold + 0.25 * dd + 0.20 * recency
+    return round(clamp(score, 0.0, 100.0), 2)
+
+
+def size_multiplier(score: float, threshold: float) -&gt; float:
+    if score &lt; threshold:
+        return 0.0
+    if threshold &gt;= 100:
+        return 0.1
+    raw = (score - threshold) / (100 - threshold)
+    return round(clamp(raw, 0.1, 1.0), 4)
+</pre></details><details><summary><code>scripts/security_preflight.py</code> <span class="muted">(2.8 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;Pre-release scanner to reduce accidental secret leaks.&quot;&quot;&quot;
+
+from __future__ import annotations
+
+import re
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+
+SKIP_DIRS = {
+    &quot;.git&quot;,
+    &quot;__pycache__&quot;,
+    &quot;.venv-hl&quot;,
+    &quot;node_modules&quot;,
+    &quot;logs&quot;,
+}
+
+SKIP_FILES = {
+    &quot;state.json&quot;,
+    &quot;runtime-status.json&quot;,
+    &quot;services-pids.json&quot;,
+    &quot;tg-offset.json&quot;,
+    &quot;wallet-analytics.json&quot;,
+}
+
+ENV_LINE_PATTERNS = [
+    (&quot;private-key-var&quot;, re.compile(r&quot;^\s*HYPERLIQUID_WALLET_PRIVATE_KEY\s*=\s*(?!\s*$|replace_me|your_|&lt;)&quot;, re.IGNORECASE)),
+    (&quot;telegram-token-var&quot;, re.compile(r&quot;^\s*TELEGRAM_BOT_TOKEN\s*=\s*(?!\s*$|replace_me|your_|&lt;)&quot;, re.IGNORECASE)),
+    (&quot;executor-bearer-var&quot;, re.compile(r&quot;^\s*LIVE_EXECUTOR_BEARER\s*=\s*(?!\s*$|replace_me|your_|&lt;)&quot;, re.IGNORECASE)),
+]
+
+GENERIC_PATTERNS = [
+    (&quot;eth-private-key-like&quot;, re.compile(r&quot;\b0x[a-fA-F0-9]{64}\b&quot;)),
+    (&quot;telegram-bot-token-like&quot;, re.compile(r&quot;\b\d{8,}:[A-Za-z0-9_-]{20,}\b&quot;)),
+]
+
+TEXT_EXT = {&quot;.md&quot;, &quot;.txt&quot;, &quot;.py&quot;, &quot;.json&quot;, &quot;.yaml&quot;, &quot;.yml&quot;, &quot;.env&quot;, &quot;.example&quot;, &quot;.sample&quot;, &quot;.sh&quot;}
+ENV_LIKE_NAMES = {&quot;.env&quot;, &quot;env.example&quot;, &quot;.env.example&quot;, &quot;sample.env&quot;}
+
+
+def should_scan(path: Path) -&gt; bool:
+    if any(part in SKIP_DIRS for part in path.parts):
+        return False
+    if path.name in SKIP_FILES:
+        return False
+    if path.name == &quot;.env&quot;:
+        return False
+    if path.suffix.lower() in TEXT_EXT:
+        return True
+    if path.name in {&quot;SKILL.md&quot;, &quot;SECURITY.md&quot;, &quot;.gitignore&quot;}:
+        return True
+    return False
+
+
+def iter_files(root: Path):
+    for p in root.rglob(&quot;*&quot;):
+        if p.is_file() and should_scan(p):
+            yield p
+
+
+def main() -&gt; int:
+    findings: list[tuple[str, str, int, str]] = []
+    for f in iter_files(ROOT):
+        try:
+            text = f.read_text(encoding=&quot;utf-8&quot;, errors=&quot;ignore&quot;)
+        except Exception:
+            continue
+
+        name_lower = f.name.lower()
+        env_like = (f.suffix.lower() in {&quot;.env&quot;, &quot;.example&quot;, &quot;.sample&quot;}) or (name_lower in ENV_LIKE_NAMES)
+
+        for i, line in enumerate(text.splitlines(), start=1):
+            patterns = list(GENERIC_PATTERNS)
+            if env_like:
+                patterns.extend(ENV_LINE_PATTERNS)
+            for tag, pattern in patterns:
+                if pattern.search(line):
+                    findings.append((str(f.relative_to(ROOT.parent.parent)), tag, i, line[:200]))
+
+    if findings:
+        print(&quot;❌ Security preflight failed. Potential sensitive content detected:&quot;)
+        for path, name, ln, snippet in findings:
+            print(f&quot;- {path}:{ln} [{name}] {snippet}&quot;)
+        print(&quot;\nPlease remove/rotate secrets before publishing.&quot;)
+        return 1
+
+    print(&quot;✅ Security preflight passed. No obvious secret leaks detected.&quot;)
+    return 0
+
+
+if __name__ == &quot;__main__&quot;:
+    raise SystemExit(main())
+</pre></details><details><summary><code>scripts/state.py</code> <span class="muted">(501 B, text)</span></summary><pre class="claude-preview file-preview">import json
+import os
+from typing import Any, Dict
+
+
+def load_state(path: str) -&gt; Dict[str, Any]:
+    if not os.path.exists(path):
+        return {&quot;processed_event_ids&quot;: [], &quot;current_exposure_pct&quot;: 0.0}
+    with open(path, &quot;r&quot;, encoding=&quot;utf-8&quot;) as f:
+        return json.load(f)
+
+
+def save_state(path: str, state: Dict[str, Any]) -&gt; None:
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:
+        json.dump(state, f, ensure_ascii=False, indent=2)
+</pre></details><details><summary><code>scripts/status_web.py</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+import json
+import os
+import time
+from datetime import datetime
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from pathlib import Path
+
+HOST = os.getenv(&quot;STATUS_WEB_HOST&quot;, &quot;127.0.0.1&quot;)
+PORT = int(os.getenv(&quot;STATUS_WEB_PORT&quot;, &quot;8899&quot;))
+BASE = Path(os.getenv(&quot;STATUS_BASE_DIR&quot;, &quot;./skills/openclaw-hyperliquid-copytrade&quot;))
+STATE_FILE = BASE / &quot;state.json&quot;
+RUNTIME_FILE = BASE / &quot;runtime-status.json&quot;
+WALLET_ANALYTICS_FILE = BASE / &quot;wallet-analytics.json&quot;
+
+
+def _load_json(path: Path, fallback):
+    try:
+        return json.loads(path.read_text(encoding=&quot;utf-8&quot;))
+    except Exception:
+        return fallback
+
+
+def _fmt_ts_seconds(ts):
+    if not ts:
+        return &quot;n/a&quot;
+    try:
+        return datetime.fromtimestamp(int(ts)).strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)
+    except Exception:
+        return str(ts)
+
+
+def _fmt_ts_millis(ts):
+    if not ts:
+        return &quot;n/a&quot;
+    try:
+        return datetime.fromtimestamp(int(ts) / 1000).strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)[:-3]
+    except Exception:
+        return str(ts)
+
+
+def render_html() -&gt; str:
+    state = _load_json(STATE_FILE, {})
+    runtime = _load_json(RUNTIME_FILE, {})
+    analytics = _load_json(WALLET_ANALYTICS_FILE, {})
+    processed = len(state.get(&quot;processed_event_ids&quot;, []))
+    exp = state.get(&quot;current_exposure_pct&quot;, 0)
+    cursor = state.get(&quot;last_cursor_ms&quot;)
+    now = int(time.time())
+    wallet_cards = []
+    for w, info in (analytics.get(&quot;wallets&quot;, {}) or {}).items():
+        if isinstance(info, dict) and &quot;error&quot; in info:
+            wallet_cards.append(f&quot;&lt;div&gt;&lt;code&gt;{w}&lt;/code&gt; error={info[&#x27;error&#x27;]}&lt;/div&gt;&quot;)
+        else:
+            pos_lines = []
+            for p in (info.get(&quot;open_positions&quot;) or [])[:8]:
+                pos_lines.append(
+                    f&quot;&lt;li&gt;{p.get(&#x27;coin&#x27;)} {p.get(&#x27;side&#x27;)} sz={p.get(&#x27;size&#x27;)} entry={p.get(&#x27;entry_px&#x27;)} upnl={p.get(&#x27;unrealized_pnl&#x27;)}&lt;/li&gt;&quot;
+                )
+            pos_html = &quot;&lt;ul&gt;&quot; + &quot;&quot;.join(pos_lines) + &quot;&lt;/ul&gt;&quot; if pos_lines else &quot;&lt;div&gt;positions: none&lt;/div&gt;&quot;
+            wallet_cards.append(
+                &quot;&lt;div style=&#x27;margin-bottom:10px;padding:8px;border:1px dashed #ddd;border-radius:8px&#x27;&gt;&quot;
+                f&quot;&lt;div&gt;&lt;code&gt;{w}&lt;/code&gt; &quot;
+                f&quot;score=&lt;code&gt;{info.get(&#x27;score&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt; &quot;
+                f&quot;wr=&lt;code&gt;{info.get(&#x27;win_rate&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt; &quot;
+                f&quot;rwr=&lt;code&gt;{info.get(&#x27;recent_win_rate&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt; &quot;
+                f&quot;hold=&lt;code&gt;{info.get(&#x27;avg_hold_minutes&#x27;,&#x27;n/a&#x27;)}m&lt;/code&gt; &quot;
+                f&quot;dd=&lt;code&gt;{info.get(&#x27;max_drawdown_pct&#x27;,&#x27;n/a&#x27;)}%&lt;/code&gt; &quot;
+                f&quot;open_pos=&lt;code&gt;{info.get(&#x27;open_position_count&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt;&lt;/div&gt;&quot;
+                f&quot;{pos_html}&quot;
+                &quot;&lt;/div&gt;&quot;
+            )
+    wallet_html = &quot;&quot;.join(wallet_cards) if wallet_cards else &quot;&lt;div&gt;n/a&lt;/div&gt;&quot;
+
+    return f&quot;&quot;&quot;&lt;!doctype html&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta charset=&#x27;utf-8&#x27;&gt;&lt;title&gt;Copytrade Status&lt;/title&gt;
+&lt;meta http-equiv=&#x27;refresh&#x27; content=&#x27;1&#x27;&gt;
+&lt;style&gt;body{{font-family:system-ui;max-width:900px;margin:24px auto;padding:0 12px}} .card{{border:1px solid #ddd;border-radius:10px;padding:14px;margin:10px 0}} code{{background:#f6f6f6;padding:2px 6px;border-radius:6px}}&lt;/style&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h2&gt;Hyperliquid Copytrade 状态面板&lt;/h2&gt;
+&lt;div class=&#x27;card&#x27;&gt;&lt;b&gt;现在时间:&lt;/b&gt; {_fmt_ts_seconds(now)} ({now})&lt;/div&gt;
+&lt;div class=&#x27;card&#x27;&gt;
+  &lt;h3&gt;Runner Runtime&lt;/h3&gt;
+  &lt;div&gt;status: &lt;code&gt;{runtime.get(&#x27;status&#x27;,&#x27;unknown&#x27;)}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;mode: &lt;code&gt;{runtime.get(&#x27;mode&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;kill_switch: &lt;code&gt;{runtime.get(&#x27;kill_switch&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;wallets: &lt;code&gt;{&#x27;, &#x27;.join(runtime.get(&#x27;wallets&#x27;,[]))}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;threshold: &lt;code&gt;{runtime.get(&#x27;threshold&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;poll_seconds: &lt;code&gt;{runtime.get(&#x27;poll_seconds&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;last_cycle_new_events: &lt;code&gt;{runtime.get(&#x27;last_cycle_new_events&#x27;,&#x27;n/a&#x27;)}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;last_cycle_ts: &lt;code&gt;{_fmt_ts_seconds(runtime.get(&#x27;last_cycle_ts&#x27;))}&lt;/code&gt;&lt;/div&gt;
+  &lt;div&gt;initial_follow_decision: &lt;code&gt;{runtime.get(&#x27;initial_follow_decision&#x27;,&#x27;n/a&#x27;)}&lt;/</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/telegram.py</code> <span class="muted">(715 B, text)</span></summary><pre class="claude-preview file-preview">import json
+import subprocess
+
+
+def send_telegram(bot_token: str, chat_id: str, text: str) -&gt; None:
+    url = f&quot;https://api.telegram.org/bot{bot_token}/sendMessage&quot;
+    payload = {&quot;chat_id&quot;: chat_id, &quot;text&quot;: text}
+
+    proc = subprocess.run(
+        [
+            &quot;curl&quot;,
+            &quot;-sS&quot;,
+            &quot;--fail&quot;,
+            &quot;-X&quot;,
+            &quot;POST&quot;,
+            url,
+            &quot;-H&quot;,
+            &quot;Content-Type: application/json&quot;,
+            &quot;--data&quot;,
+            json.dumps(payload),
+        ],
+        capture_output=True,
+        text=True,
+        timeout=15,
+        check=True,
+    )
+
+    data = json.loads(proc.stdout)
+    if not data.get(&quot;ok&quot;):
+        raise RuntimeError(f&quot;Telegram send failed: {data}&quot;)
+</pre></details><details><summary><code>scripts/telegram_control.py</code> <span class="muted">(3.0 KB, text)</span></summary><pre class="claude-preview file-preview">import json
+import re
+import subprocess
+from pathlib import Path
+from typing import Optional, Tuple
+
+
+def _curl_json(args, timeout=20):
+    proc = subprocess.run(
+        [&quot;curl&quot;, &quot;-sS&quot;, &quot;--fail&quot;, *args],
+        capture_output=True,
+        text=True,
+        timeout=timeout,
+        check=True,
+    )
+    return json.loads(proc.stdout)
+
+
+def get_updates(bot_token: str, offset: Optional[int] = None, timeout_sec: int = 0):
+    url = f&quot;https://api.telegram.org/bot{bot_token}/getUpdates&quot;
+    payload = {&quot;timeout&quot;: timeout_sec}
+    if offset is not None:
+        payload[&quot;offset&quot;] = offset
+    return _curl_json([
+        &quot;-X&quot;,
+        &quot;POST&quot;,
+        url,
+        &quot;-H&quot;,
+        &quot;Content-Type: application/json&quot;,
+        &quot;--data&quot;,
+        json.dumps(payload),
+    ])
+
+
+def read_offset(path: Path) -&gt; int:
+    if not path.exists():
+        return 0
+    try:
+        return int(json.loads(path.read_text(encoding=&quot;utf-8&quot;)).get(&quot;offset&quot;, 0))
+    except Exception:
+        return 0
+
+
+def write_offset(path: Path, offset: int) -&gt; None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps({&quot;offset&quot;: int(offset)}, indent=2), encoding=&quot;utf-8&quot;)
+
+
+def detect_lang_from_text(text: str) -&gt; str:
+    if re.search(r&quot;[\u4e00-\u9fff]&quot;, text or &quot;&quot;):
+        return &quot;zh&quot;
+    return &quot;en&quot;
+
+
+def _normalize_lang_code(code: Optional[str]) -&gt; Optional[str]:
+    if not code:
+        return None
+    c = code.lower()
+    if c.startswith(&quot;zh&quot;):
+        return &quot;zh&quot;
+    if c.startswith(&quot;en&quot;):
+        return &quot;en&quot;
+    return None
+
+
+def poll_yes_no_decision(bot_token: str, chat_id: str, offset_path: str) -&gt; Tuple[Optional[str], int, Optional[str]]:
+    p = Path(offset_path)
+    offset = read_offset(p)
+    resp = get_updates(bot_token, offset=offset, timeout_sec=0)
+    if not resp.get(&quot;ok&quot;):
+        return None, offset, None
+
+    decision = None
+    detected_lang = None
+    new_offset = offset
+
+    yes_tokens = {&quot;yes&quot;, &quot;y&quot;, &quot;是&quot;, &quot;好&quot;, &quot;可以&quot;, &quot;行&quot;, &quot;要&quot;}
+    no_tokens = {&quot;no&quot;, &quot;n&quot;, &quot;否&quot;, &quot;不要&quot;, &quot;不&quot;, &quot;不用&quot;, &quot;算了&quot;}
+
+    for item in resp.get(&quot;result&quot;, []):
+        upd_id = int(item.get(&quot;update_id&quot;, 0))
+        new_offset = max(new_offset, upd_id + 1)
+
+        msg = item.get(&quot;message&quot;) or item.get(&quot;edited_message&quot;) or {}
+        chat = msg.get(&quot;chat&quot;, {})
+        if str(chat.get(&quot;id&quot;)) != str(chat_id):
+            continue
+
+        user_lang = _normalize_lang_code((msg.get(&quot;from&quot;) or {}).get(&quot;language_code&quot;))
+        if user_lang in {&quot;zh&quot;, &quot;en&quot;}:
+            detected_lang = user_lang
+
+        raw_text = (msg.get(&quot;text&quot;) or &quot;&quot;).strip()
+        text = raw_text.lower()
+        if not raw_text:
+            continue
+
+        if detected_lang not in {&quot;zh&quot;, &quot;en&quot;}:
+            detected_lang = detect_lang_from_text(raw_text)
+
+        if text in yes_tokens or raw_text in yes_tokens:
+            decision = &quot;yes&quot;
+        elif text in no_tokens or raw_text in no_tokens:
+            decision = &quot;no&quot;
+
+    if new_offset != offset:
+        write_offset(p, new_offset)
+    return decision, new_offset, detected_lang
+</pre></details><details><summary><code>SECURITY.md</code> <span class="muted">(1.2 KB, text)</span></summary><pre class="claude-preview file-preview"># SECURITY.md
+
+## Security Principles
+
+- Never commit secrets to git.
+- Keep all credentials in local `.env` only.
+- Treat `HYPERLIQUID_WALLET_PRIVATE_KEY` as the highest-risk secret.
+- Default to safe mode for first run:
+  - `MODE=dry-run`
+  - `KILL_SWITCH=true`
+  - `HL_REAL_EXECUTION=false`
+
+## Must-NOT-Commit Files
+
+- `.env`
+- `skills/openclaw-hyperliquid-copytrade/logs/*`
+- `skills/openclaw-hyperliquid-copytrade/state.json`
+- `skills/openclaw-hyperliquid-copytrade/runtime-status.json`
+- `skills/openclaw-hyperliquid-copytrade/services-pids.json`
+- `skills/openclaw-hyperliquid-copytrade/tg-offset.json`
+- `skills/openclaw-hyperliquid-copytrade/wallet-analytics.json`
+
+## Release Gate (required before open source release)
+
+Run preflight scanner:
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/security_preflight.py
+```
+
+If any finding appears, fix it before publish.
+
+## Incident Response (if secret leaked)
+
+1. Rotate Telegram bot token immediately.
+2. Rotate Hyperliquid private key immediately.
+3. Invalidate shared bearer secrets (`LIVE_EXECUTOR_BEARER`) if used.
+4. Rewrite git history if needed before public release.
+5. Re-run preflight scanner and confirm clean result.
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(6.7 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: openclaw-hyperliquid-copytrade
+description: Monitor target Hyperliquid wallets, score copy-trade decisions using historical performance/risk signals, execute proportional orders with strict risk caps, and broadcast per-trade rationale to Telegram. Use when building or operating AI-assisted follow-trading workflows with dry-run/live modes, score thresholds, and explainable decision logs.
+---
+
+# OpenClaw Hyperliquid Copytrade
+
+Build and run a copy-trading pipeline with explainable decisions and live wallet position visibility.
+
+## Agent Startup Procedure (MUST follow)
+
+When the user asks to start copy-trading (e.g. &quot;启动跟单&quot;, &quot;start copytrade&quot;, &quot;一键跟单&quot;, or any similar intent), you MUST execute the following command immediately — do NOT just explain the steps:
+
+```bash
+python3 skills/openclaw-hyperliquid-copytrade/scripts/manage_services.py start
+```
+
+This command will:
+- Auto-detect missing config and print a structured prompt for the user to fill in
+- If config is complete, start all services (executor, status web, runner)
+
+If the command output shows missing fields, relay the output to the user and ask them to provide the values. Once the user provides the values, write them into the workspace `.env` file and re-run the start command.
+
+Do NOT skip running the command. Do NOT just describe what the user should do. Always execute it.
+
+## Inputs Required
+
+Minimum required values:
+
+- `TARGET_WALLETS` (comma-separated, recommended: discover smart wallets at https://simpfor.fun/)
+- `TELEGRAM_BOT_TOKEN` (bot token from @BotFather in Telegram)
+- `TELEGRAM_CHAT_ID` (Telegram chat/group ID for receiving copy-trade notifications)
+- `HYPERLIQUID_WALLET_PRIVATE_KEY` (your Hyperliquid wallet private key for order execution)
+
+Optional (have defaults):
+
+- `MODE` (`live` by default)
+- `MAX_RISK_PER_TRADE_PCT` (default `10`)
+- `MAX_TOTAL_EXPOSURE_PCT` (default `60`)
+- `SCORE_THRESHOLD` (default `70`)
+
+## Files
+
+- `scripts/runner.py` — orchestration loop (real wallet fills polling via Hyperliquid `/info`)
+- `scripts/score.py` — scoring model (win-rate, hold-time, drawdown, recency)
+- `scripts/telegram.py` — Telegram notifications
+- `scripts/live_exec.py` — live execution bridge to external signer service
+- `scripts/live_executor_service.py` — minimal FastAPI executor endpoint (`/execute`)
+- `scripts/live_executor_service_stdlib.py` — dependency-free executor endpoint (`/execute`)
+- `scripts/status_web.py` — dependency-free status dashboard (`/`)
+- `scripts/manage_services.py` — one-click start/stop/status for all local services
+- `scripts/telegram_control.py` — reads Telegram YES/NO replies (including localized variants) for initial follow decision and language hints
+- `scripts/state.py` — lightweight state persistence
+- `references/strategy.md` — scoring + risk design notes
+- `references/hyperliquid-integration.md` — integration points and TODOs
+
+## Quick Start
+
+### One-click onboarding (first-time users)
+
+Run:
+
+`python3 skills/openclaw-hyperliquid-copytrade/scripts/first_run_onboarding.py --start`
+
+It will:
+
+1. Create/update workspace `.env`
+2. Apply ready-to-use defaults (`MODE=live`, `KILL_SWITCH=false`, `HL_REAL_EXECUTION=true`)
+3. Prompt required values (`TARGET_WALLETS`, `TELEGRAM_BOT_TOKEN`, `TELEGRAM_CHAT_ID`)
+4. Start all local services
+
+### Manual start
+
+1. Create a `.env` file using `references/env.example`.
+2. Run: `python3 skills/openclaw-hyperliquid-copytrade/scripts/runner.py`.
+3. Verify Telegram receives live-mode decision logs / execution receipts.
+4. If you need a safer simulation first, switch `MODE=dry-run` manually.
+
+## Documentation
+
+- `docs/help-center.md` — index + FAQs + common operations
+- `docs/quickstart-onboarding.md` — first-download one-click integration guide
+- `docs/runbook.md` — operations and troubleshooting
+- `docs/risk-policy.md` — risk controls and live-mode policy
+- `docs/telegram-format.md` — message structure and field meanings
+- `docs/architecture.md` — runtime architecture and data flow
+- `docs/o</pre><div class="muted">…(content truncated)</div></details><details><summary><code>tests/test_backtest_trailing_tp.py</code> <span class="muted">(2.0 KB, text)</span></summary><pre class="claude-preview file-preview">import os
+import sys
+import unittest
+
+
+SCRIPT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), &quot;..&quot;, &quot;scripts&quot;))
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
+
+import backtest_trailing_tp  # noqa: E402
+
+
+class TestBacktestTrailingTP(unittest.TestCase):
+    def test_long_trailing_trigger_path(self):
+        result = backtest_trailing_tp.simulate_price_path(
+            side=&quot;buy&quot;,
+            entry=100,
+            prices=[102, 106, 110, 108],
+            auto_tp_pct=6,
+            auto_sl_pct=3,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1,
+        )
+        self.assertIsNotNone(result[&quot;triggered&quot;])
+        self.assertIn(&quot;Trailing TP retrace&quot;, result[&quot;triggered&quot;][&quot;trigger&quot;])
+
+    def test_short_trailing_trigger_path(self):
+        result = backtest_trailing_tp.simulate_price_path(
+            side=&quot;sell&quot;,
+            entry=100,
+            prices=[98, 95, 90, 92],
+            auto_tp_pct=6,
+            auto_sl_pct=3,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1,
+        )
+        self.assertIsNotNone(result[&quot;triggered&quot;])
+        self.assertIn(&quot;Trailing TP retrace&quot;, result[&quot;triggered&quot;][&quot;trigger&quot;])
+
+    def test_no_trigger_when_only_uptrend_long(self):
+        result = backtest_trailing_tp.simulate_price_path(
+            side=&quot;buy&quot;,
+            entry=100,
+            prices=[101, 103, 106, 109],
+            auto_tp_pct=6,
+            auto_sl_pct=3,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1,
+        )
+        self.assertIsNone(result[&quot;triggered&quot;])
+
+    def test_sl_trigger(self):
+        result = backtest_trailing_tp.simulate_price_path(
+            side=&quot;buy&quot;,
+            entry=100,
+            prices=[99, 98, 96],
+            auto_tp_pct=6,
+            auto_sl_pct=3,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1,
+        )
+        self.assertIsNotNone(result[&quot;triggered&quot;])
+        self.assertIn(&quot;SL hit&quot;, result[&quot;triggered&quot;][&quot;trigger&quot;])
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</pre></details><details><summary><code>tests/test_risk_controls.py</code> <span class="muted">(3.7 KB, text)</span></summary><pre class="claude-preview file-preview">import os
+import sys
+import unittest
+
+
+SCRIPT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), &quot;..&quot;, &quot;scripts&quot;))
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
+
+import runner  # noqa: E402
+
+
+class TestRiskControls(unittest.TestCase):
+    def test_execution_gates_block_when_total_exposure_exceeded(self):
+        gates = runner._evaluate_execution_gates(
+            score=80.0,
+            threshold=70.0,
+            proposed_exposure=1.02,
+            current_exposure=49.78,
+            risk_pct=5.0,
+            total_cap_pct=50.0,
+            kill_switch=False,
+        )
+        self.assertFalse(gates[&quot;can_execute&quot;])
+        self.assertFalse(gates[&quot;exposure_ok&quot;])
+        self.assertIn(&quot;total_exposure&gt;50.0%&quot;, gates[&quot;fail_reasons&quot;])
+
+    def test_exposure_released_after_close_unblocks_next_follow(self):
+        current = 49.7845
+        copied = {&quot;exposure_pct&quot;: 1.02, &quot;notional&quot;: 10.2}
+        after_close = runner._apply_close_exposure(
+            current_exposure=current,
+            copied=copied,
+            notional=10.2,
+            capital_usd=1000.0,
+        )
+        self.assertAlmostEqual(after_close, 48.7645, places=4)
+
+        gates = runner._evaluate_execution_gates(
+            score=80.0,
+            threshold=70.0,
+            proposed_exposure=1.02,
+            current_exposure=after_close,
+            risk_pct=5.0,
+            total_cap_pct=50.0,
+            kill_switch=False,
+        )
+        self.assertTrue(gates[&quot;can_execute&quot;])
+
+    def test_close_exposure_never_negative(self):
+        after_close = runner._apply_close_exposure(
+            current_exposure=0.3,
+            copied={&quot;exposure_pct&quot;: 5.0, &quot;notional&quot;: 50.0},
+            notional=50.0,
+            capital_usd=1000.0,
+        )
+        self.assertEqual(after_close, 0.0)
+
+    def test_order_level_collapse_keeps_latest_fill_per_order(self):
+        events = [
+            {
+                &quot;event_id&quot;: &quot;e1&quot;,
+                &quot;wallet&quot;: &quot;w1&quot;,
+                &quot;symbol&quot;: &quot;BTC&quot;,
+                &quot;side&quot;: &quot;buy&quot;,
+                &quot;timestamp&quot;: 100,
+                &quot;raw_fill&quot;: {&quot;oid&quot;: 123, &quot;tid&quot;: 1},
+            },
+            {
+                &quot;event_id&quot;: &quot;e2&quot;,
+                &quot;wallet&quot;: &quot;w1&quot;,
+                &quot;symbol&quot;: &quot;BTC&quot;,
+                &quot;side&quot;: &quot;buy&quot;,
+                &quot;timestamp&quot;: 101,
+                &quot;raw_fill&quot;: {&quot;oid&quot;: 123, &quot;tid&quot;: 2},
+            },
+            {
+                &quot;event_id&quot;: &quot;e3&quot;,
+                &quot;wallet&quot;: &quot;w1&quot;,
+                &quot;symbol&quot;: &quot;BTC&quot;,
+                &quot;side&quot;: &quot;buy&quot;,
+                &quot;timestamp&quot;: 102,
+                &quot;raw_fill&quot;: {&quot;oid&quot;: 124, &quot;tid&quot;: 3},
+            },
+        ]
+        collapsed = runner._collapse_events_by_order(events, processed_order_keys=set())
+        self.assertEqual(len(collapsed), 2)
+        self.assertEqual(collapsed[0][&quot;event_id&quot;], &quot;e2&quot;)
+        self.assertEqual(collapsed[1][&quot;event_id&quot;], &quot;e3&quot;)
+
+    def test_order_level_collapse_skips_already_processed_order(self):
+        events = [
+            {
+                &quot;event_id&quot;: &quot;e1&quot;,
+                &quot;wallet&quot;: &quot;w1&quot;,
+                &quot;symbol&quot;: &quot;BTC&quot;,
+                &quot;side&quot;: &quot;buy&quot;,
+                &quot;timestamp&quot;: 100,
+                &quot;raw_fill&quot;: {&quot;oid&quot;: 123, &quot;tid&quot;: 1},
+            }
+        ]
+        processed = {&quot;w1:BTC:buy:123&quot;}
+        collapsed = runner._collapse_events_by_order(events, processed_order_keys=processed)
+        self.assertEqual(collapsed, [])
+
+    def test_missing_wallet_prompt_contains_discovery_url(self):
+        msg = runner._render_missing_wallets_prompt(&quot;zh&quot;)
+        self.assertIn(&quot;没有配置跟单地址&quot;, msg)
+        self.assertIn(&quot;https://simpfor.fun/&quot;, msg)
+        self.assertIn(&quot;TARGET_WALLETS&quot;, msg)
+        self.assertIn(&quot;/Users/damon/.openclaw/workspace-main/.env&quot;, msg)
+
+
+if __name__ == &quot;__main__&quot;:
+    unittest.main()
+</pre></details><details><summary><code>tests/test_trailing_tp.py</code> <span class="muted">(4.1 KB, text)</span></summary><pre class="claude-preview file-preview">import os
+import sys
+import unittest
+
+
+SCRIPT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), &quot;..&quot;, &quot;scripts&quot;))
+if SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, SCRIPT_DIR)
+
+import runner  # noqa: E402
+
+
+class TestTrailingTpLogic(unittest.TestCase):
+    def test_calc_pnl_pct_long_and_short(self):
+        self.assertAlmostEqual(runner._calc_pnl_pct(100.0, 105.0, &quot;buy&quot;), 5.0)
+        self.assertAlmostEqual(runner._calc_pnl_pct(100.0, 95.0, &quot;sell&quot;), 5.0)
+
+    def test_normalize_copied_position_backfills_watermarks(self):
+        copied = {&quot;side&quot;: &quot;buy&quot;, &quot;entry_price&quot;: 100.0, &quot;notional&quot;: 50.0}
+        normalized = runner._normalize_copied_position(copied)
+        self.assertIsNotNone(normalized)
+        self.assertEqual(normalized[&quot;high_watermark_price&quot;], 100.0)
+        self.assertEqual(normalized[&quot;low_watermark_price&quot;], 100.0)
+        self.assertEqual(normalized[&quot;watermark_price&quot;], 100.0)
+        self.assertAlmostEqual(normalized[&quot;watermark_pnl_pct&quot;], 0.0)
+
+    def test_trailing_tp_triggers_after_retrace_for_long(self):
+        copied = {
+            &quot;side&quot;: &quot;buy&quot;,
+            &quot;entry_price&quot;: 100.0,
+            &quot;high_watermark_price&quot;: 110.0,
+            &quot;low_watermark_price&quot;: 100.0,
+            &quot;watermark_pnl_pct&quot;: 10.0,
+        }
+        trigger, note = runner._evaluate_tp_sl_trigger(
+            copied=copied,
+            price=108.0,
+            auto_tp_pct=6.0,
+            auto_sl_pct=3.0,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1.0,
+        )
+        self.assertIn(&quot;Trailing TP retrace&quot;, trigger or &quot;&quot;)
+        self.assertIn(&quot;peak=10.00%&quot;, note)
+        self.assertIn(&quot;retrace=2.00%&quot;, note)
+
+    def test_trailing_tp_not_triggered_before_tp_threshold(self):
+        copied = {
+            &quot;side&quot;: &quot;buy&quot;,
+            &quot;entry_price&quot;: 100.0,
+            &quot;high_watermark_price&quot;: 104.0,
+            &quot;low_watermark_price&quot;: 100.0,
+            &quot;watermark_pnl_pct&quot;: 4.0,
+        }
+        trigger, _ = runner._evaluate_tp_sl_trigger(
+            copied=copied,
+            price=102.0,
+            auto_tp_pct=6.0,
+            auto_sl_pct=3.0,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1.0,
+        )
+        self.assertIsNone(trigger)
+
+    def test_trailing_tp_triggers_after_retrace_for_short(self):
+        copied = {
+            &quot;side&quot;: &quot;sell&quot;,
+            &quot;entry_price&quot;: 100.0,
+            &quot;high_watermark_price&quot;: 100.0,
+            &quot;low_watermark_price&quot;: 90.0,
+            &quot;watermark_pnl_pct&quot;: 10.0,
+        }
+        trigger, note = runner._evaluate_tp_sl_trigger(
+            copied=copied,
+            price=92.0,
+            auto_tp_pct=6.0,
+            auto_sl_pct=3.0,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1.0,
+        )
+        self.assertIn(&quot;Trailing TP retrace&quot;, trigger or &quot;&quot;)
+        self.assertIn(&quot;peak=10.00%&quot;, note)
+        self.assertIn(&quot;retrace=2.00%&quot;, note)
+
+    def test_trailing_tp_short_tracks_new_low(self):
+        copied = {
+            &quot;side&quot;: &quot;sell&quot;,
+            &quot;entry_price&quot;: 100.0,
+            &quot;high_watermark_price&quot;: 100.0,
+            &quot;low_watermark_price&quot;: 95.0,
+            &quot;watermark_pnl_pct&quot;: 5.0,
+        }
+        trigger, note = runner._evaluate_tp_sl_trigger(
+            copied=copied,
+            price=90.0,
+            auto_tp_pct=6.0,
+            auto_sl_pct=3.0,
+            trailing_tp_enable=True,
+            trailing_tp_callback_pct=1.0,
+        )
+        self.assertIsNone(trigger)
+        self.assertEqual(copied[&quot;low_watermark_price&quot;], 90.0)
+        self.assertIn(&quot;peak=10.00%&quot;, note)
+
+    def test_sl_priority_over_trailing(self):
+        copied = {
+            &quot;side&quot;: &quot;buy&quot;,
+            &quot;entry_price&quot;: 100.0,
+            &quot;high_watermark_price&quot;: 110.0,
+            &quot;low_watermark_price&quot;: 90.0,
+            &quot;watermark_pnl_pct&quot;: 10.0,
+        }
+        trigger, _ = runner._evaluate_tp_sl_trigger(
+            copied=copied,
+            price=95.0,
+            auto_tp_pct=6.0,
+            auto_sl_pct=3.0,</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.725</td><td>0.18</td><td><strong>13.05</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>0.700</td><td>0.10</td><td><strong>3.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

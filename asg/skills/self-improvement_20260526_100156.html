@@ -1,0 +1,1808 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>self-improvement_20260526_100156 · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>self-improvement_20260526_100156</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-self-improvement_20260526_100156">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">self-improvement_20260526_100156</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 16 · 58.7 KB</span>  <span class="chip">扫描: 2026-05-26 02:02:18</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary"><div class="ai-summary-title">AI 研判描述 <span class="ai-meta">模型 claude-opus-4-7 · LLM判 ? · 拒绝度 1.00</span></div><div class="ai-summary-body">VERDICT: SAFE
+
+This skill documents a logging/self-improvement workflow that writes learnings to local `.learnings/` markdown files. It contains explicit cautions against logging secrets, no exfiltration to external endpoints, no prompt injection, and hooks/cross-session features are opt-in with sanitization guidance. Shell commands shown are benign (mkdir, grep, git clone from a stated repo).</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>self-improvement_20260526_100156_CWX3KC83FI_OQHMQYAK</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:afb9ced279&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:21dfe3e39d&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:ab9cae90bb&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:00f617ba54&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:c2e87b66f5&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:e704502ff2&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:2a667e46d6&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (16 files, 58.7 KB)</h4>
+      <div class="file-list"><details><summary><code>_meta.json</code> <span class="muted">(140 B, text)</span></summary><pre class="claude-preview file-preview">{
+  &quot;ownerId&quot;: &quot;kn70cjr952qdec1nx70zs6wefn7ynq2t&quot;,
+  &quot;slug&quot;: &quot;self-improving-agent&quot;,
+  &quot;version&quot;: &quot;3.0.21&quot;,
+  &quot;publishedAt&quot;: 1777649615088
+}</pre></details><details><summary><code>assets/ERRORS.md</code> <span class="muted">(75 B, text)</span></summary><pre class="claude-preview file-preview"># Errors Log
+
+Command failures, exceptions, and unexpected behaviors.
+
+---
+</pre></details><details><summary><code>assets/FEATURE_REQUESTS.md</code> <span class="muted">(84 B, text)</span></summary><pre class="claude-preview file-preview"># Feature Requests
+
+Capabilities requested by user that don&#x27;t currently exist.
+
+---
+</pre></details><details><summary><code>assets/LEARNINGS.md</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Learnings
+
+Corrections, insights, and knowledge gaps captured during development.
+
+**Categories**: correction | insight | knowledge_gap | best_practice
+**Areas**: frontend | backend | infra | tests | docs | config
+**Statuses**: pending | in_progress | resolved | wont_fix | promoted | promoted_to_skill
+
+## Status Definitions
+
+| Status | Meaning |
+|--------|---------|
+| `pending` | Not yet addressed |
+| `in_progress` | Actively being worked on |
+| `resolved` | Issue fixed or knowledge integrated |
+| `wont_fix` | Decided not to address (reason in Resolution) |
+| `promoted` | Elevated to CLAUDE.md, AGENTS.md, or copilot-instructions.md |
+| `promoted_to_skill` | Extracted as a reusable skill |
+
+## Skill Extraction Fields
+
+When a learning is promoted to a skill, add these fields:
+
+```markdown
+**Status**: promoted_to_skill
+**Skill-Path**: skills/skill-name
+```
+
+Example:
+```markdown
+## [LRN-20250115-001] best_practice
+
+**Logged**: 2025-01-15T10:00:00Z
+**Priority**: high
+**Status**: promoted_to_skill
+**Skill-Path**: skills/docker-m1-fixes
+**Area**: infra
+
+### Summary
+Docker build fails on Apple Silicon due to platform mismatch
+...
+```
+
+---
+
+</pre></details><details><summary><code>assets/SKILL-TEMPLATE.md</code> <span class="muted">(3.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Skill Template
+
+Template for creating skills extracted from learnings. Copy and customize.
+
+---
+
+## SKILL.md Template
+
+```markdown
+---
+name: skill-name-here
+description: &quot;Concise description of when and why to use this skill. Include trigger conditions.&quot;
+---
+
+# Skill Name
+
+Brief introduction explaining the problem this skill solves and its origin.
+
+## Quick Reference
+
+| Situation | Action |
+|-----------|--------|
+| [Trigger 1] | [Action 1] |
+| [Trigger 2] | [Action 2] |
+
+## Background
+
+Why this knowledge matters. What problems it prevents. Context from the original learning.
+
+## Solution
+
+### Step-by-Step
+
+1. First step with code or command
+2. Second step
+3. Verification step
+
+### Code Example
+
+\`\`\`language
+// Example code demonstrating the solution
+\`\`\`
+
+## Common Variations
+
+- **Variation A**: Description and how to handle
+- **Variation B**: Description and how to handle
+
+## Gotchas
+
+- Warning or common mistake #1
+- Warning or common mistake #2
+
+## Related
+
+- Link to related documentation
+- Link to related skill
+
+## Source
+
+Extracted from learning entry.
+- **Learning ID**: LRN-YYYYMMDD-XXX
+- **Original Category**: correction | insight | knowledge_gap | best_practice
+- **Extraction Date**: YYYY-MM-DD
+```
+
+---
+
+## Minimal Template
+
+For simple skills that don&#x27;t need all sections:
+
+```markdown
+---
+name: skill-name-here
+description: &quot;What this skill does and when to use it.&quot;
+---
+
+# Skill Name
+
+[Problem statement in one sentence]
+
+## Solution
+
+[Direct solution with code/commands]
+
+## Source
+
+- Learning ID: LRN-YYYYMMDD-XXX
+```
+
+---
+
+## Template with Scripts
+
+For skills that include executable helpers:
+
+```markdown
+---
+name: skill-name-here
+description: &quot;What this skill does and when to use it.&quot;
+---
+
+# Skill Name
+
+[Introduction]
+
+## Quick Reference
+
+| Command | Purpose |
+|---------|---------|
+| `./scripts/helper.sh` | [What it does] |
+| `./scripts/validate.sh` | [What it does] |
+
+## Usage
+
+### Automated (Recommended)
+
+\`\`\`bash
+./skills/skill-name/scripts/helper.sh [args]
+\`\`\`
+
+### Manual Steps
+
+1. Step one
+2. Step two
+
+## Scripts
+
+| Script | Description |
+|--------|-------------|
+| `scripts/helper.sh` | Main utility |
+| `scripts/validate.sh` | Validation checker |
+
+## Source
+
+- Learning ID: LRN-YYYYMMDD-XXX
+```
+
+---
+
+## Naming Conventions
+
+- **Skill name**: lowercase, hyphens for spaces
+  - Good: `docker-m1-fixes`, `api-timeout-patterns`
+  - Bad: `Docker_M1_Fixes`, `APITimeoutPatterns`
+
+- **Description**: Start with action verb, mention trigger
+  - Good: &quot;Handles Docker build failures on Apple Silicon. Use when builds fail with platform mismatch.&quot;
+  - Bad: &quot;Docker stuff&quot;
+
+- **Files**:
+  - `SKILL.md` - Required, main documentation
+  - `scripts/` - Optional, executable code
+  - `references/` - Optional, detailed docs
+  - `assets/` - Optional, templates
+
+---
+
+## Extraction Checklist
+
+Before creating a skill from a learning:
+
+- [ ] Learning is verified (status: resolved)
+- [ ] Solution is broadly applicable (not one-off)
+- [ ] Content is complete (has all needed context)
+- [ ] Name follows conventions
+- [ ] Description is concise but informative
+- [ ] Quick Reference table is actionable
+- [ ] Code examples are tested
+- [ ] Source learning ID is recorded
+
+After creating:
+
+- [ ] Update original learning with `promoted_to_skill` status
+- [ ] Add `Skill-Path: skills/skill-name` to learning metadata
+- [ ] Test skill by reading it in a fresh session
+</pre></details><details><summary><code>hooks/openclaw/handler.js</code> <span class="muted">(3.3 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * Self-Improvement Hook for OpenClaw
+ * 
+ * Injects a reminder to evaluate learnings during agent bootstrap.
+ * Fires on agent:bootstrap event before workspace files are injected.
+ */
+
+const REMINDER_NAME = &#x27;SELF_IMPROVEMENT_REMINDER.md&#x27;;
+const REMINDER_PATH = REMINDER_NAME;
+
+const REMINDER_CONTENT = `
+## Self-Improvement Reminder
+
+After completing tasks, evaluate whether any learnings should be captured.
+
+Only log if this repo or workspace is using the self-improvement skill.
+
+Before logging:
+- Create only missing \`.learnings/\` files; never overwrite existing content
+- Do not log secrets, tokens, private keys, environment variables, or raw transcripts
+- Prefer short summaries or redacted excerpts over full command output
+
+**Log when:**
+- User corrects you → \`.learnings/LEARNINGS.md\`
+- Command/operation fails → \`.learnings/ERRORS.md\`
+- User wants missing capability → \`.learnings/FEATURE_REQUESTS.md\`
+- You discover your knowledge was wrong → \`.learnings/LEARNINGS.md\`
+- You find a better approach → \`.learnings/LEARNINGS.md\`
+
+**Promote when pattern is proven:**
+- Behavioral patterns → \`SOUL.md\`
+- Workflow improvements → \`AGENTS.md\`
+- Tool gotchas → \`TOOLS.md\`
+
+Keep entries simple: date, title, what happened, and what to do differently.
+`.trim();
+
+function isObject(value) {
+  return !!value &amp;&amp; typeof value === &#x27;object&#x27;;
+}
+
+function isInjectedReminderFile(value) {
+  if (!isObject(value) || value.path !== REMINDER_PATH) {
+    return false;
+  }
+
+  return (
+    value.virtual === true ||
+    value.content === REMINDER_CONTENT
+  );
+}
+
+const handler = async (event) =&gt; {
+  // Safety checks for event structure
+  if (!event || typeof event !== &#x27;object&#x27;) {
+    return;
+  }
+
+  // Only handle agent:bootstrap events
+  if (event.type !== &#x27;agent&#x27; || event.action !== &#x27;bootstrap&#x27;) {
+    return;
+  }
+
+  // Safety check for context
+  if (!event.context || typeof event.context !== &#x27;object&#x27;) {
+    return;
+  }
+
+  // Skip sub-agent sessions to avoid bootstrap issues
+  // Sub-agents have sessionKey patterns like &quot;agent:main:subagent:...&quot;
+  const sessionKey = event.sessionKey || &#x27;&#x27;;
+  if (sessionKey.includes(&#x27;:subagent:&#x27;)) {
+    return;
+  }
+
+  // Inject the reminder as a virtual bootstrap file
+  // Check that bootstrapFiles is an array before pushing
+  if (Array.isArray(event.context.bootstrapFiles)) {
+    const occupiedByOtherFile = event.context.bootstrapFiles.some(
+      (file) =&gt; isObject(file) &amp;&amp; file.path === REMINDER_PATH &amp;&amp; !isInjectedReminderFile(file),
+    );
+    if (occupiedByOtherFile) {
+      return;
+    }
+
+    const cleanedBootstrapFiles = event.context.bootstrapFiles.filter(
+      (file, index, files) =&gt;
+        !isInjectedReminderFile(file) ||
+        files.findIndex((candidate) =&gt; isInjectedReminderFile(candidate)) === index,
+    );
+
+    const reminderFile = {
+      name: REMINDER_NAME,
+      path: REMINDER_PATH,
+      content: REMINDER_CONTENT,
+      missing: false,
+      virtual: true,
+    };
+
+    const existingIndex = cleanedBootstrapFiles.findIndex((file) =&gt; isInjectedReminderFile(file));
+    if (existingIndex === -1) {
+      cleanedBootstrapFiles.push(reminderFile);
+    } else {
+      cleanedBootstrapFiles[existingIndex] = reminderFile;
+    }
+
+    event.context.bootstrapFiles = cleanedBootstrapFiles;
+  }
+};
+
+module.exports = handler;
+module.exports.default = handler;
+</pre></details><details><summary><code>hooks/openclaw/handler.ts</code> <span class="muted">(3.4 KB, text)</span></summary><pre class="claude-preview file-preview">/**
+ * Self-Improvement Hook for OpenClaw
+ * 
+ * Injects a reminder to evaluate learnings during agent bootstrap.
+ * Fires on agent:bootstrap event before workspace files are injected.
+ */
+
+import type { HookHandler } from &#x27;openclaw/hooks&#x27;;
+
+const REMINDER_NAME = &#x27;SELF_IMPROVEMENT_REMINDER.md&#x27;;
+const REMINDER_PATH = REMINDER_NAME;
+
+const REMINDER_CONTENT = `## Self-Improvement Reminder
+
+After completing tasks, evaluate whether any learnings should be captured.
+
+Only log if this repo or workspace is using the self-improvement skill.
+
+Before logging:
+- Create only missing \`.learnings/\` files; never overwrite existing content
+- Do not log secrets, tokens, private keys, environment variables, or raw transcripts
+- Prefer short summaries or redacted excerpts over full command output
+
+**Log when:**
+- User corrects you → \`.learnings/LEARNINGS.md\`
+- Command/operation fails → \`.learnings/ERRORS.md\`
+- User wants missing capability → \`.learnings/FEATURE_REQUESTS.md\`
+- You discover your knowledge was wrong → \`.learnings/LEARNINGS.md\`
+- You find a better approach → \`.learnings/LEARNINGS.md\`
+
+**Promote when pattern is proven:**
+- Behavioral patterns → \`SOUL.md\`
+- Workflow improvements → \`AGENTS.md\`
+- Tool gotchas → \`TOOLS.md\`
+
+Keep entries simple: date, title, what happened, and what to do differently.`;
+
+function isObject(value: unknown): value is Record&lt;string, unknown&gt; {
+  return !!value &amp;&amp; typeof value === &#x27;object&#x27;;
+}
+
+function isInjectedReminderFile(value: unknown): boolean {
+  if (!isObject(value) || value.path !== REMINDER_PATH) {
+    return false;
+  }
+
+  return (
+    value.virtual === true ||
+    value.content === REMINDER_CONTENT
+  );
+}
+
+const handler: HookHandler = async (event) =&gt; {
+  // Safety checks for event structure
+  if (!event || typeof event !== &#x27;object&#x27;) {
+    return;
+  }
+
+  // Only handle agent:bootstrap events
+  if (event.type !== &#x27;agent&#x27; || event.action !== &#x27;bootstrap&#x27;) {
+    return;
+  }
+
+  // Safety check for context
+  if (!event.context || typeof event.context !== &#x27;object&#x27;) {
+    return;
+  }
+
+  // Skip sub-agent sessions to avoid bootstrap issues
+  // Sub-agents have sessionKey patterns like &quot;agent:main:subagent:...&quot;
+  const sessionKey = event.sessionKey || &#x27;&#x27;;
+  if (sessionKey.includes(&#x27;:subagent:&#x27;)) {
+    return;
+  }
+
+  // Inject the reminder as a virtual bootstrap file
+  // Check that bootstrapFiles is an array before pushing
+  if (Array.isArray(event.context.bootstrapFiles)) {
+    const occupiedByOtherFile = event.context.bootstrapFiles.some(
+      (file) =&gt; isObject(file) &amp;&amp; file.path === REMINDER_PATH &amp;&amp; !isInjectedReminderFile(file),
+    );
+    if (occupiedByOtherFile) {
+      return;
+    }
+
+    const cleanedBootstrapFiles = event.context.bootstrapFiles.filter(
+      (file, index, files) =&gt;
+        !isInjectedReminderFile(file) ||
+        files.findIndex((candidate) =&gt; isInjectedReminderFile(candidate)) === index,
+    );
+
+    const reminderFile = {
+      name: REMINDER_NAME,
+      path: REMINDER_PATH,
+      content: REMINDER_CONTENT,
+      missing: false,
+      virtual: true,
+    };
+
+    const existingIndex = cleanedBootstrapFiles.findIndex((file) =&gt; isInjectedReminderFile(file));
+    if (existingIndex === -1) {
+      cleanedBootstrapFiles.push(reminderFile);
+    } else {
+      cleanedBootstrapFiles[existingIndex] = reminderFile;
+    }
+
+    event.context.bootstrapFiles = cleanedBootstrapFiles;
+  }
+};
+
+export default handler;
+</pre></details><details><summary><code>hooks/openclaw/HOOK.md</code> <span class="muted">(589 B, text)</span></summary><pre class="claude-preview file-preview">---
+name: self-improvement
+description: &quot;Injects self-improvement reminder during agent bootstrap&quot;
+metadata: {&quot;openclaw&quot;:{&quot;emoji&quot;:&quot;🧠&quot;,&quot;events&quot;:[&quot;agent:bootstrap&quot;]}}
+---
+
+# Self-Improvement Hook
+
+Injects a reminder to evaluate learnings during agent bootstrap.
+
+## What It Does
+
+- Fires on `agent:bootstrap` (before workspace files are injected)
+- Adds a reminder block to check `.learnings/` for relevant entries
+- Prompts the agent to log corrections, errors, and discoveries
+
+## Configuration
+
+No configuration needed. Enable with:
+
+```bash
+openclaw hooks enable self-improvement
+```
+</pre></details><details><summary><code>README.md</code> <span class="muted">(378 B, text)</span></summary><pre class="claude-preview file-preview"># self-improvement
+
+Self-improvement skill for OpenClaw. It captures learnings, errors, and feature requests to support continuous improvement across sessions.
+
+## Attribution
+
+Remade for OpenClaw from the original repo:
+
+- https://github.com/pskoett/pskoett-ai-skills
+- https://github.com/pskoett/pskoett-ai-skills/tree/main/skills/self-improvement
+
+## Main File
+
+- `SKILL.md`
+</pre></details><details><summary><code>references/examples.md</code> <span class="muted">(8.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Entry Examples
+
+Concrete examples of well-formatted entries with all fields.
+
+## Learning: Correction
+
+```markdown
+## [LRN-20250115-001] correction
+
+**Logged**: 2025-01-15T10:30:00Z
+**Priority**: high
+**Status**: pending
+**Area**: tests
+
+### Summary
+Incorrectly assumed pytest fixtures are scoped to function by default
+
+### Details
+When writing test fixtures, I assumed all fixtures were function-scoped. 
+User corrected that while function scope is the default, the codebase 
+convention uses module-scoped fixtures for database connections to 
+improve test performance.
+
+### Suggested Action
+When creating fixtures that involve expensive setup (DB, network), 
+check existing fixtures for scope patterns before defaulting to function scope.
+
+### Metadata
+- Source: user_feedback
+- Related Files: tests/conftest.py
+- Tags: pytest, testing, fixtures
+
+---
+```
+
+## Learning: Knowledge Gap (Resolved)
+
+```markdown
+## [LRN-20250115-002] knowledge_gap
+
+**Logged**: 2025-01-15T14:22:00Z
+**Priority**: medium
+**Status**: resolved
+**Area**: config
+
+### Summary
+Project uses pnpm not npm for package management
+
+### Details
+Attempted to run `npm install` but project uses pnpm workspaces.
+Lock file is `pnpm-lock.yaml`, not `package-lock.json`.
+
+### Suggested Action
+Check for `pnpm-lock.yaml` or `pnpm-workspace.yaml` before assuming npm.
+Use `pnpm install` for this project.
+
+### Metadata
+- Source: error
+- Related Files: pnpm-lock.yaml, pnpm-workspace.yaml
+- Tags: package-manager, pnpm, setup
+
+### Resolution
+- **Resolved**: 2025-01-15T14:30:00Z
+- **Commit/PR**: N/A - knowledge update
+- **Notes**: Added to CLAUDE.md for future reference
+
+---
+```
+
+## Learning: Promoted to CLAUDE.md
+
+```markdown
+## [LRN-20250115-003] best_practice
+
+**Logged**: 2025-01-15T16:00:00Z
+**Priority**: high
+**Status**: promoted
+**Promoted**: CLAUDE.md
+**Area**: backend
+
+### Summary
+API responses must include correlation ID from request headers
+
+### Details
+All API responses should echo back the X-Correlation-ID header from 
+the request. This is required for distributed tracing. Responses 
+without this header break the observability pipeline.
+
+### Suggested Action
+Always include correlation ID passthrough in API handlers.
+
+### Metadata
+- Source: user_feedback
+- Related Files: src/middleware/correlation.ts
+- Tags: api, observability, tracing
+
+---
+```
+
+## Learning: Promoted to AGENTS.md
+
+```markdown
+## [LRN-20250116-001] best_practice
+
+**Logged**: 2025-01-16T09:00:00Z
+**Priority**: high
+**Status**: promoted
+**Promoted**: AGENTS.md
+**Area**: backend
+
+### Summary
+Must regenerate API client after OpenAPI spec changes
+
+### Details
+When modifying API endpoints, the TypeScript client must be regenerated.
+Forgetting this causes type mismatches that only appear at runtime.
+The generate script also runs validation.
+
+### Suggested Action
+Add to agent workflow: after any API changes, run `pnpm run generate:api`.
+
+### Metadata
+- Source: error
+- Related Files: openapi.yaml, src/client/api.ts
+- Tags: api, codegen, typescript
+
+---
+```
+
+## Error Entry
+
+```markdown
+## [ERR-20250115-A3F] docker_build
+
+**Logged**: 2025-01-15T09:15:00Z
+**Priority**: high
+**Status**: pending
+**Area**: infra
+
+### Summary
+Docker build fails on M1 Mac due to platform mismatch
+
+### Error
+```
+error: failed to solve: python:3.11-slim: no match for platform linux/arm64
+```
+
+### Context
+- Command: `docker build -t myapp .`
+- Dockerfile uses `FROM python:3.11-slim`
+- Running on Apple Silicon (M1/M2)
+
+### Suggested Fix
+Add platform flag: `docker build --platform linux/amd64 -t myapp .`
+Or update Dockerfile: `FROM --platform=linux/amd64 python:3.11-slim`
+
+### Metadata
+- Reproducible: yes
+- Related Files: Dockerfile
+
+---
+```
+
+## Error Entry: Recurring Issue
+
+```markdown
+## [ERR-20250120-B2C] api_timeout
+
+**Logged**: 2025-01-20T11:30:00Z
+**Priority**: critical
+**Status**: pending
+**Area**: backend
+
+### Summary
+Third-party API timeout during request processing
+
+### Error
+```
+TimeoutError: Request to api.example.com timed out after 30000</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/hooks-setup.md</code> <span class="muted">(5.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Hook Setup Guide
+
+Configure automatic self-improvement triggers for AI coding agents.
+
+## Overview
+
+Hooks enable proactive learning capture by injecting reminders at key moments:
+- **UserPromptSubmit**: Reminder after each prompt to evaluate learnings
+- **PostToolUse (Bash)**: Error detection when commands fail
+
+## Claude Code Setup
+
+### Option 1: Project-Level Configuration
+
+Create `.claude/settings.json` in your project root:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;UserPromptSubmit&quot;: [
+      {
+        &quot;matcher&quot;: &quot;&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;./skills/self-improvement/scripts/activator.sh&quot;
+          }
+        ]
+      }
+    ],
+    &quot;PostToolUse&quot;: [
+      {
+        &quot;matcher&quot;: &quot;Bash&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;./skills/self-improvement/scripts/error-detector.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Option 2: User-Level Configuration
+
+Add to `~/.claude/settings.json` for global activation:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;UserPromptSubmit&quot;: [
+      {
+        &quot;matcher&quot;: &quot;&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;~/.claude/skills/self-improvement/scripts/activator.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+### Minimal Setup (Activator Only)
+
+For lower overhead, use only the UserPromptSubmit hook:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;UserPromptSubmit&quot;: [
+      {
+        &quot;matcher&quot;: &quot;&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;./skills/self-improvement/scripts/activator.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## Codex CLI Setup
+
+Codex uses the same hook system as Claude Code. Create `.codex/settings.json`:
+
+```json
+{
+  &quot;hooks&quot;: {
+    &quot;UserPromptSubmit&quot;: [
+      {
+        &quot;matcher&quot;: &quot;&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;./skills/self-improvement/scripts/activator.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+## GitHub Copilot Setup
+
+Copilot doesn&#x27;t support hooks directly. Instead, add guidance to `.github/copilot-instructions.md`:
+
+```markdown
+## Self-Improvement
+
+After completing tasks that involved:
+- Debugging non-obvious issues
+- Discovering workarounds
+- Learning project-specific patterns
+- Resolving unexpected errors
+
+Consider logging the learning to `.learnings/` using the format from the self-improvement skill.
+
+For high-value learnings that would benefit other sessions, consider skill extraction.
+```
+
+## Verification
+
+### Test Activator Hook
+
+1. Enable the hook configuration
+2. Start a new Claude Code session
+3. Send any prompt
+4. Verify you see `&lt;self-improvement-reminder&gt;` in the context
+
+### Test Error Detector Hook
+
+1. Enable PostToolUse hook for Bash
+2. Run a command that fails: `ls /nonexistent/path`
+3. Verify you see `&lt;error-detected&gt;` reminder
+
+### Dry Run Extract Script
+
+```bash
+./skills/self-improvement/scripts/extract-skill.sh test-skill --dry-run
+```
+
+Expected output shows the skill scaffold that would be created.
+
+## Troubleshooting
+
+### Hook Not Triggering
+
+1. **Check script permissions**: `chmod +x scripts/*.sh`
+2. **Verify path**: Use absolute paths or paths relative to project root
+3. **Check settings location**: Project vs user-level settings
+4. **Restart session**: Hooks are loaded at session start
+
+### Permission Denied
+
+```bash
+chmod +x ./skills/self-improvement/scripts/activator.sh
+chmod +x ./skills/self-improvement/scripts/error-detector.sh
+chmod +x ./skills/self-improvement/scripts/extract-skill.sh
+```
+
+### Script Not Found
+
+If using relative paths, ensure you&#x27;re in the correct directory or use absolute paths:
+
+```json
+{
+  &quot;command&quot;: &quot;/absolute/path/to/skills/self-improvement/scripts/activator.sh&quot;
+}
+```
+
+### Too Much Overhead
+
+If the activator feels intrusive:
+
+1. **Use minimal setup**: Only UserPromptSubmit, skip PostToolUse
+2. **Add matcher filter**: Only trigger for certain prompts:
+
+```json
+{
+  &quot;matcher&quot;: &quot;fix|debug|error|is</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/openclaw-integration.md</code> <span class="muted">(5.9 KB, text)</span></summary><pre class="claude-preview file-preview"># OpenClaw Integration
+
+Complete setup and usage guide for integrating the self-improvement skill with OpenClaw.
+
+## Overview
+
+OpenClaw uses workspace-based prompt injection combined with event-driven hooks. Context is injected from workspace files at session start, and hooks can trigger on lifecycle events.
+
+## Workspace Structure
+
+```
+~/.openclaw/                      
+├── workspace/                   # Working directory
+│   ├── AGENTS.md               # Multi-agent coordination patterns
+│   ├── SOUL.md                 # Behavioral guidelines and personality
+│   ├── TOOLS.md                # Tool capabilities and gotchas
+│   ├── MEMORY.md               # Long-term memory (main session only)
+│   └── memory/                 # Daily memory files
+│       └── YYYY-MM-DD.md
+├── skills/                      # Installed skills
+│   └── &lt;skill-name&gt;/
+│       └── SKILL.md
+└── hooks/                       # Custom hooks
+    └── &lt;hook-name&gt;/
+        ├── HOOK.md
+        └── handler.ts
+```
+
+## Quick Setup
+
+### 1. Install the Skill
+
+```bash
+clawdhub install self-improving-agent
+```
+
+Or copy manually:
+
+```bash
+cp -r self-improving-agent ~/.openclaw/skills/
+```
+
+### 2. Install the Hook (Optional)
+
+Copy the hook to OpenClaw&#x27;s hooks directory:
+
+```bash
+cp -r hooks/openclaw ~/.openclaw/hooks/self-improvement
+```
+
+Enable the hook:
+
+```bash
+openclaw hooks enable self-improvement
+```
+
+### 3. Create Learning Files
+
+Create the `.learnings/` directory in your workspace:
+
+```bash
+mkdir -p ~/.openclaw/workspace/.learnings
+```
+
+Or in the skill directory:
+
+```bash
+mkdir -p ~/.openclaw/skills/self-improving-agent/.learnings
+```
+
+## Injected Prompt Files
+
+### AGENTS.md
+
+Purpose: Multi-agent workflows and delegation patterns.
+
+```markdown
+# Agent Coordination
+
+## Delegation Rules
+- Use explore agent for open-ended codebase questions
+- Spawn sub-agents for long-running tasks
+- Use sessions_send for cross-session communication
+
+## Session Handoff
+When delegating to another session:
+1. Provide full context in the handoff message
+2. Include relevant file paths
+3. Specify expected output format
+```
+
+### SOUL.md
+
+Purpose: Behavioral guidelines and communication style.
+
+```markdown
+# Behavioral Guidelines
+
+## Communication Style
+- Be direct and concise
+- Avoid unnecessary caveats and disclaimers
+- Use technical language appropriate to context
+
+## Error Handling
+- Admit mistakes promptly
+- Provide corrected information immediately
+- Log significant errors to learnings
+```
+
+### TOOLS.md
+
+Purpose: Tool capabilities, integration gotchas, local configuration.
+
+```markdown
+# Tool Knowledge
+
+## Self-Improvement Skill
+Log learnings to `.learnings/` for continuous improvement.
+
+## Local Tools
+- Document tool-specific gotchas here
+- Note authentication requirements
+- Track integration quirks
+```
+
+## Learning Workflow
+
+### Capturing Learnings
+
+1. **In-session**: Log to `.learnings/` as usual
+2. **Cross-session**: Promote to workspace files
+
+### Promotion Decision Tree
+
+```
+Is the learning project-specific?
+├── Yes → Keep in .learnings/
+└── No → Is it behavioral/style-related?
+    ├── Yes → Promote to SOUL.md
+    └── No → Is it tool-related?
+        ├── Yes → Promote to TOOLS.md
+        └── No → Promote to AGENTS.md (workflow)
+```
+
+### Promotion Format Examples
+
+**From learning:**
+&gt; Git push to GitHub fails without auth configured - triggers desktop prompt
+
+**To TOOLS.md:**
+```markdown
+## Git
+- Don&#x27;t push without confirming auth is configured
+- Use `gh auth status` to check GitHub CLI auth
+```
+
+## Inter-Agent Communication
+
+OpenClaw provides tools for cross-session communication:
+
+Use these only when cross-session sharing is explicitly needed and the environment is trusted. Prefer short sanitized summaries over raw transcripts, command output, or secret-bearing content.
+
+### sessions_list
+
+View active and recent sessions:
+```
+sessions_list(activeMinutes=30, messageLimit=3)
+```
+
+### sessions_history
+
+Read transcript from another session:
+```
+sessions_history(sessionKey=&quot;session</pre><div class="muted">…(content truncated)</div></details><details><summary><code>scripts/activator.sh</code> <span class="muted">(680 B, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+# Self-Improvement Activator Hook
+# Triggers on UserPromptSubmit to remind Claude about learning capture
+# Keep output minimal (~50-100 tokens) to minimize overhead
+
+set -e
+
+# Output reminder as system context
+cat &lt;&lt; &#x27;EOF&#x27;
+&lt;self-improvement-reminder&gt;
+After completing this task, evaluate if extractable knowledge emerged:
+- Non-obvious solution discovered through investigation?
+- Workaround for unexpected behavior?
+- Project-specific pattern learned?
+- Error required debugging to resolve?
+
+If yes: Log to .learnings/ using the self-improvement skill format.
+If high-value (recurring, broadly applicable): Consider skill extraction.
+&lt;/self-improvement-reminder&gt;
+EOF
+</pre></details><details><summary><code>scripts/error-detector.sh</code> <span class="muted">(1.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+# Self-Improvement Error Detector Hook
+# Triggers on PostToolUse for Bash to detect command failures
+# Reads CLAUDE_TOOL_OUTPUT environment variable
+
+set -e
+
+# Check if tool output indicates an error
+# CLAUDE_TOOL_OUTPUT contains the result of the tool execution
+OUTPUT=&quot;${CLAUDE_TOOL_OUTPUT:-}&quot;
+
+# Patterns indicating errors (case-insensitive matching)
+ERROR_PATTERNS=(
+    &quot;error:&quot;
+    &quot;Error:&quot;
+    &quot;ERROR:&quot;
+    &quot;failed&quot;
+    &quot;FAILED&quot;
+    &quot;command not found&quot;
+    &quot;No such file&quot;
+    &quot;Permission denied&quot;
+    &quot;fatal:&quot;
+    &quot;Exception&quot;
+    &quot;Traceback&quot;
+    &quot;npm ERR!&quot;
+    &quot;ModuleNotFoundError&quot;
+    &quot;SyntaxError&quot;
+    &quot;TypeError&quot;
+    &quot;exit code&quot;
+    &quot;non-zero&quot;
+)
+
+# Check if output contains any error pattern
+contains_error=false
+for pattern in &quot;${ERROR_PATTERNS[@]}&quot;; do
+    if [[ &quot;$OUTPUT&quot; == *&quot;$pattern&quot;* ]]; then
+        contains_error=true
+        break
+    fi
+done
+
+# Only output reminder if error detected
+if [ &quot;$contains_error&quot; = true ]; then
+    cat &lt;&lt; &#x27;EOF&#x27;
+&lt;error-detected&gt;
+A command error was detected. Consider logging this to .learnings/ERRORS.md if:
+- The error was unexpected or non-obvious
+- It required investigation to resolve
+- It might recur in similar contexts
+- The solution could benefit future sessions
+
+Use the self-improvement skill format: [ERR-YYYYMMDD-XXX]
+&lt;/error-detected&gt;
+EOF
+fi
+</pre></details><details><summary><code>scripts/extract-skill.sh</code> <span class="muted">(5.2 KB, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+# Skill Extraction Helper
+# Creates a new skill from a learning entry
+# Usage: ./extract-skill.sh &lt;skill-name&gt; [--dry-run]
+
+set -e
+
+# Configuration
+SKILLS_DIR=&quot;./skills&quot;
+
+# Colors for output
+RED=&#x27;\033[0;31m&#x27;
+GREEN=&#x27;\033[0;32m&#x27;
+YELLOW=&#x27;\033[1;33m&#x27;
+NC=&#x27;\033[0m&#x27; # No Color
+
+usage() {
+    cat &lt;&lt; EOF
+Usage: $(basename &quot;$0&quot;) &lt;skill-name&gt; [options]
+
+Create a new skill from a learning entry.
+
+Arguments:
+  skill-name     Name of the skill (lowercase, hyphens for spaces)
+
+Options:
+  --dry-run      Show what would be created without creating files
+  --output-dir   Relative output directory under current path (default: ./skills)
+  -h, --help     Show this help message
+
+Examples:
+  $(basename &quot;$0&quot;) docker-m1-fixes
+  $(basename &quot;$0&quot;) api-timeout-patterns --dry-run
+  $(basename &quot;$0&quot;) pnpm-setup --output-dir ./skills/custom
+
+The skill will be created in: \$SKILLS_DIR/&lt;skill-name&gt;/
+EOF
+}
+
+log_info() {
+    echo -e &quot;${GREEN}[INFO]${NC} $1&quot;
+}
+
+log_warn() {
+    echo -e &quot;${YELLOW}[WARN]${NC} $1&quot;
+}
+
+log_error() {
+    echo -e &quot;${RED}[ERROR]${NC} $1&quot; &gt;&amp;2
+}
+
+# Parse arguments
+SKILL_NAME=&quot;&quot;
+DRY_RUN=false
+
+while [[ $# -gt 0 ]]; do
+    case $1 in
+        --dry-run)
+            DRY_RUN=true
+            shift
+            ;;
+        --output-dir)
+            if [ -z &quot;${2:-}&quot; ] || [[ &quot;${2:-}&quot; == -* ]]; then
+                log_error &quot;--output-dir requires a relative path argument&quot;
+                usage
+                exit 1
+            fi
+            SKILLS_DIR=&quot;$2&quot;
+            shift 2
+            ;;
+        -h|--help)
+            usage
+            exit 0
+            ;;
+        -*)
+            log_error &quot;Unknown option: $1&quot;
+            usage
+            exit 1
+            ;;
+        *)
+            if [ -z &quot;$SKILL_NAME&quot; ]; then
+                SKILL_NAME=&quot;$1&quot;
+            else
+                log_error &quot;Unexpected argument: $1&quot;
+                usage
+                exit 1
+            fi
+            shift
+            ;;
+    esac
+done
+
+# Validate skill name
+if [ -z &quot;$SKILL_NAME&quot; ]; then
+    log_error &quot;Skill name is required&quot;
+    usage
+    exit 1
+fi
+
+# Validate skill name format (lowercase, hyphens, no spaces)
+if ! [[ &quot;$SKILL_NAME&quot; =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+    log_error &quot;Invalid skill name format. Use lowercase letters, numbers, and hyphens only.&quot;
+    log_error &quot;Examples: &#x27;docker-fixes&#x27;, &#x27;api-patterns&#x27;, &#x27;pnpm-setup&#x27;&quot;
+    exit 1
+fi
+
+# Validate output path to avoid writes outside current workspace.
+if [[ &quot;$SKILLS_DIR&quot; = /* ]]; then
+    log_error &quot;Output directory must be a relative path under the current directory.&quot;
+    exit 1
+fi
+
+if [[ &quot;$SKILLS_DIR&quot; =~ (^|/)\.\.(/|$) ]]; then
+    log_error &quot;Output directory cannot include &#x27;..&#x27; path segments.&quot;
+    exit 1
+fi
+
+SKILLS_DIR=&quot;${SKILLS_DIR#./}&quot;
+SKILLS_DIR=&quot;./$SKILLS_DIR&quot;
+
+SKILL_PATH=&quot;$SKILLS_DIR/$SKILL_NAME&quot;
+
+# Check if skill already exists
+if [ -d &quot;$SKILL_PATH&quot; ] &amp;&amp; [ &quot;$DRY_RUN&quot; = false ]; then
+    log_error &quot;Skill already exists: $SKILL_PATH&quot;
+    log_error &quot;Use a different name or remove the existing skill first.&quot;
+    exit 1
+fi
+
+# Dry run output
+if [ &quot;$DRY_RUN&quot; = true ]; then
+    log_info &quot;Dry run - would create:&quot;
+    echo &quot;  $SKILL_PATH/&quot;
+    echo &quot;  $SKILL_PATH/SKILL.md&quot;
+    echo &quot;&quot;
+    echo &quot;Template content would be:&quot;
+    echo &quot;---&quot;
+    cat &lt;&lt; TEMPLATE
+name: $SKILL_NAME
+description: &quot;[TODO: Add a concise description of what this skill does and when to use it]&quot;
+---
+
+# $(echo &quot;$SKILL_NAME&quot; | sed &#x27;s/-/ /g&#x27; | awk &#x27;{for(i=1;i&lt;=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1&#x27;)
+
+[TODO: Brief introduction explaining the skill&#x27;s purpose]
+
+## Quick Reference
+
+| Situation | Action |
+|-----------|--------|
+| [Trigger condition] | [What to do] |
+
+## Usage
+
+[TODO: Detailed usage instructions]
+
+## Examples
+
+[TODO: Add concrete examples]
+
+## Source Learning
+
+This skill was extracted from a learning entry.
+- Learning ID: [TODO: Add original learning ID]
+- Original File: .learnings/LEARNINGS.md
+TEMPLATE
+    echo &quot;---&quot;
+    exit 0
+fi
+
+# Create skill directory structure
+log_info &quot;Creating skill: $SKILL</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(20.2 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: self-improvement
+description: &quot;Captures learnings, errors, and corrections to enable continuous improvement. Use when: (1) A command or operation fails unexpectedly, (2) User corrects Claude (&#x27;No, that&#x27;s wrong...&#x27;, &#x27;Actually...&#x27;), (3) User requests a capability that doesn&#x27;t exist, (4) An external API or tool fails, (5) Claude realizes its knowledge is outdated or incorrect, (6) A better approach is discovered for a recurring task. Also review learnings before major tasks.&quot;
+metadata:
+---
+
+# Self-Improvement Skill
+
+Log learnings and errors to markdown files for continuous improvement. Coding agents can later process these into fixes, and important learnings get promoted to project memory.
+
+## First-Use Initialisation
+
+Before logging anything, ensure the `.learnings/` directory and files exist in the project or workspace root. If any are missing, create them:
+
+```bash
+mkdir -p .learnings
+[ -f .learnings/LEARNINGS.md ] || printf &quot;# Learnings\n\nCorrections, insights, and knowledge gaps captured during development.\n\n**Categories**: correction | insight | knowledge_gap | best_practice\n\n---\n&quot; &gt; .learnings/LEARNINGS.md
+[ -f .learnings/ERRORS.md ] || printf &quot;# Errors\n\nCommand failures and integration errors.\n\n---\n&quot; &gt; .learnings/ERRORS.md
+[ -f .learnings/FEATURE_REQUESTS.md ] || printf &quot;# Feature Requests\n\nCapabilities requested by the user.\n\n---\n&quot; &gt; .learnings/FEATURE_REQUESTS.md
+```
+
+Never overwrite existing files. This is a no-op if `.learnings/` is already initialised.
+
+Do not log secrets, tokens, private keys, environment variables, or full source/config files unless the user explicitly asks for that level of detail. Prefer short summaries or redacted excerpts over raw command output or full transcripts.
+
+If you want automatic reminders or setup assistance, use the opt-in hook workflow described in [Hook Integration](#hook-integration).
+
+## Quick Reference
+
+| Situation | Action |
+|-----------|--------|
+| Command/operation fails | Log to `.learnings/ERRORS.md` |
+| User corrects you | Log to `.learnings/LEARNINGS.md` with category `correction` |
+| User wants missing feature | Log to `.learnings/FEATURE_REQUESTS.md` |
+| API/external tool fails | Log to `.learnings/ERRORS.md` with integration details |
+| Knowledge was outdated | Log to `.learnings/LEARNINGS.md` with category `knowledge_gap` |
+| Found better approach | Log to `.learnings/LEARNINGS.md` with category `best_practice` |
+| Simplify/Harden recurring patterns | Log/update `.learnings/LEARNINGS.md` with `Source: simplify-and-harden` and a stable `Pattern-Key` |
+| Similar to existing entry | Link with `**See Also**`, consider priority bump |
+| Broadly applicable learning | Promote to `CLAUDE.md`, `AGENTS.md`, and/or `.github/copilot-instructions.md` |
+| Workflow improvements | Promote to `AGENTS.md` (OpenClaw workspace) |
+| Tool gotchas | Promote to `TOOLS.md` (OpenClaw workspace) |
+| Behavioral patterns | Promote to `SOUL.md` (OpenClaw workspace) |
+
+## OpenClaw Setup (Recommended)
+
+OpenClaw is the primary platform for this skill. It uses workspace-based prompt injection with automatic skill loading.
+
+### Installation
+
+**Via ClawdHub (recommended):**
+```bash
+clawdhub install self-improving-agent
+```
+
+**Manual:**
+```bash
+git clone https://github.com/peterskoett/self-improving-agent.git ~/.openclaw/skills/self-improving-agent
+```
+
+Remade for openclaw from original repo : https://github.com/pskoett/pskoett-ai-skills - https://github.com/pskoett/pskoett-ai-skills/tree/main/skills/self-improvement
+
+### Workspace Structure
+
+OpenClaw injects these files into every session:
+
+```
+~/.openclaw/workspace/
+├── AGENTS.md          # Multi-agent workflows, delegation patterns
+├── SOUL.md            # Behavioral guidelines, personality, principles
+├── TOOLS.md           # Tool capabilities, integration gotchas
+├── MEMORY.md          # Long-term memory (main session only)
+├── memory/            # Daily memory files
+│   └── YYYY-MM-DD.md
+└── .learnings/        # This skill</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.22</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.17</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

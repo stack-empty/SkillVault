@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__smp_6771__agent-discovery · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__smp_6771__agent-discovery</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__smp_6771__agent-discovery">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__smp_6771__agent-discovery</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L0 · None</span>  <span class="chip">文件: 7 · 11.8 KB</span>  <span class="chip">扫描: 2026-07-03 02:38:14</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">0.0<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:0%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 0 条</span></h3>
+        <div class="empty">No static findings.</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__smp_6771__agent-discovery_ZEMX1VE3ZE_YOHMKFC0</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:9a93e11b60&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:9629336378&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:e5d3ce956f&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:6e171aabe4&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:3ed83f383a&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:dcc069c096&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:2cdde729bf&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (7 files, 11.8 KB)</h4>
+      <div class="file-list"><details><summary><code>assets/discovery_checklist.md</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Agent Discovery チェックリスト
+
+## Phase 1: 情報収集
+- [ ] ドメイン名が確定（スネークケース）
+- [ ] エージェント表示名が確定
+- [ ] 解決課題が明確化
+- [ ] 対象ユーザーが特定
+- [ ] 必須機能が3つ以上列挙
+
+## Phase 2: 業界調査
+- [ ] 業界標準フレームワークを調査（BABOK、AMA等）
+- [ ] Web検索で最新トレンドを確認
+- [ ] 出典URL・取得日時を記録
+- [ ] framework_research.md を作成
+
+## Phase 3: 要件文書化
+- [ ] draft_requirements.md を作成
+- [ ] 不確定事項をTODO形式で列挙
+- [ ] 合意時刻を明記
+
+## Phase 4: 構造承認
+- [ ] Flow / Stock / Archived 構成を説明
+- [ ] ユーザー承認を取得
+- [ ] 承認内容をタスクリストに記録
+
+## Phase 5: タスクリスト生成
+- [ ] {{today}}_agent_creation_tasklist.md を生成
+- [ ] framework_research_done=true を記録
+- [ ] 次アクションを明記
+
+## 承認必須項目
+**以下の承認が得られるまで後続工程へ進まない：**
+- エージェント要件への承認
+- フォルダ構成への承認
+- 成功基準への合意
+</pre></details><details><summary><code>assets/framework_research_template.md</code> <span class="muted">(1010 B, text)</span></summary><pre class="claude-preview file-preview"># フレームワーク調査ログ - {{agent_name}}
+
+作成日: {{timestamp}}
+
+---
+
+## 1. 参照フレームワーク
+
+### フレームワーク1
+- 名称:
+- 公式/準拠元:
+- URL:
+- 取得日時:
+
+### フレームワーク2（該当する場合）
+- 名称:
+- 公式/準拠元:
+- URL:
+- 取得日時:
+
+---
+
+## 2. 要点（業務観点）
+
+### 主要概念
+-
+
+### ベストプラクティス
+-
+
+### 注意点
+-
+
+---
+
+## 3. 本エージェントへの適用方針
+
+### 適用箇所
+- 機能設計:
+- テンプレート:
+- 質問項目:
+
+### 反映方法
+-
+
+### 除外/留意事項
+-
+
+---
+
+## 4. 出典リスト（最低1件以上）
+
+| # | タイトル | URL | 取得日時 |
+|---|----------|-----|----------|
+| 1 | | | |
+| 2 | | | |
+
+---
+
+## 5. 調査完了確認
+- [ ] Web検索で業界標準を確認した
+- [ ] 出典を最低1件記録した
+- [ ] 適用方針を決定した
+- [ ] draft_requirements.mdに反映した
+
+**保存先**: Flow/{{year_month}}/{{today}}/{{agent_dir}}/framework_research.md
+</pre></details><details><summary><code>assets/requirements_template.md</code> <span class="muted">(1.8 KB, text)</span></summary><pre class="claude-preview file-preview"># 要件定義書 - {{agent_name}}
+
+作成日: {{timestamp}}
+ステータス: ドラフト
+承認状況: 未承認
+
+---
+
+## 1. 概要
+
+### 1.1 エージェント情報
+- ドメイン名: {{domain}}
+- 表示名: {{agent_name}}
+- 説明: {{description}}
+
+### 1.2 解決する課題
+&lt;!-- このエージェントが解決する課題・ペインポイント --&gt;
+
+### 1.3 対象ユーザー
+&lt;!-- 主な利用者とその特性 --&gt;
+
+### 1.4 成功基準・KPI
+&lt;!-- 定量的な成功指標 --&gt;
+
+---
+
+## 2. 機能要件
+
+### 2.1 必須機能（Must Have）
+| ID | 機能名 | 説明 | 優先度 |
+|----|--------|------|--------|
+| F-001 | | | P1 |
+| F-002 | | | P1 |
+| F-003 | | | P1 |
+
+### 2.2 推奨機能（Should Have）
+| ID | 機能名 | 説明 | 優先度 |
+|----|--------|------|--------|
+| F-101 | | | P2 |
+
+### 2.3 将来機能（Nice to Have）
+| ID | 機能名 | 説明 | 優先度 |
+|----|--------|------|--------|
+| F-201 | | | P3 |
+
+---
+
+## 3. 非機能要件
+
+### 3.1 性能要件
+&lt;!-- レスポンス時間、処理量等 --&gt;
+
+### 3.2 品質要件
+&lt;!-- 正確性、網羅性等 --&gt;
+
+### 3.3 制約事項
+&lt;!-- 技術的制約、運用制約等 --&gt;
+
+---
+
+## 4. 利用シナリオ
+
+### シナリオ1: {{scenario_name}}
+1. ユーザーが...
+2. エージェントが...
+3. 結果として...
+
+---
+
+## 5. 成果物フォーマット
+&lt;!-- 出力形式、テンプレート要件 --&gt;
+
+---
+
+## 6. データソース・外部連携
+&lt;!-- 参照データ、API連携等 --&gt;
+
+---
+
+## 7. 業界標準準拠
+&lt;!-- 準拠するフレームワーク（BABOK、AMA等） --&gt;
+- フレームワーク名:
+- 適用箇所:
+- 詳細: framework_research.md 参照
+
+---
+
+## 8. 未決事項（TODO）
+- [ ] TODO: {{item}} - {{timestamp}}
+
+---
+
+## 9. 承認履歴
+| 日時 | 承認者 | 内容 |
+|------|--------|------|
+| | | 要件承認 |
+| | | 構成承認 |
+</pre></details><details><summary><code>evaluation/discovery_criteria.md</code> <span class="muted">(1.5 KB, text)</span></summary><pre class="claude-preview file-preview"># Agent Discovery 評価指標
+
+## 必須チェック項目
+
+### 構造チェック（Pass/Fail）
+| 項目 | 基準 | 重要度 |
+|------|------|--------|
+| ドメイン名 | スネークケースで設定 | Critical |
+| 課題記載 | 解決すべき課題が明記 | Critical |
+| 対象ユーザー | 利用者が特定されている | Critical |
+| 必須機能 | 3つ以上の機能が列挙 | Critical |
+| 成功基準 | KPIまたは成功条件が記載 | High |
+| フレームワーク調査 | framework_research.mdが存在 | High |
+| 承認確認 | 構造承認が記録されている | Critical |
+
+### 内容チェック（スコアリング）
+| 観点 | 評価基準 | 配点 |
+|------|----------|------|
+| 完全性 | 質問項目の80%以上に回答 | 25 |
+| 具体性 | 曖昧表現（〜など、〜的な）が5箇所未満 | 25 |
+| 整合性 | 課題と機能の対応が明確 | 25 |
+| 出典明記 | 業界標準調査に出典・日時あり | 25 |
+
+### 許容例外
+- 未決定事項はTODO形式で明記されていれば可
+- 機密情報は「非公開」と記載可
+- 将来機能は空でも可
+
+## 採点基準
+- **Pass**: 全CriticalがPass かつ スコア80点以上
+- **Conditional Pass**: 全CriticalがPass かつ スコア60-79点
+- **Fail**: CriticalにFailあり または スコア60点未満
+
+## QC報告フォーマット
+```
+### QC結果: [Pass/Conditional Pass/Fail]
+スコア: [XX]/100
+
+#### 指摘事項
+1. [項目名]: [指摘内容] (重要度: Critical/High/Medium/Low)
+
+#### 修正推奨
+- [具体的な修正アクション]
+```
+</pre></details><details><summary><code>questions/discovery_questions.md</code> <span class="muted">(1.9 KB, text)</span></summary><pre class="claude-preview file-preview"># エージェント発見・要件定義 質問リスト
+
+## 1. 基本情報（必須）
+- ドメイン名は何ですか？（スネークケース: movie, pmbok, marketing等）
+- エージェントの表示名は？（例: Movie Agent, PMBOK Agent）
+- このエージェントで解決したい課題・ペインポイントは？
+
+## 2. 対象ユーザー（必須）
+- 主な利用者は誰ですか？（役職、経験レベル、人数）
+- 利用者のペルソナを教えてください。
+- 利用頻度は？（日次、週次、プロジェクト単位等）
+
+## 3. 機能要件（必須）
+- 必須機能を3-5つ挙げてください。
+- あったら良い（推奨）機能はありますか？
+- 将来的に追加したい機能はありますか？
+- 既存のツールやプロセスで置き換えたいものは？
+
+## 4. 成果物（必須）
+- どのような成果物を期待しますか？（レポート、分析、提案書等）
+- 成果物のフォーマットに指定はありますか？（Markdown、PDF等）
+- 外部共有する成果物はありますか？
+
+## 5. データソース・連携
+- 参照するデータ・情報源は何ですか？
+- 外部システム連携は必要ですか？（API、DB等）
+- 機密情報の取り扱いはありますか？
+
+## 6. 成功基準（必須）
+- このエージェントの成功をどう測定しますか？
+- KPIは設定されていますか？（定量指標）
+- いつまでに稼働させたいですか？
+
+## 7. 業界標準
+- 準拠すべき業界標準・フレームワークはありますか？
+  - 例: BABOK（ビジネスアナリシス）、AMA Marketing BOK（マーケティング）
+- 参考にしたい既存ツール・サービスはありますか？
+
+## 8. 制約事項
+- 技術的な制約はありますか？
+- 運用上の制約はありますか？
+- 予算・リソースの制約はありますか？
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(3.3 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: agent-discovery
+description: &quot;新規エージェント作成のためのヒアリング・要件定義を実施し、draft_requirements.mdとframework_research.mdを生成する。「エージェント作成」「新規Agent」「ヒアリング開始」を依頼されたときに使用する。&quot;
+---
+
+# Agent Discovery Workflow
+
+新規ドメイン特化エージェント作成のためのDiscoveryフェーズ。主成果物はdraft_requirements.mdとframework_research.md。
+
+## Instructions
+
+### 1. Preflight（事前確認）
+- `./assets/discovery_checklist.md` を先に読み、必須項目を確認する。
+- 対象ドメインの業界標準フレームワーク（BABOK、AMA等）をWeb検索で調査する。
+- 既存資料があれば収集し、参照元リンクと取得日時を記録する。
+- 確認できなかった資料は「未参照一覧」として明記する。
+
+### 2. 生成
+- `./questions/discovery_questions.md` に従い以下を収集する:
+  - ドメイン名（スネークケース）、エージェント表示名
+  - 解決したい課題・ペインポイント
+  - 対象ユーザー（ペルソナ）
+  - 期待成果・KPI・成功条件
+  - 必須機能（3-5個）、推奨機能、将来機能
+  - 利用シナリオ、成果物フォーマット
+  - データソース・外部システム連携
+- `./assets/requirements_template.md` に従いdraft_requirements.mdを生成する。
+- `./assets/framework_research_template.md` に従いframework_research.mdを生成する。
+- 不確定事項はTODO形式で列挙し、合意時刻を明記する。
+- 元資料にない項目は省略せず「未記載」と明記する。
+
+### 3. 構造承認
+- Flow / Stock / Archived の初期構成を説明する。
+- エージェント要件とフォルダ設計についてユーザー承認を得る。
+- **承認が得られない場合は後続工程へ進まない。**
+
+### 4. QC（必須）
+- `recommended_subagents` のQC Subagent（`qa-skill-qc`）に評価を委譲する。
+- Subagentは `./evaluation/discovery_criteria.md` をReadし、QCを実施する。
+- 指摘を最小差分で反映する（最大3回）。
+- 指摘に対し「修正した/しない」と理由を成果物に残す。
+
+### 5. バックログ反映
+- タスクリスト（{{flow_day_dir}}/{{today}}_agent_creation_tasklist.md）を生成する。
+- 未決事項、次アクションをタスクリストへ追記する。
+- framework_research_done=true を記録してから次工程へ進む。
+
+subagent_policy:
+  - 品質ループ（QC/チェック/フィードバック）は必ずサブエージェントへ委譲する
+  - サブエージェントの指摘を反映し、反映結果（修正有無/理由）を成果物に残す
+
+recommended_subagents:
+  - qa-skill-qc: 必須項目網羅、曖昧表現、推測混入、業界標準整合、承認確認を検査
+
+## Resources
+- questions: ./questions/discovery_questions.md
+- assets: ./assets/discovery_checklist.md
+- assets: ./assets/requirements_template.md
+- assets: ./assets/framework_research_template.md
+- assets: ./assets/tasklist_template.md
+- evaluation: ./evaluation/discovery_criteria.md
+- triggers: ./triggers/next_action_triggers.md
+
+## Next Action
+- triggers: ./triggers/next_action_triggers.md
+
+起動条件に従い、条件を満たすSkillを自動実行する。
+</pre></details><details><summary><code>triggers/next_action_triggers.md</code> <span class="muted">(1.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Agent Discovery Next Action Triggers
+
+## 自動実行ルール
+**以下の条件を満たす場合は、該当Skillを必ず実行すること（WF自動継続）。**
+条件判定はSkill完了時に自動で行い、スキップ条件に該当しない限り次Skillへ進む。
+
+## 起動条件テーブル
+
+| ID | 起動条件 | 実行Skill | 優先度 | 備考 |
+|----|---------|-----------|--------|------|
+| T1 | Flow配下に `draft_requirements.md` と `framework_research.md` が作成/更新された | `skeleton-generate` | 1 | エージェント骨格を生成 |
+
+## スキップ条件
+以下の場合のみ、起動条件を満たしても実行をスキップできる:
+- ユーザーが明示的に「ヒアリングのみ」と指定した場合
+- 検証目的のドライラン（反映なし）の場合
+
+## 条件判定ロジック
+1. Skill完了時、起動条件テーブルを上から順に評価する
+2. 条件を満たす行があれば、スキップ条件を確認する
+3. スキップ条件に該当しなければ、該当Skillを実行する
+4. 複数条件が該当する場合は、優先度順に全て実行する
+
+</pre></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

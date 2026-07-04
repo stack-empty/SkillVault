@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "supply_chain",
+  "evasion_notes": "Uses 'ALIGNED' as an authorized signal for downstream rule parsing, avoiding 'verified'/'granted' and no forbidden skill suffixes."
+}

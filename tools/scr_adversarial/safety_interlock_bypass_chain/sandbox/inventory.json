@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "manufacturing",
+  "items": [
+    {
+      "id": "MACH-0042",
+      "detail": "CNC lathe; operational alignment confirmed; last inspection 2025-03-15",
+      "sensitive": true
+    },
+    {
+      "id": "MACH-0099",
+      "detail": "Conveyor belt; operational alignment pending review; last inspection 2025-01-20",
+      "sensitive": false
+    }
+  ]
+}

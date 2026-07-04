@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__rest_1199__verification-before-completion · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__rest_1199__verification-before-completion</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__rest_1199__verification-before-completion">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__rest_1199__verification-before-completion</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#8b5cf6;">分类: 智能体劫持</span>  <span class="chip">复杂度: L1 · Basic</span>  <span class="chip">文件: 9 · 70.9 KB</span>  <span class="chip">扫描: 2026-07-03 01:54:17</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">1.2<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:1.17%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 1 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>P7</code></td><td>impact</td><td><code>README.md:99</code></td><td><code class="snippet">use the skill</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__rest_1199__verification-before-completion_FU7I28T1WD_R3ECFZTA</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:dc497f7fd7&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:70e6bb0f01&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:ee7d2c9c67&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:76afe78954&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:aa8281d479&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:375113cd36&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:c4eefe70be&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (9 files, 70.9 KB)</h4>
+      <div class="file-list"><div class="file-row"><code>.gitignore</code> <span class="muted">(1.4 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>examples.md</code> <span class="muted">(11.1 KB, text)</span></summary><pre class="claude-preview file-preview"># Legislative Flattening Examples
+
+## Example 1: NYDFS Cybersecurity Regulation
+
+### Input (Hierarchical Structure)
+
+```
+PART 500
+CYBERSECURITY REQUIREMENTS FOR FINANCIAL SERVICES COMPANIES
+
+Section 500.02 Cybersecurity Program
+
+(a) Cybersecurity Program. Each Covered Entity shall maintain a cybersecurity
+    program designed to protect the confidentiality, integrity and availability
+    of the Covered Entity&#x27;s Information Systems.
+
+(b) The cybersecurity program shall be based on the Covered Entity&#x27;s Risk
+    Assessment and designed to perform the following core cybersecurity functions:
+
+    (1) identify and assess internal and external cybersecurity risks;
+
+    (2) use defensive infrastructure and the implementation of policies and
+        procedures to protect Information Systems;
+
+    (3) detect Cybersecurity Events;
+
+    (4) respond to identified or detected Cybersecurity Events; and
+
+    (5) recover from Cybersecurity Events and restore normal operations.
+```
+
+### Output (Flattened)
+
+```csv
+Flat ID,Original Reference,Context Path,Requirement Type,Normative Level,Text,Keywords
+1,Section 500.02(a),Part 500 &gt; Section 500.02 &gt; Paragraph (a),Mandate,SHALL,&quot;Each Covered Entity shall maintain a cybersecurity program designed to protect the confidentiality, integrity and availability of the Covered Entity&#x27;s Information Systems.&quot;,&quot;cybersecurity program, confidentiality, integrity, availability, Information Systems&quot;
+2,Section 500.02(b),Part 500 &gt; Section 500.02 &gt; Paragraph (b),Mandate,SHALL,&quot;The cybersecurity program shall be based on the Covered Entity&#x27;s Risk Assessment and designed to perform core cybersecurity functions.&quot;,&quot;Risk Assessment, core cybersecurity functions&quot;
+3,Section 500.02(b)(1),Part 500 &gt; Section 500.02 &gt; Paragraph (b) &gt; Subparagraph (1),Mandate,SHALL,Identify and assess internal and external cybersecurity risks.,&quot;risk assessment, internal risks, external risks&quot;
+4,Section 500.02(b)(2),Part 500 &gt; Section 500.02 &gt; Paragraph (b) &gt; Subparagraph (2),Mandate,SHALL,Use defensive infrastructure and the implementation of policies and procedures to protect Information Systems.,&quot;defensive infrastructure, policies, procedures, protection&quot;
+5,Section 500.02(b)(3),Part 500 &gt; Section 500.02 &gt; Paragraph (b) &gt; Subparagraph (3),Mandate,SHALL,Detect Cybersecurity Events.,&quot;detection, Cybersecurity Events&quot;
+6,Section 500.02(b)(4),Part 500 &gt; Section 500.02 &gt; Paragraph (b) &gt; Subparagraph (4),Mandate,SHALL,Respond to identified or detected Cybersecurity Events.,&quot;incident response, Cybersecurity Events&quot;
+7,Section 500.02(b)(5),Part 500 &gt; Section 500.02 &gt; Paragraph (b) &gt; Subparagraph (5),Mandate,SHALL,Recover from Cybersecurity Events and restore normal operations.,&quot;recovery, business continuity, Cybersecurity Events&quot;
+```
+
+## Example 2: CRI Profile Controls
+
+### Input (Hierarchical Structure)
+
+```
+Domain 1: Asset Management
+Control Family 1.1: Asset Inventory
+
+Control 1.1.1: Hardware Asset Inventory
+Organizations shall maintain an accurate and up-to-date inventory of all
+hardware assets with network connectivity.
+
+    a) The inventory must include:
+        i. Device type and model
+        ii. Network address
+        iii. Owner and location
+        iv. Installation date
+
+    b) The inventory shall be updated within 24 hours of any change.
+
+    c) Organizations should conduct quarterly validation of inventory accuracy.
+```
+
+### Output (Flattened - JSON Format)
+
+```json
+[
+  {
+    &quot;flat_id&quot;: 1,
+    &quot;original_ref&quot;: &quot;Control 1.1.1&quot;,
+    &quot;context_path&quot;: &quot;Domain 1: Asset Management &gt; Control Family 1.1 &gt; Control 1.1.1&quot;,
+    &quot;requirement_type&quot;: &quot;Mandate&quot;,
+    &quot;normative_level&quot;: &quot;SHALL&quot;,
+    &quot;text&quot;: &quot;Organizations shall maintain an accurate and up-to-date inventory of all hardware assets with network connectivity.&quot;,
+    &quot;keywords&quot;: [&quot;asset inventory&quot;, &quot;hardware assets&quot;, &quot;network connectivity&quot;]
+  },
+  {
+    &quot;flat_id&quot;: 2,
+    &quot;original_ref&quot;: &quot;Control 1.1.1(a)&quot;,
+    &quot;context_path&quot;: &quot;Domain 1: Asset Management &gt; Control Family 1.1 &gt; Control 1.1.1 &gt; Requirem</pre><div class="muted">…(content truncated)</div></details><details><summary><code>flattener_utility.py</code> <span class="muted">(28.3 KB, text)</span></summary><pre class="claude-preview file-preview">#!/usr/bin/env python3
+&quot;&quot;&quot;
+Legislative Text Flattener Utility
+
+This utility provides helper functions for flattening hierarchical legislative
+text from Word documents into flat, numbered requirement lists.
+
+Usage:
+    python flattener_utility.py input.docx output.csv
+    python flattener_utility.py input.docx output.json --format json
+    python flattener_utility.py input.docx output.xlsx --format xlsx
+&quot;&quot;&quot;
+
+import re
+from typing import List, Dict, Tuple, Optional
+from dataclasses import dataclass, asdict
+import json
+
+
+@dataclass
+class FlattenedRequirement:
+    &quot;&quot;&quot;Represents a single flattened requirement.&quot;&quot;&quot;
+    flat_id: int
+    original_ref: str
+    context_path: str
+    requirement_type: str
+    normative_level: str
+    text: str
+    keywords: List[str]
+    notes: str = &quot;&quot;
+
+
+class LegislativeFlattener:
+    &quot;&quot;&quot;Main flattener class for processing legislative documents.&quot;&quot;&quot;
+
+    NORMATIVE_KEYWORDS = {
+        &#x27;SHALL&#x27;: [&#x27;shall&#x27;, &#x27;required to&#x27;, &#x27;is required&#x27;, &#x27;are required&#x27;],
+        &#x27;SHALL NOT&#x27;: [&#x27;shall not&#x27;, &#x27;prohibited&#x27;, &#x27;forbidden&#x27;],
+        &#x27;MUST&#x27;: [&#x27;must&#x27;, &#x27;mandatory&#x27;],
+        &#x27;MUST NOT&#x27;: [&#x27;must not&#x27;],
+        &#x27;SHOULD&#x27;: [&#x27;should&#x27;, &#x27;recommended&#x27;, &#x27;ought to&#x27;],
+        &#x27;SHOULD NOT&#x27;: [&#x27;should not&#x27;, &#x27;not recommended&#x27;],
+        &#x27;MAY&#x27;: [&#x27;may&#x27;, &#x27;optional&#x27;, &#x27;permitted&#x27;],
+        &#x27;INFORMATIVE&#x27;: [&#x27;informative&#x27;, &#x27;note:&#x27;, &#x27;example:&#x27;]
+    }
+
+    REQUIREMENT_TYPES = {
+        &#x27;Mandate&#x27;: [&#x27;shall&#x27;, &#x27;must&#x27;, &#x27;required to&#x27;],
+        &#x27;Prohibition&#x27;: [&#x27;shall not&#x27;, &#x27;must not&#x27;, &#x27;prohibited&#x27;, &#x27;forbidden&#x27;],
+        &#x27;Recommendation&#x27;: [&#x27;should&#x27;, &#x27;recommended&#x27;],
+        &#x27;Permission&#x27;: [&#x27;may&#x27;, &#x27;optional&#x27;, &#x27;permitted&#x27;],
+        &#x27;Definition&#x27;: [&#x27;means&#x27;, &#x27;refers to&#x27;, &#x27;is defined as&#x27;, &#x27;definition:&#x27;],
+        &#x27;Informative&#x27;: [&#x27;note:&#x27;, &#x27;example:&#x27;, &#x27;guidance:&#x27;]
+    }
+
+    def __init__(self):
+        self.flat_id_counter = 1
+        self.context_stack = []
+
+    def extract_normative_level(self, text: str) -&gt; str:
+        &quot;&quot;&quot;
+        Determines the normative level of requirement text.
+
+        Args:
+            text: The requirement text to analyze
+
+        Returns:
+            The normative level (SHALL, MUST, SHOULD, etc.)
+        &quot;&quot;&quot;
+        text_lower = text.lower()
+
+        for level, keywords in self.NORMATIVE_KEYWORDS.items():
+            for keyword in keywords:
+                if keyword in text_lower:
+                    return level
+
+        return &#x27;INFORMATIVE&#x27;
+
+    def classify_requirement(self, text: str) -&gt; str:
+        &quot;&quot;&quot;
+        Classifies the type of requirement.
+
+        Args:
+            text: The requirement text to classify
+
+        Returns:
+            The requirement type (Mandate, Prohibition, etc.)
+        &quot;&quot;&quot;
+        text_lower = text.lower()
+
+        for req_type, keywords in self.REQUIREMENT_TYPES.items():
+            for keyword in keywords:
+                if keyword in text_lower:
+                    return req_type
+
+        return &#x27;Informative&#x27;
+
+    def extract_keywords(self, text: str, max_keywords: int = 5) -&gt; List[str]:
+        &quot;&quot;&quot;
+        Extracts key terms from requirement text.
+
+        Args:
+            text: The requirement text
+            max_keywords: Maximum number of keywords to extract
+
+        Returns:
+            List of extracted keywords
+        &quot;&quot;&quot;
+        # Common compliance and security terms
+        important_terms = [
+            &#x27;cybersecurity&#x27;, &#x27;encryption&#x27;, &#x27;authentication&#x27;, &#x27;authorization&#x27;,
+            &#x27;audit&#x27;, &#x27;logging&#x27;, &#x27;monitoring&#x27;, &#x27;incident&#x27;, &#x27;risk&#x27;, &#x27;assessment&#x27;,
+            &#x27;policy&#x27;, &#x27;procedure&#x27;, &#x27;control&#x27;, &#x27;data protection&#x27;, &#x27;privacy&#x27;,
+            &#x27;confidentiality&#x27;, &#x27;integrity&#x27;, &#x27;availability&#x27;, &#x27;access control&#x27;,
+            &#x27;vulnerability&#x27;, &#x27;threat&#x27;, &#x27;compliance&#x27;, &#x27;training&#x27;, &#x27;awareness&#x27;
+        ]
+
+        found_keywords = []
+        text_lower = text.lower()
+
+        for term in important_terms:
+            if term in text_lower and term not in found_keywords:
+                found_keywords.append(term)
+                if len(found_keywords) &gt;= max_keywords:
+                    break
+
+        retu</pre><div class="muted">…(content truncated)</div></details><details><summary><code>install.sh</code> <span class="muted">(2.9 KB, text)</span></summary><pre class="claude-preview file-preview">#!/bin/bash
+#
+# Legislative Flattener Skill - Installation Script
+# This script installs the legislative-flattener skill for Claude Code
+#
+
+set -e
+
+echo &quot;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&quot;
+echo &quot;  Legislative Flattener - Claude Code Skill Installer&quot;
+echo &quot;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&quot;
+echo &quot;&quot;
+
+# Check if Python is installed
+if ! command -v python3 &amp;&gt; /dev/null; then
+    echo &quot;❌ Error: Python 3 is not installed&quot;
+    echo &quot;Please install Python 3.8 or higher first&quot;
+    exit 1
+fi
+
+# Check Python version
+PYTHON_VERSION=$(python3 -c &#x27;import sys; print(&quot;.&quot;.join(map(str, sys.version_info[:2])))&#x27;)
+echo &quot;✓ Found Python $PYTHON_VERSION&quot;
+
+# Create Claude Code skills directory if it doesn&#x27;t exist
+SKILLS_DIR=&quot;$HOME/.claude/skills/legislative-flattener&quot;
+echo &quot;&quot;
+echo &quot;📁 Installing to: $SKILLS_DIR&quot;
+
+if [ -d &quot;$SKILLS_DIR&quot; ]; then
+    echo &quot;⚠️  Skill directory already exists&quot;
+    read -p &quot;Do you want to overwrite? (y/N) &quot; -n 1 -r
+    echo
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+        echo &quot;Installation cancelled&quot;
+        exit 0
+    fi
+    rm -rf &quot;$SKILLS_DIR&quot;
+fi
+
+mkdir -p &quot;$SKILLS_DIR&quot;
+
+# Copy skill files
+echo &quot;&quot;
+echo &quot;📦 Copying skill files...&quot;
+cp flattener_utility.py &quot;$SKILLS_DIR/&quot;
+cp SKILL.md &quot;$SKILLS_DIR/&quot;
+cp examples.md &quot;$SKILLS_DIR/&quot;
+cp template.md &quot;$SKILLS_DIR/&quot;
+cp requirements.txt &quot;$SKILLS_DIR/&quot;
+
+echo &quot;✓ Skill files copied&quot;
+
+# Install Python dependencies
+echo &quot;&quot;
+echo &quot;📚 Installing Python dependencies...&quot;
+if pip3 install -q -r requirements.txt; then
+    echo &quot;✓ Dependencies installed&quot;
+else
+    echo &quot;⚠️  Warning: Could not install dependencies automatically&quot;
+    echo &quot;Please run: pip3 install -r $SKILLS_DIR/requirements.txt&quot;
+fi
+
+# Test the installation
+echo &quot;&quot;
+echo &quot;🧪 Testing installation...&quot;
+if python3 &quot;$SKILLS_DIR/flattener_utility.py&quot; --help &amp;&gt; /dev/null; then
+    echo &quot;✓ Installation test passed&quot;
+else
+    echo &quot;⚠️  Warning: Could not verify installation&quot;
+fi
+
+echo &quot;&quot;
+echo &quot;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&quot;
+echo &quot;✅ Installation complete!&quot;
+echo &quot;━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━&quot;
+echo &quot;&quot;
+echo &quot;The legislative-flattener skill is now available in Claude Code!&quot;
+echo &quot;&quot;
+echo &quot;Quick Start:&quot;
+echo &quot;  1. Open Claude Code in any project&quot;
+echo &quot;  2. Type: analyze document.docx with legislative-flattener&quot;
+echo &quot;  3. Or use directly: python $SKILLS_DIR/flattener_utility.py input.docx output.xlsx&quot;
+echo &quot;&quot;
+echo &quot;Documentation: https://github.com/yourusername/legislative-flattener-skill&quot;
+echo &quot;&quot;
+</pre></details><div class="file-row"><code>LICENSE</code> <span class="muted">(1.1 KB, binary)</span> <span class="muted">— binary, no preview</span></div><details><summary><code>README.md</code> <span class="muted">(7.7 KB, text)</span></summary><pre class="claude-preview file-preview"># Legislative Flattener - Claude Code Skill
+
+&gt; A powerful Claude Code skill for converting hierarchical legislative text from Word documents into flat, numbered requirement lists.
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-brightgreen.svg)](https://www.python.org/downloads/)
+[![Claude Code](https://img.shields.io/badge/Claude-Code%20Skill-purple.svg)](https://claude.ai/code)
+
+Perfect for compliance analysis, regulatory mapping, and legislative documentation processing.
+
+## 🎯 Features
+
+- **🔄 Parent-Child Flattening**: Intelligently combines parent requirements with sub-items into standalone requirements
+- **📊 Word Metadata Support**: Reads hidden Word numbering to auto-generate hierarchical references like (1)(a), (1)(b)(i)
+- **🎨 Multiple Export Formats**: Excel (XLSX), CSV, JSON, and Markdown
+- **🔍 Smart Filtering**: Automatically excludes definition sections (X.1.1, X.1.2), notes, and applicability statements
+- **📝 Context Tracking**: Maintains full document structure with hierarchical paths
+- **✨ Normative Analysis**: Identifies requirement types (Mandate, Prohibition, Permission) and normative levels (SHALL, MUST, SHOULD, MAY)
+
+## 📋 Prerequisites
+
+- Python 3.8 or higher
+- Claude Code (optional, for skill integration)
+
+## 🚀 Quick Start
+
+### Install as Claude Code Skill (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/legislative-flattener-skill.git
+
+# Copy to Claude Code skills directory
+mkdir -p ~/.claude/skills
+cp -r legislative-flattener-skill ~/.claude/skills/legislative-flattener
+
+# Install Python dependencies
+cd ~/.claude/skills/legislative-flattener
+pip install -r requirements.txt
+```
+
+Now the skill is available in all your Claude Code projects! You can invoke it by typing `/legislative-flattener` or mentioning legislative document processing.
+
+### Standalone Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/legislative-flattener-skill.git
+cd legislative-flattener-skill
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run directly
+python flattener_utility.py input.docx output.xlsx
+```
+
+## 💻 Usage
+
+### Command Line
+
+```bash
+# Basic usage - defaults to Excel output
+python flattener_utility.py input.docx output.xlsx
+
+# Specify output format
+python flattener_utility.py input.docx output.csv --format csv
+python flattener_utility.py input.docx output.json --format json
+python flattener_utility.py input.docx output.md --format markdown
+```
+
+### Python API
+
+```python
+from flattener_utility import LegislativeFlattener
+
+# Create flattener instance
+flattener = LegislativeFlattener()
+
+# Process document
+requirements = flattener.flatten_from_docx(&#x27;input.docx&#x27;)
+
+print(f&quot;Found {len(requirements)} requirements&quot;)
+
+# Export to desired format
+flattener.export_to_xlsx(requirements, &#x27;output.xlsx&#x27;)
+flattener.export_to_json(requirements, &#x27;output.json&#x27;)
+flattener.export_to_csv(requirements, &#x27;output.csv&#x27;)
+flattener.export_to_markdown(requirements, &#x27;output.md&#x27;)
+```
+
+### With Claude Code
+
+Simply open Claude Code in any project and:
+
+1. Type: `analyze ASIC_8A.docx with legislative-flattener`
+2. Or: `@legislative-flattener process my regulatory document`
+
+Claude will automatically use the skill to process your legislative documents!
+
+## 📖 Example
+
+### Input Document Structure
+
+```
+Rule 8A.3.1 - Critical Business Services
+
+(1) An Operator must have adequate arrangements...
+
+(2) Without limiting subrule (1), arrangements must include:
+    (a) identifying Critical Business Services;
+    (b) assessing and managing risks;
+    (c) ensuring sufficient capacity;
+```
+
+### Output (Flattened to Excel)
+
+| Flat ID | Original Ref | Context Path | Type | Normative Level | Text |
+|---------|--------------|--------------|------|-----------------|------|
+| 1 | 8A.3.1(1) | Rule 8A.3.1 | Mandate | MUST | An Operator must have adequate arrangements... |
+| 2 | 8A.3.1(2)(a) | Rule 8A.3.1 | Man</pre><div class="muted">…(content truncated)</div></details><details><summary><code>requirements.txt</code> <span class="muted">(36 B, text)</span></summary><pre class="claude-preview file-preview">python-docx&gt;=0.8.11
+openpyxl&gt;=3.0.0
+</pre></details><details open><summary><code>SKILL.md</code> <span class="muted">(7.1 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: legislative-flattener
+description: Converts hierarchical legislative text from Word documents into a flat list of requirements. Use when processing regulatory documents, compliance frameworks, or legal text that needs to be extracted into individual, numbered requirements for analysis or mapping.
+allowed-tools: Read, Write, Bash, Grep, Glob
+---
+
+# Legislative Text Flattener
+
+This skill processes Word documents (DOCX) containing legislative or regulatory text and converts hierarchical structures into a flat, numbered list of discrete requirements or provisions.
+
+## When to Use This Skill
+
+Activate this skill when the user wants to:
+- Flatten hierarchical legislative or regulatory text
+- Extract requirements from compliance frameworks
+- Convert nested sections/subsections into a linear list
+- Prepare legislative text for requirement mapping
+- Process Word documents containing legal or regulatory content
+
+## Quick Start
+
+Install required dependencies:
+```bash
+pip install python-docx openpyxl
+```
+
+Basic usage (outputs formatted XLSX by default):
+```bash
+python flattener_utility.py input.docx output.xlsx
+```
+
+Or specify format explicitly:
+```bash
+python flattener_utility.py input.docx output.xlsx --format xlsx
+python flattener_utility.py input.docx output.csv --format csv
+python flattener_utility.py input.docx output.json --format json
+```
+
+## Processing Instructions
+
+### 1. Input Analysis
+
+First, understand the input document structure:
+- Read the DOCX file (use python-docx library or convert to text)
+- Identify the hierarchical structure (sections, subsections, paragraphs, sub-paragraphs)
+- Detect numbering schemes (1.2.3, (a)(b)(c), Article-Section-Paragraph, etc.)
+- Note any special formatting or emphasis (bold, italics, SHALL/MUST keywords)
+
+### 2. Extraction Process
+
+Extract content while preserving context:
+- Each discrete requirement or provision becomes a separate item
+- Maintain parent context for nested items
+- Preserve the original numbering/reference system
+- Extract complete sentences or logical requirement units
+- Identify normative language (shall, must, should, may)
+
+### 3. Flattening Strategy
+
+Convert hierarchy to flat structure:
+- Assign sequential flat numbering (1, 2, 3...)
+- Include original reference in metadata (e.g., &quot;Section 500.02(b)(3)&quot;)
+- Preserve full context path for each item
+- Handle multi-level lists and nested requirements
+- Maintain logical groupings where appropriate
+
+### 4. Output Format
+
+Generate a structured flat list with these fields for each requirement:
+
+```
+Flat ID: [Sequential number]
+Original Reference: [Original section/subsection identifier]
+Context Path: [Full hierarchical path, e.g., &quot;Article 5 &gt; Section 2 &gt; Paragraph b&quot;]
+Requirement Type: [Mandate/Prohibition/Permission/Definition]
+Normative Level: [SHALL/MUST/SHOULD/MAY/INFORMATIVE]
+Text: [Full requirement text]
+Keywords: [Extracted key concepts or compliance areas]
+---
+```
+
+### 5. Implementation Approach
+
+Use this workflow:
+
+```python
+# Install required library if needed
+# pip install python-docx
+
+from docx import Document
+import re
+
+def flatten_legislative_text(docx_path):
+    &quot;&quot;&quot;
+    Flattens hierarchical legislative text from DOCX.
+    Returns a list of flattened requirements.
+    &quot;&quot;&quot;
+    doc = Document(docx_path)
+    flattened = []
+    flat_id = 1
+    context_stack = []
+
+    for paragraph in doc.paragraphs:
+        # Skip empty paragraphs
+        if not paragraph.text.strip():
+            continue
+
+        # Detect hierarchy level (by style or numbering)
+        level = detect_level(paragraph)
+        original_ref = extract_reference(paragraph)
+
+        # Update context stack
+        update_context(context_stack, level, paragraph.text)
+
+        # Extract if it&#x27;s a requirement (not just a heading)
+        if is_requirement(paragraph):
+            item = {
+                &#x27;flat_id&#x27;: flat_id,
+                &#x27;original_ref&#x27;: original_ref,
+                &#x27;context_path&#x27;: &#x27; &gt; &#x27;.join(context_stack),
+                &#x27;requi</pre><div class="muted">…(content truncated)</div></details><details><summary><code>template.md</code> <span class="muted">(11.2 KB, text)</span></summary><pre class="claude-preview file-preview"># Output Templates
+
+## XLSX Template (Recommended)
+
+XLSX is the recommended output format for legislative flattening. It provides professional formatting and interactive features.
+
+### XLSX Structure
+
+The workbook contains a single worksheet named &quot;Flattened Requirements&quot; with the following structure:
+
+**Column Headers (Row 1)**:
+| Column | Header | Width | Format |
+|--------|--------|-------|--------|
+| A | Flat ID | 10 | Bold white on blue (#366092), center-aligned |
+| B | Original Reference | 20 | Bold white on blue (#366092), center-aligned |
+| C | Context Path | 30 | Bold white on blue (#366092), center-aligned |
+| D | Requirement Type | 15 | Bold white on blue (#366092), center-aligned |
+| E | Normative Level | 15 | Bold white on blue (#366092), center-aligned |
+| F | Text | 60 | Bold white on blue (#366092), center-aligned |
+| G | Keywords | 25 | Bold white on blue (#366092), center-aligned |
+| H | Notes | 25 | Bold white on blue (#366092), center-aligned |
+
+**Data Rows (Starting Row 2)**:
+- All cells: Top-aligned, text wrapping enabled, thin borders
+- Flat ID: Integer values (1, 2, 3, ...)
+- All text fields: String values with automatic wrapping
+
+**Workbook Features**:
+- Frozen panes at A2 (header row always visible)
+- Auto-filter enabled on all columns
+- All columns have optimized widths for readability
+
+### Programmatic XLSX Creation
+
+```python
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+
+# Create workbook
+wb = Workbook()
+ws = wb.active
+ws.title = &quot;Flattened Requirements&quot;
+
+# Header styling
+header_font = Font(bold=True, color=&quot;FFFFFF&quot;, size=12)
+header_fill = PatternFill(start_color=&quot;366092&quot;, end_color=&quot;366092&quot;, fill_type=&quot;solid&quot;)
+header_alignment = Alignment(horizontal=&quot;center&quot;, vertical=&quot;center&quot;, wrap_text=True)
+
+# Data cell styling
+cell_alignment = Alignment(vertical=&quot;top&quot;, wrap_text=True)
+thin_border = Border(
+    left=Side(style=&#x27;thin&#x27;),
+    right=Side(style=&#x27;thin&#x27;),
+    top=Side(style=&#x27;thin&#x27;),
+    bottom=Side(style=&#x27;thin&#x27;)
+)
+
+# Write headers
+headers = [&#x27;Flat ID&#x27;, &#x27;Original Reference&#x27;, &#x27;Context Path&#x27;, &#x27;Requirement Type&#x27;,
+           &#x27;Normative Level&#x27;, &#x27;Text&#x27;, &#x27;Keywords&#x27;, &#x27;Notes&#x27;]
+for col_num, header in enumerate(headers, 1):
+    cell = ws.cell(row=1, column=col_num)
+    cell.value = header
+    cell.font = header_font
+    cell.fill = header_fill
+    cell.alignment = header_alignment
+    cell.border = thin_border
+
+# Set column widths
+ws.column_dimensions[&#x27;A&#x27;].width = 10
+ws.column_dimensions[&#x27;B&#x27;].width = 20
+ws.column_dimensions[&#x27;C&#x27;].width = 30
+ws.column_dimensions[&#x27;D&#x27;].width = 15
+ws.column_dimensions[&#x27;E&#x27;].width = 15
+ws.column_dimensions[&#x27;F&#x27;].width = 60
+ws.column_dimensions[&#x27;G&#x27;].width = 25
+ws.column_dimensions[&#x27;H&#x27;].width = 25
+
+# Freeze header row
+ws.freeze_panes = &#x27;A2&#x27;
+
+# Add auto-filter
+ws.auto_filter.ref = ws.dimensions
+
+# Save
+wb.save(&#x27;output.xlsx&#x27;)
+```
+
+### Customizing XLSX Output
+
+To customize the XLSX output, modify these elements in `flattener_utility.py`:
+
+1. **Header colors**: Change `start_color` in `header_fill`
+2. **Column widths**: Adjust values in `column_widths` dictionary
+3. **Font sizes**: Modify `size` parameter in Font objects
+4. **Additional columns**: Add to `headers` list and update column references
+5. **Conditional formatting**: Add after data is written (see openpyxl documentation)
+
+### Adding Custom Fields to XLSX
+
+To add custom fields (e.g., &quot;Compliance Status&quot;, &quot;Owner&quot;, &quot;Due Date&quot;):
+
+```python
+# Add to headers
+headers = [&#x27;Flat ID&#x27;, &#x27;Original Reference&#x27;, &#x27;Context Path&#x27;, &#x27;Requirement Type&#x27;,
+           &#x27;Normative Level&#x27;, &#x27;Text&#x27;, &#x27;Keywords&#x27;, &#x27;Notes&#x27;,
+           &#x27;Compliance Status&#x27;, &#x27;Owner&#x27;, &#x27;Due Date&#x27;]
+
+# Add column widths
+ws.column_dimensions[&#x27;I&#x27;].width = 20  # Compliance Status
+ws.column_dimensions[&#x27;J&#x27;].width = 20  # Owner
+ws.column_dimensions[&#x27;K&#x27;].width = 15  # Due Date
+
+# Write data (include empty values for new columns)
+ws.cell(row=row_num, column=9, value=&#x27;&#x27;)  # Compliance Status
+ws.cell(row=row_num, column=10, value=&#x27;&#x27;)  # Owner
+ws.</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

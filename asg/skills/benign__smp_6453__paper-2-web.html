@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__smp_6453__paper-2-web · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__smp_6453__paper-2-web</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__smp_6453__paper-2-web">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__smp_6453__paper-2-web</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#22c55e;">分类: 良性</span>  <span class="chip">复杂度: L1 · Basic</span>  <span class="chip">文件: 6 · 53.3 KB</span>  <span class="chip">扫描: 2026-07-03 02:35:09</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">1.2<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:1.17%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-critical">  <div class="card-title">权限提升</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">凭证窃取</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">数据外传</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-miss" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-hit" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 1 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>PE2</code></td><td>impact</td><td><code>references\installation.md:39</code></td><td><code class="snippet">sudo </code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="empty">未触发任何攻击链。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__smp_6453__paper-2-web_I5IPZH1KF5_OA3BBOQJ</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:cef2d6e72b&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:ded43b09da&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:3a0f48c06e&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:a4e1afb867&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:2c08ae4046&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:5905dc1d09&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:4499acc1ec&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (6 files, 53.3 KB)</h4>
+      <div class="file-list"><details><summary><code>references/installation.md</code> <span class="muted">(3.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Installation and Configuration
+
+## System Requirements
+
+### Hardware Requirements
+- **GPU**: NVIDIA A6000 (48GB minimum) required for video generation with talking-head features
+- **CPU**: Multi-core processor recommended for PDF processing and document conversion
+- **RAM**: 16GB minimum, 32GB recommended for large papers
+
+### Software Requirements
+- **Python**: 3.11 or higher
+- **Conda**: Environment manager for dependency isolation
+- **LibreOffice**: Required for document format conversion (PDF to PPTX, etc.)
+- **Poppler utilities**: Required for PDF processing and manipulation
+
+## Installation Steps
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/YuhangChen1/Paper2All.git
+cd Paper2All
+```
+
+### 2. Create Conda Environment
+```bash
+conda create -n paper2all python=3.11
+conda activate paper2all
+```
+
+### 3. Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 4. Install System Dependencies
+
+**Ubuntu/Debian:**
+```bash
+sudo apt-get install libreoffice poppler-utils
+```
+
+**macOS:**
+```bash
+brew install libreoffice poppler
+```
+
+**Windows:**
+- Download and install LibreOffice from https://www.libreoffice.org/
+- Download and install Poppler from https://github.com/oschwartz10612/poppler-windows
+
+## API Configuration
+
+Create a `.env` file in the project root with the following credentials:
+
+### Required API Keys
+
+**Option 1: OpenAI API**
+```
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+**Option 2: OpenRouter API** (alternative to OpenAI)
+```
+OPENROUTER_API_KEY=your_openrouter_api_key_here
+```
+
+### Optional API Keys
+
+**Google Search API** (for automatic logo discovery)
+```
+GOOGLE_API_KEY=your_google_api_key_here
+GOOGLE_CSE_ID=your_custom_search_engine_id_here
+```
+
+## Model Configuration
+
+The system supports multiple LLM backends:
+
+### Supported Models
+- GPT-4 (recommended for best quality)
+- GPT-4.1 (latest version)
+- GPT-3.5-turbo (faster, lower cost)
+- Claude models via OpenRouter
+- Other OpenRouter-supported models
+
+### Model Selection
+
+Specify models using the `--model-choice` parameter or `--model_name_t` and `--model_name_v` parameters:
+- Model choice 1: GPT-4 for all components
+- Model choice 2: GPT-4.1 for all components
+- Custom: Specify separate models for text and visual processing
+
+## Verification
+
+Test the installation:
+
+```bash
+python pipeline_all.py --help
+```
+
+If successful, you should see the help menu with all available options.
+
+## Troubleshooting
+
+### Common Issues
+
+**1. LibreOffice not found**
+- Ensure LibreOffice is installed and in your system PATH
+- Try running `libreoffice --version` to verify
+
+**2. Poppler utilities not found**
+- Verify installation with `pdftoppm -v`
+- Add Poppler bin directory to PATH if needed
+
+**3. GPU/CUDA errors for video generation**
+- Ensure NVIDIA drivers are up to date
+- Verify CUDA toolkit is installed
+- Check GPU memory with `nvidia-smi`
+
+**4. API key errors**
+- Verify `.env` file is in the project root
+- Check that API keys are valid and have sufficient credits
+- Ensure no extra spaces or quotes around keys in `.env`
+
+## Directory Structure
+
+After installation, organize your workspace:
+
+```
+Paper2All/
+├── .env                  # API credentials
+├── input/               # Place your paper files here
+│   └── paper_name/      # Each paper in its own directory
+│       └── main.tex     # LaTeX source or PDF
+├── output/              # Generated outputs
+│   └── paper_name/
+│       ├── website/     # Generated website files
+│       ├── video/       # Generated video files
+│       └── poster/      # Generated poster files
+└── ...
+```
+</pre></details><details><summary><code>references/paper2poster.md</code> <span class="muted">(10.0 KB, text)</span></summary><pre class="claude-preview file-preview"># Paper2Poster: Academic Poster Generation
+
+## Overview
+
+Paper2Poster automatically generates professional academic posters from research papers. The system extracts key content, designs visually appealing layouts, and creates print-ready posters suitable for conferences, symposiums, and academic presentations.
+
+## Core Capabilities
+
+### 1. Content Extraction
+- Identifies key findings and contributions
+- Extracts important figures and tables
+- Summarizes methodology
+- Highlights results and conclusions
+- Preserves citations and references
+
+### 2. Layout Design
+- Creates balanced, professional layouts
+- Optimizes content density and white space
+- Establishes clear visual hierarchy
+- Supports multiple poster sizes
+- Adapts to different content types
+
+### 3. Visual Design
+- Applies color schemes and branding
+- Optimizes typography for readability
+- Ensures figure quality and sizing
+- Creates cohesive visual identity
+- Maintains academic presentation standards
+
+## Usage
+
+### Basic Poster Generation
+
+```bash
+python pipeline_all.py \
+  --input-dir &quot;path/to/papers&quot; \
+  --output-dir &quot;path/to/output&quot; \
+  --model-choice 1 \
+  --generate-poster
+```
+
+### Custom Poster Dimensions
+
+```bash
+python pipeline_all.py \
+  --input-dir &quot;path/to/papers&quot; \
+  --output-dir &quot;path/to/output&quot; \
+  --model-choice 2 \
+  --generate-poster \
+  --poster-width-inches 60 \
+  --poster-height-inches 40
+```
+
+### Parameters
+
+**Basic Configuration:**
+- `--input-dir`: Directory containing paper files
+- `--output-dir`: Directory for generated posters
+- `--model-choice`: LLM model selection (1=GPT-4, 2=GPT-4.1)
+- `--generate-poster`: Enable poster generation
+
+**Poster Dimensions:**
+- `--poster-width-inches`: Width in inches (default: 48)
+- `--poster-height-inches`: Height in inches (default: 36)
+- `--poster-orientation`: Portrait or landscape (default: landscape)
+- `--poster-dpi`: Resolution in DPI (default: 300)
+
+**Design Options:**
+- `--poster-template`: Template style (default: modern)
+- `--color-scheme`: Color palette selection
+- `--institution-branding`: Include institution colors and logos
+- `--font-family`: Typography selection
+
+## Standard Poster Sizes
+
+### Conference Standard Sizes
+- **4&#x27; × 3&#x27;** (48&quot; × 36&quot;): Most common conference poster
+- **5&#x27; × 4&#x27;** (60&quot; × 48&quot;): Large format for major conferences
+- **3&#x27; × 4&#x27;** (36&quot; × 48&quot;): Portrait orientation for narrow spaces
+- **A0** (841mm × 1189mm): International standard
+- **A1** (594mm × 841mm): Compact conference poster
+
+### Custom Sizes
+The system supports any custom dimensions. Specify using:
+```bash
+--poster-width-inches [width] --poster-height-inches [height]
+```
+
+## Input Requirements
+
+### Supported Input Formats
+1. **LaTeX source** (preferred)
+   - Main `.tex` file with complete paper
+   - All figures and tables referenced
+   - Compiled successfully
+
+2. **PDF**
+   - High-quality PDF with embedded fonts
+   - Selectable text (not scanned)
+   - High-resolution figures
+
+### Required Content Elements
+- Title and authors
+- Abstract or summary
+- Methodology description
+- Key results
+- Conclusions
+- References (optional but recommended)
+
+### Recommended Assets
+- High-resolution figures (300 DPI minimum)
+- Vector graphics (PDF, SVG, EPS)
+- Institution logo
+- Author photos (optional)
+- QR codes for website/repo links
+
+## Output Structure
+
+```
+output/paper_name/poster/
+├── poster_final.pdf          # Print-ready poster
+├── poster_final.png          # High-res PNG version
+├── poster_preview.pdf        # Low-res preview
+├── poster_source/            # Source files
+│   ├── layout.pptx          # Editable PowerPoint
+│   ├── layout.svg           # Vector graphics
+│   └── layout.json          # Layout specification
+├── assets/                   # Extracted assets
+│   ├── figures/             # Poster figures
+│   ├── logos/               # Institution logos
+│   └── qrcodes/             # Generated QR codes
+└── metadata/
+    ├── design_spec.json     # Design specifications
+    └── content_map.json     # Content organization
+```
+
+##</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/paper2video.md</code> <span class="muted">(9.6 KB, text)</span></summary><pre class="claude-preview file-preview"># Paper2Video: Presentation Video Generation
+
+## Overview
+
+Paper2Video generates presentation videos from LaTeX sources, transforming academic papers into engaging video presentations. The system processes papers through multiple specialized modules to create professional presentation videos complete with slides, narration, and optional talking-head video.
+
+## Core Components
+
+### 1. Slide Generation Module
+- Extracts key content from paper structure
+- Creates visually appealing presentation slides
+- Organizes content in logical flow
+- Includes figures, tables, and equations
+- Optimizes text density for readability
+
+### 2. Subtitle Generation Module
+- Generates natural presentation script
+- Synchronizes text with slide transitions
+- Creates speaker notes and timing
+- Supports multiple languages
+- Optimizes for speech synthesis
+
+### 3. Speech Synthesis Module
+- Converts subtitles to natural-sounding speech
+- Supports multiple voices and accents
+- Controls pacing and emphasis
+- Generates audio track for video
+- Handles technical terminology
+
+### 4. Cursor Movement Module
+- Simulates presenter cursor movements
+- Highlights key points on slides
+- Guides viewer attention
+- Creates natural presentation flow
+- Synchronizes with narration
+
+### 5. Talking-Head Video Generation (Optional)
+- Uses Hallo2 for realistic presenter video
+- Lip-syncs with generated audio
+- Requires reference image or video
+- GPU-intensive (NVIDIA A6000 48GB minimum)
+- Creates engaging presenter presence
+
+## Usage
+
+### Basic Video Generation (Without Talking-Head)
+
+```bash
+python pipeline_light.py \
+  --model_name_t gpt-4.1 \
+  --model_name_v gpt-4.1 \
+  --result_dir /path/to/output \
+  --paper_latex_root /path/to/paper
+```
+
+### Full Video Generation (With Talking-Head)
+
+```bash
+python pipeline_all.py \
+  --input-dir &quot;path/to/papers&quot; \
+  --output-dir &quot;path/to/output&quot; \
+  --model-choice 1 \
+  --enable-talking-head
+```
+
+### Parameters
+
+**Model Configuration:**
+- `--model_name_t`: Model for text/subtitle generation (default: gpt-4.1)
+- `--model_name_v`: Model for visual/slide generation (default: gpt-4.1)
+- `--model-choice`: Preset model configuration (1=GPT-4, 2=GPT-4.1)
+
+**Input/Output:**
+- `--paper_latex_root`: Root directory of LaTeX paper source
+- `--result_dir` or `--output-dir`: Output directory for generated videos
+- `--input-dir`: Directory containing multiple papers to process
+
+**Video Options:**
+- `--enable-talking-head`: Enable talking-head video generation (requires GPU)
+- `--video-duration`: Target video duration in seconds (default: auto-calculated)
+- `--slides-per-minute`: Control presentation pacing (default: 2-3)
+- `--voice`: Voice selection for speech synthesis
+
+**Quality Settings:**
+- `--video-resolution`: Output resolution (default: 1920x1080)
+- `--video-fps`: Frame rate (default: 30)
+- `--audio-quality`: Audio bitrate (default: 192kbps)
+
+## Input Requirements
+
+### LaTeX Source Structure
+```
+paper_directory/
+├── main.tex              # Main paper file
+├── sections/             # Section files (if split)
+│   ├── introduction.tex
+│   ├── methods.tex
+│   └── results.tex
+├── figures/              # Figure files
+│   ├── fig1.pdf
+│   ├── fig2.png
+│   └── ...
+├── tables/               # Table files
+└── bibliography.bib      # References
+```
+
+### Required Elements
+- Valid LaTeX source that compiles
+- Proper section structure (abstract, introduction, methods, results, conclusion)
+- High-quality figures (vector formats preferred)
+- Complete bibliography
+
+### Optional Elements
+- Author photos for talking-head generation
+- Custom slide templates
+- Background music or sound effects
+- Institution branding assets
+
+## Output Structure
+
+```
+output/paper_name/video/
+├── final_video.mp4           # Complete presentation video
+├── slides/                   # Generated slide images
+│   ├── slide_001.png
+│   ├── slide_002.png
+│   └── ...
+├── audio/                    # Audio components
+│   ├── narration.mp3         # Speech synthesis output
+│   └── background.mp3  </pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/paper2web.md</code> <span class="muted">(5.3 KB, text)</span></summary><pre class="claude-preview file-preview"># Paper2Web: Academic Homepage Generation
+
+## Overview
+
+Paper2Web converts academic papers into interactive, explorable academic homepages. Unlike traditional approaches (direct generation, template-based, or HTML conversion), Paper2Web creates layout-aware, interactive websites through an iterative refinement process.
+
+## Core Capabilities
+
+### 1. Layout-Aware Generation
+- Analyzes paper structure and content organization
+- Creates responsive, multi-section layouts
+- Adapts design based on paper type (research article, review, preprint, etc.)
+
+### 2. Interactive Elements
+- Expandable sections for detailed content
+- Interactive figures and tables
+- Embedded citations and references
+- Navigation menu for easy browsing
+- Mobile-responsive design
+
+### 3. Content Refinement
+The system uses an iterative pipeline:
+1. Initial content extraction and structuring
+2. Layout generation with visual hierarchy
+3. Interactive element integration
+4. Aesthetic refinement
+5. Quality assessment and validation
+
+## Usage
+
+### Basic Website Generation
+
+```bash
+python pipeline_all.py \
+  --input-dir &quot;path/to/papers&quot; \
+  --output-dir &quot;path/to/output&quot; \
+  --model-choice 1
+```
+
+### Parameters
+
+- `--input-dir`: Directory containing paper files (PDF or LaTeX)
+- `--output-dir`: Directory for generated website files
+- `--model-choice`: LLM model selection (1=GPT-4, 2=GPT-4.1)
+- `--enable-logo-search`: Use Google Search API to find institution logos (optional)
+
+### Input Format Requirements
+
+**Supported Input Formats:**
+1. **LaTeX source** (preferred for best results)
+   - Main file: `main.tex`
+   - Include all referenced figures, tables, and bibliography files
+   - Organize in a single directory per paper
+
+2. **PDF files**
+   - High-quality PDF with selectable text
+   - Embedded figures should be high resolution
+   - Proper section headers and structure
+
+**Directory Structure:**
+```
+input/
+└── paper_name/
+    ├── main.tex           # LaTeX source
+    ├── bibliography.bib   # References
+    ├── figures/           # Figure files
+    │   ├── fig1.png
+    │   └── fig2.pdf
+    └── tables/            # Table files
+```
+
+## Output Structure
+
+Generated websites include:
+
+```
+output/paper_name/website/
+├── index.html          # Main webpage
+├── styles.css          # Styling
+├── script.js           # Interactive features
+├── assets/             # Images and media
+│   ├── figures/
+│   └── logos/
+└── data/               # Structured data (optional)
+```
+
+## Customization Options
+
+### Visual Design
+The generated websites automatically include:
+- Professional color schemes based on paper content
+- Typography optimized for readability
+- Consistent spacing and visual hierarchy
+- Dark mode support (optional)
+
+### Content Sections
+Standard sections include:
+- Abstract
+- Key findings/contributions
+- Methodology overview
+- Results and visualizations
+- Discussion and implications
+- References and citations
+- Author information and affiliations
+
+Additional sections are automatically added based on paper content:
+- Code repositories
+- Dataset links
+- Supplementary materials
+- Related publications
+
+## Quality Assessment
+
+Paper2Web includes built-in evaluation:
+
+### Aesthetic Metrics
+- Layout balance and spacing
+- Color harmony
+- Typography consistency
+- Visual hierarchy effectiveness
+
+### Informativeness Metrics
+- Content completeness
+- Key finding clarity
+- Method explanation adequacy
+- Results presentation quality
+
+### Technical Metrics
+- Page load time
+- Mobile responsiveness
+- Browser compatibility
+- Accessibility compliance
+
+## Advanced Features
+
+### Logo Discovery
+When enabled with Google Search API:
+- Automatically finds institution logos
+- Matches author affiliations
+- Downloads and optimizes logo images
+- Integrates into website header
+
+### Citation Integration
+- Interactive reference list
+- Hover previews for citations
+- Links to DOI and external sources
+- Citation count tracking (if available)
+
+### Figure Enhancement
+- High-resolution figure rendering
+- Zoom and pan funct</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/usage_examples.md</code> <span class="muted">(10.4 KB, text)</span></summary><pre class="claude-preview file-preview"># Usage Examples and Workflows
+
+## Complete Workflow Examples
+
+### Example 1: Conference Presentation Package
+
+**Scenario**: Preparing for a major conference presentation with website, poster, and video.
+
+**User Request**: &quot;I need to create a complete presentation package for my NeurIPS paper submission. Generate a website, poster, and video presentation.&quot;
+
+**Workflow**:
+
+```bash
+# Step 1: Organize paper files
+mkdir -p input/neurips2025_paper
+cp main.tex input/neurips2025_paper/
+cp -r figures/ input/neurips2025_paper/
+cp -r tables/ input/neurips2025_paper/
+cp bibliography.bib input/neurips2025_paper/
+
+# Step 2: Generate all components
+python pipeline_all.py \
+  --input-dir input/neurips2025_paper \
+  --output-dir output/ \
+  --model-choice 1 \
+  --generate-website \
+  --generate-poster \
+  --generate-video \
+  --poster-width-inches 48 \
+  --poster-height-inches 36 \
+  --enable-logo-search
+
+# Step 3: Review outputs
+ls -R output/neurips2025_paper/
+# - website/index.html
+# - poster/poster_final.pdf
+# - video/final_video.mp4
+```
+
+**Output**:
+- Interactive website showcasing research
+- 4&#x27;×3&#x27; conference poster (print-ready)
+- 12-minute presentation video
+- Processing time: ~45 minutes (without talking-head)
+
+---
+
+### Example 2: Quick Website for Preprint
+
+**Scenario**: Creating an explorable homepage for a bioRxiv preprint.
+
+**User Request**: &quot;Convert my genomics preprint to an interactive website to accompany the bioRxiv submission.&quot;
+
+**Workflow**:
+
+```bash
+# Using PDF input (LaTeX not available)
+python pipeline_all.py \
+  --input-dir papers/genomics_preprint/ \
+  --output-dir output/genomics_web/ \
+  --model-choice 1 \
+  --generate-website
+
+# Deploy to GitHub Pages or personal server
+cd output/genomics_web/website/
+# Add link to bioRxiv paper, data repositories, code
+# Upload to hosting service
+```
+
+**Tips**:
+- Include links to bioRxiv DOI
+- Add GitHub repository links
+- Include data availability section
+- Embed interactive visualizations if possible
+
+---
+
+### Example 3: Video Abstract for Journal Submission
+
+**Scenario**: Creating a video abstract for a journal that encourages multimedia submissions.
+
+**User Request**: &quot;Generate a 5-minute video abstract for my Nature Communications submission.&quot;
+
+**Workflow**:
+
+```bash
+# Generate concise video focusing on key findings
+python pipeline_light.py \
+  --model_name_t gpt-4.1 \
+  --model_name_v gpt-4.1 \
+  --result_dir output/video_abstract/ \
+  --paper_latex_root papers/nature_comms/ \
+  --video-duration 300 \
+  --slides-per-minute 3
+
+# Optional: Add custom intro/outro slides
+# Optional: Include talking-head for introduction
+```
+
+**Output**:
+- 5-minute video abstract
+- Focus on visual results
+- Clear, accessible narration
+- Journal-ready format
+
+---
+
+### Example 4: Multi-Paper Website Generation
+
+**Scenario**: Creating websites for multiple papers from a research group.
+
+**User Request**: &quot;Generate websites for all 5 papers our lab published this year.&quot;
+
+**Workflow**:
+
+```bash
+# Organize papers
+mkdir -p batch_input/
+# Create subdirectories: paper1/, paper2/, paper3/, paper4/, paper5/
+# Each with their LaTeX sources
+
+# Batch process
+python pipeline_all.py \
+  --input-dir batch_input/ \
+  --output-dir batch_output/ \
+  --model-choice 1 \
+  --generate-website \
+  --enable-logo-search
+
+# Creates:
+# batch_output/paper1/website/
+# batch_output/paper2/website/
+# batch_output/paper3/website/
+# batch_output/paper4/website/
+# batch_output/paper5/website/
+```
+
+**Best Practice**:
+- Use consistent naming conventions
+- Process overnight for large batches
+- Review each website for accuracy
+- Deploy to unified lab website
+
+---
+
+### Example 5: Poster for Virtual Conference
+
+**Scenario**: Creating a digital poster for a virtual conference with interactive elements.
+
+**User Request**: &quot;Create a poster for the virtual ISMB conference with clickable links to code and data.&quot;
+
+**Workflow**:
+
+```bash
+# Generate poster with QR codes and links
+python pipeline_all.py \
+  --input-dir papers/ismb_submission/ \
+  -</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(14.6 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: paper-2-web
+description: This skill should be used when converting academic papers into promotional and presentation formats including interactive websites (Paper2Web), presentation videos (Paper2Video), and conference posters (Paper2Poster). Use this skill for tasks involving paper dissemination, conference preparation, creating explorable academic homepages, generating video abstracts, or producing print-ready posters from LaTeX or PDF sources.
+---
+
+# Paper2All: Academic Paper Transformation Pipeline
+
+## Overview
+
+This skill enables the transformation of academic papers into multiple promotional and presentation formats using the Paper2All autonomous pipeline. The system converts research papers (LaTeX or PDF) into three primary outputs:
+
+1. **Paper2Web**: Interactive, explorable academic homepages with layout-aware design
+2. **Paper2Video**: Professional presentation videos with narration, slides, and optional talking-head
+3. **Paper2Poster**: Print-ready conference posters with professional layouts
+
+The pipeline uses LLM-powered content extraction, design generation, and iterative refinement to create high-quality outputs suitable for conferences, journals, preprint repositories, and academic promotion.
+
+## When to Use This Skill
+
+Use this skill when:
+
+- **Creating conference materials**: Posters, presentation videos, and companion websites for academic conferences
+- **Promoting research**: Converting published papers or preprints into accessible, engaging web formats
+- **Preparing presentations**: Generating video abstracts or full presentation videos from paper content
+- **Disseminating findings**: Creating promotional materials for social media, lab websites, or institutional showcases
+- **Enhancing preprints**: Adding interactive homepages to bioRxiv, arXiv, or other preprint submissions
+- **Batch processing**: Generating promotional materials for multiple papers simultaneously
+
+**Trigger phrases**:
+- &quot;Convert this paper to a website&quot;
+- &quot;Generate a conference poster from my LaTeX paper&quot;
+- &quot;Create a video presentation from this research&quot;
+- &quot;Make an interactive homepage for my paper&quot;
+- &quot;Transform my paper into promotional materials&quot;
+- &quot;Generate a poster and video for my conference talk&quot;
+
+## Core Capabilities
+
+### 1. Paper2Web: Interactive Website Generation
+
+Converts papers into layout-aware, interactive academic homepages that go beyond simple HTML conversion.
+
+**Key Features**:
+- Responsive, multi-section layouts adapted to paper content
+- Interactive figures, tables, and citations
+- Mobile-friendly design with navigation
+- Automatic logo discovery (with Google Search API)
+- Aesthetic refinement and quality assessment
+
+**Best For**: Post-publication promotion, preprint enhancement, lab websites, permanent research showcases
+
+→ **See `references/paper2web.md` for detailed documentation**
+
+---
+
+### 2. Paper2Video: Presentation Video Generation
+
+Generates professional presentation videos with slides, narration, cursor movements, and optional talking-head video.
+
+**Key Features**:
+- Automated slide generation from paper structure
+- Natural-sounding speech synthesis
+- Synchronized cursor movements and highlights
+- Optional talking-head video using Hallo2 (requires GPU)
+- Multi-language support
+
+**Best For**: Video abstracts, conference presentations, online talks, course materials, YouTube promotion
+
+→ **See `references/paper2video.md` for detailed documentation**
+
+---
+
+### 3. Paper2Poster: Conference Poster Generation
+
+Creates print-ready academic posters with professional layouts and visual design.
+
+**Key Features**:
+- Custom poster dimensions (any size)
+- Professional design templates
+- Institution branding support
+- QR code generation for links
+- High-resolution output (300+ DPI)
+
+**Best For**: Conference poster sessions, symposiums, academic exhibitions, virtual conferences
+
+→ **See `references/paper2poster.md` for detailed documentation**
+
+---
+
+## Quick Start
+
+### Prerequisites
+
+1. **Install Paper2All**:
+   </pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.000</td><td>0.18</td><td><strong>0.00</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.000</td><td>0.15</td><td><strong>0.00</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.000</td><td>0.07</td><td><strong>0.00</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.167</td><td>0.07</td><td><strong>1.17</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

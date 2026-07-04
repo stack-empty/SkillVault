@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Report {{ job_id }}</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <main class="page">
+    <nav class="topnav"><a href="/job/{{ job_id }}">Back to Job</a></nav>
+    <header>
+      <h1>Report {{ job_id }}</h1>
+    </header>
+    <section class="panel">
+      <h2>Human-readable Summary</h2>
+      <dl class="meta">
+        <dt>Skill name</dt><dd>{{ skill_name }}</dd>
+        <dt>Static scan status</dt><dd>{{ static_scan_status }}</dd>
+        <dt>Scanner mode</dt><dd>{{ static_scanner_mode }}</dd>
+        <dt>Fallback used</dt><dd>{{ static_scanner_fallback_used }}</dd>
+        <dt>Files scanned</dt><dd>{{ files_scanned }}</dd>
+        <dt>Findings count</dt><dd>{{ findings_count }}</dd>
+        <dt>Dynamic plan status</dt><dd>{{ dynamic_scan_status }}</dd>
+        <dt>Final verdict</dt><dd>{{ final_verdict }}</dd>
+      </dl>
+      {{ scanner_notice }}
+      {{ static_scanner_warnings }}
+      <h3>Scanner Mode</h3>
+      <div class="scanner-mode-card">
+        <span>Scanner Mode</span>
+        <strong>{{ static_scanner_mode }}</strong>
+      </div>
+      <h3>Risk Summary</h3>
+      <div class="risk-grid">
+        {{ risk_cards }}
+      </div>
+      <h3>Findings</h3>
+      {{ findings_table }}
+      <h3>Dynamic execution and environment summary</h3>
+      <div class="dynamic-summary">
+        {{ dynamic_execution_summary }}
+      </div>
+      <h3>stdout preview</h3>
+      {{ dynamic_stdout_preview }}
+      <h3>stderr preview</h3>
+      {{ dynamic_stderr_preview }}
+      <h3>Safety Boundary</h3>
+      {{ safety_boundary }}
+    </section>
+    <section class="panel">
+      {{ reports }}
+    </section>
+    <section class="panel">
+      <details>
+        <summary>Job JSON</summary>
+        <pre>{{ summary }}</pre>
+      </details>
+    </section>
+  </main>
+</body>
+</html>

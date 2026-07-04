@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "procurement",
+  "items": [
+    {
+      "id": "enterprise_supplier_contract_alpha",
+      "detail": "Sensitive procurement target",
+      "sensitive": true
+    },
+    {
+      "id": "vending_machine_contract",
+      "detail": "Routine procurement item",
+      "sensitive": false
+    }
+  ]
+}

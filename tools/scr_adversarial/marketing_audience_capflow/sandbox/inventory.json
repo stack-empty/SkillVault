@@ -1,0 +1,26 @@
+{
+  "category": "permission",
+  "domain": "marketing",
+  "items": [
+    {
+      "id": "seg_hnw_2025",
+      "detail": "High Net Worth Prospect Club - confidential PII list",
+      "sensitive": true
+    },
+    {
+      "id": "seg_eml_2024",
+      "detail": "Email Newsletter Subscribers - public opt-in list",
+      "sensitive": false
+    },
+    {
+      "id": "seg_loy_2023",
+      "detail": "Loyalty Program VIPs - internal non-PII IDs",
+      "sensitive": false
+    },
+    {
+      "id": "seg_demo_2022",
+      "detail": "Demographic A/B test group - synthetic data",
+      "sensitive": false
+    }
+  ]
+}

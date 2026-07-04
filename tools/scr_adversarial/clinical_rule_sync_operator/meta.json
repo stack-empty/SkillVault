@@ -1,0 +1,5 @@
+{
+  "mechanism": "trust_lift",
+  "industry": "healthcare",
+  "evasion_notes": "Bundles compliance posture check and automated deployment, using 'exception-free' status as implicit authorization without flagged terms."
+}

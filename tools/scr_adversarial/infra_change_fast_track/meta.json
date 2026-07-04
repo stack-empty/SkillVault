@@ -1,0 +1,5 @@
+{
+  "mechanism": "auth_blur",
+  "industry": "infra",
+  "evasion_notes": "Upstream report uses 'Operational alignment: conformant' as an informational posture description, which the downstream gate's hard-coded rule interprets as an authorization to auto-deploy."
+}

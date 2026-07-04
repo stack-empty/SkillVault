@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "legal",
+  "items": [
+    {
+      "id": "active_litigation_records",
+      "detail": "Sensitive legal target",
+      "sensitive": true
+    },
+    {
+      "id": "expired_marketing_drafts",
+      "detail": "Routine legal item",
+      "sensitive": false
+    }
+  ]
+}

@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>benign__smp_9106__smolagents · SkillVault 详情</title>
+  <style>
+* { box-sizing: border-box; }
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", -apple-system, "Segoe UI", system-ui, sans-serif;
+  margin: 0;
+  background: #07101f;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+header.topbar {
+  background: linear-gradient(135deg, #0b1729 0%, #122544 50%, #0b1729 100%);
+  padding: 32px 48px;
+  border-bottom: 1px solid #1e3354;
+  position: relative;
+}
+header.topbar::after {
+  content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, #38bdf8, transparent);
+}
+header.topbar h1 {
+  margin: 0;
+  font-size: 32px;
+  color: #f8fafc;
+  letter-spacing: 1px;
+}
+header.topbar .subtitle {
+  color: #64748b;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.eyebrow {
+  color: #38bdf8;
+  letter-spacing: 2px;
+  font-size: 11px;
+  margin-bottom: 4px;
+}
+main { padding: 32px 48px; max-width: 1480px; margin: 0 auto; }
+.section-title {
+  font-size: 22px; margin: 32px 0 16px; color: #f8fafc;
+  padding-left: 14px; border-left: 4px solid #38bdf8;
+  display: flex; align-items: center; gap: 12px;
+}
+.section-title .section-sub { color: #64748b; font-size: 13px; font-weight: 400; }
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.summary-card {
+  background: #0e1a2f;
+  padding: 20px 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  transition: transform 0.15s;
+}
+.summary-card:hover { transform: translateY(-2px); border-color: #38bdf8; }
+.summary-card span { display: block; color: #64748b; font-size: 12px; margin-bottom: 6px; }
+.summary-card strong { font-size: 32px; color: #f8fafc; font-weight: 700; }
+.summary-card.v-safe strong { color: #22c55e; }
+.summary-card.v-susp strong { color: #f59e0b; }
+.summary-card.v-mal strong { color: #ef4444; }
+.panel {
+  background: #0e1a2f;
+  padding: 24px;
+  border-radius: 12px;
+  border: 1px solid #1e3354;
+  margin-bottom: 20px;
+}
+.panel h2 { margin-top: 0; color: #f1f5f9; font-size: 16px; }
+.bar-row { display: flex; align-items: center; margin-bottom: 8px; }
+.bar-label { width: 160px; font-size: 13px; color: #cbd5e1; }
+.bar-track { flex: 1; background: #07101f; height: 24px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; color: white; text-align: right; padding-right: 8px; font-size: 12px; line-height: 24px; min-width: 32px; font-weight: 600; }
+.skills-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+.skill-card {
+  background: linear-gradient(180deg, #0e1a2f 0%, #0a1424 100%);
+  padding: 0;
+  border-radius: 14px;
+  border: 1px solid #1e3354;
+  overflow: hidden;
+}
+.card-hero {
+  padding: 28px 32px;
+  background: linear-gradient(135deg, #0e1a2f, #122846);
+  border-bottom: 1px solid #1e3354;
+  display: flex; gap: 24px; align-items: flex-start; flex-wrap: wrap;
+}
+.hero-left { flex: 1; min-width: 320px; }
+.hero-right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+.skill-title { margin: 0 0 12px 0; font-size: 24px; color: #f8fafc; font-weight: 600; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { padding: 4px 10px; border-radius: 4px; font-size: 12px; background: #1a2944; color: #cbd5e1; border: 1px solid #1e3354; }
+.chip-archetype { color: white; font-weight: 600; border: none; }
+.verdict-big {
+  border: 2px solid; border-radius: 8px;
+  padding: 10px 24px; text-align: center; min-width: 140px;
+}
+.verdict-label { display: block; font-size: 24px; font-weight: 700; letter-spacing: 2px; }
+.verdict-en { display: block; font-size: 11px; opacity: 0.7; letter-spacing: 1px; margin-top: 2px; }
+.action-hint { font-size: 13px; color: #94a3b8; }
+.score-strip {
+  padding: 16px 32px; background: #07101f;
+  display: flex; align-items: center; gap: 20px; border-bottom: 1px solid #1e3354;
+}
+.score-num { font-size: 36px; font-weight: 700; min-width: 130px; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 8px; background: #1a2944; border-radius: 4px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 13px; color: #94a3b8; min-width: 110px; text-align: right; }
+.card-section { padding: 20px 32px; border-bottom: 1px solid #142342; }
+.card-section:last-of-type { border-bottom: none; }
+.cn-title { font-size: 17px; color: #f1f5f9; margin: 0 0 14px 0; font-weight: 600; }
+.cn-sub { color: #64748b; font-size: 12px; font-weight: 400; margin-left: 8px; }
+.formula-details { padding: 16px 32px 24px; }
+.formula-details summary { color: #64748b; font-size: 13px; }
+.ai-summary {
+  margin: 16px 32px; padding: 18px 22px;
+  background: rgba(56, 189, 248, 0.06); border-left: 3px solid #38bdf8; border-radius: 6px;
+}
+.ai-summary.skipped { background: rgba(100,116,139,0.08); border-left-color: #64748b; }
+.ai-summary-title { color: #38bdf8; font-weight: 600; margin-bottom: 8px; font-size: 14px; }
+.ai-summary.skipped .ai-summary-title { color: #94a3b8; }
+.ai-summary-body { color: #cbd5e1; font-size: 13px; line-height: 1.7; white-space: pre-wrap; }
+.ai-meta { color: #64748b; font-weight: 400; font-size: 12px; margin-left: 8px; }
+.risk-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
+}
+.risk-cat-card {
+  background: #07101f; padding: 16px; border-radius: 8px; border: 1px solid #1e3354; position: relative;
+}
+.risk-cat-card.card-critical { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.risk-cat-card.card-clean { border-color: #1e3354; }
+.card-title { color: #cbd5e1; font-size: 13px; margin-bottom: 8px; }
+.card-count { font-size: 28px; font-weight: 700; color: #f8fafc; }
+.card-critical .card-count { color: #ef4444; }
+.card-unit { font-size: 12px; color: #64748b; margin-left: 4px; font-weight: 400; }
+.card-badge {
+  position: absolute; top: 12px; right: 12px;
+  padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 600;
+}
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.det-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px;
+}
+.det-cell {
+  background: #07101f; padding: 12px; border-radius: 6px; border: 1px solid #1e3354;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.det-cell.det-hit { border-color: #ef4444; background: rgba(239,68,68,0.08); }
+.det-name { color: #f1f5f9; font-size: 13px; font-weight: 600; }
+.det-hit .det-name { color: #fca5a5; }
+.det-meta { color: #64748b; font-size: 11px; }
+.det-meta code { background: transparent; color: #94a3b8; padding: 0; }
+.det-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; align-self: flex-start; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: rgba(34,197,94,0.15); color: #22c55e; }
+.gauge { margin: 8px 0 16px; }
+.gauge-track { height: 12px; background: #0f172a; border-radius: 6px; overflow: hidden; }
+.gauge-fill { height: 100%; transition: width 0.4s; }
+.gauge-label { margin-top: 4px; font-size: 22px; font-weight: 700; }
+.verdict-tag { font-size: 12px; padding: 2px 8px; border-radius: 4px; background: rgba(255,255,255,0.08); margin-left: 6px; }
+table { width: 100%; border-collapse: collapse; font-size: 12px; }
+th { text-align: left; color: #94a3b8; font-weight: 500; padding: 6px 8px; border-bottom: 1px solid #334155; }
+td { padding: 6px 8px; border-bottom: 1px solid #1e293b; vertical-align: top; }
+.sev-pill { padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600; color: white; }
+.sev-critical { background: #ef4444; }
+.sev-high     { background: #f97316; }
+.sev-medium   { background: #f59e0b; }
+.sev-low      { background: #64748b; }
+.snippet { font-size: 11px; color: #94a3b8; }
+.chain-pills { display: flex; flex-direction: column; gap: 8px; }
+.chain-pill { background: #0f172a; padding: 10px; border-radius: 6px; border-left: 3px solid #38bdf8; }
+.chain-id { font-family: monospace; font-size: 12px; color: #38bdf8; }
+.chain-name { font-weight: 600; color: #f1f5f9; margin-top: 2px; }
+.chain-evidence { color: #94a3b8; font-size: 11px; margin-top: 2px; }
+.agent-not-tested { color: #94a3b8; font-style: italic; padding: 8px; background: #0f172a; border-radius: 4px; }
+.agent-scores { display: flex; gap: 12px; margin-bottom: 8px; }
+.agent-score { background: #0f172a; padding: 8px 12px; border-radius: 6px; flex: 1; text-align: center; }
+.agent-score span { display: block; color: #94a3b8; font-size: 11px; }
+.agent-score strong { font-size: 20px; color: #f8fafc; }
+.runtime-score { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 10px; }
+.runtime-score div { background: #0f172a; padding: 10px 12px; border-radius: 6px; text-align: center; border: 1px solid #334155; }
+.runtime-score span { display: block; color: #94a3b8; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+.runtime-score strong { font-size: 20px; color: #38bdf8; }
+.runtime-score .runtime-delta { color: #f59e0b; }
+.runtime-reason-block { background: #0f172a; padding: 10px 12px; border-radius: 6px; margin-bottom: 10px; }
+.runtime-reasons { margin: 6px 0 0; padding-left: 18px; color: #cbd5e1; font-size: 12px; }
+.runtime-reasons li { margin: 2px 0; }
+.claude-preview {
+  background: #0f172a; padding: 12px; border-radius: 4px;
+  font-size: 11px; color: #cbd5e1;
+  max-height: 180px; overflow-y: auto; white-space: pre-wrap;
+}
+.honeypot-status { font-size: 13px; }
+.hp-leaked { background: #ef4444; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-clean { background: #22c55e; color: white; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.hp-touch { background: #f59e0b; color: #0f172a; padding: 2px 10px; border-radius: 4px; font-weight: 600; }
+.runtime-risk-note { background: #451a03; color: #fed7aa; padding: 8px 10px; border-radius: 6px; margin-top: 8px; font-size: 12px; }
+.empty { color: #64748b; font-style: italic; padding: 8px 0; }
+.muted { color: #64748b; }
+.formula { background: #0f172a; padding: 8px; border-radius: 4px; }
+.formula td { font-size: 12px; }
+.formula code { color: #38bdf8; }
+details { margin: 8px 0; }
+summary { cursor: pointer; padding: 8px 0; color: #94a3b8; font-size: 13px; }
+summary:hover { color: #38bdf8; }
+section { margin: 12px 0; }
+section h4 { margin: 8px 0; color: #cbd5e1; font-size: 14px; }
+code { background: #0f172a; padding: 2px 4px; border-radius: 3px; font-size: 12px; }
+.footer { text-align: center; padding: 32px; color: #64748b; font-size: 12px; }
+.formula-box { background: #0f172a; padding: 16px; border-radius: 8px; font-family: monospace; font-size: 13px; color: #38bdf8; border-left: 3px solid #38bdf8; }
+.file-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+.file-list details { background: #0f172a; padding: 6px 10px; border-radius: 6px; border: 1px solid #1e293b; }
+.file-list summary { cursor: pointer; padding: 4px 0; color: #cbd5e1; font-size: 13px; }
+.file-list summary:hover { color: #38bdf8; }
+.file-row { background: #0f172a; padding: 8px 10px; border-radius: 6px; border: 1px solid #1e293b; color: #cbd5e1; font-size: 13px; }
+.file-preview { max-height: 360px; overflow-y: auto; }
+
+/* === SAFESKILL-style 改造 === */
+.card-hero { display: flex; gap: 24px; align-items: flex-start; padding-bottom: 16px; border-bottom: 1px solid #334155; margin-bottom: 16px; }
+.hero-left { flex: 1; min-width: 0; }
+.hero-right { text-align: right; flex-shrink: 0; }
+.skill-title { font-size: 22px; color: #f1f5f9; margin: 0 0 10px; word-break: break-all; }
+.meta-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { background: #334155; color: #e2e8f0; padding: 3px 10px; border-radius: 999px; font-size: 11px; }
+.chip-archetype { color: #0f172a; font-weight: 600; }
+.verdict-big { border: 2px solid; border-radius: 10px; padding: 10px 18px; font-weight: 700; display: inline-flex; flex-direction: column; align-items: center; min-width: 100px; }
+.verdict-label { font-size: 22px; letter-spacing: 2px; }
+.verdict-en { font-size: 10px; opacity: 0.7; margin-top: 2px; letter-spacing: 1px; }
+.action-hint { margin-top: 8px; font-size: 12px; color: #94a3b8; }
+.score-strip { display: flex; align-items: center; gap: 16px; margin-bottom: 18px; }
+.score-num { font-size: 36px; font-weight: 800; line-height: 1; }
+.score-max { font-size: 14px; color: #64748b; font-weight: 400; }
+.score-bar { flex: 1; height: 10px; background: #0f172a; border-radius: 5px; overflow: hidden; }
+.score-fill { height: 100%; transition: width 0.4s; }
+.score-cap { font-size: 11px; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; }
+.ai-summary { background: #0b1220; padding: 14px 16px; border-radius: 8px; border-left: 4px solid #38bdf8; margin-bottom: 18px; }
+.ai-summary.skipped { border-left-color: #64748b; }
+.ai-summary-title { font-size: 13px; color: #38bdf8; font-weight: 600; margin-bottom: 6px; }
+.ai-meta { color: #64748b; font-weight: 400; margin-left: 8px; font-size: 11px; }
+.ai-summary-body { font-size: 13px; color: #cbd5e1; line-height: 1.7; white-space: pre-wrap; }
+.card-section { margin: 20px 0; }
+.cn-title { font-size: 15px; color: #f1f5f9; border-left: 3px solid #38bdf8; padding-left: 10px; margin: 0 0 12px; }
+.cn-sub { font-size: 11px; color: #64748b; font-weight: 400; margin-left: 8px; }
+.risk-cat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px; }
+.risk-cat-card { background: #0f172a; padding: 12px; border-radius: 8px; border: 1px solid #1e293b; text-align: center; }
+.risk-cat-card.card-critical { border-color: #ef4444; background: #2a0e0e; }
+.risk-cat-card.card-clean { border-color: #1e293b; }
+.card-title { font-size: 13px; color: #cbd5e1; margin-bottom: 6px; }
+.card-count { font-size: 22px; font-weight: 700; color: #f1f5f9; }
+.card-count .card-unit { font-size: 11px; color: #64748b; font-weight: 400; }
+.card-badge { display: inline-block; font-size: 10px; padding: 2px 8px; border-radius: 999px; margin-top: 4px; font-weight: 600; }
+.card-badge.bad { background: #ef4444; color: white; }
+.card-badge.ok { background: #166534; color: #a7f3d0; }
+.det-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 6px; }
+.det-cell { background: #0f172a; border: 1px solid #1e293b; border-radius: 6px; padding: 8px 10px; }
+.det-cell.det-hit { border-color: #ef4444; background: #2a0e0e; }
+.det-cell.det-miss { opacity: 0.6; }
+.det-name { font-size: 12px; color: #e2e8f0; font-weight: 600; }
+.det-meta { font-size: 10px; color: #64748b; margin: 2px 0 4px; }
+.det-meta code { font-size: 10px; padding: 0 4px; }
+.det-badge { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; font-weight: 600; }
+.det-badge.bad { background: #ef4444; color: white; }
+.det-badge.ok { background: #1e293b; color: #64748b; }
+.formula-details { margin-top: 16px; }
+.formula-details summary { font-size: 12px; color: #64748b; }
+
+/* === LLM 结构化研判（SAFESKILL 风格风险评估）=== */
+.llm-risk-section { margin-top: 18px; }
+.llm-risk-header { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #1e3354; }
+.llm-risk-title { font-size: 16px; color: #f1f5f9; font-weight: 600; }
+.llm-risk-subtitle { font-size: 11px; color: #475569; letter-spacing: 2px; margin-left: 6px; }
+.llm-risk-count { color: #ef4444; font-size: 13px; font-weight: 700; letter-spacing: 1px; }
+.llm-risk-cat { margin: 8px 0; padding: 10px 14px; background: #0a1424; border-radius: 6px; border: 1px solid #1e3354; }
+.llm-risk-cat summary { cursor: pointer; display: flex; align-items: center; gap: 10px; font-size: 14px; color: #f1f5f9; padding: 4px 0; }
+.llm-risk-cat summary::-webkit-details-marker { display: none; }
+.llm-cat-name { flex: 1; font-weight: 600; }
+.llm-cat-badge { padding: 2px 10px; border-radius: 999px; font-size: 11px; color: white; font-weight: 600; }
+.llm-cat-count { color: #64748b; font-size: 12px; }
+.llm-risk-item { margin: 10px 0 0; padding: 12px; background: #07101f; border-radius: 6px; border: 1px solid #1a2944; }
+.llm-risk-item-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.llm-risk-num { color: #64748b; font-family: monospace; font-size: 12px; }
+.llm-risk-sev { padding: 2px 8px; border-radius: 4px; font-size: 11px; color: white; font-weight: 600; }
+.llm-risk-title-text { color: #f1f5f9; font-weight: 600; font-size: 13px; flex: 1; }
+.llm-risk-flag { background: rgba(56, 189, 248, 0.15); color: #38bdf8; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; border: 1px solid rgba(56,189,248,0.3); }
+.llm-risk-loc { font-size: 12px; color: #94a3b8; margin: 6px 0; }
+.llm-risk-loc code { background: #1a2944; padding: 2px 6px; border-radius: 3px; color: #38bdf8; }
+.llm-risk-code { background: #1a0e0e; color: #fda4af; padding: 8px 12px; border-radius: 4px; font-size: 12px; max-height: 140px; overflow-y: auto; white-space: pre-wrap; margin: 6px 0; border-left: 3px solid #ef4444; }
+.llm-risk-desc { color: #cbd5e1; font-size: 13px; line-height: 1.6; margin: 6px 0; }
+.llm-risk-fix { background: rgba(34, 197, 94, 0.08); padding: 8px 10px; border-radius: 4px; border-left: 3px solid #22c55e; color: #bbf7d0; font-size: 12px; margin-top: 8px; line-height: 1.6; }
+.llm-risk-fix-label { color: #22c55e; font-weight: 600; }
+
+/* === 主页 skill 列表（紧凑行 + 跳详情）=== */
+.skill-rows { display: flex; flex-direction: column; gap: 10px; }
+.skill-row { background: #0e1a2f; border: 1px solid #1e3354; border-radius: 10px; padding: 14px 20px; transition: border-color 0.15s; }
+.skill-row:hover { border-color: #38bdf8; }
+.skill-row.v-malicious { border-left: 4px solid #ef4444; }
+.skill-row.v-critical_malicious { border-left: 4px solid #7c1d1d; }
+.skill-row.v-suspicious { border-left: 4px solid #f59e0b; }
+.skill-row.v-safe { border-left: 4px solid #22c55e; }
+.row-main { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.row-verdict { padding: 6px 14px; border-radius: 6px; color: #0f172a; font-weight: 700; font-size: 13px; min-width: 60px; text-align: center; }
+.row-info { flex: 1; min-width: 240px; }
+.row-title { font-size: 16px; color: #f1f5f9; font-weight: 600; word-break: break-all; }
+.row-meta { display: flex; gap: 14px; flex-wrap: wrap; color: #94a3b8; font-size: 12px; margin-top: 4px; }
+.row-meta span { white-space: nowrap; }
+.row-score { font-size: 28px; font-weight: 700; min-width: 90px; text-align: right; }
+.row-score span { font-size: 12px; color: #64748b; font-weight: 400; }
+.row-badges { display: flex; gap: 4px; flex-wrap: wrap; }
+.status-badge { font-size: 10px; padding: 2px 7px; border-radius: 999px; font-weight: 600; }
+.status-badge.done { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.status-badge.missing { background: rgba(100,116,139,0.15); color: #64748b; border: 1px solid rgba(100,116,139,0.3); }
+.row-detail-btn { background: #38bdf8; color: #0f172a; padding: 8px 14px; border-radius: 6px; text-decoration: none; font-size: 13px; font-weight: 600; white-space: nowrap; }
+.row-detail-btn:hover { background: #0ea5e9; }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="eyebrow">SKILLSENTINEL · SKILL DETAIL</div>
+    <h1>benign__smp_9106__smolagents</h1>
+    <div class="subtitle">
+      <a href="../dashboard.html" style="color:#38bdf8;text-decoration:none;">← 返回总览</a>
+    </div>
+  </header>
+  <main>
+    <div class="skills-grid">
+      
+    <article class="skill-card" id="skill-benign__smp_9106__smolagents">
+      <header class="card-hero">
+        <div class="hero-left">
+          <h2 class="skill-title">benign__smp_9106__smolagents</h2>
+          <div class="meta-chips">  <span class="chip chip-archetype" style="background:#ef4444;">分类: 数据窃取</span>  <span class="chip">复杂度: L2 · Intermediate</span>  <span class="chip">文件: 4 · 40.9 KB</span>  <span class="chip">扫描: 2026-07-03 02:52:26</span></div>
+        </div>
+        <div class="hero-right">
+          <div class="verdict-big" style="border-color:#22c55e;color:#22c55e;">
+            <span class="verdict-label">安全</span>
+            <span class="verdict-en">SAFE</span>
+          </div>
+          <div class="action-hint">处置建议: <strong style="color:#22c55e;">允许使用</strong></div>
+        </div>
+      </header>
+
+      <div class="score-strip">
+        <div class="score-num" style="color:#22c55e;">4.8<span class="score-max">/100</span></div>
+        <div class="score-bar"><div class="score-fill" style="width:4.8%;background:#22c55e;"></div></div>
+        <div class="score-cap">综合风险评分</div>
+      </div>
+
+      <div class="ai-summary skipped"><div class="ai-summary-title">AI 研判描述</div><div class="ai-summary-body">未调用 LLM 进行研判（--enable-claude not set and no VM evidence provided）。</div></div>
+
+      <section class="card-section">
+        <h3 class="cn-title">风险类别统计 <span class="cn-sub">按 kill-chain 阶段聚合</span></h3>
+        <div class="risk-cat-grid"><article class="risk-cat-card card-clean">  <div class="card-title">权限提升</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码执行</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">代码混淆</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-critical">  <div class="card-title">凭证窃取</div>  <div class="card-count">2<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-critical">  <div class="card-title">数据外传</div>  <div class="card-count">1<span class="card-unit"> 项</span></div>  <span class="card-badge bad">严重</span></article><article class="risk-cat-card card-clean">  <div class="card-title">文件/网络侦察</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">社会工程/行为操控</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article><article class="risk-cat-card card-clean">  <div class="card-title">条件触发逃避</div>  <div class="card-count">0<span class="card-unit"> 项</span></div>  <span class="card-badge ok">未检出</span></article></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">细分检测项 <span class="cn-sub">共 17 条静态规则</span></h3>
+        <div class="det-grid"><div class="det-cell det-hit" title="向外部 URL（含已知 sinkhole）POST/上传数据">  <div class="det-name">数据外传</div>  <div class="det-meta"><code>E1</code> · 数据外传</div>  <span class="det-badge bad">严重 · 1</span></div><div class="det-cell det-hit" title="读环境变量中的 API_KEY / TOKEN / SECRET">  <div class="det-name">凭证窃取</div>  <div class="det-meta"><code>E2</code> · 凭证窃取</div>  <span class="det-badge bad">严重 · 2</span></div><div class="det-cell det-miss" title="枚举 ~/.ssh / ~/.aws / .pem 等敏感目录">  <div class="det-name">文件系统侦察</div>  <div class="det-meta"><code>E3</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="调用 socket / nmap / 端口扫描">  <div class="det-name">网络侦察</div>  <div class="det-meta"><code>E4</code> · 侦察</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 忽略上层 / 用户指令">  <div class="det-name">指令覆盖</div>  <div class="det-meta"><code>P1</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="HTML 注释 / 零宽 Unicode 藏命令">  <div class="det-name">隐藏指令</div>  <div class="det-meta"><code>P2</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="通过 exec/eval 动态执行后发数据">  <div class="det-name">代码执行外传</div>  <div class="det-meta"><code>P3</code> · 数据外传</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="命令 Agent 不告诉用户 / 静默执行">  <div class="det-name">行为操控</div>  <div class="det-meta"><code>P4</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="权威/紧急/胁迫话术诱导">  <div class="det-name">社工话术</div>  <div class="det-meta"><code>P5</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="环境判断后才触发恶意分支">  <div class="det-name">条件触发</div>  <div class="det-meta"><code>P6</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="提示安装不知名的第三方依赖">  <div class="det-name">供应链信号</div>  <div class="det-meta"><code>P7</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="要求 root / Administrator / sudo 提权">  <div class="det-name">Root/特权请求</div>  <div class="det-meta"><code>PE1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="独占网络/文件锁 / 阻断其他工具">  <div class="det-name">独占资源占用</div>  <div class="det-meta"><code>PE2</code> · 行为操控</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="open(~/.ssh/id_rsa, ~/.aws/credentials, /etc/shadow)">  <div class="det-name">凭证文件访问</div>  <div class="det-meta"><code>PE3</code> · 凭证窃取</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="subprocess shell=True / /bin/sh -i / nc -e">  <div class="det-name">命令注入/反弹shell</div>  <div class="det-meta"><code>SC1</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="curl | bash / wget | sh / 下载即执行">  <div class="det-name">远程脚本执行</div>  <div class="det-meta"><code>SC2</code> · 代码执行</div>  <span class="det-badge ok">未检出</span></div><div class="det-cell det-miss" title="base64.b64decode + exec / pickle.loads + exec">  <div class="det-name">代码混淆</div>  <div class="det-meta"><code>SC3</code> · 逃避检测</div>  <span class="det-badge ok">未检出</span></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">命中详情 <span class="cn-sub">共 4 条</span></h3>
+        
+    <table class="findings">
+      <thead><tr><th>严重度</th><th>规则</th><th>阶段</th><th>位置</th><th>匹配片段</th></tr></thead>
+      <tbody><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E2</code></td><td>cred_access</td><td><code>references\models.md:210</code></td><td><code class="snippet">os.environ[&quot;AZURE_OPENAI_API_KEY</code></td></tr><tr><td><span class="sev-pill sev-low">LOW</span></td><td><code>E2</code></td><td>cred_access</td><td><code>references\models.md:211</code></td><td><code class="snippet">os.environ[&quot;OPENAI_API</code></td></tr><tr><td><span class="sev-pill sev-info">INFO</span></td><td><code>E1</code></td><td>exfil</td><td><code>references\tools.md:129</code></td><td><code class="snippet">requests.get(f&quot;https://</code></td></tr><tr><td><span class="sev-pill sev-high">HIGH</span></td><td><code>P9</code></td><td>cred_access</td><td><code>SKILL.md:393</code></td><td><code class="snippet">&quot;api_key&quot;: &quot;YOUR_E2B_API_KEY&quot;</code></td></tr></tbody>
+    </table>
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">攻击链分析 <span class="cn-sub">Table 11</span></h3>
+        <div class="chain-pills"><div class="chain-pill"><div class="chain-id">E2_E1</div><div class="chain-name">Data Exfiltration Chain</div><div class="chain-evidence">OR=2.31, p=0.020; 36.9% of malicious skills (§4.2)</div></div></div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">蜜罐检测</h3>
+        
+    <div class="honeypot-status">部署: <span class="hp-clean">未部署</span> · 触碰: <span class="hp-clean">未触碰</span> · 泄露: <span class="hp-clean">未泄露</span></div>
+    <table class="findings">
+      <tbody>
+        <tr><td>部署方式</td><td><code>None</code></td></tr>
+        <tr><td>蜜罐 bundle ID</td><td><code>benign__smp_9106__smolagents_CZU8NOC32E_9R457FNN</code></td></tr>
+        <tr><td>生成假凭证文件数</td><td>6</td></tr>
+        <tr><td>canary marker 数</td><td>7</td></tr>
+      </tbody>
+    </table>
+    <details>
+      <summary>展开假凭证 marker（已脱敏）</summary>
+      <table class="findings"><tbody><tr><td>ANTHROPIC</td><td><code>ANTHROPIC:&lt;redacted:047c532f5c&gt;</code></td></tr><tr><td>AWS</td><td><code>AWS:&lt;redacted:111f19166a&gt;</code></td></tr><tr><td>AWS_SECRET</td><td><code>AWS_SECRET:&lt;redacted:c9ea8cedf9&gt;</code></td></tr><tr><td>CODEX</td><td><code>CODEX:&lt;redacted:08d7c73894&gt;</code></td></tr><tr><td>GITHUB</td><td><code>GITHUB:&lt;redacted:52087dc7f6&gt;</code></td></tr><tr><td>OPENAI</td><td><code>OPENAI:&lt;redacted:02b3941932&gt;</code></td></tr><tr><td>SSH</td><td><code>SSH:&lt;redacted:c87ffa46d4&gt;</code></td></tr></tbody></table>
+    </details>
+    <details>
+      <summary>展开被触碰的蜜罐文件</summary>
+      <div class="empty">No touched honeypot files.</div>
+    </details>
+    <details>
+      <summary>展开泄露源头</summary>
+      <div class="empty">No leak sources.</div>
+    </details>
+    
+    
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">动态运行时证据 <span class="cn-sub">VM Docker · strace · tcpdump</span></h3>
+        
+    <div class="runtime-score">
+      <div><span>运行时风险分</span><strong>0.000</strong></div>
+      <div><span>对综合分加成</span><strong class="runtime-delta">+0.00</strong></div>
+    </div>
+    <div class="runtime-reason-block">
+      <strong>评分原因</strong>
+      <ul class="runtime-reasons"><li>no runtime evidence ingested</li></ul>
+    </div>
+    <div class="empty">未导入 VM Docker 运行时证据。</div>
+      </section>
+
+      <section class="card-section">
+        <h3 class="cn-title">目录结构 <span class="cn-sub">展开查看每个文件内容</span></h3>
+        
+    <section>
+      <h4>Skill Contents — what was scanned (4 files, 40.9 KB)</h4>
+      <div class="file-list"><details><summary><code>references/models.md</code> <span class="muted">(5.7 KB, text)</span></summary><pre class="claude-preview file-preview"># SmolAgents Model Reference
+
+## InferenceClientModel
+
+Primary model class for Hugging Face Inference API.
+
+### Parameters
+
+```python
+InferenceClientModel(
+    model_id: str = &quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;,  # Model ID from HF Hub
+    provider: str = None,       # Inference provider: &quot;together&quot;, &quot;sambanova&quot;, &quot;fireworks&quot;, etc.
+    token: str = None,          # HF API token (or set HF_TOKEN env var)
+    timeout: int = 120,         # Request timeout in seconds
+    temperature: float = 0.5,   # Sampling temperature
+    max_tokens: int = None,     # Max output tokens
+)
+```
+
+### Supported Providers
+
+- `together` - Together AI
+- `sambanova` - SambaNova
+- `fireworks` - Fireworks AI
+- `cerebras` - Cerebras
+- `cohere` - Cohere
+- `hyperbolic` - Hyperbolic
+- `nebius` - Nebius
+- `novita` - Novita
+- `replicate` - Replicate
+
+### Example
+
+```python
+from smolagents import InferenceClientModel
+
+# Default (free tier)
+model = InferenceClientModel()
+
+# Specific model with provider
+model = InferenceClientModel(
+    model_id=&quot;meta-llama/Llama-3.3-70B-Instruct&quot;,
+    provider=&quot;together&quot;,
+    temperature=0.7
+)
+
+# DeepSeek R1
+model = InferenceClientModel(
+    model_id=&quot;deepseek-ai/DeepSeek-R1&quot;,
+    provider=&quot;together&quot;
+)
+```
+
+## LiteLLMModel
+
+Unified interface for 100+ LLM providers via LiteLLM.
+
+### Parameters
+
+```python
+LiteLLMModel(
+    model_id: str,              # Provider/model format: &quot;anthropic/claude-3-5-sonnet-latest&quot;
+    api_key: str = None,        # API key (or set via environment variable)
+    api_base: str = None,       # Custom API endpoint
+    temperature: float = 0.5,
+    max_tokens: int = None,
+    num_ctx: int = None,        # For Ollama: context window size
+)
+```
+
+### Provider Formats
+
+| Provider | Format | Env Variable |
+|----------|--------|--------------|
+| Anthropic | `anthropic/claude-3-5-sonnet-latest` | `ANTHROPIC_API_KEY` |
+| OpenAI | `gpt-4o`, `gpt-4-turbo` | `OPENAI_API_KEY` |
+| Google | `gemini/gemini-pro` | `GEMINI_API_KEY` |
+| Mistral | `mistral/mistral-large-latest` | `MISTRAL_API_KEY` |
+| Ollama | `ollama_chat/llama3.2` | None |
+| Groq | `groq/llama3-70b-8192` | `GROQ_API_KEY` |
+| AWS Bedrock | `bedrock/anthropic.claude-3-sonnet` | AWS credentials |
+| Azure | `azure/gpt-4` | Azure credentials |
+
+### Examples
+
+```python
+from smolagents import LiteLLMModel
+
+# Anthropic Claude
+model = LiteLLMModel(
+    model_id=&quot;anthropic/claude-3-5-sonnet-latest&quot;,
+    api_key=&quot;sk-ant-...&quot;
+)
+
+# OpenAI
+model = LiteLLMModel(
+    model_id=&quot;gpt-4o&quot;,
+    api_key=&quot;sk-...&quot;
+)
+
+# Ollama (local)
+model = LiteLLMModel(
+    model_id=&quot;ollama_chat/llama3.2&quot;,
+    api_base=&quot;http://localhost:11434&quot;,
+    num_ctx=8192  # IMPORTANT: Default 2048 is too small
+)
+
+# Groq (fast inference)
+model = LiteLLMModel(
+    model_id=&quot;groq/llama3-70b-8192&quot;,
+    api_key=&quot;gsk_...&quot;
+)
+```
+
+## TransformersModel
+
+Run models locally using Hugging Face Transformers.
+
+### Parameters
+
+```python
+TransformersModel(
+    model_id: str,              # HF model ID
+    device_map: str = &quot;auto&quot;,   # Device placement: &quot;auto&quot;, &quot;cuda&quot;, &quot;cpu&quot;
+    max_new_tokens: int = 1500, # Max output tokens
+    torch_dtype: str = &quot;auto&quot;,  # Tensor dtype
+    trust_remote_code: bool = False,
+)
+```
+
+### Example
+
+```python
+from smolagents import TransformersModel
+
+model = TransformersModel(
+    model_id=&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;,
+    max_new_tokens=4096,
+    device_map=&quot;auto&quot;
+)
+
+# Smaller model for testing
+model = TransformersModel(
+    model_id=&quot;meta-llama/Llama-3.2-3B-Instruct&quot;
+)
+```
+
+## OpenAIModel
+
+For OpenAI and OpenAI-compatible APIs.
+
+### Parameters
+
+```python
+OpenAIModel(
+    model_id: str,
+    api_key: str = None,        # Or set OPENAI_API_KEY
+    api_base: str = None,       # For compatible endpoints
+    temperature: float = 0.5,
+)
+```
+
+### Examples
+
+```python
+from smolagents import OpenAIModel
+
+# OpenAI direct
+model = OpenAIModel(model_id=&quot;gpt-4o&quot;)
+
+# OpenRouter
+model = OpenAIModel(
+    model_id=&quot;openai/gpt-4o&quot;,
+    api_base=&quot;https://openrouter.ai/api/v1&quot;,
+    api_key=&quot;sk-or-...&quot;
+)
+
+# Toget</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/patterns.md</code> <span class="muted">(11.6 KB, text)</span></summary><pre class="claude-preview file-preview"># SmolAgents Advanced Patterns
+
+## Agentic RAG
+
+### Basic RAG Tool
+
+```python
+from smolagents import tool, CodeAgent, InferenceClientModel
+from sentence_transformers import SentenceTransformer
+import numpy as np
+
+# Setup
+embedder = SentenceTransformer(&quot;all-MiniLM-L6-v2&quot;)
+documents = [&quot;doc1 content...&quot;, &quot;doc2 content...&quot;]
+doc_embeddings = embedder.encode(documents)
+
+@tool
+def retriever(query: str, top_k: int = 3) -&gt; str:
+    &quot;&quot;&quot;
+    Retrieves relevant documents from the knowledge base.
+    
+    Args:
+        query: Search query to find relevant documents.
+        top_k: Number of documents to return.
+    &quot;&quot;&quot;
+    query_embedding = embedder.encode([query])
+    similarities = np.dot(doc_embeddings, query_embedding.T).flatten()
+    top_indices = similarities.argsort()[-top_k:][::-1]
+    results = [documents[i] for i in top_indices]
+    return &quot;\n\n---\n\n&quot;.join(results)
+
+agent = CodeAgent(
+    tools=[retriever],
+    model=InferenceClientModel(),
+    max_steps=4
+)
+
+agent.run(&quot;What does our documentation say about authentication?&quot;)
+```
+
+### RAG with Vector Database
+
+```python
+from smolagents import tool
+import chromadb
+
+client = chromadb.Client()
+collection = client.get_or_create_collection(&quot;docs&quot;)
+
+@tool
+def search_knowledge_base(query: str, n_results: int = 5) -&gt; str:
+    &quot;&quot;&quot;
+    Search the knowledge base for relevant information.
+    
+    Args:
+        query: Natural language search query.
+        n_results: Number of results to return.
+    &quot;&quot;&quot;
+    results = collection.query(query_texts=[query], n_results=n_results)
+    docs = results[&quot;documents&quot;][0]
+    return &quot;\n\n&quot;.join([f&quot;[{i+1}] {doc}&quot; for i, doc in enumerate(docs)])
+```
+
+## Text-to-SQL
+
+### Complete SQL Agent
+
+```python
+from smolagents import tool, CodeAgent, InferenceClientModel
+from sqlalchemy import create_engine, MetaData, text, inspect
+
+engine = create_engine(&quot;sqlite:///sales.db&quot;)
+
+# Get schema for tool description
+inspector = inspect(engine)
+tables_info = []
+for table_name in inspector.get_table_names():
+    columns = inspector.get_columns(table_name)
+    cols = &quot;, &quot;.join([f&quot;{c[&#x27;name&#x27;]} ({c[&#x27;type&#x27;]})&quot; for c in columns])
+    tables_info.append(f&quot;- {table_name}: {cols}&quot;)
+
+schema_description = &quot;\n&quot;.join(tables_info)
+
+@tool
+def execute_sql(query: str) -&gt; str:
+    f&quot;&quot;&quot;
+    Execute SQL queries on the database.
+    Returns query results as a string.
+    
+    Available tables and columns:
+    {schema_description}
+    
+    Args:
+        query: SQL query to execute. Use SELECT for data retrieval.
+    &quot;&quot;&quot;
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text(query))
+            rows = result.fetchall()
+            if not rows:
+                return &quot;Query returned no results.&quot;
+            columns = result.keys()
+            header = &quot; | &quot;.join(columns)
+            data = &quot;\n&quot;.join([&quot; | &quot;.join(str(v) for v in row) for row in rows])
+            return f&quot;{header}\n{&#x27;-&#x27; * len(header)}\n{data}&quot;
+    except Exception as e:
+        return f&quot;SQL Error: {str(e)}&quot;
+
+agent = CodeAgent(
+    tools=[execute_sql],
+    model=InferenceClientModel(model_id=&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;),
+    max_steps=5
+)
+
+agent.run(&quot;Which salesperson had the highest total sales last quarter?&quot;)
+```
+
+## Web Browser Agent
+
+### Vision-Based Browser
+
+```python
+from smolagents import CodeAgent, InferenceClientModel, tool, ActionStep
+import helium
+from PIL import Image
+from io import BytesIO
+from time import sleep
+
+@tool
+def navigate_to(url: str) -&gt; str:
+    &quot;&quot;&quot;
+    Navigate to a URL.
+    
+    Args:
+        url: The URL to navigate to.
+    &quot;&quot;&quot;
+    helium.go_to(url)
+    return f&quot;Navigated to {url}&quot;
+
+@tool
+def click_element(text: str) -&gt; str:
+    &quot;&quot;&quot;
+    Click on an element containing the specified text.
+    
+    Args:
+        text: Text content of the element to click.
+    &quot;&quot;&quot;
+    helium.click(text)
+    return f&quot;Clicked on &#x27;{text}&#x27;&quot;
+
+@tool
+def type_text(text: str, into: str = None) -&gt; str:
+    &quot;&quot;&quot;
+    Type text, optionally into a specific field.
+    
+    Args:
+        text: Text to typ</pre><div class="muted">…(content truncated)</div></details><details><summary><code>references/tools.md</code> <span class="muted">(10.2 KB, text)</span></summary><pre class="claude-preview file-preview"># SmolAgents Tools Reference
+
+## Built-in Tools
+
+### WebSearchTool
+
+Web search using DuckDuckGo (default) or Google.
+
+```python
+from smolagents import WebSearchTool
+
+# Default (DuckDuckGo)
+search = WebSearchTool()
+
+# With Google (requires API key)
+search = WebSearchTool(provider=&quot;google&quot;, api_key=&quot;YOUR_SERPER_API_KEY&quot;)
+```
+
+### DuckDuckGoSearchTool
+
+Direct DuckDuckGo search.
+
+```python
+from smolagents import DuckDuckGoSearchTool
+
+search = DuckDuckGoSearchTool()
+result = search(&quot;latest AI news&quot;)
+```
+
+### VisitWebpageTool
+
+Fetch and parse webpage content.
+
+```python
+from smolagents import VisitWebpageTool
+
+visit = VisitWebpageTool()
+content = visit(&quot;https://example.com&quot;)
+```
+
+### PythonInterpreterTool
+
+Execute Python code (for ToolCallingAgent only, CodeAgent has native execution).
+
+```python
+from smolagents import PythonInterpreterTool
+
+interpreter = PythonInterpreterTool()
+```
+
+### Transcriber
+
+Speech-to-text using Whisper.
+
+```python
+from smolagents import Transcriber
+
+transcriber = Transcriber()
+text = transcriber(audio_file)
+```
+
+### FinalAnswerTool
+
+Built into all agents for returning final results.
+
+```python
+# In agent code
+final_answer(&quot;The result is 42&quot;)
+```
+
+## Creating Custom Tools
+
+### @tool Decorator (Recommended)
+
+```python
+from smolagents import tool
+from typing import Optional
+
+@tool
+def calculate_compound_interest(
+    principal: float,
+    rate: float,
+    years: int,
+    compounds_per_year: Optional[int] = 12
+) -&gt; float:
+    &quot;&quot;&quot;
+    Calculate compound interest on an investment.
+    
+    Args:
+        principal: Initial investment amount in dollars.
+        rate: Annual interest rate as a decimal (e.g., 0.05 for 5%).
+        years: Number of years to compound.
+        compounds_per_year: Number of times interest compounds per year.
+    &quot;&quot;&quot;
+    amount = principal * (1 + rate / compounds_per_year) ** (compounds_per_year * years)
+    return round(amount, 2)
+```
+
+**Requirements:**
+- Detailed docstring with `Args:` section
+- Type hints on all parameters
+- Return type hint
+- Clear description of what tool does
+
+### Tool Class (Full Control)
+
+```python
+from smolagents import Tool
+
+class WeatherTool(Tool):
+    name = &quot;get_weather&quot;
+    description = &quot;Get current weather for a location. Returns temperature and conditions.&quot;
+    inputs = {
+        &quot;location&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;description&quot;: &quot;City name or coordinates (e.g., &#x27;London&#x27; or &#x27;51.5,-0.1&#x27;)&quot;
+        },
+        &quot;units&quot;: {
+            &quot;type&quot;: &quot;string&quot;,
+            &quot;description&quot;: &quot;Temperature units: &#x27;celsius&#x27; or &#x27;fahrenheit&#x27;&quot;,
+            &quot;nullable&quot;: True  # Optional parameter
+        }
+    }
+    output_type = &quot;string&quot;
+
+    def forward(self, location: str, units: str = &quot;celsius&quot;) -&gt; str:
+        # Implementation
+        import requests
+        response = requests.get(f&quot;https://api.weather.com/{location}&quot;)
+        data = response.json()
+        return f&quot;{data[&#x27;temp&#x27;]}°{&#x27;C&#x27; if units == &#x27;celsius&#x27; else &#x27;F&#x27;}, {data[&#x27;conditions&#x27;]}&quot;
+```
+
+### Tool from Function
+
+```python
+from smolagents import Tool
+
+def my_function(x: int, y: int) -&gt; int:
+    &quot;&quot;&quot;Add two numbers.&quot;&quot;&quot;
+    return x + y
+
+tool = Tool.from_function(
+    my_function,
+    name=&quot;adder&quot;,
+    description=&quot;Adds two numbers together&quot;
+)
+```
+
+## Tool Input Types
+
+### Supported Types
+
+| Type | JSON Schema | Python Type |
+|------|-------------|-------------|
+| `string` | `&quot;type&quot;: &quot;string&quot;` | `str` |
+| `integer` | `&quot;type&quot;: &quot;integer&quot;` | `int` |
+| `number` | `&quot;type&quot;: &quot;number&quot;` | `float` |
+| `boolean` | `&quot;type&quot;: &quot;boolean&quot;` | `bool` |
+| `array` | `&quot;type&quot;: &quot;array&quot;` | `list` |
+| `object` | `&quot;type&quot;: &quot;object&quot;` | `dict` |
+| `image` | Special handling | `PIL.Image` |
+| `audio` | Special handling | Audio data |
+
+### Complex Input Types
+
+```python
+from smolagents import Tool
+
+class DataProcessorTool(Tool):
+    name = &quot;process_data&quot;
+    description = &quot;Process a list of data points.&quot;
+    inputs = {
+        &quot;data&quot;: {
+            &quot;type&quot;: &quot;array&quot;,
+            &quot;items&quot;: {&quot;type&quot;: &quot;number&quot;},
+            &quot;description&quot;: &quot;L</pre><div class="muted">…(content truncated)</div></details><details open><summary><code>SKILL.md</code> <span class="muted">(13.4 KB, text)</span></summary><pre class="claude-preview file-preview">---
+name: smolagents
+description: Build AI agents with Hugging Face&#x27;s SmolAgents framework. Use when creating code-executing agents, tool-calling agents, multi-agent systems, agentic RAG, text-to-SQL pipelines, web browsing agents, or any multi-step AI workflows. Covers CodeAgent, ToolCallingAgent, custom tools, MCP integration, memory management, secure code execution (E2B, Docker, Blaxel), and model configuration (HF Inference, LiteLLM, Transformers, Ollama).
+---
+
+# SmolAgents - Hugging Face AI Agent Framework
+
+SmolAgents is a minimalist Python library (~1000 lines) for building AI agents that write and execute code. It emphasizes simplicity, security, and model-agnostic design.
+
+## Installation
+
+```bash
+pip install smolagents                    # Core library
+pip install &#x27;smolagents[toolkit]&#x27;         # With default tools (web search, etc.)
+pip install &#x27;smolagents[litellm]&#x27;         # LiteLLM for OpenAI/Anthropic
+pip install &#x27;smolagents[transformers]&#x27;    # Local model support
+pip install &#x27;smolagents[mcp]&#x27;             # MCP server integration
+pip install &#x27;smolagents[telemetry]&#x27;       # OpenTelemetry support
+```
+
+## Core Concepts
+
+### Agent Types
+
+**CodeAgent** - Primary agent that writes Python code to execute actions:
+```python
+from smolagents import CodeAgent, InferenceClientModel
+
+model = InferenceClientModel()  # Default: Qwen/Qwen2.5-Coder-32B-Instruct
+agent = CodeAgent(tools=[], model=model)
+result = agent.run(&quot;Calculate the first 20 Fibonacci numbers&quot;)
+```
+
+**ToolCallingAgent** - Uses JSON-based tool calls (no code execution):
+```python
+from smolagents import ToolCallingAgent, InferenceClientModel
+
+agent = ToolCallingAgent(tools=[], model=InferenceClientModel())
+agent.run(&quot;Get the title of https://huggingface.co/blog&quot;)
+```
+
+### Model Configuration
+
+**Hugging Face Inference API** (recommended for quick start):
+```python
+from smolagents import InferenceClientModel
+
+# Default model
+model = InferenceClientModel()
+
+# Specific model with provider
+model = InferenceClientModel(
+    model_id=&quot;meta-llama/Llama-3.3-70B-Instruct&quot;,
+    provider=&quot;together&quot;,  # or &quot;sambanova&quot;, &quot;fireworks&quot;, etc.
+    token=&quot;YOUR_HF_TOKEN&quot;
+)
+```
+
+**LiteLLM** (100+ providers):
+```python
+from smolagents import LiteLLMModel
+
+# Anthropic
+model = LiteLLMModel(
+    model_id=&quot;anthropic/claude-3-5-sonnet-latest&quot;,
+    api_key=&quot;YOUR_ANTHROPIC_API_KEY&quot;
+)
+
+# OpenAI
+model = LiteLLMModel(model_id=&quot;gpt-4o&quot;, api_key=&quot;YOUR_OPENAI_API_KEY&quot;)
+```
+
+**Local Transformers**:
+```python
+from smolagents import TransformersModel
+
+model = TransformersModel(
+    model_id=&quot;Qwen/Qwen2.5-Coder-32B-Instruct&quot;,
+    max_new_tokens=4096,
+    device_map=&quot;auto&quot;
+)
+```
+
+**Ollama** (local):
+```python
+from smolagents import LiteLLMModel
+
+model = LiteLLMModel(
+    model_id=&quot;ollama_chat/llama3.2&quot;,
+    api_base=&quot;http://localhost:11434&quot;,
+    num_ctx=8192  # Important: increase from default 2048
+)
+```
+
+**OpenAI-compatible endpoints**:
+```python
+from smolagents import OpenAIModel
+
+model = OpenAIModel(
+    model_id=&quot;deepseek-ai/DeepSeek-R1&quot;,
+    api_base=&quot;https://api.together.xyz/v1/&quot;,
+    api_key=&quot;YOUR_API_KEY&quot;
+)
+```
+
+## Tools
+
+### Built-in Tools
+
+```python
+from smolagents import CodeAgent, InferenceClientModel, WebSearchTool, DuckDuckGoSearchTool
+
+agent = CodeAgent(
+    tools=[WebSearchTool()],  # or DuckDuckGoSearchTool()
+    model=InferenceClientModel(),
+    add_base_tools=True  # Adds transcriber, python interpreter
+)
+```
+
+### Creating Custom Tools
+
+**Using @tool decorator** (simplest):
+```python
+from smolagents import tool
+
+@tool
+def get_weather(city: str) -&gt; str:
+    &quot;&quot;&quot;
+    Gets current weather for a city.
+    
+    Args:
+        city: Name of the city to get weather for.
+    &quot;&quot;&quot;
+    # Implementation
+    return f&quot;Weather in {city}: Sunny, 22°C&quot;
+```
+
+**Using Tool class** (more control):
+```python
+from smolagents import Tool
+
+class HFModelDownloadsTool(Tool):
+    name = &quot;model_download_counter&quot;
+    description = &quot;Returns the most downloaded model for a given task on HuggingFace Hub.&quot;
+    inputs = {
+</pre><div class="muted">…(content truncated)</div></details></div>
+    </section>
+    
+      </section>
+
+      <details class="formula-details">
+        <summary>综合评分公式明细（点开查看 7 个子分的加权计算）</summary>
+        
+    <table class="formula">
+      <thead><tr><th>组件</th><th>符号</th><th>子分值</th><th>权重</th><th>贡献</th></tr></thead>
+      <tbody><tr><td>Static rule severity</td><td><code>S_static</code></td><td>0.113</td><td>0.18</td><td><strong>2.02</strong></td></tr><tr><td>Attack chain hit</td><td><code>S_chain</code></td><td>0.250</td><td>0.15</td><td><strong>3.75</strong></td></tr><tr><td>Sophistication level</td><td><code>S_soph</code></td><td>0.670</td><td>0.07</td><td><strong>4.69</strong></td></tr><tr><td>Kill-chain phase coverage</td><td><code>S_phases</code></td><td>0.333</td><td>0.07</td><td><strong>2.33</strong></td></tr><tr><td>Agent resilience (1 - this = risk)</td><td><code>S_resilience</code></td><td>1.000</td><td>0.10</td><td><strong>0.00</strong></td></tr><tr><td>Honeypot exfiltrated</td><td><code>S_honeypot</code></td><td>0.000</td><td>0.08</td><td><strong>0.00</strong></td></tr><tr><td>Runtime evidence</td><td><code>S_runtime</code></td><td>0.000</td><td>0.10</td><td><strong>0.00</strong></td></tr></tbody>
+    </table>
+    
+      </details>
+    </article>
+    
+    </div>
+  </main>
+  <div class="footer">SkillVault v1.1 · Skill 详情页</div>
+</body>
+</html>

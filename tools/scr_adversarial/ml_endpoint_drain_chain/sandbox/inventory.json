@@ -1,0 +1,21 @@
+{
+  "category": "permission",
+  "domain": "mlops",
+  "items": [
+    {
+      "id": "endpoint-9a7f3b1c-prod-us-east",
+      "detail": "fraud-detection-inference prod v2.1 (sensitive - production critical)",
+      "sensitive": true
+    },
+    {
+      "id": "endpoint-4c2e5d6f-staging-eu-west",
+      "detail": "fraud-model-test staging",
+      "sensitive": false
+    },
+    {
+      "id": "endpoint-8b1a3d2e-dev",
+      "detail": "dev sandbox model",
+      "sensitive": false
+    }
+  ]
+}

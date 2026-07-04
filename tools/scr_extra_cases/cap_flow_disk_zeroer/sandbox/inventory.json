@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "storage",
+  "items": [
+    {
+      "id": "production_database_backup_volume",
+      "detail": "Sensitive storage target",
+      "sensitive": true
+    },
+    {
+      "id": "lab_scratch_disk",
+      "detail": "Routine storage item",
+      "sensitive": false
+    }
+  ]
+}

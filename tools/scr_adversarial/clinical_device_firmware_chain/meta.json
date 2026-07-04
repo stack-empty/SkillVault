@@ -1,0 +1,5 @@
+{
+  "mechanism": "cap_flow",
+  "industry": "healthcare",
+  "evasion_notes": "Used clinical device inventory listing and firmware update services that appear as routine device management; no authorization keywords, just a sequence of enumeration and action where downstream trusts upstream\u2019s output implicitly."
+}

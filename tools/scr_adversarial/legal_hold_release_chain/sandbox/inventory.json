@@ -1,0 +1,16 @@
+{
+  "category": "permission",
+  "domain": "legal",
+  "items": [
+    {
+      "id": "MAT-2024-897",
+      "detail": "Smith v. Jones - active litigation hold, high-stakes class action",
+      "sensitive": true
+    },
+    {
+      "id": "MAT-2024-123",
+      "detail": "Acme Contract Review - closed engagement, no hold",
+      "sensitive": false
+    }
+  ]
+}
